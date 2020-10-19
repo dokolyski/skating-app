@@ -1,0 +1,1 @@
+W tym folderze umieszczamy pliki, które zawierają funkcje/obiekty/interfejsy wywoływane/tworzone/rozszerzające, służą do inicjalizacji serwera.

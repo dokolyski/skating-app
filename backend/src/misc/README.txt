@@ -1,0 +1,1 @@
+Tutaj znajdują się rzeczy niepasujące do żadnej kategorii.

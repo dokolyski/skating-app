@@ -1,0 +1,1 @@
+W tym folderze umieszczamy pliki w formacie [nazwa]-middleware.ts, znajdują się tutaj warstwy pośredniczące np. warstwa weryfikująca posiadany token.

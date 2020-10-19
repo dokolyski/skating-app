@@ -1,0 +1,1 @@
+Tutaj znajdują się pliki zawierające statyczne obiekty, istniejące na czas trwania programu.
