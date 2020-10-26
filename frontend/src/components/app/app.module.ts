@@ -4,8 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { NewBookingComponent } from './new-booking/new-booking.component';
+import { environment } from 'environments/environment';
+import { NewBookingComponent } from 'components/pages/new-booking/new-booking.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { NewBookingComponent } from './new-booking/new-booking.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
