@@ -1,0 +1,19 @@
+{
+	"EVERYONE": {
+		"MAIN": "",
+		"ABOUT_US": "about-us",
+		"NEWS": "news",
+		"LOGIN": "login",
+		"REGISTER": "register"
+	},
+	"LOGGED": {
+		"ACCOUNT": "account",
+		"SCHEDULE": "schedule",
+		"SESSIONS": "account/sessions",
+		"PROFILES": "account/profiles"
+	},
+	"ORGANIZER": {
+		"MANAGE_SCHEDULE": "schedule/manage",
+		"ADD_SESSION": "sessions/add"
+	}
+}

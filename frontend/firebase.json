@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "skating-app",
+      "public": "dist/skating-app",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

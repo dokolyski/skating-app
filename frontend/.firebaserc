@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "skating-app-4fb38": {
+      "hosting": {
+        "skating-app": [
+          "skating-app-4fb38"
+        ]
+      }
+    }
+  }
+}

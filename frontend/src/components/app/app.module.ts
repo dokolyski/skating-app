@@ -7,6 +7,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'environments/environment';
 import { NewBookingComponent } from 'components/pages/new-booking/new-booking.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppFirebaseModule } from 'components/app-firebase-module/app-firebase-module.module';
+import { AuthService } from 'services/AuthService';
 
 @NgModule({
   declarations: [
@@ -15,11 +17,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
+    AppFirebaseModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
