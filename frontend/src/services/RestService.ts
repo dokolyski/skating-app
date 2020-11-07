@@ -15,7 +15,7 @@ class RestService {
 
         const readyUrl = rest_url.PARAMS ? this.parseTemplateUrl(rest_url.URL, rest_url.PARAMS, options.templateParamsValues) : rest_url.URL
         
-        let params
+        let params: HttpParams
         if(rest_url.METHOD == 'GET' || rest_url.METHOD == 'DELETE') {
             params = this.parseQueryParams(options.body)
         }

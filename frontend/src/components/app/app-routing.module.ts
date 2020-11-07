@@ -5,7 +5,8 @@ import * as PATH from 'assets/config/url.json';
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 
-import * as Pages from 'components/pages/pages';
+import { Pages, PagesModule } from 'components/pages/pages';
+import { OrganizerGuard } from 'auth/OrganizerGuard';
 
 const authGuardPipe = () => redirectUnauthorizedTo(['/'])
 
@@ -60,13 +61,13 @@ const routes: Routes = [
   { 
     path: PATH.ORGANIZER.MANAGE_SCHEDULE, 
     component: Pages.ManageSchedulePageComponent,
-    canActivate: [AngularFireAuthGuard],
+    canActivate: [AngularFireAuthGuard, OrganizerGuard],
     data: { authGuardPipe }
   },
   { 
     path: PATH.ORGANIZER.ADD_SESSION, 
     component: Pages.AddSessionPageComponent,
-    canActivate: [AngularFireAuthGuard],
+    canActivate: [AngularFireAuthGuard, OrganizerGuard],
     data: { authGuardPipe } 
   },
   /*NOT FOUND*/
@@ -77,8 +78,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), AngularFireAuthModule],
-  providers: [AngularFireAuth],
+  imports: [RouterModule.forRoot(routes), AngularFireAuthModule, PagesModule],
+  providers: [AngularFireAuth, OrganizerGuard],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -15,12 +15,20 @@ export class AuthService {
     this.user.next(this.afAuth.authState);
   }
 
+  get currentUser() {
+    return this.afAuth.auth.currentUser
+  }
+
+  registerViaEmail(email: string, password: string): Observable<auth.UserCredential> {
+    return from(this.afAuth.auth.createUserWithEmailAndPassword(email, password))
+  }
+
   loginViaEmail(email: string, password: string): Observable<auth.UserCredential> {
-    return from(this.afAuth.auth.signInWithEmailAndPassword(email, password));
+    return from(this.afAuth.auth.signInWithEmailAndPassword(email, password))
   }
 
   loginViaGoogle(): Observable<auth.UserCredential> {
-    return from(this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()));
+    return from(this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()))
   }
 
   logout(): Observable<void> {
