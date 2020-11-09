@@ -1,8 +1,7 @@
 import express from 'express'
-import tournamentRoute from './tournament/tournament'
-import userRoute from './user/user'
+import apiRoute from './api/api'
 
 const router = express.Router()
-router.use('/', /*TU UMIEŚCIĆ ROUTERY ZA TĄ ŚCIEŻKĄ*/)
+router.use('/', apiRoute)
 
 export default router
