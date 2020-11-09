@@ -7,6 +7,7 @@ import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 
 import { Pages, PagesModule } from 'components/pages/pages';
 import { OrganizerGuard } from 'auth/OrganizerGuard';
+import { OnlineGuard } from 'auth/OnlineGuard';
 
 const authGuardPipe = () => redirectUnauthorizedTo(['/'])
 
@@ -26,11 +27,13 @@ const routes: Routes = [
   },
   { 
     path: PATH.EVERYONE.REGISTER,
-    component: Pages.RegisterPageComponent
+    component: Pages.RegisterPageComponent,
+    canActivate: [OnlineGuard]
   },
   { 
     path: PATH.EVERYONE.LOGIN,
-    component: Pages.LoginPageComponent
+    component: Pages.LoginPageComponent,
+    canActivate: [OnlineGuard]
   },
   /*LOGGED*/
   { 
@@ -61,13 +64,13 @@ const routes: Routes = [
   { 
     path: PATH.ORGANIZER.MANAGE_SCHEDULE, 
     component: Pages.ManageSchedulePageComponent,
-    canActivate: [AngularFireAuthGuard, OrganizerGuard],
+    canActivate: [OnlineGuard, AngularFireAuthGuard, OrganizerGuard],
     data: { authGuardPipe }
   },
   { 
     path: PATH.ORGANIZER.ADD_SESSION, 
     component: Pages.AddSessionPageComponent,
-    canActivate: [AngularFireAuthGuard, OrganizerGuard],
+    canActivate: [OnlineGuard, AngularFireAuthGuard, OrganizerGuard],
     data: { authGuardPipe } 
   },
   /*NOT FOUND*/
