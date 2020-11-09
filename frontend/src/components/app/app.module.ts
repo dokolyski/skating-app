@@ -19,7 +19,7 @@ import { AuthService } from 'services/AuthService';
     BrowserModule,
     AppFirebaseModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule
   ],
   providers: [AuthService],
