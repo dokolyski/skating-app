@@ -93,5 +93,12 @@
             "PARAMS": ["id"],
             "METHOD": "PATCH"
         }
+    },
+    "CONFIG": {
+        "GET": {
+            "URL": "api/config/{key}",
+            "PARAMS": ["key"],
+            "METHOD": "GET"
+        }
     }
 }

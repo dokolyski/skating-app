@@ -8,6 +8,7 @@ import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { Pages, PagesModule } from 'components/pages/pages';
 import { OrganizerGuard } from 'auth/OrganizerGuard';
 import { OnlineGuard } from 'auth/OnlineGuard';
+import { NotLoggedGuard } from 'auth/NotLoggedGuard';
 
 const authGuardPipe = () => redirectUnauthorizedTo(['/'])
 
@@ -28,12 +29,12 @@ const routes: Routes = [
   { 
     path: PATH.EVERYONE.REGISTER,
     component: Pages.RegisterPageComponent,
-    canActivate: [OnlineGuard]
+    canActivate: [OnlineGuard, NotLoggedGuard]
   },
   { 
     path: PATH.EVERYONE.LOGIN,
     component: Pages.LoginPageComponent,
-    canActivate: [OnlineGuard]
+    canActivate: [OnlineGuard, NotLoggedGuard]
   },
   /*LOGGED*/
   { 

@@ -9,14 +9,10 @@ import { switchMap } from 'rxjs/operators';
 })
 export class AuthService {
   private user: BehaviorSubject<Observable<firebase.User>> = new BehaviorSubject<Observable<firebase.User>>(null);
-  user$ = this.user.asObservable().pipe(switchMap((user: Observable<firebase.User>) => user));
+  readonly user$ = this.user.asObservable().pipe(switchMap((user: Observable<firebase.User>) => user));
 
   constructor(private afAuth: AngularFireAuth) {
     this.user.next(this.afAuth.authState);
-  }
-
-  get currentUser() {
-    return this.afAuth.auth.currentUser
   }
 
   registerViaEmail(email: string, password: string): Observable<auth.UserCredential> {

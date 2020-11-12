@@ -1,12 +1,16 @@
-namespace VERIFICATION.LOGIN {
-    interface INPUT {
+export type RestJSON = null|string|number|boolean|Date|RestJSON[]| {
+    [property: string]: RestJSON
+}
+
+export namespace VERIFICATION.LOGIN {
+    export type INPUT = {
         email: string, 
         password: string
     }
 }
 
-namespace VERIFICATION.REGISTER {
-    interface INPUT {
+export namespace VERIFICATION.REGISTER {
+    export type INPUT = {
         fistname: string,
         lastname: string,
         email: string, 
@@ -16,8 +20,8 @@ namespace VERIFICATION.REGISTER {
     }
 }
 
-namespace USER_INFO.GET {
-    interface OUTPUT {
+export namespace USER_INFO.GET {
+    export type OUTPUT = {
         fistname: string,
         lastname: string,
         email: string, 
@@ -26,8 +30,8 @@ namespace USER_INFO.GET {
     }
 }
 
-namespace USER_INFO.EDIT {
-    interface INPUT {
+export namespace USER_INFO.EDIT {
+    export type INPUT = {
         fistname: string,
         lastname: string,
         email: string, 
@@ -36,7 +40,7 @@ namespace USER_INFO.EDIT {
     }
 }
 
-namespace PROFILES.GET_PROFILES {
+export namespace PROFILES.GET_PROFILES {
     type OUTPUT = {
         fistname: string,
         lastname: string,
@@ -44,29 +48,31 @@ namespace PROFILES.GET_PROFILES {
     }[]
 }
 
-namespace PROFILES.CREATE {
-    interface INPUT {
+export namespace PROFILES.CREATE {
+    export type INPUT = {
         fistname: string,
         lastname: string,
-        birth_date: string
+        birth_date: Date,
+        skill_level?: string
     }
 }
 
-namespace PROFILES.EDIT {
-    interface INPUT {
+export namespace PROFILES.EDIT {
+    export type INPUT = {
         fistname: string,
         lastname: string,
-        birth_date: string
+        birth_date: Date,
+        skill_level?: string
     }
 }
 
-namespace SESSIONS.GET_SESSIONS {
-    interface INPUT {
+export namespace SESSIONS.GET_SESSIONS {
+    export type INPUT = {
         date_from?: Date
         date_to?: Date
     }
 
-    interface OUTPUT {
+    export type OUTPUT = {
         name: string,
         start_date: Date,
         end_date: Date,
@@ -80,8 +86,8 @@ namespace SESSIONS.GET_SESSIONS {
     }
 }
 
-namespace SESSIONS.CREATE {
-    interface INPUT {
+export namespace SESSIONS.CREATE {
+    export type INPUT = {
         name: string,
         start_date: Date,
         end_date: Date,
@@ -93,8 +99,8 @@ namespace SESSIONS.CREATE {
     }
 }
 
-namespace SESSIONS.EDIT {
-    interface INPUT {
+export namespace SESSIONS.EDIT {
+    export type INPUT = {
         name: string,
         start_date: Date,
         end_date: Date,
@@ -106,21 +112,21 @@ namespace SESSIONS.EDIT {
     }
 }
 
-namespace SESSIONS.EDIT_STATUS {
-    interface INPUT {
+export namespace SESSIONS.EDIT_STATUS {
+    export type INPUT = {
         status: number
     }
 }
 
-namespace SESSIONS.JOIN {
-    interface INPUT {
+export namespace SESSIONS.JOIN {
+    export type INPUT = {
         profiles_id: number[],
         session_id: number
     }
 }
 
-namespace NOTIFICATIONS.GET_NOTIFICATIONS {
-    interface OUTPUT {
+export namespace NOTIFICATIONS.GET_NOTIFICATIONS {
+    export type OUTPUT = {
         show_date: Date,
         expiration_date: Date,
         status: number,
@@ -130,8 +136,8 @@ namespace NOTIFICATIONS.GET_NOTIFICATIONS {
     }
 }
 
-namespace NOTIFICATIONS.CREATE {
-    interface INPUT {
+export namespace NOTIFICATIONS.CREATE {
+    export type INPUT = {
         show_date: Date,
         expiration_date: Date,
         status: number,
@@ -141,8 +147,12 @@ namespace NOTIFICATIONS.CREATE {
     }
 }
 
-namespace NOTIFICATIONS.EDIT_STATUS {
-    interface INPUT {
+export namespace NOTIFICATIONS.EDIT_STATUS {
+    export type INPUT = {
         status: number
     }
+}
+
+export namespace CONFIG.GET {
+    export type OUTPUT = RestJSON
 }
