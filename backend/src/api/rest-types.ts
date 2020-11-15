@@ -1,5 +1,6 @@
-export type RestJSON = null|string|number|boolean|Date|RestJSON[]| {
-    [property: string]: RestJSON
+type JStypes = null|string|number|boolean|Date
+export type RestJSON = JStypes|JStypes[]| {
+    [property: string]: RestJSON[] | RestJSON
 }
 
 export namespace VERIFICATION.LOGIN {

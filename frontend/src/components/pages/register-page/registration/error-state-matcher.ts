@@ -6,7 +6,7 @@ export class PasswordErrorStateMatcher implements ErrorStateMatcher {
     const entrophy = this.calculateEntrophy(control.value)
     const partEntrophy = this.calculatePartMaxEntrophy(0.3, control.value)
 
-    const isTooShort = control.value.length < 12
+    const isTooShort = control.value.length < 8
     const isTooLong = control.value.length > 16
     const isTooEasy = !this.passRegularExpressions(control.value) || entrophy < partEntrophy
 
@@ -29,7 +29,10 @@ export class PasswordErrorStateMatcher implements ErrorStateMatcher {
 
   private calculateEntrophy(password: string): number {
     const charsCounter = Array.from(password).reduce((p, c) => {
-      p[c] = (p[c] ??= 0) + 1
+      if(!p[c]) {
+        p[c] = 0
+      }
+      p[c]++
       return p
     }, {})
     

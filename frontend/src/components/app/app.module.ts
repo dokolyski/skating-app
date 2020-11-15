@@ -7,8 +7,11 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'environments/environment';
 import { NewBookingComponent } from 'components/pages/new-booking/new-booking.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppFirebaseModule } from 'components/app-firebase-module/app-firebase-module.module';
-import { AuthService } from 'services/AuthService';
+import { AuthService } from 'services/Auth.service';
+import { LanguageService } from 'services/Language.service';
+import { LanguageErrorService } from 'services/LanguageError.service';
+import { PagesModule } from 'components/pages/pages';
+import { RestService } from 'services/Rest.service';
 
 @NgModule({
   declarations: [
@@ -17,12 +20,19 @@ import { AuthService } from 'services/AuthService';
   ],
   imports: [
     BrowserModule,
-    AppFirebaseModule,
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    PagesModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    LanguageService,
+    LanguageErrorService,
+    RestService,
+    /* INJECTED CONSTANTS */
+    { provide: 'language', useValue: environment.language }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

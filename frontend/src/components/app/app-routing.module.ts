@@ -2,15 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import * as PATH from 'assets/config/url.json';
 
-import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
-import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
-
-import { Pages, PagesModule } from 'components/pages/pages';
-import { OrganizerGuard } from 'auth/OrganizerGuard';
-import { OnlineGuard } from 'auth/OnlineGuard';
-import { NotLoggedGuard } from 'auth/NotLoggedGuard';
-
-const authGuardPipe = () => redirectUnauthorizedTo(['/'])
+import { Pages } from 'components/pages/pages';
+import { OrganizerGuard } from 'guards/Organizer.guard';
+import { OnlineGuard } from 'guards/Online.guard';
+import { NotLoggedGuard } from 'guards/NotLogged.guard';
+import { AuthGuard } from 'guards/Auth.guard';
 
 const routes: Routes = [
   /*EVERYONE*/
@@ -40,39 +36,33 @@ const routes: Routes = [
   { 
     path: PATH.LOGGED.ACCOUNT, 
     component: Pages.AccountPageComponent,
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe } 
+    canActivate: [AuthGuard]
   },
   { 
     path: PATH.LOGGED.PROFILES, 
     component: Pages.ProfilesPageComponent,
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe } 
+    canActivate: [AuthGuard]
   },
   { 
     path: PATH.LOGGED.SCHEDULE, 
     component: Pages.SchedulePageComponent,
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe } 
+    canActivate: [AuthGuard]
   },
   { 
     path: PATH.LOGGED.SESSIONS, 
     component: Pages.SessionsPageComponent,
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe }
+    canActivate: [AuthGuard]
   },
   /*ORGANIZER*/
   { 
     path: PATH.ORGANIZER.MANAGE_SCHEDULE, 
     component: Pages.ManageSchedulePageComponent,
-    canActivate: [OnlineGuard, AngularFireAuthGuard, OrganizerGuard],
-    data: { authGuardPipe }
+    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
   { 
     path: PATH.ORGANIZER.ADD_SESSION, 
     component: Pages.AddSessionPageComponent,
-    canActivate: [OnlineGuard, AngularFireAuthGuard, OrganizerGuard],
-    data: { authGuardPipe } 
+    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
   /*NOT FOUND*/
   {
@@ -82,8 +72,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), AngularFireAuthModule, PagesModule],
-  providers: [AngularFireAuth, OrganizerGuard],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

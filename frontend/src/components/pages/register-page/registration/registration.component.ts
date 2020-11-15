@@ -1,13 +1,15 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { RestService } from 'services/RestService';
+import { RestService } from 'services/Rest.service';
 
 import * as REST_PATH from 'api/rest-url.json'
+import { RestError } from 'api/rest-error'
+
 import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types'
-import { Subject } from 'rxjs';
-import { flatMap, takeUntil } from 'rxjs/operators';
+import { flatMap } from 'rxjs/operators';
 
 import * as ESM from './error-state-matcher';
+import { LanguageErrorService, TranslatedErrors } from 'services/LanguageError.service';
 
 @Component({
   selector: 'app-registration',
@@ -41,38 +43,44 @@ export class RegistrationComponent implements OnInit {
     dateBirthday: new ESM.DatebirthdayErrorStateMatcher()
   }
 
-  @Input()
-  onSubmit = new EventEmitter<void>()
-  @Input()
-  onStartWaiting = new EventEmitter<void>()
-  @Input()
-  onStopWaiting = new EventEmitter<void>()
-  @Input()
-  onCancel = new EventEmitter<void>()
+  serverInputsErrors: {[input: string]: string}
 
-  constructor(private fb: FormBuilder, private rest: RestService) { }
+  @Output()
+  onSubmit = new EventEmitter<void>()
+  @Output()
+  onStartWaiting = new EventEmitter<void>()
+  @Output()
+  onStopWaiting = new EventEmitter<void>()
+  @Output()
+  onCancel = new EventEmitter<void>()
+  @Output()
+  onError = new EventEmitter<string>()
+
+  constructor(
+    private fb: FormBuilder, 
+    private rest: RestService,
+    private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
-    const subject = new Subject()
     this.onStartWaiting.emit()
     
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: `${123}`}})
-    .pipe(
-      takeUntil(subject)
-    ).subscribe({
-      next: (v: string[]) => {
-        this.skillLevelPossibleValues = v
-        subject.complete()
-      },
-      complete: this.onStopWaiting.emit
+    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: 'skillLevelPossibleValues'}})
+    .subscribe({
+      next: (v: string[]) => this.skillLevelPossibleValues = v,
+      error: (e: RestError) => {
+        this.lngErrorService.getErrorsStrings(e)
+        .subscribe((translation: TranslatedErrors) => {
+          this.onError.emit(translation.message)
+        })
+      }
     })
+    .add(this.onStopWaiting.emit)
   }
 
   register() {
     const registerBody = this.prepareRegisterPayload()
     this.onStartWaiting.emit()
 
-    const subject = new Subject()
     this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
     .pipe(
       flatMap(() => {
@@ -82,15 +90,27 @@ export class RegistrationComponent implements OnInit {
           
           return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
         }
-      }),
-      takeUntil(subject)
+      })
     ).subscribe({
-      next: subject.complete,
-      complete: () => {
-        this.onStopWaiting.emit()
-        this.onSubmit.emit()
+      complete: this.onSubmit.emit,
+      error: (e: RestError) => {
+        this.lngErrorService.getErrorsStrings(e)
+        .subscribe((translation: TranslatedErrors) => {
+          if(translation.message) {
+            this.onError.emit(translation.message)
+          }
+
+          if(translation.inputs) {
+            for(const input of Object.keys(translation.inputs)) {
+              this.form.get(input).setErrors({'server-error': true})
+            }
+
+            this.serverInputsErrors = translation.inputs
+          }
+        })
       }
     })
+    .add(this.onStopWaiting.emit)
   }
 
   private prepareRegisterPayload(): VERIFICATION.REGISTER.INPUT {

@@ -14,6 +14,9 @@
           <mat-error *ngIf="email.hasError('not-exists')">
             Email not exists
           </mat-error>
+          <mat-error *ngIf="email.hasError('server-error')">
+            {{this.serverInputsErrors['email']}}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field *ngIf="base.get('password'); let password">
