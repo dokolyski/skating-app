@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-register-page',
-  templateUrl: './register-page.component.html',
-  styleUrls: ['./register-page.component.scss']
+  templateUrl: './register-page.component.html'
 })
-export class RegisterPageComponent implements OnInit {
+export class RegisterPageComponent {
+  pending = false
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(public location: Location) { }
 
 }
