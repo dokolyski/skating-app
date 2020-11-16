@@ -47,6 +47,7 @@
         },
         "DELETE": {
             "URL": "api/profiles/{id}",
+            "PARAMS": ["id"],
             "METHOD": "DELETE"
         }  
     },

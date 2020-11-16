@@ -7,11 +7,11 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AuthService } from 'services/Auth.service';
-import { LanguageService } from 'services/Language.service';
-import { LanguageErrorService } from 'services/LanguageError.service';
+import { AuthService } from 'services/auth-service/Auth.service';
+import { LanguageService } from 'services/language-service/Language.service';
+import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 import { PagesModule } from 'components/pages/pages';
-import { RestService } from 'services/Rest.service';
+import { RestService } from 'services/rest-service/Rest.service';
 
 @NgModule({
   imports: [

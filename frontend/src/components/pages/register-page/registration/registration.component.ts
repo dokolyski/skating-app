@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { RestService } from 'services/Rest.service';
+import { RestService } from 'services/rest-service/Rest.service';
 
 import * as REST_PATH from 'api/rest-url.json'
 import { RestError } from 'api/rest-error'
@@ -9,7 +9,7 @@ import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types'
 import { flatMap } from 'rxjs/operators';
 
 import * as ESM from './error-state-matcher';
-import { LanguageErrorService, TranslatedErrors } from 'services/LanguageError.service';
+import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 
 @Component({
   selector: 'app-registration',

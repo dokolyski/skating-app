@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { RestError } from "api/rest-error";
 import { Observable, Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
-import { LanguageService } from "./Language.service";
+import { LanguageService } from "services/language-service/Language.service";
 
 export type TranslatedErrors = {
   message?: string,
