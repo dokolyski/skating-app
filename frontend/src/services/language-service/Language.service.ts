@@ -30,7 +30,7 @@ export class LanguageService {
   private readTranslation(fileName: string) {
     new Observable<any>(s => {
       // dynamic import
-      s.next(from(import(`${this.path}/${fileName}`)))
+      s.next(from(import(`../../${this.path}/${fileName}`)))
       s.complete()
     }).pipe(
       map(v => v.default)

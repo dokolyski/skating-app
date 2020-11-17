@@ -8,7 +8,7 @@ describe('language.service', () => {
     const custom_lang = 'custom-test'
     let languageService: LanguageService
 
-    beforeEach(async () => {
+    beforeEach(async (done: DoneFn) => {
         await TestBed.configureTestingModule({
             providers: [
                 LanguageService,
@@ -17,17 +17,24 @@ describe('language.service', () => {
             ]
         }).compileComponents()
         
-        languageService = TestBed.get(LanguageService)
+        languageService = TestBed.inject(LanguageService)
+        done()
     })
 
-    it('reads default language translation', () => {
+    it('reads default language translation', (done: DoneFn) => {
         expect(languageService.language).toEqual(default_lang)
-        languageService.dictionary$.subscribe(translation => expect(translation).toEqual(LANG_DEFAULT))
+        languageService.dictionary$.subscribe(translation => {
+            expect(translation).toEqual(LANG_DEFAULT)
+            done()
+        })
     })
 
-    it('reads selected language translation', () => {
+    it('reads selected language translation', (done: DoneFn) => {
         languageService.language = custom_lang
         expect(languageService.language).toEqual(custom_lang)
-        languageService.dictionary$.subscribe(translation => expect(translation).toEqual(LANG_CUSTOM))
+        languageService.dictionary$.subscribe(translation => {
+            expect(translation).toEqual(LANG_CUSTOM)
+            done()
+        })
     })
 })
