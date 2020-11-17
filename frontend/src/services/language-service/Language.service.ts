@@ -3,7 +3,7 @@ import { BehaviorSubject, from, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 export type NodeTranslation = { 
-  [node: string]: NodeTranslation | string[]
+  [node: string]: NodeTranslation | string
 };
 
 @Injectable()
@@ -11,7 +11,10 @@ export class LanguageService {
   private dictionarySubject: BehaviorSubject<NodeTranslation> = new BehaviorSubject<NodeTranslation>(null);
   readonly dictionary$: Observable<NodeTranslation> = this.dictionarySubject.asObservable();
 
-  constructor(@Inject("language") private _language: string) {
+  constructor(
+    @Inject("language") private _language: string,
+    @Inject("path-languages") private path: string) {
+      
     this.readTranslation(`${_language}.language.json`);
   }
 
@@ -27,7 +30,7 @@ export class LanguageService {
   private readTranslation(fileName: string) {
     new Observable<any>(s => {
       // dynamic import
-      s.next(from(import(`languages/${fileName}`)))
+      s.next(from(import(`${this.path}/${fileName}`)))
       s.complete()
     }).pipe(
       map(v => v.default)
