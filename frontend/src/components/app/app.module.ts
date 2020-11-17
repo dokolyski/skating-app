@@ -30,7 +30,8 @@ import { RestService } from 'services/rest-service/Rest.service';
     LanguageErrorService,
     RestService,
     /* INJECTED CONSTANTS */
-    { provide: 'language', useValue: environment.language }
+    { provide: 'language', useValue: environment.language },
+    { provide: 'path-languages', useValue: 'languages'}
   ],
   bootstrap: [AppComponent]
 })

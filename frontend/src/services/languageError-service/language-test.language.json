@@ -1,0 +1,13 @@
+{
+    "errors": {
+        "messages": {
+            "unauthorized": "Login required to execute operation.",
+            "server error": "Internal server error."
+        },
+        "inputs": {
+            "email": {
+                "not exists": "This email not exists."
+            }
+        }
+    }
+}

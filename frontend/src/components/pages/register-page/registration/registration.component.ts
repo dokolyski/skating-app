@@ -6,7 +6,7 @@ import * as REST_PATH from 'api/rest-url.json'
 import { RestError } from 'api/rest-error'
 
 import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types'
-import { flatMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 import * as ESM from './error-state-matcher';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
@@ -83,7 +83,7 @@ export class RegistrationComponent implements OnInit {
 
     this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
     .pipe(
-      flatMap(() => {
+      mergeMap(() => {
         const skillLevel = this.form.get('additional.skillLevel').value
         if(skillLevel.length) {
           const editBody = this.prepareSelfProfilePayload()
