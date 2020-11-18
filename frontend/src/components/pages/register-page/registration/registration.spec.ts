@@ -2,6 +2,7 @@ import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper"
 import { CommonModule } from "@angular/common"
 import { ComponentFixture, TestBed } from "@angular/core/testing"
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms"
+import { MatButtonModule } from "@angular/material/button"
 import { MatCardModule } from "@angular/material/card"
 import { MatFormFieldModule } from "@angular/material/form-field"
 import { MatIconModule } from "@angular/material/icon"
@@ -10,7 +11,9 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 import { MatSelectModule } from "@angular/material/select"
 import { MatStepperModule } from "@angular/material/stepper"
 import { By } from "@angular/platform-browser"
-import { Observable, of, Subject } from "rxjs"
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
+import { BehaviorSubject, Observable, of, Subject } from "rxjs"
+import { filter, mergeMap } from "rxjs/operators"
 import { LanguageErrorService } from "services/languageError-service/LanguageError.service"
 import { RestService } from "services/rest-service/Rest.service"
 import { RegistrationComponent } from "./registration.component"
@@ -20,13 +23,25 @@ describe('registration.component', () => {
     let component: RegistrationComponent
 
     async function init({restMock = undefined, lngErrorMock = undefined}) {
+        if(!restMock) {
+            restMock = jasmine.createSpyObj('ResetService', ['do'])
+            restMock.do.and.returnValue(of([]))
+        }
+
+        if(!lngErrorMock) {
+            lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings'])
+            lngErrorMock.getErrorsStrings.and.returnValue(of({}))
+        }
+
         await TestBed.configureTestingModule({
             imports: [
                 CommonModule,
+                BrowserAnimationsModule,
                 MatStepperModule,
                 MatSelectModule,
                 MatCardModule,
                 MatFormFieldModule,
+                MatButtonModule,
                 MatIconModule,
                 MatInputModule,
                 MatProgressSpinnerModule,
@@ -36,8 +51,8 @@ describe('registration.component', () => {
             providers: [
                 FormBuilder,
                 { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
-                { provide: RestService, useValue: restMock ?? {} },
-                { provide: LanguageErrorService, useValue: lngErrorMock ?? {} }
+                { provide: RestService, useValue: restMock },
+                { provide: LanguageErrorService, useValue: lngErrorMock }
             ]
         }).compileComponents()
 
@@ -45,39 +60,60 @@ describe('registration.component', () => {
         component = fixture.componentInstance
     }
 
-    xit('fetch possible skills values', async (done: DoneFn) => {
+    it('fetch possible skills values', async (done: DoneFn) => {
         const skills = ['skill_1', 'skill_2', 'skill_3']
 
-        const afterComponentInit = new Subject()
         const restMock = jasmine.createSpyObj('RestService', ['do'])
-        restMock.do.and.returnValue(new Observable<any>(s => {
-            s.next(skills)
-            afterComponentInit.complete()
-        }))
+        restMock.do.and.returnValue(new Observable<any>(s => s.next(skills)))
 
         await init({restMock})
-        afterComponentInit.subscribe({
-            complete: () => {
-                alert(1)
-                expect(component.skillLevelPossibleValues).toEqual(skills)
+        component.onStartWaiting
+        .pipe(
+            mergeMap(() => component.onStopWaiting)
+        ).subscribe(() => {
+            expect(restMock.do).toHaveBeenCalled()
+            expect(component.skillLevelPossibleValues).toEqual(skills)
         
-                /*fixture.detectChanges()
+            fixture.detectChanges()
                 
-                const set = fixture.debugElement.query(By.css('mat-select[formControlName="skillLevel"]'))
-                for(const el of set.queryAll(By.css('mat-option'))) {
-                    expect(skills.findIndex(v => v == el.nativeElement.innerText)).toBeGreaterThanOrEqual(0)
-                }*/
-                done()
+            const set = fixture.debugElement.query(By.css('mat-select[formControlName="skillLevel"]'))
+            for(const el of set.queryAll(By.css('mat-option'))) {
+                expect(skills.findIndex(v => v == el.nativeElement.innerText)).toBeGreaterThanOrEqual(0)
             }
+            done()
         })
+
+        component.ngOnInit()
     })
 
-    xit('emits error on fetch skills when server responds with error which contains generalized message', () => {
+    it('emits error on fetch skills when server responds with error which contains generalized message', async (done: DoneFn) => {
+        const messageToken = 'SERVER_ERROR'
+        const message = 'Server error.'
 
+        const restMock = jasmine.createSpyObj('RestService', ['do'])
+        restMock.do.and.returnValue(new Observable<any>(s => s.error({ messageToken })))
+
+        const lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings'])
+        lngErrorMock.getErrorsStrings.and.returnValue(of({ message }))
+
+        await init({restMock, lngErrorMock})
+        component.onError.subscribe(msg => {
+            expect(restMock.do).toHaveBeenCalled()
+            expect(lngErrorMock.getErrorsStrings).toHaveBeenCalledWith({ messageToken })
+            expect(msg).toEqual(message)
+            done()
+        })
+        
+        component.ngOnInit()
     })
 
-    xit('cancels registration when user clicked cancel button', () => {
+    it('cancels registration when user clicked cancel button', async (done: DoneFn) => {
+        await init({})
+        fixture.detectChanges()
+        component.onCancel.subscribe(done)
 
+        const button = fixture.debugElement.queryAll(By.css('button.cancel'))[0].nativeElement
+        button.click()
     })
 
     xit('submits registration when user pass all phases without errors', () => {

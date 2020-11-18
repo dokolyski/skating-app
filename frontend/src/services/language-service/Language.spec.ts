@@ -2,6 +2,7 @@ import { TestBed } from "@angular/core/testing"
 import { LanguageService } from "./Language.service"
 import * as LANG_DEFAULT from './default-test.language.json'
 import * as LANG_CUSTOM from './custom-test.language.json'
+import { filter, mergeMap } from "rxjs/operators"
 
 describe('language.service', () => {
     const default_lang = 'default-test'
@@ -22,18 +23,26 @@ describe('language.service', () => {
     })
 
     it('reads default language translation', (done: DoneFn) => {
-        expect(languageService.language).toEqual(default_lang)
-        languageService.dictionary$.subscribe(translation => {
-            expect(translation).toEqual(LANG_DEFAULT)
+        languageService.dictionary$
+        .pipe(
+            filter(() => languageService.language == default_lang)
+        ).subscribe(translation => {
+            expect(translation).toEqual(LANG_DEFAULT['default'])
             done()
         })
     })
 
     it('reads selected language translation', (done: DoneFn) => {
-        languageService.language = custom_lang
-        expect(languageService.language).toEqual(custom_lang)
-        languageService.dictionary$.subscribe(translation => {
-            expect(translation).toEqual(LANG_CUSTOM)
+        languageService.dictionary$
+        .pipe(
+            filter(() => languageService.language == default_lang),
+            mergeMap(() => {
+                languageService.language = custom_lang
+                return languageService.dictionary$
+            }),
+            filter(() => languageService.language == custom_lang)
+        ).subscribe(translation => {
+            expect(translation).toEqual(LANG_CUSTOM['default'])
             done()
         })
     })

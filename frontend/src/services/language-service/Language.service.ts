@@ -1,6 +1,6 @@
 import { Injectable, Inject } from "@angular/core";
-import { BehaviorSubject, from, Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { BehaviorSubject, from, Observable, Subject } from "rxjs";
+import { distinctUntilChanged, filter, map, mergeMap, takeUntil } from "rxjs/operators";
 
 export type NodeTranslation = { 
   [node: string]: NodeTranslation | string
@@ -8,22 +8,33 @@ export type NodeTranslation = {
 
 @Injectable()
 export class LanguageService { 
+  private _language = null
+  private loadingSubject: Subject<NodeTranslation> = new Subject()
   private dictionarySubject: BehaviorSubject<NodeTranslation> = new BehaviorSubject<NodeTranslation>(null);
   readonly dictionary$: Observable<NodeTranslation> = this.dictionarySubject.asObservable();
 
   constructor(
-    @Inject("language") private _language: string,
+    @Inject("language") language: string,
     @Inject("path-languages") private path: string) {
-      
-    this.readTranslation(`${_language}.language.json`);
-  }
+      this.language = language
+    }
 
   get language(): string {
     return this._language
   }
 
   set language(name: string) {
-    this._language = name
+    const end = new Subject()
+   
+    this.loadingSubject
+    .pipe(
+      takeUntil(end)
+    ).subscribe(data => {
+      end.next()
+      this._language = name
+      this.dictionarySubject.next(data)
+    })
+
     this.readTranslation(`${name}.language.json`)
   }
 
@@ -31,9 +42,9 @@ export class LanguageService {
     new Observable<any>(s => {
       // dynamic import
       s.next(from(import(`../../${this.path}/${fileName}`)))
-      s.complete()
     }).pipe(
-      map(v => v.default)
-    ).subscribe((data: NodeTranslation) => this.dictionarySubject.next(data))
+      mergeMap(v => v),
+      map(v => v['default'])
+    ).subscribe((data: NodeTranslation) => this.loadingSubject.next(data))
   }
 }

@@ -1,14 +1,15 @@
 import { TestBed } from "@angular/core/testing"
-import { from, of } from "rxjs"
+import { of } from "rxjs"
 import { LanguageService } from "services/language-service/Language.service"
 import { LanguageErrorService } from "./LanguageError.service"
 import * as LANGUAGE_TEST from './language-test.language.json'
+import { filter } from "rxjs/operators"
 
 describe('languageError.service', () => {
     let languageErrorService: LanguageErrorService
     
     beforeEach(async (done: DoneFn) => {
-        const mock = jasmine.createSpyObj('LanguageError', {}, {dictionary$: of(LANGUAGE_TEST['default'])})
+        const mock = jasmine.createSpyObj('LanguageService', {}, {dictionary$: of(LANGUAGE_TEST['default'])})
         await TestBed.configureTestingModule({
             providers: [
                 LanguageErrorService,
@@ -26,7 +27,9 @@ describe('languageError.service', () => {
         languageErrorService.getErrorsStrings({
             messageToken,
             inputsTokens: { email }
-        }).subscribe(translatedErrors => {
+        }).pipe(
+            filter(x => x != null)
+        ).subscribe(translatedErrors => {
             expect(translatedErrors.message).toEqual(LANGUAGE_TEST.errors.messages[messageToken])
             expect(translatedErrors.inputs['email']).toEqual(LANGUAGE_TEST.errors.inputs.email[email])
             done()

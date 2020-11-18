@@ -66,15 +66,18 @@ export class RegistrationComponent implements OnInit {
     
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: 'skillLevelPossibleValues'}})
     .subscribe({
-      next: (v: string[]) => this.skillLevelPossibleValues = v,
+      next: (v: string[]) => {
+        this.skillLevelPossibleValues = v
+        this.onStopWaiting.emit()
+      },
       error: (e: RestError) => {
         this.lngErrorService.getErrorsStrings(e)
         .subscribe((translation: TranslatedErrors) => {
           this.onError.emit(translation.message)
+          this.onStopWaiting.emit()
         })
       }
     })
-    .add(this.onStopWaiting.emit)
   }
 
   register() {
