@@ -1,14 +1,16 @@
 <div [formGroup]="form">
   <mat-vertical-stepper linear>
-    <mat-step label="Base informations">
+    <mat-step label="Base informations" [stepControl]="form.get('base')">
       <form formGroupName="base" *ngIf="form.get('base'); let base">
         <mat-form-field *ngIf="base.get('email'); let email">
           <mat-label>E-mail</mat-label>
           <input 
+          id="email"
           type="email" 
           matInput 
           placeholder="example@mail.com" 
-          formControlName="email" required>
+          [formControl]="email" required>
+
           <mat-icon>email</mat-icon>
 
           <mat-error *ngIf="email.hasError('not-exists')">
@@ -22,9 +24,10 @@
         <mat-form-field *ngIf="base.get('password'); let password">
           <mat-label>Password</mat-label>
           <input 
+          id="password"
           type="password"
           matInput 
-          formControlName="password" required
+          [formControl]="password" required
           [errorStateMatcher]="errorStateMatcher.password">
           <mat-icon>vpn_key</mat-icon>
           
@@ -42,9 +45,10 @@
         <mat-form-field *ngIf="base.get('repeatPassword'); let password">
           <mat-label>Repeat password</mat-label>
           <input 
+          id="repeatPassword"
           type="password"
           matInput 
-          formControlName="repeatPassword" required
+          [formControl]="password" required
           [errorStateMatcher]="errorStateMatcher.repeatPassword">
           <mat-icon>vpn_key</mat-icon>
           
@@ -52,22 +56,25 @@
             Passwords are not equals
           </mat-error>
         </mat-form-field>
-      </form>
 
-      <button mat-button matStepperPrevious type="button">Back</button>
-      <button mat-button matStepperNext type="button">Next</button>
-      <button mat-button (click)="onCancel.emit()" type="button" class="cancel">Cancel</button>
+        <div>
+          <button mat-button matStepperPrevious >Back</button>
+          <button mat-button matStepperNext class="nextButton">Next</button>
+          <button mat-button (click)="onCancel.emit()" class="cancelButton">Cancel</button>
+        </div>
+      </form>
     </mat-step>
 
-    <mat-step label="Personal informations">
+    <mat-step label="Personal informations" [stepControl]="form.get('personal')">
       <form formGroupName="personal" *ngIf="form.get('personal'); let personal">
         <mat-form-field *ngIf="personal.get('name'); let name">
           <mat-label>Name</mat-label>
           <input 
+          id="name"
           type="text" 
           matInput 
           placeholder="Jan" 
-          formControlName="name" required
+          [formControl]="name" required
           [errorStateMatcher]="errorStateMatcher.name">
           
           <mat-error *ngIf="name.hasError('invalid')">
@@ -78,10 +85,11 @@
         <mat-form-field *ngIf="personal.get('lastname'); let lastname">
           <mat-label>Lastname</mat-label>
           <input 
+          id="lastname"
           type="text" 
           matInput 
           placeholder="Kowalski" 
-          formControlName="lastname" required
+          [formControl]="lastname" required
           [errorStateMatcher]="errorStateMatcher.lastname">
           
           <mat-error *ngIf="lastname.hasError('invalid')">
@@ -92,9 +100,10 @@
         <mat-form-field *ngIf="personal.get('dateBirth'); let dateBirth">
           <mat-label>Date of birth</mat-label>
           <input 
+          id="dateBirth"
           type="date" 
           matInput 
-          formControlName="dateBirth" required
+          [formControl]="dateBirth" required
           [errorStateMatcher]="errorStateMatcher.dateBirthday">
           <mat-icon>cake</mat-icon>
 
@@ -103,22 +112,25 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field *ngIf="personal.get('telephoneNumber'); let tel">
           <mat-label>Telephone</mat-label>
           <input 
+          id="telephoneNumber"
           type="tel" 
           matInput 
-          formControlName="telephoneNumber">
+          [formControl]="tel">
           <mat-icon>local_phone</mat-icon>
         </mat-form-field>
-      </form>
 
-      <button mat-button matStepperPrevious type="button">Back</button>
-      <button mat-button matStepperNext type="button">Next</button>
-      <button mat-button (click)="onCancel.emit()" type="button" class="cancel">Cancel</button>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext class="nextButton">Next</button>
+          <button mat-button (click)="onCancel.emit()" class="cancelButton">Cancel</button>
+        </div>
+      </form>
     </mat-step>
 
-    <mat-step label="Additional informations">
+    <mat-step label="Additional informations" [stepControl]="form.get('additional')">
       <form formGroupName="additional">
         <mat-form-field>
           <mat-label>Skill level</mat-label>
@@ -127,11 +139,13 @@
             [value]="lvl">{{lvl}}</mat-option>
           </mat-select>
         </mat-form-field>
-      </form>
 
-      <button mat-button matStepperPrevious type="button">Back</button>
-      <button mat-button (click)="register()" type="button">Register</button>
-      <button mat-button (click)="onCancel.emit()" type="button" class="cancel">Cancel</button>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="register()" id="registerButton">Register</button>
+          <button mat-button (click)="onCancel.emit()" class="cancelButton">Cancel</button>
+        </div>
+      </form>
     </mat-step>
   </mat-vertical-stepper>
 </div>

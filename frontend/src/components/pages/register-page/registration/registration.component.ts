@@ -56,6 +56,7 @@ export class RegistrationComponent implements OnInit {
   @Output()
   onError = new EventEmitter<string>()
 
+  
   constructor(
     private fb: FormBuilder, 
     private rest: RestService,
@@ -83,7 +84,7 @@ export class RegistrationComponent implements OnInit {
   register() {
     const registerBody = this.prepareRegisterPayload()
     this.onStartWaiting.emit()
-
+    
     this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
     .pipe(
       mergeMap(() => {

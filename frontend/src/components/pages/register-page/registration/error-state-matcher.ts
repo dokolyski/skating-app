@@ -15,8 +15,8 @@ export class PasswordErrorStateMatcher implements ErrorStateMatcher {
       'too-long': isTooLong,
       'too-easy': isTooEasy
     })
-
-    return isTooShort || isTooLong || isTooEasy
+    
+    return control.dirty && (isTooShort || isTooLong || isTooEasy)
   } 
 
   private passRegularExpressions(password: string): boolean {
@@ -53,7 +53,7 @@ export class RepeatPasswordErrorStateMatcher implements ErrorStateMatcher {
       'not-equals': different
     })
     
-    return different
+    return control.dirty && different
   } 
 }
 
@@ -68,7 +68,7 @@ export class NameErrorStateMatcher implements ErrorStateMatcher {
       'invalid': isInvalid
     })
 
-    return isInvalid
+    return control.dirty && isInvalid
   } 
 }
 
@@ -83,7 +83,7 @@ export class LastnameErrorStateMatcher implements ErrorStateMatcher {
       'invalid': isInvalid
     })
 
-    return isInvalid
+    return control.dirty && isInvalid
   } 
 }
 
@@ -99,6 +99,6 @@ export class DatebirthdayErrorStateMatcher implements ErrorStateMatcher {
       'invalid': isInvalid
     })
 
-    return isInvalid
+    return control.dirty && isInvalid
   } 
 }
