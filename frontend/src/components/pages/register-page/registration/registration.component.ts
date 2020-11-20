@@ -56,6 +56,7 @@ export class RegistrationComponent implements OnInit {
   @Output()
   onError = new EventEmitter<string>()
 
+  
   constructor(
     private fb: FormBuilder, 
     private rest: RestService,
@@ -66,21 +67,24 @@ export class RegistrationComponent implements OnInit {
     
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: 'skillLevelPossibleValues'}})
     .subscribe({
-      next: (v: string[]) => this.skillLevelPossibleValues = v,
+      next: (v: string[]) => {
+        this.skillLevelPossibleValues = v
+        this.onStopWaiting.emit()
+      },
       error: (e: RestError) => {
         this.lngErrorService.getErrorsStrings(e)
         .subscribe((translation: TranslatedErrors) => {
           this.onError.emit(translation.message)
+          this.onStopWaiting.emit()
         })
       }
     })
-    .add(this.onStopWaiting.emit)
   }
 
   register() {
     const registerBody = this.prepareRegisterPayload()
     this.onStartWaiting.emit()
-
+    
     this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
     .pipe(
       mergeMap(() => {

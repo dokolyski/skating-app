@@ -5,7 +5,6 @@ class Config extends SQL.Model {
     public id: Number
     public key: Number
     public value: String
-    public type: Number
 
     public readonly createdAt: Date
     public readonly updatedAt: Date
@@ -14,20 +13,17 @@ class Config extends SQL.Model {
 Config.init({
     id: {
         type: SQL.INTEGER,
-        allowNull: false
+        primaryKey: true,
+        autoIncrement: true
     },
     key: {
-        type: SQL.INTEGER,
+        type: SQL.STRING(45),
         allowNull: false
     },
     value: {
-        type: SQL.STRING,
+        type: SQL.STRING(45),
         allowNull: false
-    },
-    type: {
-        type: SQL.INTEGER,
-        allowNull: false
-    },
+    }
 }, {
     sequelize: db,
     tableName: 'config'
