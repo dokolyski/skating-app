@@ -6,10 +6,11 @@ import * as REST_PATH from 'api/rest-url.json'
 import { RestError } from 'api/rest-error'
 
 import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types'
-import { mergeMap } from 'rxjs/operators';
+import { finalize, mergeMap } from 'rxjs/operators';
 
 import * as ESM from './error-state-matcher';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -36,11 +37,7 @@ export class RegistrationComponent implements OnInit {
 
   skillLevelPossibleValues: string[]
   errorStateMatcher = {
-    password: new ESM.PasswordErrorStateMatcher(),
-    repeatPassword: new ESM.RepeatPasswordErrorStateMatcher(),
-    name: new ESM.NameErrorStateMatcher(),
-    lastname: new ESM.LastnameErrorStateMatcher(),
-    dateBirthday: new ESM.DatebirthdayErrorStateMatcher()
+    repeatPassword: new ESM.RepeatPasswordErrorStateMatcher()
   }
 
   serverInputsErrors: {[input: string]: string}
@@ -66,19 +63,39 @@ export class RegistrationComponent implements OnInit {
     this.onStartWaiting.emit()
     
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: 'skillLevelPossibleValues'}})
+    .pipe(
+      finalize(this.onStopWaiting.emit)
+    )
     .subscribe({
-      next: (v: string[]) => {
-        this.skillLevelPossibleValues = v
-        this.onStopWaiting.emit()
-      },
+      next: (v: string[]) => this.skillLevelPossibleValues = v,
       error: (e: RestError) => {
         this.lngErrorService.getErrorsStrings(e)
         .subscribe((translation: TranslatedErrors) => {
           this.onError.emit(translation.message)
-          this.onStopWaiting.emit()
         })
       }
     })
+  }
+
+  testPasswordStrengh() {
+    const passwordControl = this.form.get('base').get('password')
+    const password = passwordControl.value
+    
+    const isBeloweEntrophy = (part: number): boolean => {
+      const entrophy = this.calculateEntrophy(password)
+      const partEntrophy = this.calculatePartMaxEntrophy(part, password)
+      return entrophy < partEntrophy
+    }
+
+    const isTooShort = password.length < 8
+
+    if(isTooShort || !this.passRegularExpressions(password) || isBeloweEntrophy(0.3)) {
+      return 0 // WEAK
+    } else if(isBeloweEntrophy(0.5)) {
+      return 1 // MEDIUM
+    } else {
+      return 2 // STRONG
+    }
   }
 
   register() {
@@ -94,9 +111,12 @@ export class RegistrationComponent implements OnInit {
           
           return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
         }
-      })
+        
+        return of(undefined)
+      }),
+      finalize(this.onStopWaiting.emit)
     ).subscribe({
-      complete: this.onSubmit.emit,
+      next: () => this.onSubmit.emit(),
       error: (e: RestError) => {
         this.lngErrorService.getErrorsStrings(e)
         .subscribe((translation: TranslatedErrors) => {
@@ -114,7 +134,6 @@ export class RegistrationComponent implements OnInit {
         })
       }
     })
-    .add(this.onStopWaiting.emit)
   }
 
   private prepareRegisterPayload(): VERIFICATION.REGISTER.INPUT {
@@ -137,6 +156,30 @@ export class RegistrationComponent implements OnInit {
       birth_date: this.form.get('personal.dateBirth').value,
       skill_level: this.form.get('additional.skillLevel').value
     }
+  } 
+
+  private passRegularExpressions(password: string): boolean {
+    const containsDigits = /\d+/
+    const containsUppercase = /[A-Z]+/
+    const containsLowercase = /[a-z]+/
+    const containsSpecialCharacters = /[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+/
+    return [containsDigits, containsUppercase, containsLowercase, containsSpecialCharacters].every(v => v.test(password))
   }
 
+  private calculateEntrophy(password: string): number {
+    const charsCounter = Array.from(password).reduce((p, c) => {
+      if(!p[c]) {
+        p[c] = 0
+      }
+      p[c]++
+      return p
+    }, {})
+    
+    const pswdLen = password.length
+    return Object.values<number>(charsCounter).reduce((p, c) => p - c/pswdLen * Math.log2(c/pswdLen), 0)
+  }
+
+  private calculatePartMaxEntrophy(part: number, password: string): number {
+    return -part*Math.log2(1/password.length)
+  }
 }
