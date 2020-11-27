@@ -1,12 +1,19 @@
-<mat-card>
-    <mat-card-content>
-        <app-registration
-        (onSubmit)="location.back()"
-        (onStartWaiting)="pending = true"
-        (onStopWaiting)="pending = false"
-        (onCancel)="location.back()">
-        </app-registration>
+<div>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Registration</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <app-registration
+            (onSubmit)="location.back()"
+            (onStartWaiting)="pending = true"
+            (onStopWaiting)="pending = false"
+            (onCancel)="location.back()">
+            </app-registration>
 
-        <mat-spinner *ngIf="pending"></mat-spinner>
-    </mat-card-content>
-</mat-card>
+            <div class="wait" *ngIf="pending">
+                <mat-spinner></mat-spinner>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
