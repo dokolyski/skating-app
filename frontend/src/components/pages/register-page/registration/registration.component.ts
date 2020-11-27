@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { RestService } from 'services/rest-service/Rest.service';
 
 import * as REST_PATH from 'api/rest-url.json'
@@ -8,27 +8,30 @@ import { RestError } from 'api/rest-error'
 import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types'
 import { finalize, mergeMap } from 'rxjs/operators';
 
-import * as ESM from './error-state-matcher';
+import * as VLD from './registration.validators';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { of } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
-  templateUrl: './registration.component.html'
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
 
   form = this.fb.group({
     base: this.fb.group({
-      email: [''],
-      password: [''],
-      repeatPassword: ['']
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      password: ['', Validators.required],
+      repeatPassword: ['', Validators.required]
+    }, {
+      validator: VLD.Validators.repeatPassword
     }),
     personal: this.fb.group({
-      name: [''],
-      lastname: [''],
-      dateBirth: [''],
-      telephoneNumber: [''],
+      name: ['', Validators.required],
+      lastname: ['', Validators.required],
+      dateBirth: ['', Validators.required],
+      telephoneNumber: ['', Validators.required],
     }),
     additional: this.fb.group({
       skillLevel: ['']
@@ -37,9 +40,8 @@ export class RegistrationComponent implements OnInit {
 
   skillLevelPossibleValues: string[]
   errorStateMatcher = {
-    repeatPassword: new ESM.RepeatPasswordErrorStateMatcher()
+    repeatPassword: new VLD.ErrorStateMatchers.RepeatPassword()
   }
-
   serverInputsErrors: {[input: string]: string}
 
   @Output()
@@ -64,7 +66,7 @@ export class RegistrationComponent implements OnInit {
     
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: 'skillLevelPossibleValues'}})
     .pipe(
-      finalize(this.onStopWaiting.emit)
+      finalize(() => this.onStopWaiting.emit())
     )
     .subscribe({
       next: (v: string[]) => this.skillLevelPossibleValues = v,

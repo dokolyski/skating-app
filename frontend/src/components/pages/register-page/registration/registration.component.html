@@ -2,50 +2,59 @@
   <mat-vertical-stepper linear>
     <mat-step label="Base informations" [stepControl]="form.get('base')">
       <form formGroupName="base" *ngIf="form.get('base'); let base">
-        <mat-form-field *ngIf="base.get('email'); let email">
-          <mat-label>E-mail</mat-label>
-          <input 
-          id="email"
-          type="email" 
-          matInput 
-          placeholder="example@mail.com" 
-          [formControl]="email" required>
+        <mat-grid-list cols="1" rowHeight="6rem">
+          <mat-grid-tile>
+            <mat-form-field *ngIf="base.get('email'); let email">
+              <mat-label>E-mail</mat-label>
+              <input 
+              id="email"
+              type="email" 
+              matInput 
+              placeholder="example@mail.com" 
+              [formControl]="email" required>
 
-          <mat-icon>email</mat-icon>
+              <mat-icon>email</mat-icon>
 
-          <mat-error *ngIf="email.hasError('server-error')">
-            {{this.serverInputsErrors['base.email']}}
-          </mat-error>
-        </mat-form-field>
+              <mat-error *ngIf="email.hasError('server-error')">
+                {{this.serverInputsErrors['base.email']}}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
 
-        <mat-form-field *ngIf="base.get('password'); let password">
-          <mat-label>Password</mat-label>
-          <input 
-          id="password"
-          type="password"
-          matInput 
-          [formControl]="password" required>
-          <mat-icon>vpn_key</mat-icon>
-          
-          <mat-error *ngIf="password.hasError('server-error')">
-            {{this.serverInputsErrors['base.password']}}
-          </mat-error>
-        </mat-form-field>
+          <mat-grid-tile>
+            <mat-form-field *ngIf="base.get('password'); let password">
+              <mat-label>Password</mat-label>
+              <input 
+              id="password"
+              type="password"
+              matInput 
+              [formControl]="password" required>
+              <mat-icon>vpn_key</mat-icon>
+              
+              <mat-error *ngIf="password.hasError('server-error')">
+                {{this.serverInputsErrors['base.password']}}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
 
-        <mat-form-field *ngIf="base.get('repeatPassword'); let passwordRepeat">
-          <mat-label>Repeat password</mat-label>
-          <input 
-          id="repeatPassword"
-          type="password"
-          matInput 
-          [formControl]="passwordRepeat" required
-          [errorStateMatcher]="errorStateMatcher.repeatPassword">
-          <mat-icon>vpn_key</mat-icon>
-          
-          <mat-error *ngIf="passwordRepeat.hasError('not-equals')">
-            Passwords are not equals
-          </mat-error>
-        </mat-form-field>
+          <mat-grid-tile>
+            <mat-form-field *ngIf="base.get('repeatPassword'); let passwordRepeat">
+            <mat-label>Repeat password</mat-label>
+            <input 
+            id="repeatPassword"
+            type="password"
+            matInput 
+            [formControl]="passwordRepeat" required
+            [errorStateMatcher]="errorStateMatcher.repeatPassword">
+            <mat-icon>vpn_key</mat-icon>
+            
+            <mat-error *ngIf="passwordRepeat.hasError('not-equals')">
+              Passwords are not equals
+            </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        
+        </mat-grid-list>
 
         <div>
           <button mat-button matStepperPrevious >Back</button>

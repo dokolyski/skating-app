@@ -75,7 +75,7 @@ describe('registration.component', () => {
                 MatDatepickerModule,
                 MatNativeDateModule,
                 MatProgressSpinnerModule,
-                ReactiveFormsModule,
+                ReactiveFormsModule
             ],
             declarations: [RegistrationComponent],
             providers: [

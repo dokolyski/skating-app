@@ -1,5 +1,21 @@
-import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { FormControl, FormGroup, FormGroupDirective, NgForm, ValidationErrors } from '@angular/forms';
+import { ErrorStateMatcher as ESM } from '@angular/material/core';
+
+export namespace Validators {
+  export function repeatPassword(base: FormGroup): ValidationErrors {
+    const different = base.get('repeatPassword').value != base.get('password').value
+    return different ? {'not-equals': true} : null
+  }
+}
+
+export namespace ErrorStateMatchers {
+  export class RepeatPassword implements ESM {
+    isErrorState(control: FormControl, form: FormGroupDirective | NgForm): boolean {
+      console.log(control.dirty, control.invalid)
+      return control.dirty && control.invalid
+    } 
+  }
+}
 
 // export class PasswordErrorStateMatcher implements ErrorStateMatcher {
 //   isErrorState(control: FormControl, form: FormGroupDirective | NgForm): boolean {
@@ -44,18 +60,6 @@ import { ErrorStateMatcher } from '@angular/material/core';
 //     return -part*Math.log2(1/password.length)
 //   }
 // }
-
-export class RepeatPasswordErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl, form: FormGroupDirective | NgForm): boolean {
-    const different = control.value != form.control.get('base.password').value
-    
-    control.setErrors({
-      'not-equals': different
-    })
-    
-    return control.dirty && different
-  } 
-}
 
 // export class NameErrorStateMatcher implements ErrorStateMatcher {
 //   isErrorState(control: FormControl, form: FormGroupDirective | NgForm): boolean {

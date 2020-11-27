@@ -12,6 +12,8 @@ import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 import { PagesModule } from 'components/pages/pages';
 import { RestService } from 'services/rest-service/Rest.service';
+import { HttpClientModule } from '@angular/common/http';
+import { RestServiceMock } from 'mocks/RestService.mock';
 
 @NgModule({
   imports: [
@@ -19,6 +21,7 @@ import { RestService } from 'services/rest-service/Rest.service';
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
+    HttpClientModule,
     PagesModule
   ],
   declarations: [
@@ -26,9 +29,6 @@ import { RestService } from 'services/rest-service/Rest.service';
   ],
   providers: [
     AuthService,
-    LanguageService,
-    LanguageErrorService,
-    RestService,
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
     { provide: 'path-languages', useValue: 'languages'}
