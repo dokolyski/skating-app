@@ -1,6 +1,7 @@
 # dependencies
 /node_modules
 /build
+/storage
 
 # IDE - VSCode
 .vscode/*
@@ -9,3 +10,6 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+
+# PHP Storm
+.idea

@@ -1,11 +1,11 @@
 import db from '../static/database'
 import * as SQL from 'sequelize'
-import User from './users.model'
+import User from './users'
 
 class SocialTokens extends SQL.Model {
-    public id: Number
-    public user_id: Number
-    public token: String
+    public id: number
+    public user_id: number
+    public token: string
     public provider: 'GOOGLE'
 
     public readonly createdAt: Date
