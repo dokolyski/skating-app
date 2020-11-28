@@ -1,12 +1,12 @@
-import smtp_config from 'config/smtp.json'
-import SMTP from 'static/smtp'
-import User from 'models/user'
-import server_config from 'config/server.json'
-import db from 'static/database'
-import * as API from 'api/register'
+import smtp_config from '../config/smtp.json'
+import SMTP from '../static/smtp'
+import User from '../models/users'
+import server_config from '../config/server.json'
+import db from '../static/database'
+import * as API from '../api/register'
 import Bcrypt from 'bcrypt'
-import { decrypt } from 'init/generate-keys'
-import LogicError from 'misc/logic-error'
+import { decrypt } from '../init/generate-keys'
+import LogicError from '../misc/logic-error'
 
 export async function signUp(body: API.USER.REGISTER.POST.INPUT): Promise<void | Error> {
     const t = await db.transaction()
@@ -44,7 +44,7 @@ export async function verify(body: API.USER.REGISTER.VERIFY.GET.INPUT): Promise<
 
         if (!data) {
             throw new LogicError("user not found")
-        } else if (data.registered) {
+        } else if (data.verified) {
             throw new LogicError("user has been registered before")
         }
 

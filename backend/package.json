@@ -4,8 +4,10 @@
     "description": "",
     "main": "main.js",
     "scripts": {
+        "watch": "npx tsc -w -p .",
         "build": "tsc",
-        "start": "NODE_PATH=build/ node build/main.js"
+        "start": "npx ts-node src/main.ts",
+        "start-prod": "cross-env NODE_PATH=build/ node build/main.js"
     },
     "repository": {
         "type": "git",
@@ -41,6 +43,7 @@
         "node-schedule": "^1.3.2",
         "nodemailer": "^6.4.6",
         "sequelize": "^5.21.10",
+        "sqlite3": "^5.0.0",
         "time-convert": "0.0.2",
         "ts-node-dev": "^1.0.0-pre.44",
         "typescript": "^3.8.3"
