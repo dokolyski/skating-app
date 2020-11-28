@@ -8,26 +8,42 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
+import { RestService } from 'services/rest-service/Rest.service';
+import { LanguageService } from 'services/language-service/Language.service';
+import { RestServiceMock } from 'mocks/RestService.mock';
 
 @NgModule({
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
     MatStepperModule,
     MatSelectModule,
     MatCardModule,
     MatFormFieldModule,
+    MatButtonModule,
     MatIconModule,
     MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatGridListModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule
   ],
   providers: [
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true }
-    }
+    MatDatepickerModule,
+    FormBuilder,
+    { provide: RestService, useClass: RestServiceMock },
+    LanguageService,
+    LanguageErrorService,
+    { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
   ],
   declarations: [RegistrationComponent],
   exports: [RegistrationComponent]

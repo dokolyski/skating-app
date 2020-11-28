@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from 'environments/environment.prod';
 import { RestJSON } from 'api/rest-types';
 
-type RestPath = {URL: string, METHOD: string, PARAMS?: string[]}
-type RestOptions = {templateParamsValues?: {[key: string]: string}, body?: RestJSON}
+export type RestPath = {URL: string, METHOD: string, PARAMS?: string[]}
+export type RestOptions = {templateParamsValues?: {[key: string]: string}, body?: RestJSON}
 
 @Injectable({
     providedIn: 'root'
