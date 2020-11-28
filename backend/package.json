@@ -4,8 +4,10 @@
     "description": "",
     "main": "main.js",
     "scripts": {
+        "watch": "npx tsc -w -p .",
         "build": "tsc",
-        "start": "cross-env NODE_PATH=build/ node build/main.js"
+        "start": "npx ts-node src/main.ts",
+        "start-prod": "cross-env NODE_PATH=build/ node build/main.js"
     },
     "repository": {
         "type": "git",
