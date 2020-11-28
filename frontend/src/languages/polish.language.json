@@ -1,0 +1,53 @@
+{
+    "errors": {
+        "messages": {
+            "UNAUTHORIZED": "Wymagane zalogowanie do wykonania operacji.",
+            "SERVER_ERROR": "Błąd wewnętrzny serwera."
+        },
+        "inputs": {
+            "email": {
+                "NOT_EXISTS": "Email nie istnieje.",
+                "INVALID": "Nieprawidłowy format email."
+            },
+            "password": {
+                "MIN_LENGTH": "Hasło musi być co najmniej 8 znaków długości.",
+                "MAX_LENGTH": "Hasło musi być co najwyżej 8 znaków długości."
+            },
+            "repeatPassword": {
+                "NOT_EQUALS": "Hasła nie są takie same."
+            },
+            "general": {
+                "REQUIRED": "Wymaga podania wartości."
+            }
+        }
+    },
+    "pages": {
+        "registration": {
+            "form": {
+                "inputs": {
+                    "EMAIL": "Email",
+                    "PASSWORD": "Hasło",
+                    "REPEAT_PASSWORD": "Powtórz hasło",
+                    "NAME": "Imie",
+                    "LASTNAME": "Nazwisko",
+                    "DATE_BIRTH": "Data urodzenia",
+                    "TELEPHONE_NUMBER": "Numer telefonu",
+                    "SKILL_LEVEL": "Poziom umiejętności łyżwiarskich"
+                },
+                "controls": {
+                    "REGISTER": "Zarejestruj",
+                    "BACK": "Poprzedni etap",
+                    "NEXT": "Następny etap",
+                    "CANCEL": "Anuluj rejestracje",
+                    "PASSWORD_STRENGTH": "Siła hasła"
+                },
+                "steps": {
+                    "BASE": "Informacje podstawowe",
+                    "PERSONAL": "Informacje osobiste",
+                    "ADDITIONAL": "Informacje dodatkowe"
+                }
+            },
+            "cardTitle": "Rejestracja konta"
+        }
+    }
+}

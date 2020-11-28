@@ -11,6 +11,7 @@ import { finalize, mergeMap } from 'rxjs/operators';
 import * as VLD from './registration.validators';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { of } from 'rxjs';
+import { LanguageService } from 'services/language-service/Language.service';
 
 @Component({
   selector: 'app-registration',
@@ -21,8 +22,8 @@ export class RegistrationComponent implements OnInit {
 
   form = this.fb.group({
     base: this.fb.group({
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      password: ['', Validators.required, Validators.minLength(8), Validators.maxLength(16)],
       repeatPassword: ['', Validators.required]
     }, {
       validator: VLD.Validators.repeatPassword
@@ -59,6 +60,7 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder, 
     private rest: RestService,
+    public lngService: LanguageService,
     private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
