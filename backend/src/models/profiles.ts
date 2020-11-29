@@ -3,16 +3,16 @@ import * as SQL from 'sequelize'
 import User from './users'
 
 class Profile extends SQL.Model {
-    public id: number
-    public user_id: number
-    public is_owner: boolean
+    public id: number;
+    public user_id: number;
+    public is_owner: boolean;
 
-    public firstname: string
-    public lastname: string
-    public birth_date: Date
-    public skill_level: 'LOW'|'MEDIUM'|'HIGH'
+    public firstname: string;
+    public lastname: string;
+    public birth_date: Date;
+    public skill_level: 'LOW' | 'MEDIUM' | 'HIGH';
 
-    public readonly createdAt: Date
+    public readonly createdAt: Date;
     public readonly updatedAt: Date
 }
 
@@ -56,11 +56,11 @@ Profile.init({
         allowNull: false,
         validate: {
             validDate(date: Date) {
-                const today = new Date().getTime()
-                const birthday = date.getTime()
-                const age = new Date(today - birthday).getFullYear()
-    
-                if(122 - age < 0) {
+                const today = new Date().getTime();
+                const birthday = date.getTime();
+                const age = new Date(today - birthday).getFullYear();
+
+                if (122 - age < 0) {
                     throw new Error('Invalid date')
                 }
             }
@@ -75,6 +75,6 @@ Profile.init({
 }, {
     sequelize: db,
     tableName: 'profiles'
-})
+});
 
 export default Profile
