@@ -2,3 +2,7 @@ mat-form-field {
     left: 0%;
     position: absolute;
 }
+
+mat-error + mat-error {
+    display: none;
+}

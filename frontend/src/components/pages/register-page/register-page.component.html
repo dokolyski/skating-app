@@ -1,14 +1,14 @@
 <div>
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Registration</mat-card-title>
+            <mat-card-title>{{ (lngService.dictionary$ | async)?.pages.registration.cardTitle }}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <app-registration
-            (onSubmit)="location.back()"
+            (onSubmit)="backTimeout()"
             (onStartWaiting)="pending = true"
             (onStopWaiting)="pending = false"
-            (onCancel)="location.back()">
+            (onCancel)="back()">
             </app-registration>
 
             <div class="wait" *ngIf="pending">

@@ -1,13 +1,58 @@
 {
     "errors": {
         "messages": {
-            "unauthorized": "Login required to execute operation.",
-            "server error": "Internal server error."
+            "UNAUTHORIZED": "Login required to execute operation.",
+            "SERVER_ERROR": "Internal server error."
         },
         "inputs": {
             "email": {
-                "not exists": "This email not exists."
+                "NOT_EXISTS": "Email not exists.",
+                "INVALID": "Invalid email format."
+            },
+            "password": {
+                "MIN_LENGTH": "Password have to be minimum 8 characters length.",
+                "MAX_LENGTH": "Password have to be maximum 16 characters length.",
+                "REGEX_SECURITY": "Password must contains digits, special characters and be mix of uppercase and lowercase.",
+                "TOO_EASY": "Password is too easy."
+            },
+            "repeatPassword": {
+                "NOT_EQUALS": "Passwords are not the same."
+            },
+            "dateBirth": {
+                "INVALID": "Invalid date."
+            },
+            "general": {
+                "REQUIRED": "Input value is required."
             }
+        }
+    },
+    "pages": {
+        "registration": {
+            "form": {
+                "inputs": {
+                    "EMAIL": "Email",
+                    "PASSWORD": "Password",
+                    "REPEAT_PASSWORD": "Repeat password",
+                    "NAME": "Firstname",
+                    "LASTNAME": "Lastname",
+                    "DATE_BIRTH": "Date of birth",
+                    "TELEPHONE_NUMBER": "Telephone No.",
+                    "SKILL_LEVEL": "Skating skills level"
+                },
+                "controls": {
+                    "REGISTER": "Register",
+                    "BACK": "Previous",
+                    "NEXT": "Next",
+                    "CANCEL": "Cancel",
+                    "PASSWORD_STRENGTH": "Password strenght"
+                },
+                "steps": {
+                    "BASE": "Base informations",
+                    "PERSONAL": "Personal informations",            
+                    "ADDITIONAL": "Additional informations"
+                }
+            },
+            "cardTitle": "Registration"
         }
     }
 }

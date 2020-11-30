@@ -15,9 +15,7 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
-import { LanguageService } from 'services/language-service/Language.service';
 import { RestServiceMock } from 'mocks/RestService.mock';
 
 @NgModule({
@@ -34,15 +32,12 @@ import { RestServiceMock } from 'mocks/RestService.mock';
     MatDatepickerModule,
     MatNativeDateModule,
     MatGridListModule,
-    MatProgressSpinnerModule,
     ReactiveFormsModule
   ],
   providers: [
     MatDatepickerModule,
     FormBuilder,
     { provide: RestService, useClass: RestServiceMock },
-    LanguageService,
-    LanguageErrorService,
     { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
   ],
   declarations: [RegistrationComponent],

@@ -7,7 +7,6 @@ import { MatCardModule } from "@angular/material/card"
 import { MatFormFieldModule } from "@angular/material/form-field"
 import { MatIconModule } from "@angular/material/icon"
 import { MatInputModule } from "@angular/material/input"
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 import { MatSelectModule } from "@angular/material/select"
 import { MatStepperModule } from "@angular/material/stepper"
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -28,6 +27,8 @@ import { MatDatepickerInputHarness } from '@angular/material/datepicker/testing'
 
 import * as REST_PATH from 'api/rest-url.json'
 import { RestError } from "api/rest-error"
+import { LanguageService } from "services/language-service/Language.service"
+import { MatGridListModule } from "@angular/material/grid-list"
 
 describe('registration.component', () => {
     let fixture: ComponentFixture<RegistrationComponent>
@@ -41,7 +42,7 @@ describe('registration.component', () => {
         email: 'example@mail.com', 
         password: 'P@ssw0rd1234',
         birth_date: '1/1/1990',
-        phone_number: '+48 123 456 789'
+        phone_number: '123456789'
     }
     const profileBody = {
         fistname: registerBody.fistname,
@@ -74,13 +75,16 @@ describe('registration.component', () => {
                 MatInputModule,
                 MatDatepickerModule,
                 MatNativeDateModule,
-                MatProgressSpinnerModule,
+                MatGridListModule,
                 ReactiveFormsModule
             ],
             declarations: [RegistrationComponent],
             providers: [
                 MatDatepickerModule,
                 FormBuilder,
+                LanguageService,
+                { provide: 'language', useValue: 'english' },
+                { provide: 'path-languages', useValue: 'languages'},
                 { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
                 { provide: RestService, useValue: restMock },
                 { provide: LanguageErrorService, useValue: lngErrorMock }
@@ -92,21 +96,38 @@ describe('registration.component', () => {
         component = fixture.componentInstance
     }
 
-    async function getButtons() {
-        return {
-            emailInput: await loader.getHarness(MatInputHarness.with({selector: '#email'})),
-            passwordInput: await loader.getHarness(MatInputHarness.with({selector: '#password'})),
-            repeatPasswdInput: await loader.getHarness(MatInputHarness.with({selector: '#repeatPassword'})),
-            
-            nameInput: await loader.getHarness(MatInputHarness.with({selector: '#name'})),
-            lastnameInput: await loader.getHarness(MatInputHarness.with({selector: '#lastname'})),
-            dateBirthInput: await loader.getHarness(MatDatepickerInputHarness.with({selector: '#dateBirth'})),
-            telephoneNumInput: await loader.getHarness(MatInputHarness.with({selector: '#telephoneNumber'})),
-            
-            nextButtons: await loader.getAllHarnesses(MatButtonHarness.with({selector: 'button.nextButton'})),
-            regButton: await loader.getHarness(MatButtonHarness.with({selector: '#registerButton'})),
-            cancelButton: await loader.getHarness(MatButtonHarness.with({selector: 'button.cancelButton'}))
+    function getButtons() {
+        type Buttons = {
+            emailInput: MatInputHarness
+            passwordInput: MatInputHarness
+            repeatPasswdInput: MatInputHarness
+            nameInput: MatInputHarness
+            lastnameInput: MatInputHarness
+            dateBirthInput: MatDatepickerInputHarness
+            telephoneNumInput: MatInputHarness
+            nextButtons: MatButtonHarness[]
+            regButton: MatButtonHarness
+            cancelButton: MatButtonHarness
         }
+        return new Promise<Buttons>(resolve => {
+            setTimeout(async () => {
+                const data = {
+                    emailInput: await loader.getHarness(MatInputHarness.with({selector: '#email'})),
+                    passwordInput: await loader.getHarness(MatInputHarness.with({selector: '#password'})),
+                    repeatPasswdInput: await loader.getHarness(MatInputHarness.with({selector: '#repeatPassword'})),
+                    
+                    nameInput: await loader.getHarness(MatInputHarness.with({selector: '#name'})),
+                    lastnameInput: await loader.getHarness(MatInputHarness.with({selector: '#lastname'})),
+                    dateBirthInput: await loader.getHarness(MatDatepickerInputHarness.with({selector: '#dateBirth'})),
+                    telephoneNumInput: await loader.getHarness(MatInputHarness.with({selector: '#telephoneNumber'})),
+                    
+                    nextButtons: await loader.getAllHarnesses(MatButtonHarness.with({selector: 'button.nextButton'})),
+                    regButton: await loader.getHarness(MatButtonHarness.with({selector: '#registerButton'})),
+                    cancelButton: await loader.getHarness(MatButtonHarness.with({selector: 'button.cancelButton'}))
+                }
+                resolve(data)
+            }, 100)
+        })
     }
 
     it('fetch possible skills values', async (done: DoneFn) => {
@@ -118,7 +139,7 @@ describe('registration.component', () => {
         scheduled([component.onStartWaiting, component.onStopWaiting], asyncScheduler)
         .subscribe(() => {
             expect(restMock.do).toHaveBeenCalled()
-            expect(component.skillLevelPossibleValues).toEqual(skills)
+            expect(component.skillLevelPossibleValues).toEqual([' ', ...skills])
             done()
         })
 
@@ -173,6 +194,7 @@ describe('registration.component', () => {
                     return of(null)
                 case REST_PATH.PROFILES.EDIT: 
                     expect(body).toEqual(profileBody)
+                    console.log(body)
                     return of(null)
             }
         })
@@ -262,9 +284,9 @@ describe('registration.component', () => {
             let counter = 0
             const transErrors = Object.values(translatedErr.inputs)
             const errorInfos = fixture.debugElement.queryAll(By.css('mat-error'))
-
+            
             for(const err of errorInfos) {
-                const search = transErrors.findIndex(inputErr => inputErr == err.nativeElement.outerText)
+                const search = transErrors.findIndex(inputErr => inputErr == err.nativeElement.innerHTML.trim())
                 if(search > -1) {
                     delete transErrors[search]
                     counter++
@@ -272,7 +294,7 @@ describe('registration.component', () => {
             }
             expect(counter).toEqual(transErrors.length)
             done()
-        }, 500)
+        }, 1000)
     })
 
     it('emits error on registration when server responds with error which contains generalized message', async (done: DoneFn) => {
