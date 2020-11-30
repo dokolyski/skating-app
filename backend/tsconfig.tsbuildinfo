@@ -761,7 +761,7 @@
         "signature": "c106970ee4b686b5ebf0964ea4e0d1b2af02bdecd2d5cfeecedeb7bb5b2f404b",
         "affectsGlobalScope": false
       },
-      "./src/controllers/user/register/register.ts": {
+      "./src/controllers/user/register/users.ts": {
         "version": "ac9360de28a378b0eb3e9adf3659e9b457c888a2dd5b939dd8640759c014782b",
         "signature": "c106970ee4b686b5ebf0964ea4e0d1b2af02bdecd2d5cfeecedeb7bb5b2f404b",
         "affectsGlobalScope": false
@@ -2365,7 +2365,7 @@
         "./node_modules/http-status-codes/index.d.ts",
         "./src/services/logging.ts"
       ],
-      "./src/controllers/user/register/register.ts": [
+      "./src/controllers/user/register/users.ts": [
         "./node_modules/@types/express/index.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -2392,7 +2392,7 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts",
         "./src/controllers/user/login/login.ts",
-        "./src/controllers/user/register/register.ts"
+        "./src/controllers/user/register/users.ts"
       ],
       "./src/main.ts": [
         "./node_modules/@types/express/index.d.ts",
@@ -3861,7 +3861,7 @@
       "./src/controllers/user/login/reset/reset.ts": [
         "./node_modules/@types/express-serve-static-core/index.d.ts"
       ],
-      "./src/controllers/user/register/register.ts": [
+      "./src/controllers/user/register/users.ts": [
         "./node_modules/@types/express-serve-static-core/index.d.ts"
       ],
       "./src/controllers/user/register/verify/verify.ts": [
@@ -4060,7 +4060,7 @@
       "./src/controllers/tournament/tournament.ts",
       "./src/controllers/user/login/login.ts",
       "./src/controllers/user/login/reset/reset.ts",
-      "./src/controllers/user/register/register.ts",
+      "./src/controllers/user/register/users.ts",
       "./src/controllers/user/register/verify/verify.ts",
       "./src/controllers/user/user.ts",
       "./src/main.ts",
