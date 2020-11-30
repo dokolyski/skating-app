@@ -42,7 +42,7 @@ describe('registration.component', () => {
         email: 'example@mail.com', 
         password: 'P@ssw0rd1234',
         birth_date: '1/1/1990',
-        phone_number: '+48 123 456 789'
+        phone_number: '123456789'
     }
     const profileBody = {
         fistname: registerBody.fistname,
@@ -139,7 +139,7 @@ describe('registration.component', () => {
         scheduled([component.onStartWaiting, component.onStopWaiting], asyncScheduler)
         .subscribe(() => {
             expect(restMock.do).toHaveBeenCalled()
-            expect(component.skillLevelPossibleValues).toEqual(skills)
+            expect(component.skillLevelPossibleValues).toEqual([' ', ...skills])
             done()
         })
 
@@ -194,6 +194,7 @@ describe('registration.component', () => {
                     return of(null)
                 case REST_PATH.PROFILES.EDIT: 
                     expect(body).toEqual(profileBody)
+                    console.log(body)
                     return of(null)
             }
         })
@@ -283,9 +284,9 @@ describe('registration.component', () => {
             let counter = 0
             const transErrors = Object.values(translatedErr.inputs)
             const errorInfos = fixture.debugElement.queryAll(By.css('mat-error'))
-
+            
             for(const err of errorInfos) {
-                const search = transErrors.findIndex(inputErr => inputErr == err.nativeElement.outerText)
+                const search = transErrors.findIndex(inputErr => inputErr == err.nativeElement.innerHTML.trim())
                 if(search > -1) {
                     delete transErrors[search]
                     counter++
@@ -293,7 +294,7 @@ describe('registration.component', () => {
             }
             expect(counter).toEqual(transErrors.length)
             done()
-        }, 500)
+        }, 1000)
     })
 
     it('emits error on registration when server responds with error which contains generalized message', async (done: DoneFn) => {

@@ -11,10 +11,15 @@
             },
             "password": {
                 "MIN_LENGTH": "Hasło musi być co najmniej 8 znaków długości.",
-                "MAX_LENGTH": "Hasło musi być co najwyżej 8 znaków długości."
+                "MAX_LENGTH": "Hasło musi być co najwyżej 16 znaków długości.",
+                "REGEX_SECURITY": "Hasło musi zawierać cyfry, znaki specjalne, duże i małe litery.",
+                "TOO_EASY": "Hasło zbyt proste."
             },
             "repeatPassword": {
                 "NOT_EQUALS": "Hasła nie są takie same."
+            },
+            "dateBirth": {
+                "INVALID": "Niepoprawna wartość daty."
             },
             "general": {
                 "REQUIRED": "Wymaga podania wartości."

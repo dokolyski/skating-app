@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { RestService } from 'services/rest-service/Rest.service';
 
@@ -10,21 +10,25 @@ import { finalize, mergeMap } from 'rxjs/operators';
 
 import * as VLD from './registration.validators';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { LanguageService } from 'services/language-service/Language.service';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent implements OnInit {
-
+export class RegistrationComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     base: this.fb.group({
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      password: ['', Validators.required, Validators.minLength(8), Validators.maxLength(16)],
-      repeatPassword: ['', Validators.required]
+      password: ['', [
+        Validators.required, Validators.minLength(8), Validators.maxLength(16), 
+        VLD.Validators.passwordPassAllRegex, VLD.Validators.aboveEntrophy(0.5)
+        ]
+      ],
+      repeatPassword: ['']
     }, {
       validator: VLD.Validators.repeatPassword
     }),
@@ -39,11 +43,18 @@ export class RegistrationComponent implements OnInit {
     })
   })
 
+  subscription: Subscription
   skillLevelPossibleValues: string[]
-  errorStateMatcher = {
-    repeatPassword: new VLD.ErrorStateMatchers.RepeatPassword()
-  }
   serverInputsErrors: {[input: string]: string}
+  get minDate() {
+    const today = new Date().getFullYear()
+    const date = new Date()
+    date.setFullYear(today - 122)
+    return date
+  }
+  get maxDate() {
+    return new Date()
+  }
 
   @Output()
   onSubmit = new EventEmitter<void>()
@@ -61,7 +72,17 @@ export class RegistrationComponent implements OnInit {
     private fb: FormBuilder, 
     private rest: RestService,
     public lngService: LanguageService,
-    private lngErrorService: LanguageErrorService) { }
+    private lngErrorService: LanguageErrorService,
+    private _adapter: DateAdapter<any>) { 
+      
+      this.subscription = lngService.dictionary$.subscribe(() => {
+        if(lngService.language == 'polish') {
+          this._adapter.setLocale('pl')
+        } else {
+          this._adapter.setLocale('en')
+        }
+      })
+    }
 
   ngOnInit() {
     this.onStartWaiting.emit()
@@ -71,7 +92,7 @@ export class RegistrationComponent implements OnInit {
       finalize(() => this.onStopWaiting.emit())
     )
     .subscribe({
-      next: (v: string[]) => this.skillLevelPossibleValues = v,
+      next: (v: string[]) => this.skillLevelPossibleValues = [' ', ...v],
       error: (e: RestError) => {
         this.lngErrorService.getErrorsStrings(e)
         .subscribe((translation: TranslatedErrors) => {
@@ -81,25 +102,8 @@ export class RegistrationComponent implements OnInit {
     })
   }
 
-  testPasswordStrengh() {
-    const passwordControl = this.form.get('base').get('password')
-    const password = passwordControl.value
-    
-    const isBeloweEntrophy = (part: number): boolean => {
-      const entrophy = this.calculateEntrophy(password)
-      const partEntrophy = this.calculatePartMaxEntrophy(part, password)
-      return entrophy < partEntrophy
-    }
-
-    const isTooShort = password.length < 8
-
-    if(isTooShort || !this.passRegularExpressions(password) || isBeloweEntrophy(0.3)) {
-      return 0 // WEAK
-    } else if(isBeloweEntrophy(0.5)) {
-      return 1 // MEDIUM
-    } else {
-      return 2 // STRONG
-    }
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
   register() {
@@ -110,15 +114,15 @@ export class RegistrationComponent implements OnInit {
     .pipe(
       mergeMap(() => {
         const skillLevel = this.form.get('additional.skillLevel').value
-        if(skillLevel.length) {
+        if(skillLevel.length && skillLevel != ' ') {
           const editBody = this.prepareSelfProfilePayload()
           
           return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
         }
         
-        return of(undefined)
+        return of(null)
       }),
-      finalize(this.onStopWaiting.emit)
+      finalize(() => this.onStopWaiting.emit())
     ).subscribe({
       next: () => this.onSubmit.emit(),
       error: (e: RestError) => {
@@ -161,29 +165,4 @@ export class RegistrationComponent implements OnInit {
       skill_level: this.form.get('additional.skillLevel').value
     }
   } 
-
-  private passRegularExpressions(password: string): boolean {
-    const containsDigits = /\d+/
-    const containsUppercase = /[A-Z]+/
-    const containsLowercase = /[a-z]+/
-    const containsSpecialCharacters = /[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+/
-    return [containsDigits, containsUppercase, containsLowercase, containsSpecialCharacters].every(v => v.test(password))
-  }
-
-  private calculateEntrophy(password: string): number {
-    const charsCounter = Array.from(password).reduce((p, c) => {
-      if(!p[c]) {
-        p[c] = 0
-      }
-      p[c]++
-      return p
-    }, {})
-    
-    const pswdLen = password.length
-    return Object.values<number>(charsCounter).reduce((p, c) => p - c/pswdLen * Math.log2(c/pswdLen), 0)
-  }
-
-  private calculatePartMaxEntrophy(part: number, password: string): number {
-    return -part*Math.log2(1/password.length)
-  }
 }

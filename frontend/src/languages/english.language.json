@@ -11,10 +11,15 @@
             },
             "password": {
                 "MIN_LENGTH": "Password have to be minimum 8 characters length.",
-                "MAX_LENGTH": "Password have to be maximum 16 characters length."
+                "MAX_LENGTH": "Password have to be maximum 16 characters length.",
+                "REGEX_SECURITY": "Password must contains digits, special characters and be mix of uppercase and lowercase.",
+                "TOO_EASY": "Password is too easy."
             },
             "repeatPassword": {
                 "NOT_EQUALS": "Passwords are not the same."
+            },
+            "dateBirth": {
+                "INVALID": "Invalid date."
             },
             "general": {
                 "REQUIRED": "Input value is required."
