@@ -18,7 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RestService } from 'services/rest-service/Rest.service';
 import { RestServiceMock } from 'mocks/RestService.mock';
 
-@NgModule({
+export const moduleInfo = {
   imports: [
     CommonModule,
     BrowserAnimationsModule,
@@ -42,5 +42,7 @@ import { RestServiceMock } from 'mocks/RestService.mock';
   ],
   declarations: [RegistrationComponent],
   exports: [RegistrationComponent]
-})
+}
+
+@NgModule(moduleInfo)
 export class RegistrationModule { }

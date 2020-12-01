@@ -1,17 +1,5 @@
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper"
-import { CommonModule } from "@angular/common"
 import { ComponentFixture, TestBed } from "@angular/core/testing"
-import { FormBuilder, ReactiveFormsModule } from "@angular/forms"
-import { MatButtonModule } from "@angular/material/button"
-import { MatCardModule } from "@angular/material/card"
-import { MatFormFieldModule } from "@angular/material/form-field"
-import { MatIconModule } from "@angular/material/icon"
-import { MatInputModule } from "@angular/material/input"
-import { MatSelectModule } from "@angular/material/select"
-import { MatStepperModule } from "@angular/material/stepper"
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 
 import { By } from "@angular/platform-browser"
 import { asyncScheduler, Observable, of, scheduled } from "rxjs"
@@ -27,10 +15,11 @@ import { MatDatepickerInputHarness } from '@angular/material/datepicker/testing'
 
 import * as REST_PATH from 'api/rest-url.json'
 import { RestError } from "api/rest-error"
-import { LanguageService } from "services/language-service/Language.service"
-import { MatGridListModule } from "@angular/material/grid-list"
+import { moduleInfo } from "./registration.module"
 
 describe('registration.component', () => {
+    let restMock: jasmine.SpyObj<RestService>
+    let lngErrorMock: jasmine.SpyObj<LanguageErrorService>
     let fixture: ComponentFixture<RegistrationComponent>
     let loader: HarnessLoader
     let component: RegistrationComponent
@@ -50,52 +39,7 @@ describe('registration.component', () => {
         birth_date: registerBody.birth_date,
         skill_level: 'skill_1'
     }
-
-    async function init({restMock = null, lngErrorMock = null}) {
-        if(!restMock) {
-            restMock = jasmine.createSpyObj('ResetService', ['do'])
-            restMock.do.and.returnValue(of([]))
-        }
-
-        if(!lngErrorMock) {
-            lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings'])
-            lngErrorMock.getErrorsStrings.and.returnValue(of({}))
-        }
-
-        await TestBed.configureTestingModule({
-            imports: [
-                CommonModule,
-                BrowserAnimationsModule,
-                MatStepperModule,
-                MatSelectModule,
-                MatCardModule,
-                MatFormFieldModule,
-                MatButtonModule,
-                MatIconModule,
-                MatInputModule,
-                MatDatepickerModule,
-                MatNativeDateModule,
-                MatGridListModule,
-                ReactiveFormsModule
-            ],
-            declarations: [RegistrationComponent],
-            providers: [
-                MatDatepickerModule,
-                FormBuilder,
-                LanguageService,
-                { provide: 'language', useValue: 'english' },
-                { provide: 'path-languages', useValue: 'languages'},
-                { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
-                { provide: RestService, useValue: restMock },
-                { provide: LanguageErrorService, useValue: lngErrorMock }
-            ]
-        }).compileComponents()
-
-        fixture = TestBed.createComponent(RegistrationComponent)
-        loader = TestbedHarnessEnvironment.loader(fixture);
-        component = fixture.componentInstance
-    }
-
+    
     function getButtons() {
         type Buttons = {
             emailInput: MatInputHarness
@@ -130,11 +74,34 @@ describe('registration.component', () => {
         })
     }
 
-    it('fetch possible skills values', async (done: DoneFn) => {
-        const restMock = jasmine.createSpyObj('RestService', ['do'])
-        restMock.do.and.returnValue(new Observable<any>(s => s.next(skills)))
+    beforeEach(async (done: DoneFn) => {
+        restMock = jasmine.createSpyObj('ResetService', ['do'])
+        restMock.do.and.returnValue(of([]))
 
-        await init({restMock})
+        lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings'])
+        lngErrorMock.getErrorsStrings.and.returnValue(of())
+
+        const module: any = {...moduleInfo}
+        module.providers = [
+            ...module.providers, 
+            { provide: 'language', useValue: 'english' },
+            { provide: 'path-languages', useValue: 'languages'},
+            { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
+            { provide: RestService, useValue: restMock },
+            { provide: LanguageErrorService, useValue: lngErrorMock }
+        ]
+
+        await TestBed.configureTestingModule(module).compileComponents()
+
+        fixture = TestBed.createComponent(RegistrationComponent)
+        loader = TestbedHarnessEnvironment.loader(fixture);
+        component = fixture.componentInstance
+
+        done()
+    })
+
+    it('fetch possible skills values', async (done: DoneFn) => {
+        restMock.do.and.returnValue(new Observable<any>(s => s.next(skills)))
         
         scheduled([component.onStartWaiting, component.onStopWaiting], asyncScheduler)
         .subscribe(() => {
@@ -150,13 +117,9 @@ describe('registration.component', () => {
         const messageToken = 'SERVER_ERROR'
         const message = 'Server error.'
 
-        const restMock = jasmine.createSpyObj('RestService', ['do'])
         restMock.do.and.returnValue(new Observable<any>(s => s.error({ messageToken })))
-
-        const lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings'])
         lngErrorMock.getErrorsStrings.and.returnValue(of({ message }))
 
-        await init({restMock, lngErrorMock})
         component.onError.subscribe(msg => {
             expect(restMock.do).toHaveBeenCalled()
             expect(lngErrorMock.getErrorsStrings).toHaveBeenCalledWith({ messageToken })
@@ -168,8 +131,6 @@ describe('registration.component', () => {
     })
 
     it('cancels registration when user clicked cancel button', async (done: DoneFn) => {
-        await init({})
-        fixture.detectChanges()
         component.onCancel.subscribe(() => {
             expect().nothing()
             done()
@@ -180,26 +141,12 @@ describe('registration.component', () => {
     })
 
     it('submits registration when user pass all phases without errors', async (done: DoneFn) => {
-        const restMock = jasmine.createSpyObj('RestService', ['do'])
-        restMock.do.and.callFake((path, { body }) => {
-            switch(path) {
-                case REST_PATH.CONFIG.GET:  
-                    return of([profileBody.skill_level])
-                case REST_PATH.VERIFICATION.REGISTER:
-                    expect(body.birth_date).toEqual(new Date(registerBody.birth_date))
-                    const cp = {...registerBody}
-                    delete body.birth_date 
-                    delete cp.birth_date
-                    expect(body).toEqual(cp)
-                    return of(null)
-                case REST_PATH.PROFILES.EDIT: 
-                    expect(body).toEqual(profileBody)
-                    console.log(body)
-                    return of(null)
-            }
-        })
-        
-        await init({restMock})
+        const templateParamsValues = {key: 'skillLevelPossibleValues'}
+        const regBodyInput = {...registerBody, birth_date: new Date(registerBody.birth_date)}
+
+        restMock.do.withArgs(REST_PATH.CONFIG.GET, {templateParamsValues}).and.returnValue(of([profileBody.skill_level]))
+        restMock.do.withArgs(REST_PATH.VERIFICATION.REGISTER, {body: regBodyInput}).and.returnValue(of())
+        restMock.do.withArgs(REST_PATH.PROFILES.EDIT, {body: profileBody}).and.returnValue(of())
         
         component.onSubmit.subscribe(() => {
             const errorInfos = fixture.debugElement.queryAll(By.css('mat-error'))
@@ -227,8 +174,6 @@ describe('registration.component', () => {
         const anotherPasswd = '4123'
         expect(anotherPasswd).not.toEqual(registerBody.password)
 
-        await init({})
-
         const buttons = await getButtons()
 
         await buttons.passwordInput.setValue(registerBody.password)
@@ -242,26 +187,18 @@ describe('registration.component', () => {
     })
 
     it('shows server-side errors on invalid inputs values when server responds with error which contains inputs messages', async (done: DoneFn) => {
-        const [errKey, errToken, errTrans] = ['base.email', 'INV_EMAIL', 'Invalid email']
+        const [controlId, errKey, errToken, errTrans] = ['base.email', 'email', 'INV_EMAIL', 'Invalid email']
         const error: RestError = { 
             inputsTokens: { [errKey]: errToken } 
         }
-        const restMock = jasmine.createSpyObj('RestService', ['do'])
-        restMock.do.and.callFake((path, { body }) => {
-            if(path == REST_PATH.VERIFICATION.REGISTER) {
-                return new Observable(s => s.error(error))
-            } else {
-                return of(skills)
-            }
-        })
-        
         const translatedErr: TranslatedErrors = { 
             inputs: {  [errKey]: errTrans } 
         }
-        const lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings'])
+
+        restMock.do.withArgs(REST_PATH.VERIFICATION.REGISTER).and.returnValue(new Observable(s => s.error(error)))
+        restMock.do.and.returnValue(of(skills))
         lngErrorMock.getErrorsStrings.and.returnValue(of(translatedErr))
 
-        await init({restMock, lngErrorMock})
         const buttons = await getButtons()
         
         await buttons.emailInput.setValue(registerBody.email)
@@ -278,7 +215,7 @@ describe('registration.component', () => {
         await buttons.regButton.click()
 
         setTimeout(() => {
-            const control = component.form.get(errKey)
+            const control = component.form.get(controlId)
             expect(control.hasError('server-error')).toBeTruthy()
             
             let counter = 0
@@ -299,15 +236,10 @@ describe('registration.component', () => {
 
     it('emits error on registration when server responds with error which contains generalized message', async (done: DoneFn) => {
         const error: RestError = { messageToken: 'INTER_ERR' }
-        const restMock = jasmine.createSpyObj('RestService', ['do'])
         restMock.do.and.returnValue(new Observable(s => s.error(error)))
         
         const translatedErr: TranslatedErrors = { message: 'Internal server error' }
-        const lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings'])
         lngErrorMock.getErrorsStrings.and.returnValue(of(translatedErr))
-
-        await init({restMock, lngErrorMock})
-        fixture.detectChanges()
 
         component.onError.subscribe(e => {
             expect(lngErrorMock.getErrorsStrings).toHaveBeenCalledWith(error)

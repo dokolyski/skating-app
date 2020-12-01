@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RestService } from 'services/rest-service/Rest.service';
 
 import * as REST_PATH from 'api/rest-url.json'
@@ -10,7 +10,7 @@ import { finalize, mergeMap } from 'rxjs/operators';
 
 import * as VLD from './registration.validators';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
-import { of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { LanguageService } from 'services/language-service/Language.service';
 import { DateAdapter } from '@angular/material/core';
 
@@ -114,17 +114,17 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     .pipe(
       mergeMap(() => {
         const skillLevel = this.form.get('additional.skillLevel').value
+        
         if(skillLevel.length && skillLevel != ' ') {
           const editBody = this.prepareSelfProfilePayload()
-          
+          debugger
           return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
         }
-        
-        return of(null)
       }),
       finalize(() => this.onStopWaiting.emit())
     ).subscribe({
       next: () => this.onSubmit.emit(),
+      complete: () => this.onSubmit.emit(),
       error: (e: RestError) => {
         this.lngErrorService.getErrorsStrings(e)
         .subscribe((translation: TranslatedErrors) => {
@@ -134,7 +134,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
           if(translation.inputs) {
             for(const input of Object.keys(translation.inputs)) {
-              this.form.get(input).setErrors({'server-error': true})
+              for(const c of Object.values(this.form.controls)) {
+                const subfm = c as FormGroup
+                if(subfm.contains(input)) {
+                  subfm.get(input).setErrors({'server-error': true})
+                }
+              } 
             }
 
             this.serverInputsErrors = translation.inputs

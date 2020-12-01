@@ -25,7 +25,7 @@
                 {{ $.errors.inputs.email.INVALID }}
               </mat-error>
               <mat-error *ngIf="email.hasError('server-error')">
-                {{ this.serverInputsErrors['base.email'] }}
+                {{ this.serverInputsErrors.email }}
               </mat-error>
             </mat-form-field>
           </mat-grid-tile>
@@ -56,7 +56,7 @@
                 {{ $.errors.inputs.password.TOO_EASY }}
               </mat-error>
               <mat-error *ngIf="password.hasError('server-error')">
-                {{ this.serverInputsErrors['base.password'] }}
+                {{ this.serverInputsErrors.password }}
               </mat-error>
             </mat-form-field>
           </mat-grid-tile>
@@ -81,7 +81,8 @@
       </form>
       <div>
         <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ $.form.controls.CANCEL }}</button>
-        <button mat-button matStepperNext class="nextButton">{{ $.form.controls.NEXT }}</button>        </div>
+        <button mat-button matStepperNext class="nextButton">{{ $.form.controls.NEXT }}</button>        
+      </div>
     </mat-step>
 
     <mat-step [label]="$.form.steps.PERSONAL" [stepControl]="form.get('personal')">
@@ -100,7 +101,7 @@
                 {{ $.errors.inputs.general.REQUIRED }}
               </mat-error>
               <mat-error *ngIf="name.hasError('server-error')">
-                {{ this.serverInputsErrors['personal.name'] }}
+                {{ this.serverInputsErrors.name }}
               </mat-error>
             </mat-form-field>
           </mat-grid-tile>
@@ -118,7 +119,7 @@
                 {{ $.errors.inputs.general.REQUIRED }}
               </mat-error>
               <mat-error *ngIf="lastname.hasError('server-error')">
-                {{ this.serverInputsErrors['personal.lastname'] }}
+                {{ this.serverInputsErrors.lastname }}
               </mat-error>
             </mat-form-field>
           </mat-grid-tile>
@@ -148,7 +149,7 @@
                 {{ $.errors.inputs.general.REQUIRED }}
               </mat-error>
               <mat-error *ngIf="dateBirth.hasError('server-error')">
-                {{ this.serverInputsErrors['personal.dateBirth'] }}
+                {{ this.serverInputsErrors.dateBirth }}
               </mat-error>
             </mat-form-field>
           </mat-grid-tile>
@@ -167,7 +168,7 @@
                 {{ $.errors.inputs.general.REQUIRED }}
               </mat-error>
               <mat-error *ngIf="tel.hasError('server-error')">
-                {{ this.serverInputsErrors['personal.telephoneNumber'] }}
+                {{ this.serverInputsErrors.telephoneNumber }}
               </mat-error>
             </mat-form-field>
           </mat-grid-tile>
