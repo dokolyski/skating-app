@@ -6,6 +6,7 @@
     "scripts": {
         "watch": "npx tsc -w -p .",
         "build": "tsc",
+        "start-dev": "npx ts-node-dev src/main.ts",
         "start": "npx ts-node src/main.ts",
         "start-prod": "cross-env NODE_PATH=build/ node build/main.js"
     },
