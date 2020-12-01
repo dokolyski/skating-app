@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CanActivate } from "@angular/router";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { AuthService } from "services/auth-service/Auth.service";
 
 @Injectable({
@@ -8,7 +10,9 @@ import { AuthService } from "services/auth-service/Auth.service";
 export class NotLoggedGuard implements CanActivate {
     constructor(private auth: AuthService) {}
     
-    canActivate(): boolean {
-        return !this.auth.isLogged()
+    canActivate(): Observable<boolean> {
+        return this.auth.token$.pipe(
+            map(token => !!token)
+        )
     }
 }

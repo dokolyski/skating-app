@@ -7,7 +7,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -44,5 +43,10 @@ export const moduleInfo = {
   exports: [RegistrationComponent]
 }
 
-@NgModule(moduleInfo)
+@NgModule({
+  imports: moduleInfo.imports,
+  providers: moduleInfo.providers,
+  declarations: moduleInfo.declarations,
+  exports: moduleInfo.exports
+})
 export class RegistrationModule { }
