@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment.prod';
 import { RestJSON } from 'api/rest-types';
+import { mergeMap } from 'rxjs/operators';
 
-type RestPath = {URL: string, METHOD: string, PARAMS?: string[]}
-type RestOptions = {templateParamsValues?: {[key: string]: string}, body?: RestJSON}
+export type RestPath = {URL: string, METHOD: string, PARAMS?: string[]}
+export type RestOptions = {templateParamsValues?: {[key: string]: string}, body?: RestJSON}
 
 @Injectable({
     providedIn: 'root'
@@ -14,16 +15,23 @@ export class RestService {
     constructor(private http: HttpClient) {}
 
     do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {
-
-        let readyUrl = restPath.PARAMS ? this.parseTemplateUrl(restPath.URL, restPath.PARAMS, options.templateParamsValues) : restPath.URL
-        readyUrl = `${environment.server_addr}/${readyUrl}`
+        return new Observable(s => {
+            try{
+                let readyUrl = restPath.PARAMS ? this.parseTemplateUrl(restPath.URL, restPath.PARAMS, options.templateParamsValues) : restPath.URL
+                readyUrl = `${environment.server_addr}/${readyUrl}`
+                
+                let params: HttpParams
+                if(restPath.METHOD == 'GET' || restPath.METHOD == 'DELETE') {
+                    params = this.parseQueryParams(options.body)
+                }
         
-        let params: HttpParams
-        if(restPath.METHOD == 'GET' || restPath.METHOD == 'DELETE') {
-            params = this.parseQueryParams(options.body)
-        }
-
-        return this.sendRequest(readyUrl, restPath.METHOD, { body: options.body, params })
+                s.next(this.sendRequest(readyUrl, restPath.METHOD, { body: options.body, params }))
+            } catch(err) {
+                s.error(err)
+            }
+        }).pipe(
+            mergeMap((observer: Observable<ReturnType>) => observer)
+        )
     }
 
     private parseTemplateUrl(templateUrl: string, templateParams: string[], paramsValues: {[key: string]: string}): string {

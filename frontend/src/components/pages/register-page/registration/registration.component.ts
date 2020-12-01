@@ -1,49 +1,60 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RestService } from 'services/rest-service/Rest.service';
 
 import * as REST_PATH from 'api/rest-url.json'
 import { RestError } from 'api/rest-error'
 
 import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types'
-import { mergeMap } from 'rxjs/operators';
+import { finalize, mergeMap } from 'rxjs/operators';
 
-import * as ESM from './error-state-matcher';
+import * as VLD from './registration.validators';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
+import { Subscription } from 'rxjs';
+import { LanguageService } from 'services/language-service/Language.service';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-registration',
-  templateUrl: './registration.component.html'
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent implements OnInit {
-
+export class RegistrationComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     base: this.fb.group({
-      email: [''],
-      password: [''],
+      email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      password: ['', [
+        Validators.required, Validators.minLength(8), Validators.maxLength(16), 
+        VLD.Validators.passwordPassAllRegex, VLD.Validators.aboveEntrophy(0.5)
+        ]
+      ],
       repeatPassword: ['']
+    }, {
+      validator: VLD.Validators.repeatPassword
     }),
     personal: this.fb.group({
-      name: [''],
-      lastname: [''],
-      dateBirth: [''],
-      telephoneNumber: [''],
+      name: ['', Validators.required],
+      lastname: ['', Validators.required],
+      dateBirth: ['', Validators.required],
+      telephoneNumber: ['', Validators.required],
     }),
     additional: this.fb.group({
       skillLevel: ['']
     })
   })
 
+  subscription: Subscription
   skillLevelPossibleValues: string[]
-  errorStateMatcher = {
-    password: new ESM.PasswordErrorStateMatcher(),
-    repeatPassword: new ESM.RepeatPasswordErrorStateMatcher(),
-    name: new ESM.NameErrorStateMatcher(),
-    lastname: new ESM.LastnameErrorStateMatcher(),
-    dateBirthday: new ESM.DatebirthdayErrorStateMatcher()
-  }
-
   serverInputsErrors: {[input: string]: string}
+  get minDate() {
+    const today = new Date().getFullYear()
+    const date = new Date()
+    date.setFullYear(today - 122)
+    return date
+  }
+  get maxDate() {
+    return new Date()
+  }
 
   @Output()
   onSubmit = new EventEmitter<void>()
@@ -60,25 +71,39 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder, 
     private rest: RestService,
-    private lngErrorService: LanguageErrorService) { }
+    public lngService: LanguageService,
+    private lngErrorService: LanguageErrorService,
+    private _adapter: DateAdapter<any>) { 
+      
+      this.subscription = lngService.dictionary$.subscribe(() => {
+        if(lngService.language == 'polish') {
+          this._adapter.setLocale('pl')
+        } else {
+          this._adapter.setLocale('en')
+        }
+      })
+    }
 
   ngOnInit() {
     this.onStartWaiting.emit()
     
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: 'skillLevelPossibleValues'}})
+    .pipe(
+      finalize(() => this.onStopWaiting.emit())
+    )
     .subscribe({
-      next: (v: string[]) => {
-        this.skillLevelPossibleValues = v
-        this.onStopWaiting.emit()
-      },
+      next: (v: string[]) => this.skillLevelPossibleValues = [' ', ...v],
       error: (e: RestError) => {
         this.lngErrorService.getErrorsStrings(e)
         .subscribe((translation: TranslatedErrors) => {
           this.onError.emit(translation.message)
-          this.onStopWaiting.emit()
         })
       }
     })
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
   register() {
@@ -89,14 +114,17 @@ export class RegistrationComponent implements OnInit {
     .pipe(
       mergeMap(() => {
         const skillLevel = this.form.get('additional.skillLevel').value
-        if(skillLevel.length) {
+        
+        if(skillLevel.length && skillLevel != ' ') {
           const editBody = this.prepareSelfProfilePayload()
-          
+          debugger
           return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
         }
-      })
+      }),
+      finalize(() => this.onStopWaiting.emit())
     ).subscribe({
-      complete: this.onSubmit.emit,
+      next: () => this.onSubmit.emit(),
+      complete: () => this.onSubmit.emit(),
       error: (e: RestError) => {
         this.lngErrorService.getErrorsStrings(e)
         .subscribe((translation: TranslatedErrors) => {
@@ -106,7 +134,12 @@ export class RegistrationComponent implements OnInit {
 
           if(translation.inputs) {
             for(const input of Object.keys(translation.inputs)) {
-              this.form.get(input).setErrors({'server-error': true})
+              for(const c of Object.values(this.form.controls)) {
+                const subfm = c as FormGroup
+                if(subfm.contains(input)) {
+                  subfm.get(input).setErrors({'server-error': true})
+                }
+              } 
             }
 
             this.serverInputsErrors = translation.inputs
@@ -114,7 +147,6 @@ export class RegistrationComponent implements OnInit {
         })
       }
     })
-    .add(this.onStopWaiting.emit)
   }
 
   private prepareRegisterPayload(): VERIFICATION.REGISTER.INPUT {
@@ -137,6 +169,5 @@ export class RegistrationComponent implements OnInit {
       birth_date: this.form.get('personal.dateBirth').value,
       skill_level: this.form.get('additional.skillLevel').value
     }
-  }
-
+  } 
 }

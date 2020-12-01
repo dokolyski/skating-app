@@ -1,12 +1,14 @@
 import { Injectable, Inject } from "@angular/core";
 import { BehaviorSubject, from, Observable, Subject } from "rxjs";
-import { distinctUntilChanged, filter, map, mergeMap, takeUntil } from "rxjs/operators";
+import { map, mergeMap, takeUntil } from "rxjs/operators";
 
 export type NodeTranslation = { 
-  [node: string]: NodeTranslation | string
+  [node: string]: NodeTranslation | any // string
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LanguageService { 
   private _language = null
   private loadingSubject: Subject<NodeTranslation> = new Subject()

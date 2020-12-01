@@ -4,10 +4,18 @@ export type RestJSON = JStypes|JStypes[]| {
 }
 
 export namespace VERIFICATION.LOGIN {
-    export type INPUT = {
+    export type Token = string
+    export type Provider = {
+        token: Token,
+        provider: 'GOOGLE' | 'FACEBOOK'
+    }
+    export type Email = {
         email: string, 
         password: string
     }
+
+    export type INPUT = Provider | Email
+    export type OUTPUT = Token
 }
 
 export namespace VERIFICATION.REGISTER {
