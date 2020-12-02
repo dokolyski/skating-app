@@ -1,12 +1,15 @@
 import app from '../../../src/app'
 import request from 'supertest'
 import HttpCode from 'http-status-codes'
+import User from '../../../src/models/users'
+import db from '../../../src/static/database'
 
 describe("Users module - POST", () => {
 
     // CALLER
 
     const caller = async (data) => {
+
         return request(app)
             .post('/api/users')
             .send(data);
@@ -15,6 +18,7 @@ describe("Users module - POST", () => {
     // TESTS
 
     it("Failure", async () => {
+        User.truncate({cascade: true});
 
         const data = {
             email: "test@test.com"
@@ -26,13 +30,14 @@ describe("Users module - POST", () => {
 
 
     it("Success", async () => {
+        User.truncate({cascade: true});
 
         const data = {
             email: "test@test.com",
-            password: "password",
-            birth_date: new Date(),
+            password: "m*k&JF$rf45MFg",
             firstname: "Testname",
-            lastname: "Testsurname"
+            lastname: "Testsurname",
+            birth_date: "1999-06-07T14:34:08"
         };
 
         const res = await caller(data);

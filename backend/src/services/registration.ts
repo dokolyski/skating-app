@@ -1,6 +1,7 @@
 import smtp_config from '../config/smtp.json'
 import SMTP from '../static/smtp'
 import User from '../models/users'
+import Profile from '../models/profiles'
 import server_config from '../config/server.json'
 import db from '../static/database'
 import * as API from '../api/users'
@@ -21,6 +22,18 @@ export default class Registration {
             userData.birth_date = new Date(postData.birth_date);
 
             const user = await User.create(userData, {transaction: t});
+
+            let profile = Profile.build({
+                firstname: postData.firstname,
+                lastname: postData.lastname,
+                birth_date: new Date(postData.birth_date),
+                is_owner: true,
+                skill_level: "LOW",
+                user_id: user.id
+            });
+
+            await profile.save({transaction: t});
+
             const href = `http://${server_config.ip}:${server_config.port}/user/register/verify?email=${user.email}&id=${user.id}`;
 
             // await SMTP.sendMail({

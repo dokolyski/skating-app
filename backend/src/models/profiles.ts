@@ -53,18 +53,7 @@ Profile.init({
     },
     birth_date: {
         type: SQL.DATEONLY,
-        allowNull: false,
-        validate: {
-            validDate(date: Date) {
-                const today = new Date().getTime();
-                const birthday = date.getTime();
-                const age = new Date(today - birthday).getFullYear();
-
-                if (122 - age < 0) {
-                    throw new Error('Invalid date')
-                }
-            }
-        }
+        allowNull: false
     },
     skill_level: {
         type: SQL.STRING(45),
