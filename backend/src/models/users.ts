@@ -1,5 +1,7 @@
 import db from '../static/database'
 import * as SQL from 'sequelize'
+import server_config from "../config/server.json";
+import bcrypt from 'bcrypt'
 
 class User extends SQL.Model {
     public id: number;
@@ -84,18 +86,7 @@ User.init({
     },
     birth_date: {
         type: SQL.DATEONLY,
-        allowNull: false,
-        validate: {
-            validDate(date: Date) {
-                const today = new Date().getTime();
-                const birthday = date.getTime();
-                const age = new Date(today - birthday).getFullYear();
-    
-                if(122 - age < 0) {
-                    throw new Error('Invalid date')
-                }
-            }
-        }
+        allowNull: false
     },
     phone_number: {
         type: SQL.STRING(15),
@@ -122,6 +113,11 @@ User.init({
         defaultValue: null
     }
 }, {
+    hooks: {
+      beforeCreate: async (user) => {
+          user.password = await bcrypt.hashSync(user.password, server_config.saltRounds);
+      }
+    },
     sequelize: db,
     tableName: 'users'
 });

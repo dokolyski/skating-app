@@ -1,4 +1,4 @@
-import {IsDate, IsNotEmpty, IsEmail, IsNumber} from 'class-validator';
+import {IsNotEmpty, IsEmail, IsNumber, IsDateString} from 'class-validator';
 
 // POST USER/LOGIN
 // [TUTAJ KRÓTKI OPIS DZIAŁANIA METODY + ZWRACANY KOD STATUSU]
@@ -13,8 +13,8 @@ export namespace USER {
         password: string;
 
         @IsNotEmpty()
-        @IsDate()
-        birth_date: Date;
+        @IsDateString()
+        birth_date: string;
 
         phone_number: string;
 
