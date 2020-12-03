@@ -1,6 +1,15 @@
-.idea
-.vscode
+# dependencies
+/node_modules
+/build
+/storage
 
-node_modules/
-build/
-storage/
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# PHP Storm
+.idea

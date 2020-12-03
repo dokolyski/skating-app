@@ -1,151 +1,208 @@
-<div [formGroup]="form">
-  <mat-vertical-stepper linear>
-    <mat-step label="Base informations" [stepControl]="form.get('base')">
-      <form formGroupName="base" *ngIf="form.get('base'); let base">
-        <mat-form-field *ngIf="base.get('email'); let email">
-          <mat-label>E-mail</mat-label>
-          <input 
-          id="email"
-          type="email" 
-          matInput 
-          placeholder="example@mail.com" 
-          [formControl]="email" required>
+<div [formGroup]="form" 
+*ngIf="(lngService.dictionary$ | async) as $">
 
-          <mat-icon>email</mat-icon>
+  <mat-vertical-stepper linear
+  *ngIf="{errors: $.errors, form: $.pages.registration.form} as $">
 
-          <mat-error *ngIf="email.hasError('not-exists')">
-            Email not exists
-          </mat-error>
-          <mat-error *ngIf="email.hasError('server-error')">
-            {{this.serverInputsErrors['email']}}
-          </mat-error>
-        </mat-form-field>
+    <mat-step [label]="$.form.steps.BASE" [stepControl]="form.get('base')">
+      <form formGroupName="base" *ngIf="form.get('base') as base">
+        <mat-grid-list cols="1" rowHeight="7rem">
+          <mat-grid-tile>
+            <mat-form-field *ngIf="base.get('email') as email">
+              <mat-label>{{ $.form.inputs.EMAIL }}</mat-label>
+              <input 
+              id="email"
+              type="email" 
+              matInput  
+              [formControl]="email" required>
 
-        <mat-form-field *ngIf="base.get('password'); let password">
-          <mat-label>Password</mat-label>
-          <input 
-          id="password"
-          type="password"
-          matInput 
-          [formControl]="password" required
-          [errorStateMatcher]="errorStateMatcher.password">
-          <mat-icon>vpn_key</mat-icon>
-          
-          <mat-error *ngIf="password.hasError('too-short')">
-            Password is too short
-          </mat-error>
-          <mat-error *ngIf="password.hasError('too-long')">
-            Password is too long
-          </mat-error>
-          <mat-error *ngIf="password.hasError('too-easy')">
-            Password is too easy
-          </mat-error>
-        </mat-form-field>
+              <mat-icon>email</mat-icon>
 
-        <mat-form-field *ngIf="base.get('repeatPassword'); let password">
-          <mat-label>Repeat password</mat-label>
-          <input 
-          id="repeatPassword"
-          type="password"
-          matInput 
-          [formControl]="password" required
-          [errorStateMatcher]="errorStateMatcher.repeatPassword">
-          <mat-icon>vpn_key</mat-icon>
-          
-          <mat-error *ngIf="password.hasError('not-equals')">
-            Passwords are not equals
-          </mat-error>
-        </mat-form-field>
+              <mat-error *ngIf="email.hasError('required')">
+                {{ $.errors.inputs.general.REQUIRED }}
+              </mat-error>
+              <mat-error *ngIf="email.hasError('pattern')">
+                {{ $.errors.inputs.email.INVALID }}
+              </mat-error>
+              <mat-error *ngIf="email.hasError('server-error')">
+                {{ this.serverInputsErrors.email }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
 
-        <div>
-          <button mat-button matStepperPrevious >Back</button>
-          <button mat-button matStepperNext class="nextButton">Next</button>
-          <button mat-button (click)="onCancel.emit()" class="cancelButton">Cancel</button>
-        </div>
+          <mat-grid-tile>
+            <mat-form-field *ngIf="base.get('password') as password">
+              <mat-label>{{ $.form.inputs.PASSWORD }}</mat-label>
+              <input 
+              id="password"
+              type="password"
+              matInput 
+              [formControl]="password" required>
+              <mat-icon>vpn_key</mat-icon>
+              
+              <mat-error *ngIf="password.hasError('required')">
+                {{ $.errors.inputs.general.REQUIRED }}
+              </mat-error>
+              <mat-error *ngIf="password.hasError('minlength')">
+                {{ $.errors.inputs.password.MIN_LENGTH }}
+              </mat-error>
+              <mat-error *ngIf="password.hasError('maxlength')">
+                {{ $.errors.inputs.password.MAX_LENGTH }}
+              </mat-error>
+              <mat-error *ngIf="password.hasError('not-pass-regex')">
+                {{ $.errors.inputs.password.REGEX_SECURITY }}
+              </mat-error>
+              <mat-error *ngIf="password.hasError('below-entrophy')">
+                {{ $.errors.inputs.password.TOO_EASY }}
+              </mat-error>
+              <mat-error *ngIf="password.hasError('server-error')">
+                {{ this.serverInputsErrors.password }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field *ngIf="base.get('repeatPassword') as passwordRepeat">
+            <mat-label>{{ $.form.inputs.REPEAT_PASSWORD }}</mat-label>
+            <input 
+            id="repeatPassword"
+            type="password"
+            matInput 
+            [formControl]="passwordRepeat">
+            <mat-icon>vpn_key</mat-icon>
+            
+            <mat-error *ngIf="passwordRepeat.hasError('not-equals')">
+              {{ $.errors.inputs.repeatPassword.NOT_EQUALS }}
+            </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        
+        </mat-grid-list>
       </form>
+      <div>
+        <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ $.form.controls.CANCEL }}</button>
+        <button mat-button matStepperNext class="nextButton">{{ $.form.controls.NEXT }}</button>        
+      </div>
     </mat-step>
 
-    <mat-step label="Personal informations" [stepControl]="form.get('personal')">
-      <form formGroupName="personal" *ngIf="form.get('personal'); let personal">
-        <mat-form-field *ngIf="personal.get('name'); let name">
-          <mat-label>Name</mat-label>
-          <input 
-          id="name"
-          type="text" 
-          matInput 
-          placeholder="Jan" 
-          [formControl]="name" required
-          [errorStateMatcher]="errorStateMatcher.name">
+    <mat-step [label]="$.form.steps.PERSONAL" [stepControl]="form.get('personal')">
+      <form formGroupName="personal" *ngIf="form.get('personal') as personal">
+        <mat-grid-list cols="1" rowHeight="7rem">
+          <mat-grid-tile>
+            <mat-form-field *ngIf="personal.get('name') as name">
+              <mat-label>{{ $.form.inputs.NAME }}</mat-label>
+              <input 
+              id="name"
+              type="text" 
+              matInput  
+              [formControl]="name" required>
+              
+              <mat-error *ngIf="name.hasError('required')">
+                {{ $.errors.inputs.general.REQUIRED }}
+              </mat-error>
+              <mat-error *ngIf="name.hasError('server-error')">
+                {{ this.serverInputsErrors.name }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field *ngIf="personal.get('lastname') as lastname">
+              <mat-label>{{ $.form.inputs.LASTNAME }}</mat-label>
+              <input 
+              id="lastname"
+              type="text" 
+              matInput  
+              [formControl]="lastname" required>
+              
+              <mat-error *ngIf="lastname.hasError('required')">
+                {{ $.errors.inputs.general.REQUIRED }}
+              </mat-error>
+              <mat-error *ngIf="lastname.hasError('server-error')">
+                {{ this.serverInputsErrors.lastname }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field *ngIf="personal.get('dateBirth') as dateBirth">
+              <mat-label>{{ $.form.inputs.DATE_BIRTH }}</mat-label>
+              <input 
+              id="dateBirth" 
+              matInput 
+              [matDatepicker]="picker" 
+              [formControl]="dateBirth"
+              [min]="minDate" 
+              [max]="maxDate" 
+              required>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-icon>cake</mat-icon>
+
+              <mat-error *ngIf="dateBirth.hasError('minDatepickerMax')">
+                {{ $.errors.inputs.dateBirth.INVALID }}
+              </mat-error>
+              <mat-error *ngIf="dateBirth.hasError('matDatepickerMax')">
+                {{ $.errors.inputs.dateBirth.INVALID }}
+              </mat-error>
+              <mat-error *ngIf="dateBirth.hasError('required')">
+                {{ $.errors.inputs.general.REQUIRED }}
+              </mat-error>
+              <mat-error *ngIf="dateBirth.hasError('server-error')">
+                {{ this.serverInputsErrors.dateBirth }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
           
-          <mat-error *ngIf="name.hasError('invalid')">
-            Invalid name
-          </mat-error>
-        </mat-form-field>
+          <mat-grid-tile>
+            <mat-form-field *ngIf="personal.get('telephoneNumber') as tel">
+              <mat-label>{{ $.form.inputs.TELEPHONE_NUMBER }}</mat-label>
+              <input 
+              id="telephoneNumber"
+              type="tel" 
+              matInput 
+              [formControl]="tel">
+              <mat-icon>local_phone</mat-icon>
 
-        <mat-form-field *ngIf="personal.get('lastname'); let lastname">
-          <mat-label>Lastname</mat-label>
-          <input 
-          id="lastname"
-          type="text" 
-          matInput 
-          placeholder="Kowalski" 
-          [formControl]="lastname" required
-          [errorStateMatcher]="errorStateMatcher.lastname">
-          
-          <mat-error *ngIf="lastname.hasError('invalid')">
-            Invalid lastname
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field *ngIf="personal.get('dateBirth'); let dateBirth">
-          <mat-label>Date of birth</mat-label>
-          <input 
-          id="dateBirth"
-          type="date" 
-          matInput 
-          [formControl]="dateBirth" required
-          [errorStateMatcher]="errorStateMatcher.dateBirthday">
-          <mat-icon>cake</mat-icon>
-
-          <mat-error *ngIf="dateBirth.hasError('invalid')">
-            Invalid date of birth
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field *ngIf="personal.get('telephoneNumber'); let tel">
-          <mat-label>Telephone</mat-label>
-          <input 
-          id="telephoneNumber"
-          type="tel" 
-          matInput 
-          [formControl]="tel">
-          <mat-icon>local_phone</mat-icon>
-        </mat-form-field>
-
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext class="nextButton">Next</button>
-          <button mat-button (click)="onCancel.emit()" class="cancelButton">Cancel</button>
-        </div>
+              <mat-error *ngIf="tel.hasError('required')">
+                {{ $.errors.inputs.general.REQUIRED }}
+              </mat-error>
+              <mat-error *ngIf="tel.hasError('server-error')">
+                {{ this.serverInputsErrors.telephoneNumber }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
       </form>
+      <div>
+        <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ $.form.controls.CANCEL }}</button>
+        <button mat-button matStepperPrevious>{{ $.form.controls.BACK }}</button>
+        <button mat-button matStepperNext class="nextButton">{{ $.form.controls.NEXT }}</button>
+      </div>
     </mat-step>
 
-    <mat-step label="Additional informations" [stepControl]="form.get('additional')">
+    <mat-step [label]="$.form.steps.ADDITIONAL" [stepControl]="form.get('additional')">
       <form formGroupName="additional">
-        <mat-form-field>
-          <mat-label>Skill level</mat-label>
-          <mat-select formControlName="skillLevel">
+        <mat-grid-list cols="1" rowHeight="7rem">
+          <mat-grid-tile>
+            <mat-form-field>
+          <mat-label>{{ $.form.inputs.SKILL_LEVEL }}</mat-label>
+          <mat-select formControlName="skillLevel" id="skillLevel">
             <mat-option *ngFor="let lvl of skillLevelPossibleValues" 
             [value]="lvl">{{lvl}}</mat-option>
           </mat-select>
-        </mat-form-field>
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
 
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="register()" id="registerButton">Register</button>
-          <button mat-button (click)="onCancel.emit()" class="cancelButton">Cancel</button>
-        </div>
       </form>
+      <div>
+        <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ $.form.controls.CANCEL }}</button>
+        <button mat-button matStepperPrevious>{{ $.form.controls.BACK }}</button>
+        <button mat-button (click)="register()" id="registerButton">{{ $.form.controls.REGISTER }}</button>
+      </div>
     </mat-step>
+
   </mat-vertical-stepper>
+  
 </div>

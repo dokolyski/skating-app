@@ -8,10 +8,10 @@ import { environment } from 'environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AuthService } from 'services/auth-service/Auth.service';
+import { PagesModule } from 'components/pages/pages';
+import { HttpClientModule } from '@angular/common/http';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
-import { PagesModule } from 'components/pages/pages';
-import { RestService } from 'services/rest-service/Rest.service';
 
 @NgModule({
   imports: [
@@ -19,6 +19,7 @@ import { RestService } from 'services/rest-service/Rest.service';
     AppRoutingModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
+    HttpClientModule,
     PagesModule
   ],
   declarations: [
@@ -28,7 +29,6 @@ import { RestService } from 'services/rest-service/Rest.service';
     AuthService,
     LanguageService,
     LanguageErrorService,
-    RestService,
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
     { provide: 'path-languages', useValue: 'languages'}

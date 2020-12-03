@@ -1,32 +1,13 @@
 import { HttpClient, HttpParams } from "@angular/common/http"
-import { of } from "rxjs"
+import { Observable, of } from "rxjs"
 import { RestService } from "./Rest.service"
+import { environment } from 'environments/environment.prod';
+import { mergeMap, tap } from "rxjs/operators";
 
 describe('rest.service', () => {
-    let counter = 0
+    const withCredentials = true
     let mock: jasmine.SpyObj<HttpClient>
     let rest: RestService
-
-    function testIt({url, input, output, templateParamsValues = {}}) {
-        const method = url.METHOD.toLowerCase()
-        rest.do(url, { body: input, templateParamsValues })
-        .subscribe(o => {
-            const [argUrl, ...rest] = mock[method].calls.mostRecent().args
-            expect(o).toBe(output)
-            switch(method) {
-                case 'get':
-                case 'delete':
-                    const params = new HttpParams()
-                    for(const [k, v] of Object.entries(input)) {
-                        params.set(k, v as string)
-                    }
-                    expect(rest[0]['params'] as HttpParams).toEqual(params)
-                break;
-                default:
-                    expect(rest[0]).toBe(input)
-            }
-        })
-    }
 
     beforeEach(() => {
         const methods = ['get', 'post', 'put', 'delete', 'patch']
@@ -34,108 +15,148 @@ describe('rest.service', () => {
         rest = new RestService(mock)
     })
 
-    it('works without template params and works methods: post, get', () => {
-        mock.post.and.returnValue(of(0))
-        mock.get.and.returnValue(of(1))
-
-        
-        testIt({
-            url: {
+    it('works without template params and works methods: post, get', (done: DoneFn) => {
+        of(() => {
+            const url = {
                 URL: 'url/post',
                 METHOD: 'POST'
-            }, 
-            input: counter++, 
-            output: 0
-        })
-        testIt({
-            url: {
-                URL: 'url/get',
-                METHOD: 'GET'
-            }, 
-            input: {x: counter++}, 
-            output: 1
-        })
-
-        expect(mock.get.calls.count()).toEqual(1)
-        expect(mock.post.calls.count()).toEqual(1)
+            }
+            const body = 'post'
+            const returns = 'post'
+            mock.post.withArgs(`${environment.server_addr}/${url.URL}`, body, {withCredentials}).and.returnValue(of(returns))
+            
+            return rest.do<typeof returns>(url, {body})
+            .pipe(
+                tap(v => expect(v).toEqual(returns))
+            )
+        }).pipe(
+            mergeMap(() => {
+                const url = {
+                    URL: 'url/get',
+                    METHOD: 'GET'
+                }
+                const [key, value] = ['key', 'value']
+                const returns = 'get'
+                const params = new HttpParams()
+                params.set(key, value)
+                mock.get.withArgs(`${environment.server_addr}/${url.URL}`, {withCredentials, params }).and.returnValue(of(returns))
+                
+                return rest.do<typeof returns>(url, {body: {[key]: value}})
+                .pipe(
+                    tap(v => expect(v).toEqual(returns))    
+                )
+            })
+        ).subscribe(() => done())
     })
 
-    it('works with template params and works methods: put, patch, delete', () => {
-        mock.put.and.returnValue(of(0))
-        mock.patch.and.returnValue(of(1))
-        mock.delete.and.returnValue(of(2))
-
-        testIt({
-            url: {
-                URL: 'url/put/{x}',
+    it('works with template params and works methods: put, patch, delete', (done: DoneFn) => {
+        of(() => {
+            const part = 'url/put'
+            const url = {
+                URL: `${part}/{x}`,
                 METHOD: 'PUT',
                 PARAMS: ['x']
-            }, 
-            input: counter++, 
-            output: 0,
-            templateParamsValues: {x: counter++}
-        })
-        testIt({
-            url: {
-                URL: 'url/patch/{x}',
-                METHOD: 'PATCH',
-                PARAMS: ['x']
-            }, 
-            input: counter++, 
-            output: 1,
-            templateParamsValues: {x: counter++}
-        })
-        testIt({
-            url: {
-                URL: 'url/delete/{x}',
-                METHOD: 'DELETE',
-                PARAMS: ['x']
-            }, 
-            input: {x: counter++}, 
-            output: 2,
-            templateParamsValues: {x: counter++}
-        })
+            }
+            const body = 'put'
+            const returns = 'put'
+            const templateParamsValues = {x: '1'}
 
-        expect(mock.put.calls.count()).toEqual(1)
-        expect(mock.patch.calls.count()).toEqual(1)
-        expect(mock.delete.calls.count()).toEqual(1)
+            const path = `${environment.server_addr}/${part}/${templateParamsValues.x}`
+            mock.put.withArgs(path, body, {withCredentials}).and.returnValue(of(returns))
+
+            return rest.do<typeof returns>(url, {body, templateParamsValues})
+            .pipe(
+                tap(v => expect(v).toEqual(returns))    
+            )
+        }).pipe(
+            mergeMap(() => {
+                const part = 'url/patch'
+                const url = {
+                    URL: `${part}/{x}`,
+                    METHOD: 'PATCH',
+                    PARAMS: ['x']
+                }
+                const body = 'patch'
+                const returns = 'patch'
+                const templateParamsValues = {x: '1'}
+
+                const path = `${environment.server_addr}/${part}/${templateParamsValues.x}`
+                mock.patch.withArgs(path, body, {withCredentials}).and.returnValue(of(returns))
+    
+                return rest.do<typeof returns>(url, {body, templateParamsValues})
+                .pipe(
+                    tap(v => expect(v).toEqual(returns))    
+                )
+            }),
+            mergeMap(() => {
+                const part = 'url/delete'
+                const url = {
+                    URL: `${part}/{x}`,
+                    METHOD: 'DELETE',
+                    PARAMS: ['x']
+                }
+                const [key, value] = ['key', 'value']
+                const returns = 'delete'
+                const params = new HttpParams()
+                params.set(key, value)
+                const templateParamsValues = {x: '1'}
+
+                const path = `${environment.server_addr}/${part}/${templateParamsValues.x}`
+                mock.delete.withArgs(path, {withCredentials, params}).and.returnValue(of(returns))
+    
+                return rest.do<typeof returns>(url, {body: {[key]: value}, templateParamsValues})
+                .pipe(
+                    tap(v => expect(v).toEqual(returns))    
+                )
+            })
+        ).subscribe(() => done())
     })
 
-    it('throw error on invalid template params', () => {
+    it('throw error on invalid template params', (done: DoneFn) => {
         const expectedError = Error('invalid template params keys')
-        mock.put.and.returnValue(of(0))
+        of(() => new Observable(s => {
+                const url = {
+                    URL: `url/put/{x}`,
+                    METHOD: 'PUT',
+                    PARAMS: ['x']
+                }
+                const body = 'put'
+                const templateParamsValues = {y: '1'}
+                
+                rest.do(url, {body, templateParamsValues}).subscribe({error: e => {
+                    expect(e).toEqual(expectedError)
+                    s.next()
+                }})
+            })
+        ).pipe(
+            mergeMap(() => new Observable(s => {
+                const url = {
+                    URL: `url/patch/{x}`,
+                    METHOD: 'PATCH',
+                    PARAMS: ['x', 'y']
+                }
+                const body = 'patch'
+                const templateParamsValues = {x: '1'}
 
-        expect(testIt.bind(this, {
-            url: {
-                URL: 'url/put/{x}',
-                METHOD: 'PUT',
-                PARAMS: ['x']
-            }, 
-            input: counter++, 
-            output: 0,
-            templateParamsValues: {y: counter++}
-        })).toThrow(expectedError)
-
-        expect(testIt.bind(this, {
-            url: {
-                URL: 'url/put/{x}',
-                METHOD: 'PUT',
-                PARAMS: ['x', 'y']
-            }, 
-            input: counter++, 
-            output: 0,
-            templateParamsValues: {x: counter++}
-        })).toThrow(expectedError)
-
-        expect(testIt.bind(this, {
-            url: {
-                URL: 'url/put/{x}',
-                METHOD: 'PUT',
-                PARAMS: ['x']
-            }, 
-            input: counter++, 
-            output: counter++,
-            templateParamsValues: {x: counter++, y: counter++}
-        })).toThrow(expectedError)
+                rest.do(url, {body, templateParamsValues}).subscribe({error: e => {
+                    expect(e).toEqual(expectedError)
+                    s.next()
+                }})
+            })),
+            mergeMap(() => new Observable(s => {
+                const url = {
+                    URL: `url/delete/{x}`,
+                    METHOD: 'DELETE',
+                    PARAMS: ['x']
+                }
+                const [key, value] = ['key', 'value']
+                const templateParamsValues = {x: '1', y: '2'}
+                
+                rest.do(url, {body: {[key]: value}, templateParamsValues}).subscribe({error: e => {
+                    expect(e).toEqual(expectedError)
+                    s.next()
+                }})
+            }))
+        ).subscribe(() => done())
     })
 })
