@@ -1,0 +1,78 @@
+<div *ngIf="(lngService.dictionary$ | async) as $">
+  <div *ngIf="{errors: $.errors, form: $.pages.login.form} as $">
+    <form [formGroup]="form">
+      <mat-grid-list cols="1" rowHeight="7rem">
+        <mat-grid-tile>
+          <mat-form-field *ngIf="form.get('email') as email">
+            <mat-label>{{ $.form.inputs.EMAIL }}</mat-label>
+            <input 
+            id="email"
+            type="email" 
+            matInput  
+            [formControl]="email" required>
+
+            <mat-icon>email</mat-icon>
+
+            <mat-error *ngIf="email.hasError('required')">
+              {{ $.errors.inputs.general.REQUIRED }}
+            </mat-error>
+            <mat-error *ngIf="email.hasError('pattern')">
+              {{ $.errors.inputs.email.INVALID }}
+            </mat-error>
+            <mat-error *ngIf="email.hasError('server-error')">
+              {{ this.serverInputsErrors.email }}
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field *ngIf="form.get('password') as password">
+            <mat-label>{{ $.form.inputs.PASSWORD }}</mat-label>
+            <input 
+            id="password"
+            type="password" 
+            matInput  
+            [formControl]="password" required>
+
+            <mat-icon>vpn_key</mat-icon>
+
+            <mat-error *ngIf="password.hasError('required')">
+              {{ $.errors.inputs.general.REQUIRED }}
+            </mat-error>
+            <mat-error *ngIf="password.hasError('server-error')">
+              {{ this.serverInputsErrors.password }}
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <button mat-raised-button color="primary" (click)="loginViaEmail()" id="loginEmail">
+            {{ $.form.buttons.LOGIN_EMAIL }}
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </form>
+
+    <div id="divText">{{ $.form.SIGN_IN_SOCIAL_MEDIA }}</div>
+
+    <mat-grid-list cols="9">
+      <mat-grid-tile colspan="2"></mat-grid-tile>
+
+      <mat-grid-tile colspan="2" rowspan="2">
+        <button mat-fab (click)="loginViaGoogle()" id="loginGoogle">
+          <mat-icon svgIcon="google"></mat-icon>
+        </button>
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="1"></mat-grid-tile>
+
+      <mat-grid-tile colspan="2" rowspan="2">
+        <button mat-fab (click)="loginViaFacebook()" id="loginFacebook">
+          <mat-icon svgIcon="facebook"></mat-icon>
+        </button>  
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="2"></mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>

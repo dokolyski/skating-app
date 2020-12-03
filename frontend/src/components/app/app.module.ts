@@ -5,33 +5,46 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'environments/environment';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AuthService } from 'services/auth-service/Auth.service';
 import { PagesModule } from 'components/pages/pages';
 import { HttpClientModule } from '@angular/common/http';
-import { LanguageService } from 'services/language-service/Language.service';
-import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig } from 'angularx-social-login';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+const config: SocialAuthServiceConfig = {
+  providers: [
+    {
+      id: FacebookLoginProvider.PROVIDER_ID,
+      provider: new FacebookLoginProvider(environment.keys.FACEBOOK)
+    },
+    {
+      id: GoogleLoginProvider.PROVIDER_ID,
+      provider: new GoogleLoginProvider(environment.keys.GOOGLE)
+    }
+  ]
+}
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
+    AppRoutingModule,
     HttpClientModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     PagesModule
   ],
   declarations: [
     AppComponent
   ],
   providers: [
-    AuthService,
-    LanguageService,
-    LanguageErrorService,
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
-    { provide: 'path-languages', useValue: 'languages'}
+    { provide: 'path-languages', useValue: 'languages'},
+    { provide: 'SocialAuthServiceConfig', useFactory: provideConfig }
   ],
   bootstrap: [AppComponent]
 })

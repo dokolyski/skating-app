@@ -8,7 +8,7 @@ import * as REST_PATH from 'api/rest-url.json'
 
 type Token = VERIFICATION.LOGIN.Token
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   private token: Token = null
