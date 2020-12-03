@@ -15,15 +15,15 @@ export default async function generateKeys() {
             cipher: 'aes-256-cbc',
             passphrase: ''
         }
-    })
+    });
 }
 
 export function decrypt(val: string) {
-    const buffer = Buffer.from(val, 'base64')
+    const buffer = Buffer.from(val, 'base64');
     const decrypted = crypto.privateDecrypt({
         key: keys.privateKey.toString(),
         passphrase: ''
-    }, buffer)
+    }, buffer);
 
     return decrypted.toString('utf8')
 }
