@@ -44,7 +44,7 @@
                     "BACK": "Previous",
                     "NEXT": "Next",
                     "CANCEL": "Cancel",
-                    "PASSWORD_STRENGTH": "Password strenght"
+                    "PASSWORD_STRENGTH": "Password strength"
                 },
                 "steps": {
                     "BASE": "Base informations",

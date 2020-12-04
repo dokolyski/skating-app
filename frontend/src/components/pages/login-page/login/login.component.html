@@ -5,11 +5,7 @@
         <mat-grid-tile>
           <mat-form-field *ngIf="form.get('email') as email">
             <mat-label>{{ $.form.inputs.EMAIL }}</mat-label>
-            <input 
-            id="email"
-            type="email" 
-            matInput  
-            [formControl]="email" required>
+            <input id="email" type="email" matInput [formControl]="email" required>
 
             <mat-icon>email</mat-icon>
 
@@ -28,11 +24,7 @@
         <mat-grid-tile>
           <mat-form-field *ngIf="form.get('password') as password">
             <mat-label>{{ $.form.inputs.PASSWORD }}</mat-label>
-            <input 
-            id="password"
-            type="password" 
-            matInput  
-            [formControl]="password" required>
+            <input id="password" type="password" matInput [formControl]="password" required>
 
             <mat-icon>vpn_key</mat-icon>
 
@@ -46,12 +38,13 @@
         </mat-grid-tile>
 
         <mat-grid-tile>
-          <button mat-raised-button color="primary" (click)="loginViaEmail()" id="loginEmail">
+          <button mat-raised-button type="submit" color="primary" (click)="loginViaEmail()" id="loginEmail">
             {{ $.form.buttons.LOGIN_EMAIL }}
           </button>
         </mat-grid-tile>
       </mat-grid-list>
     </form>
+
 
     <div id="divText">{{ $.form.SIGN_IN_SOCIAL_MEDIA }}</div>
 
@@ -69,7 +62,7 @@
       <mat-grid-tile colspan="2" rowspan="2">
         <button mat-fab (click)="loginViaFacebook()" id="loginFacebook">
           <mat-icon svgIcon="facebook"></mat-icon>
-        </button>  
+        </button>
       </mat-grid-tile>
 
       <mat-grid-tile colspan="2"></mat-grid-tile>

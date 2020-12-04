@@ -22,8 +22,6 @@ export class LoginComponent {
   @Output()
   onSubmit = new EventEmitter<void>()
   @Output()
-  onCancel = new EventEmitter<void>()
-  @Output()
   onError = new EventEmitter<string>()
 
   constructor(
@@ -33,10 +31,11 @@ export class LoginComponent {
     private lngErrorService: LanguageErrorService) { }
 
   loginViaEmail() {
-    const email = this.form.get('email').value
-    const password = this.form.get('password').value
-
-    this.handleResponse(this.auth.loginViaEmail(email, password))
+    if(this.form.valid) {
+      const email = this.form.get('email').value
+      const password = this.form.get('password').value
+      this.handleResponse(this.auth.loginViaEmail(email, password))
+    }
   }
 
   loginViaGoogle() {
@@ -49,6 +48,7 @@ export class LoginComponent {
 
   private handleResponse(response: Observable<void>) {
     response.subscribe({
+      complete: () => this.onSubmit.emit(),
       next: () => this.onSubmit.emit(),
       error: (e: RestError) => {
         this.lngErrorService.getErrorsStrings(e)

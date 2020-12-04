@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { SocialAuthService } from 'angularx-social-login';
 
-@NgModule({
+export const moduleInfo = {
   imports: [
     CommonModule,
     MatDividerModule,
@@ -33,5 +33,12 @@ import { SocialAuthService } from 'angularx-social-login';
     LanguageErrorService
   ],
   exports: [LoginComponent]
+}
+
+@NgModule({
+  imports: moduleInfo.imports,
+  declarations: moduleInfo.declarations,
+  providers: moduleInfo.providers,
+  exports: moduleInfo.exports
 })
 export class LoginModule { }

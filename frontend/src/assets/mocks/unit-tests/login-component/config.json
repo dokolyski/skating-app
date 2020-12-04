@@ -1,0 +1,36 @@
+{
+  "translation": {
+    "errors": {
+      "messages": {
+        "SERVER_ERROR": ""
+      },
+      "inputs": {
+        "email": {
+          "NOT_EXISTS": "",
+          "INVALID": ""
+        },
+        "general": {
+          "REQUIRED": ""
+        }
+      }
+    },
+    "pages": {
+      "login": {
+        "form": {
+          "inputs": {
+            "EMAIL": "",
+            "PASSWORD": ""
+          },
+          "buttons": {
+            "LOGIN_EMAIL": ""
+          },
+          "SIGN_IN_SOCIAL_MEDIA": ""
+        }
+      }
+    }
+  },
+  "user": {
+    "email": "example@mail.com",
+    "password": "P@ssw0rd"
+  }
+}
