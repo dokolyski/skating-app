@@ -1,0 +1,23 @@
+@media (max-width: 768px) {
+    #loginEmail {
+        width: 60%;
+    }
+}
+
+@media (min-width: 769px) {
+    #loginEmail {
+        width: 40%;
+    }
+}
+
+#loginGoogle {
+    background-color: #ffffff;
+}
+
+#loginFacebook {
+    background-color: #3c5a9a;
+}
+
+#divText {
+    text-align: center;
+}

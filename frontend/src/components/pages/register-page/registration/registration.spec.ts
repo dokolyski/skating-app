@@ -16,67 +16,40 @@ import { MatDatepickerInputHarness } from '@angular/material/datepicker/testing'
 import * as REST_PATH from 'api/rest-url.json'
 import { RestError } from "api/rest-error"
 import { moduleInfo } from "./registration.module"
+import { LanguageService } from "services/language-service/Language.service"
+
+import { profileBody, registerBody, skills, translation } from 'assets/mocks/unit-tests/registration-component/config.json'
 
 describe('registration.component', () => {
     let restMock: jasmine.SpyObj<RestService>
+    let lngMock: jasmine.SpyObj<LanguageService>
     let lngErrorMock: jasmine.SpyObj<LanguageErrorService>
+    
     let fixture: ComponentFixture<RegistrationComponent>
     let loader: HarnessLoader
     let component: RegistrationComponent
 
-    const skills = ['skill_1', 'skill_2', 'skill_3']
-    const registerBody = {
-        fistname: 'Name',
-        lastname: 'Lastname',
-        email: 'example@mail.com', 
-        password: 'P@ssw0rd1234',
-        birth_date: '1/1/1990',
-        phone_number: '123456789'
-    }
-    const profileBody = {
-        fistname: registerBody.fistname,
-        lastname: registerBody.lastname,
-        birth_date: registerBody.birth_date,
-        skill_level: 'skill_1'
-    }
-    
-    function getButtons() {
-        type Buttons = {
-            emailInput: MatInputHarness
-            passwordInput: MatInputHarness
-            repeatPasswdInput: MatInputHarness
-            nameInput: MatInputHarness
-            lastnameInput: MatInputHarness
-            dateBirthInput: MatDatepickerInputHarness
-            telephoneNumInput: MatInputHarness
-            nextButtons: MatButtonHarness[]
-            regButton: MatButtonHarness
-            cancelButton: MatButtonHarness
-        }
-        return new Promise<Buttons>(resolve => {
-            setTimeout(async () => {
-                const data = {
-                    emailInput: await loader.getHarness(MatInputHarness.with({selector: '#email'})),
-                    passwordInput: await loader.getHarness(MatInputHarness.with({selector: '#password'})),
-                    repeatPasswdInput: await loader.getHarness(MatInputHarness.with({selector: '#repeatPassword'})),
-                    
-                    nameInput: await loader.getHarness(MatInputHarness.with({selector: '#name'})),
-                    lastnameInput: await loader.getHarness(MatInputHarness.with({selector: '#lastname'})),
-                    dateBirthInput: await loader.getHarness(MatDatepickerInputHarness.with({selector: '#dateBirth'})),
-                    telephoneNumInput: await loader.getHarness(MatInputHarness.with({selector: '#telephoneNumber'})),
-                    
-                    nextButtons: await loader.getAllHarnesses(MatButtonHarness.with({selector: 'button.nextButton'})),
-                    regButton: await loader.getHarness(MatButtonHarness.with({selector: '#registerButton'})),
-                    cancelButton: await loader.getHarness(MatButtonHarness.with({selector: 'button.cancelButton'}))
-                }
-                resolve(data)
-            }, 100)
-        })
+    let buttons: {
+        emailInput: MatInputHarness
+        passwordInput: MatInputHarness
+        repeatPasswdInput: MatInputHarness
+        nameInput: MatInputHarness
+        lastnameInput: MatInputHarness
+        dateBirthInput: MatDatepickerInputHarness
+        telephoneNumInput: MatInputHarness
+        nextButtons: MatButtonHarness[]
+        regButton: MatButtonHarness
+        cancelButton: MatButtonHarness
     }
 
     beforeEach(async (done: DoneFn) => {
         restMock = jasmine.createSpyObj('ResetService', ['do'])
         restMock.do.and.returnValue(of([]))
+
+        lngMock = jasmine.createSpyObj('LanguageService', [], {
+            'dictionary$': of(translation),
+            'language': 'english'
+        })
 
         lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings'])
         lngErrorMock.getErrorsStrings.and.returnValue(of())
@@ -84,8 +57,7 @@ describe('registration.component', () => {
         const module: any = {...moduleInfo}
         module.providers = [
             ...module.providers, 
-            { provide: 'language', useValue: 'english' },
-            { provide: 'path-languages', useValue: 'languages'},
+            { provide: LanguageService, useValue: lngMock },
             { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
             { provide: RestService, useValue: restMock },
             { provide: LanguageErrorService, useValue: lngErrorMock }
@@ -100,12 +72,30 @@ describe('registration.component', () => {
         done()
     })
 
+    beforeEach(async (done: DoneFn) => { 
+        buttons = {
+            emailInput: await loader.getHarness(MatInputHarness.with({ selector: '#email' })),
+            passwordInput: await loader.getHarness(MatInputHarness.with({ selector: '#password' })),
+            repeatPasswdInput: await loader.getHarness(MatInputHarness.with({ selector: '#repeatPassword' })),
+
+            nameInput: await loader.getHarness(MatInputHarness.with({ selector: '#name' })),
+            lastnameInput: await loader.getHarness(MatInputHarness.with({ selector: '#lastname' })),
+            dateBirthInput: await loader.getHarness(MatDatepickerInputHarness.with({ selector: '#dateBirth' })),
+            telephoneNumInput: await loader.getHarness(MatInputHarness.with({ selector: '#telephoneNumber' })),
+
+            nextButtons: await loader.getAllHarnesses(MatButtonHarness.with({ selector: 'button.nextButton' })),
+            regButton: await loader.getHarness(MatButtonHarness.with({ selector: '#registerButton' })),
+            cancelButton: await loader.getHarness(MatButtonHarness.with({ selector: 'button.cancelButton' }))
+        }
+
+        done()
+    }, 100)
+
     it('fetch possible skills values', async (done: DoneFn) => {
         restMock.do.and.returnValue(new Observable<any>(s => s.next(skills)))
         
         scheduled([component.onStartWaiting, component.onStopWaiting], asyncScheduler)
         .subscribe(() => {
-            expect(restMock.do).toHaveBeenCalled()
             expect(component.skillLevelPossibleValues).toEqual([' ', ...skills])
             done()
         })
@@ -118,11 +108,9 @@ describe('registration.component', () => {
         const message = 'Server error.'
 
         restMock.do.and.returnValue(new Observable<any>(s => s.error({ messageToken })))
-        lngErrorMock.getErrorsStrings.and.returnValue(of({ message }))
+        lngErrorMock.getErrorsStrings.withArgs({messageToken}).and.returnValue(of({ message }))
 
         component.onError.subscribe(msg => {
-            expect(restMock.do).toHaveBeenCalled()
-            expect(lngErrorMock.getErrorsStrings).toHaveBeenCalledWith({ messageToken })
             expect(msg).toEqual(message)
             done()
         })
@@ -136,7 +124,6 @@ describe('registration.component', () => {
             done()
         })
 
-        const buttons = await getButtons()
         buttons.cancelButton.click()
     })
 
@@ -150,11 +137,9 @@ describe('registration.component', () => {
         
         component.onSubmit.subscribe(() => {
             const errorInfos = fixture.debugElement.queryAll(By.css('mat-error'))
-            errorInfos.forEach(e => expect(e.nativeElement.innerHTML).toEqual(''))
+            expect(errorInfos.length).toEqual(0)
             done()
         })
-        
-        const buttons = await getButtons()
 
         await buttons.emailInput.setValue(registerBody.email)
         await buttons.passwordInput.setValue(registerBody.password)
@@ -174,15 +159,13 @@ describe('registration.component', () => {
         const anotherPasswd = '4123'
         expect(anotherPasswd).not.toEqual(registerBody.password)
 
-        const buttons = await getButtons()
-
         await buttons.passwordInput.setValue(registerBody.password)
         await buttons.repeatPasswdInput.setValue(anotherPasswd)
         await buttons.nextButtons[0].click()
 
         const errInfo = fixture.debugElement.queryAll(By.css('mat-error'))
         expect(errInfo.map(e => e.nativeElement.innerHTML.length > 0).some(Boolean)).toBeTruthy()
-        expect(component.form.get('base.repeatPassword').hasError('not-equals'))
+        expect(component.form.get('base.repeatPassword').hasError('not-equals')).toBeTruthy()
         done()
     })
 
@@ -198,8 +181,6 @@ describe('registration.component', () => {
         restMock.do.withArgs(REST_PATH.VERIFICATION.REGISTER).and.returnValue(new Observable(s => s.error(error)))
         restMock.do.and.returnValue(of(skills))
         lngErrorMock.getErrorsStrings.and.returnValue(of(translatedErr))
-
-        const buttons = await getButtons()
         
         await buttons.emailInput.setValue(registerBody.email)
         await buttons.passwordInput.setValue(registerBody.password)
@@ -214,24 +195,24 @@ describe('registration.component', () => {
         
         await buttons.regButton.click()
 
-        setTimeout(() => {
-            const control = component.form.get(controlId)
-            expect(control.hasError('server-error')).toBeTruthy()
-            
-            let counter = 0
-            const transErrors = Object.values(translatedErr.inputs)
-            const errorInfos = fixture.debugElement.queryAll(By.css('mat-error'))
-            
-            for(const err of errorInfos) {
-                const search = transErrors.findIndex(inputErr => inputErr == err.nativeElement.innerHTML.trim())
-                if(search > -1) {
-                    delete transErrors[search]
-                    counter++
-                }
+        await fixture.whenStable()
+
+        const control = component.form.get(controlId)
+        expect(control.hasError('server-error')).toBeTruthy()
+
+        let counter = 0
+        const transErrors = Object.values(translatedErr.inputs)
+        const errorInfos = fixture.debugElement.queryAll(By.css('mat-error'))
+
+        for (const err of errorInfos) {
+            const search = transErrors.findIndex(inputErr => inputErr == err.nativeElement.innerHTML.trim())
+            if (search > -1) {
+                delete transErrors[search]
+                counter++
             }
-            expect(counter).toEqual(transErrors.length)
-            done()
-        }, 1000)
+        }
+        expect(counter).toEqual(transErrors.length)
+        done()
     })
 
     it('emits error on registration when server responds with error which contains generalized message', async (done: DoneFn) => {

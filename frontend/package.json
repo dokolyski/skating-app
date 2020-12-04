@@ -25,6 +25,7 @@
     "@angular/router": "^11.0.0",
     "@angular/service-worker": "^11.0.0",
     "acorn": "^8.0.4",
+    "angularx-social-login": "^3.5.1",
     "hammerjs": "*",
     "ngx-cookie-service": "*",
     "rxjs": "^6.6.3",

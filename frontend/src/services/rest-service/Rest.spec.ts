@@ -4,8 +4,9 @@ import { RestService } from "./Rest.service"
 import { environment } from 'environments/environment.prod';
 import { mergeMap, tap } from "rxjs/operators";
 
+const withCredentials = true
+
 describe('rest.service', () => {
-    const withCredentials = true
     let mock: jasmine.SpyObj<HttpClient>
     let rest: RestService
 

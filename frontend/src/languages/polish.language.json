@@ -52,7 +52,20 @@
                     "ADDITIONAL": "Informacje dodatkowe"
                 }
             },
-            "cardTitle": "Rejestracja konta"
+            "CARD_TITLE": "Rejestracja konta"
+        },
+        "login": {
+            "form": {
+                "inputs": {
+                    "EMAIL": "Email",
+                    "PASSWORD": "Hasło"
+                },
+                "buttons": {
+                    "LOGIN_EMAIL": "Zaloguj"
+                },
+                "SIGN_IN_SOCIAL_MEDIA": "lub zaloguj się przy pomocy"
+            },
+            "CARD_TITLE": "Logowanie"
         }
     }
 }

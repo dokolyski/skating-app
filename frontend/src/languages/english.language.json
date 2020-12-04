@@ -40,11 +40,11 @@
                     "SKILL_LEVEL": "Skating skills level"
                 },
                 "controls": {
-                    "REGISTER": "Register",
+                    "REGISTER": "Sign Up",
                     "BACK": "Previous",
                     "NEXT": "Next",
                     "CANCEL": "Cancel",
-                    "PASSWORD_STRENGTH": "Password strenght"
+                    "PASSWORD_STRENGTH": "Password strength"
                 },
                 "steps": {
                     "BASE": "Base informations",
@@ -52,7 +52,20 @@
                     "ADDITIONAL": "Additional informations"
                 }
             },
-            "cardTitle": "Registration"
+            "CARD_TITLE": "Sign Up"
+        },
+        "login": {
+            "form": {
+                "inputs": {
+                    "EMAIL": "Email",
+                    "PASSWORD": "Password"
+                },
+                "buttons": {
+                    "LOGIN_EMAIL": "Sign In"
+                },
+                "SIGN_IN_SOCIAL_MEDIA": "Or Sign In with"
+            },
+            "CARD_TITLE": "Sign In"
         }
     }
 }

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RegistrationComponent } from './registration.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -15,7 +14,8 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RestService } from 'services/rest-service/Rest.service';
-import { RestServiceMock } from 'mocks/RestService.mock';
+import { LanguageService } from 'services/language-service/Language.service';
+import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 
 export const moduleInfo = {
   imports: [
@@ -23,7 +23,6 @@ export const moduleInfo = {
     BrowserAnimationsModule,
     MatStepperModule,
     MatSelectModule,
-    MatCardModule,
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
@@ -34,9 +33,11 @@ export const moduleInfo = {
     ReactiveFormsModule
   ],
   providers: [
-    MatDatepickerModule,
     FormBuilder,
-    { provide: RestService, useClass: RestServiceMock },
+    RestService,
+    LanguageService,
+    LanguageErrorService,
+    MatDatepickerModule,
     { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
   ],
   declarations: [RegistrationComponent],
