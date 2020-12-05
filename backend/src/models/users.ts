@@ -13,7 +13,6 @@ class User extends SQL.Model {
     public verified: boolean;
 
     public token: string;
-    public social_login_token: string;
     public password_reset_token: string;
     public password_reset_token_expiration_date: Date;
 
