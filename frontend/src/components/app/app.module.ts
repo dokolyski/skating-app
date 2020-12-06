@@ -1,15 +1,24 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from 'environments/environment';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from 'environments/environment';
 
-import { PagesModule } from 'components/pages/pages';
-import { HttpClientModule } from '@angular/common/http';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig } from 'angularx-social-login';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {PagesModule} from 'components/pages/pages';
+import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig} from 'angularx-social-login';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RestService} from 'services/rest-service/Rest.service';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {MatIconModule} from '@angular/material/icon';
+import {MenuComponent} from './menu/menu.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {RouterModule} from '@angular/router';
+import {SchedulePageModule} from '../pages/schedule-page/schedule-page.module';
 
 const config: SocialAuthServiceConfig = {
   providers: [
@@ -22,7 +31,7 @@ const config: SocialAuthServiceConfig = {
       provider: new GoogleLoginProvider(environment.keys.GOOGLE)
     }
   ]
-}
+};
 
 export function provideConfig() {
   return config;
@@ -31,16 +40,26 @@ export function provideConfig() {
 @NgModule({
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
+    BrowserAnimationsModule,
+    PagesModule,
+    MatCardModule,
+    MatButtonModule,
+    SchedulePageModule,
     HttpClientModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    PagesModule
+    MatIconModule,
+    MatToolbarModule,
+    FlexLayoutModule,
+    RouterModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+    MenuComponent
   ],
   providers: [
+    RestService,
+    HttpClient,
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
     { provide: 'path-languages', useValue: 'languages'},
