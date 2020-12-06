@@ -12,7 +12,7 @@ const routes: Routes = [
   /*EVERYONE*/
   { 
     path: PATH.EVERYONE.MAIN,
-    component: Pages.LoginPageComponent//Pages.MainPageComponent
+    component: Pages.MainPageComponent
   },
   { 
     path: PATH.EVERYONE.NEWS,

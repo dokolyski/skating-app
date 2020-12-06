@@ -1,3 +1,19 @@
-<p>
-  schedule-page works!
-</p>
+<div class="container-grid">
+  <div class="calendarHeader">
+    <div class="calendarWeekChoice">
+      <button class="changeWeekButton" mat-mini-fab color="primary" aria-label="Previous week"
+              (click)="changeWeek(-1)">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <div class="timeInterval">{{calendar.from.toLocaleDateString()}} - {{calendar.to.toLocaleDateString()}}</div>
+      <button class="changeWeekButton" mat-mini-fab color="primary" aria-label="Next week"
+              (click)="changeWeek(1)">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="calendarContent">
+    <app-weekday *ngFor="let weekday of weekdays; index as i" [sessions]="sessions[i]" [weekday]="weekday"></app-weekday>
+  </div>
+</div>
