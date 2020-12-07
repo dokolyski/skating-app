@@ -1,0 +1,13 @@
+<mat-toolbar >
+  <button [routerLink]="'/' + path.EVERYONE.MAIN" [disableRipple]="true" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon svgIcon="small-logo" class="main-logo"></mat-icon>
+  </button>
+  <span [routerLink]="'/' + path.EVERYONE.MAIN" [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
+  <span class="spacer"></span>
+  <button [routerLink]="'/' + path.LOGGED.SCHEDULE" mat-icon-button aria-label="Schedule">
+    <mat-icon>today</mat-icon>
+  </button>
+  <button [routerLink]="'/' + path.LOGGED.ACCOUNT" mat-icon-button aria-label="Profile">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+</mat-toolbar>
