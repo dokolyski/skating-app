@@ -12,4 +12,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/*# sourceMappingURL=styles.css.map */
+:root {
+  --very-dark-blue: #25257f;
+  --dark-blue: #3f51b5;
+  --azure-blue: #0087e8;
+  --malibu: #6cc8ff;
+  --bluish-white: #e8eaf6;
+}

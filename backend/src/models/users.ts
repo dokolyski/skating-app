@@ -1,33 +1,35 @@
 import db from '../static/database'
 import * as SQL from 'sequelize'
+import server_config from "../config/server.json";
+import bcrypt from 'bcrypt'
 
 class User extends SQL.Model {
-    public id: number
-    public email: string
-    public password: string
-    public account_type: 'USER'|'ORGANIZER'|'ADMIN'
-    public birth_date: Date
-    public phone_number: string
-    public verified: boolean
+    public id: number;
+    public email: string;
+    public password: string;
+    public account_type: 'USER'|'ORGANIZER'|'ADMIN';
+    public birth_date: Date;
+    public phone_number: string;
+    public verified: boolean;
 
-    public token: string
-    public social_login_token: string
-    public password_reset_token: string
-    public password_reset_token_expiration_date: Date
+    public token: string;
+    public social_login_token: string;
+    public password_reset_token: string;
+    public password_reset_token_expiration_date: Date;
 
-    public readonly createdAt: Date
-    public readonly updatedAt: Date
+    public readonly createdAt: Date;
+    public readonly updatedAt: Date;
 
     static calculateEntrophy(password: string): number {
         const charsCounter = Array.from(password).reduce((p, c) => {
           if(!p[c]) {
             p[c] = 0
           }
-          p[c]++
+          p[c]++;
           return p
-        }, {})
+        }, {});
         
-        const pswdLen = password.length
+        const pswdLen = password.length;
         return Object.values<number>(charsCounter).reduce((p, c) => p - c/pswdLen * Math.log2(c/pswdLen), 0)
     }
 
@@ -56,18 +58,18 @@ User.init({
         validate: {
             len: [8, 16],
             passRegularExpressions(password: string) {
-                const containsDigits = /\d+/i
-                const containsUppercase = /[A-Z]+/i
-                const containsLowercase = /[a-z]+/i
-                const containsSpecialCharacters = /[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+/i
-                const list = [containsDigits, containsUppercase, containsLowercase, containsSpecialCharacters]
+                const containsDigits = /\d+/i;
+                const containsUppercase = /[A-Z]+/i;
+                const containsLowercase = /[a-z]+/i;
+                const containsSpecialCharacters = /[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+/i;
+                const list = [containsDigits, containsUppercase, containsLowercase, containsSpecialCharacters];
                 if(!list.every(v => v.test(password))) {
                     throw new Error('Password too easy')
                 }
             },
             passEntrophyTest(password: string) {
-                const entrophy = User.calculateEntrophy(password)
-                const partEntrophy = User.calculatePartMaxEntrophy(0.3, password)
+                const entrophy = User.calculateEntrophy(password);
+                const partEntrophy = User.calculatePartMaxEntrophy(0.3, password);
 
                 if(entrophy < partEntrophy) {
                     throw new Error('Password too easy')
@@ -84,18 +86,7 @@ User.init({
     },
     birth_date: {
         type: SQL.DATEONLY,
-        allowNull: false,
-        validate: {
-            validDate(date: Date) {
-                const today = new Date().getTime()
-                const birthday = date.getTime()
-                const age = new Date(today - birthday).getFullYear()
-    
-                if(122 - age < 0) {
-                    throw new Error('Invalid date')
-                }
-            }
-        }
+        allowNull: false
     },
     phone_number: {
         type: SQL.STRING(15),
@@ -122,8 +113,13 @@ User.init({
         defaultValue: null
     }
 }, {
+    hooks: {
+      beforeCreate: async (user) => {
+          user.password = await bcrypt.hashSync(user.password, server_config.saltRounds);
+      }
+    },
     sequelize: db,
     tableName: 'users'
-})
+});
 
 export default User

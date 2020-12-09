@@ -1,0 +1,20 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar {
+  background-color: var(--bluish-white);
+  box-shadow: 0 0 8px 0 var(--dark-blue);
+}
+
+.main-logo {
+  transform: scale(2);
+  margin-right: 15px;
+}
+
+mat-toolbar {
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0;
+  z-index: 1000;
+}

@@ -7,6 +7,6 @@ import tokensRoute from './tokens/tokens'
 import usersRoute from './users/users'
 
 const router = express.Router()
-router.use('/', notificationsRoute, profilesRoute, sessionParticipantRoute, sessionsRoute, tokensRoute, usersRoute)
+router.use('/api/', notificationsRoute, profilesRoute, sessionParticipantRoute, sessionsRoute, tokensRoute, usersRoute)
 
 export default router

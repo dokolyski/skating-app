@@ -9,6 +9,17 @@ export const environment = {
   keys: {
     GOOGLE: '0123456789',
     FACEBOOK: '0123456789'
+  },
+  session_schedule: {
+    weekdays: [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ]
   }
 };
 

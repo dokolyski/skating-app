@@ -36,22 +36,22 @@ const routes: Routes = [
   { 
     path: PATH.LOGGED.ACCOUNT, 
     component: Pages.AccountPageComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   { 
     path: PATH.LOGGED.PROFILES, 
     component: Pages.ProfilesPageComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   { 
     path: PATH.LOGGED.SCHEDULE, 
     component: Pages.SchedulePageComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   { 
     path: PATH.LOGGED.SESSIONS, 
     component: Pages.SessionsPageComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   /*ORGANIZER*/
   { 
