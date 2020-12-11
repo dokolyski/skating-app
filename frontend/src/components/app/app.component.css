@@ -3,7 +3,7 @@
   height: 100%;
   width: 100%;
   position: fixed;
-  background: #7F7FD5; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #91eae482, #86a8e785, #7f7fd585); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #91eae482, #86a8e785, #7f7fd585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: var(--background-compatibility-full); /* fallback for old browsers */
+  background: var(--background-compatibility); /* Chrome 10-25, Safari 5.1-6 */
+  background: var(--background); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }

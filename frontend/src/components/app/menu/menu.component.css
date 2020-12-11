@@ -18,3 +18,12 @@ mat-toolbar {
   top: 0;
   z-index: 1000;
 }
+
+#logo_name_link {
+  cursor: pointer;
+  user-select: none;
+}
+
+#logo_name_link:focus {
+  outline: 0;
+}
