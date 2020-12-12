@@ -4,7 +4,7 @@ import { NewsTabComponent } from './news-tab.component';
 
 @NgModule({
   imports: [
-    CommonModule,
+    CommonModule
   ],
   declarations: [NewsTabComponent],
   exports: [NewsTabComponent]
