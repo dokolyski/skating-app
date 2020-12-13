@@ -33,7 +33,18 @@ export class SettingsChangeComponent implements OnInit {
   uid: string
   skillLevelPossibleValues: string[]
   serverInputsErrors: { [input: string]: string }
-  editMode = false
+  
+  set editMode(value: boolean) {
+    if(value) {
+      this.form.enable()
+    } else {
+      this.form.disable()
+    }
+  }
+  get editMode() {
+    return this.form.enabled
+  }
+
 
   @Output()
   onSubmit = new EventEmitter<void>()
@@ -51,6 +62,7 @@ export class SettingsChangeComponent implements OnInit {
     private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
+    this.editMode = false
     this.uid = this.auth.uid
 
     this.rest.do<USER_INFO.GET.OUTPUT>(REST_PATH.USER_INFO.GET, { templateParamsValues: { id: this.uid } })

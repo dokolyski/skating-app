@@ -91,6 +91,24 @@
                         "CANCEL": "Anuluj"
                     }
                 }
+            },
+            "settings": {
+                "form": {
+                    "inputs": {
+                        "EMAIL": "Email",
+                        "PASSWORD": "Hasło",
+                        "NAME": "Imie",
+                        "LASTNAME": "Nazwisko",
+                        "DATE_BIRTH": "Data urodzenia",
+                        "TELEPHONE_NUMBER": "Numer telefonu",
+                        "SKILL_LEVEL": "Poziom umiejętności łyżwiarskich"
+                    },
+                    "controls": {
+                        "CANCEL": "Anuluj",
+                        "SAVE": "Zapisz ustawienia",
+                        "EDIT": "Edytuj"
+                    }
+                }
             }
         }
     }

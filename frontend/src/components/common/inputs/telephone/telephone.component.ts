@@ -12,6 +12,6 @@ export class TelephoneComponent {
   translation: { errors, form }
   @Input()
   serverError: string
-  
+
   static controlSchema = ['', Validators.required]
 }

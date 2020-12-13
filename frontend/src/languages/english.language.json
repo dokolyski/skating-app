@@ -91,6 +91,24 @@
                         "CANCEL": "Cancel"
                     }
                 }
+            },
+            "settings": {
+                "form": {
+                    "inputs": {
+                        "EMAIL": "Email",
+                        "PASSWORD": "Password",
+                        "NAME": "Firstname",
+                        "LASTNAME": "Lastname",
+                        "DATE_BIRTH": "Date of birth",
+                        "TELEPHONE_NUMBER": "Telephone No.",
+                        "SKILL_LEVEL": "Skating skills level"
+                    },
+                    "controls": {
+                        "CANCEL": "Cancel",
+                        "SAVE": "Save settings",
+                        "EDIT": "Edit"
+                    }
+                }
             }
         }
     }

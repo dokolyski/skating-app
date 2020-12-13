@@ -1,42 +1,48 @@
 <div *ngIf="(lngService.dictionary$ | async) as $">
-  <mat-button-toggle-group [value]="editMode">
-    <mat-button-toggle value="false">Info</mat-button-toggle>
-    <mat-button-toggle value="true">Edit</mat-button-toggle>
-  </mat-button-toggle-group>
+  <ng-container *ngIf="{errors: $.errors, form: $.pages.account.settings.form} as $">
+    <mat-slide-toggle [(ngModel)]="editMode">
+      {{ $.form.controls.EDIT }}
+    </mat-slide-toggle>
 
-  <form [formGroup]="form" *ngIf="{errors: $.errors, form: $.pages.account.profile_add.form} as $">
-    <div *ngIf="(lngService.dictionary$ | async) as $">
-      <ng-container [ngSwitch]="editMode">
+    <form [formGroup]="form">
+      <mat-grid-list cols="1" rowHeight="7rem">
+        <mat-grid-tile>
+          <app-email [control]="form.get('email')" [translation]="$" [serverError]="serverInputsErrors?.email">
+          </app-email>
+        </mat-grid-tile>
 
-        <ng-container *ngSwitchCase="false">
-          <mat-grid-list cols="1" rowHeight="7rem">
-            <mat-grid-tile>
-              <app-name [control]="form.get('name')" [translation]="$" [serverError]="serverInputsErrors?.name">
-              </app-name>
-            </mat-grid-tile>
+        <mat-grid-tile>
+          <app-name [control]="form.get('name')" [translation]="$" [serverError]="serverInputsErrors?.name">
+          </app-name>
+        </mat-grid-tile>
 
-            <mat-grid-tile>
-              <app-lastname [control]="form.get('lastname')" [translation]="$"
-                [serverError]="serverInputsErrors?.lastname"></app-lastname>
-            </mat-grid-tile>
+        <mat-grid-tile>
+          <app-lastname [control]="form.get('lastname')" [translation]="$" [serverError]="serverInputsErrors?.lastname">
+          </app-lastname>
+        </mat-grid-tile>
 
-            <mat-grid-tile>
-              <app-date-birth [control]="form.get('dateBirth')" [translation]="$"
-                [serverError]="serverInputsErrors?.dateBirth"></app-date-birth>
-            </mat-grid-tile>
+        <mat-grid-tile>
+          <app-date-birth [control]="form.get('dateBirth')" [translation]="$"
+            [serverError]="serverInputsErrors?.dateBirth"></app-date-birth>
+        </mat-grid-tile>
 
-            <mat-grid-tile>
-              <app-skill-level [control]="form.get('skillLevel')" [translation]="$" [values]="skillLevelPossibleValues">
-              </app-skill-level>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </ng-container>
+        <mat-grid-tile>
+          <app-telephone [control]="form.get('telephoneNumber')" [translation]="$"
+            [serverError]="serverInputsErrors?.telephoneNumber"></app-telephone>
+        </mat-grid-tile>
 
-        <ng-container *ngSwitchCase="true">
+        <mat-grid-tile>
+          <app-skill-level [control]="form.get('skillLevel')" [translation]="$" [values]="skillLevelPossibleValues">
+          </app-skill-level>
+        </mat-grid-tile>
+      </mat-grid-list>
 
-        </ng-container>
-
-      </ng-container>
-    </div>
-  </form>
+      <div>
+        <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ $.form.controls.CANCEL }}</button>
+        <button mat-button (click)="edit()" id="saveButton" *ngIf="editMode">
+          {{ $.form.controls.SAVE }}
+        </button>
+      </div>
+    </form>
+  </ng-container>
 </div>
