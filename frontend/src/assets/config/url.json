@@ -2,8 +2,6 @@
 	"LOGIN_VERIFY": "verify",
 	"EVERYONE": {
 		"MAIN": "",
-		"ABOUT_US": "about-us",
-		"NEWS": "news",
 		"LOGIN": "login",
 		"REGISTER": "register"
 	},

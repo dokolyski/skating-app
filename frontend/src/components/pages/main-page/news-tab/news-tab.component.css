@@ -1,0 +1,45 @@
+article > .feature-img {
+    box-shadow: 0 3px 30px -5px rgba(0,0,0, 0.75);
+    display: flex;
+}
+
+article {
+    padding: 2%;
+    background-color: var(--bluish-white) !important;
+    box-shadow: 0 0 8px 0 var(--dark-blue) !important;
+}
+
+article > .half-hr {
+    width: 50%;
+    padding: 0.1%;
+    background-color: lightblue;
+}
+
+@media (min-width: 769px){
+    main {
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+
+    article {
+        grid-template-columns: 45% 45%;
+        column-gap: 10%;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+}
+
+@media (max-width: 769px) {
+    main {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    article {
+        grid-template-rows: 45% 45%;
+        row-gap: 10%;
+        margin-top: 20%;
+        margin-bottom: 20%;
+    }
+}
+

@@ -66,6 +66,17 @@
                 "SIGN_IN_SOCIAL_MEDIA": "Or Sign In with"
             },
             "CARD_TITLE": "Sign In"
+        },
+        "account": {
+            "table": {
+                "columns": {
+                    "POINTS": "Points",
+                    "REQUIRED_MONEY": "Cost"
+                },
+                "BUY_BUTTON": "Buy",
+                "MONEY_UNIT": "zł"
+            },
+            "CARD_TITLE": "Points buying"
         }
     }
 }

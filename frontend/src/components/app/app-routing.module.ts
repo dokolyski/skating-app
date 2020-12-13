@@ -15,14 +15,6 @@ const routes: Routes = [
     component: Pages.MainPageComponent
   },
   { 
-    path: PATH.EVERYONE.NEWS,
-    component: Pages.NewsPageComponent
-  },
-  { 
-    path: PATH.EVERYONE.ABOUT_US,
-    component: Pages.AboutUsPageComponent
-  },
-  { 
     path: PATH.EVERYONE.REGISTER,
     component: Pages.RegisterPageComponent,
     canActivate: [OnlineGuard, NotLoggedGuard]

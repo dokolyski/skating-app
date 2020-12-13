@@ -66,6 +66,19 @@
                 "SIGN_IN_SOCIAL_MEDIA": "lub zaloguj się przy pomocy"
             },
             "CARD_TITLE": "Logowanie"
+        },
+        "account": {
+            "points-shop": {
+                "table": {
+                    "columns": {
+                        "POINTS": "Punkty",
+                        "REQUIRED_MONEY": "Cena"
+                    },
+                    "BUY_BUTTON": "Wybieram",
+                    "MONEY_UNIT": "zł"
+                },
+                "CARD_TITLE": "Zakup punktów"
+            }
         }
     }
 }
