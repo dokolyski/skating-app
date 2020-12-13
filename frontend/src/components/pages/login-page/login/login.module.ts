@@ -7,22 +7,20 @@ import { AuthService } from 'services/auth-service/Auth.service';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { SocialAuthService } from 'angularx-social-login';
+import { InputsModule } from 'components/common/inputs/inputs.module';
 
 export const moduleInfo = {
   imports: [
     CommonModule,
     MatDividerModule,
-    MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
-    MatInputModule,
-    MatGridListModule,
     ReactiveFormsModule,
+    MatGridListModule,
+    InputsModule
   ],
   declarations: [LoginComponent],
   providers: [

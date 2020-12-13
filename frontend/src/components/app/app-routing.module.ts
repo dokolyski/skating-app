@@ -12,7 +12,7 @@ const routes: Routes = [
   /*EVERYONE*/
   { 
     path: PATH.EVERYONE.MAIN,
-    component: Pages.MainPageComponent
+    component: Pages.AccountPageComponent//Pages.MainPageComponent
   },
   { 
     path: PATH.EVERYONE.REGISTER,
@@ -43,6 +43,11 @@ const routes: Routes = [
   { 
     path: PATH.LOGGED.SESSIONS, 
     component: Pages.SessionsPageComponent,
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: PATH.LOGGED.SHOP,
+    component: Pages.ShopPageComponent,
     // canActivate: [AuthGuard]
   },
   /*ORGANIZER*/

@@ -1,24 +1,29 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {ServiceWorkerModule} from '@angular/service-worker';
-import {environment} from 'environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from 'environments/environment';
 
-import {PagesModule} from 'components/pages/pages';
-import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig} from 'angularx-social-login';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {RestService} from 'services/rest-service/Rest.service';
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {MatIconModule} from '@angular/material/icon';
-import {MenuComponent} from './menu/menu.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {RouterModule} from '@angular/router';
-import {SchedulePageModule} from '../pages/schedule-page/schedule-page.module';
+import { PagesModule } from 'components/pages/pages';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig } from 'angularx-social-login';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RestService } from 'services/rest-service/Rest.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
+import { MenuComponent } from './menu/menu.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { RouterModule } from '@angular/router';
+import { SchedulePageModule } from '../pages/schedule-page/schedule-page.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { AuthService } from 'services/auth-service/Auth.service';
+import { CookieService } from 'ngx-cookie-service';
+import { LanguageService } from 'services/language-service/Language.service';
+import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 
 const config: SocialAuthServiceConfig = {
   providers: [
@@ -41,7 +46,7 @@ export function provideConfig() {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     PagesModule,
     MatCardModule,
@@ -51,7 +56,8 @@ export function provideConfig() {
     MatIconModule,
     MatToolbarModule,
     FlexLayoutModule,
-    RouterModule
+    RouterModule,
+    MatDatepickerModule
   ],
   declarations: [
     AppComponent,
@@ -60,9 +66,13 @@ export function provideConfig() {
   providers: [
     RestService,
     HttpClient,
+    AuthService,
+    CookieService,
+    LanguageService,
+    LanguageErrorService,
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
-    { provide: 'path-languages', useValue: 'languages'},
+    { provide: 'path-languages', useValue: 'languages' },
     { provide: 'SocialAuthServiceConfig', useFactory: provideConfig }
   ],
   bootstrap: [AppComponent]

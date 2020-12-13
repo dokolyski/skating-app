@@ -92,13 +92,13 @@ describe('registration.component', () => {
     }, 100)
 
     it('fetch possible skills values', async (done: DoneFn) => {
-        restMock.do.and.returnValue(new Observable<any>(s => s.next(skills)))
+        const restPath = REST_PATH.CONFIG.GET
+        const options = { templateParamsValues: { key: 'skillLevelPossibleValues' } }
         
-        scheduled([component.onStartWaiting, component.onStopWaiting], asyncScheduler)
-        .subscribe(() => {
-            expect(component.skillLevelPossibleValues).toEqual([' ', ...skills])
+        restMock.do.withArgs(restPath, options).and.returnValue(new Observable<any>(s => {
+            expect().nothing()
             done()
-        })
+        }))
 
         component.ngOnInit()
     })

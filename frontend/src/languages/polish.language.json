@@ -43,8 +43,7 @@
                     "REGISTER": "Zarejestruj",
                     "BACK": "Poprzedni etap",
                     "NEXT": "Następny etap",
-                    "CANCEL": "Anuluj rejestracje",
-                    "PASSWORD_STRENGTH": "Siła hasła"
+                    "CANCEL": "Anuluj rejestracje"
                 },
                 "steps": {
                     "BASE": "Informacje podstawowe",
@@ -67,17 +66,31 @@
             },
             "CARD_TITLE": "Logowanie"
         },
-        "account": {
-            "points-shop": {
-                "table": {
-                    "columns": {
-                        "POINTS": "Punkty",
-                        "REQUIRED_MONEY": "Cena"
-                    },
-                    "BUY_BUTTON": "Wybieram",
-                    "MONEY_UNIT": "zł"
+        "shop": {
+            "table": {
+                "columns": {
+                    "POINTS": "Punkty",
+                    "REQUIRED_MONEY": "Cena"
                 },
-                "CARD_TITLE": "Zakup punktów"
+                "BUY_BUTTON": "Wybieram",
+                "MONEY_UNIT": "zł"
+            },
+            "CARD_TITLE": "Zakup punktów"
+        },
+        "account": {
+            "profile_add": {
+                "form": {
+                    "inputs": {
+                        "NAME": "Imie",
+                        "LASTNAME": "Nazwisko",
+                        "DATE_BIRTH": "Data urodzenia",
+                        "SKILL_LEVEL": "Poziom umiejętności łyżwiarskich"
+                    },
+                    "controls": {
+                        "CREATE": "Stwórz profil",
+                        "CANCEL": "Anuluj"
+                    }
+                }
             }
         }
     }

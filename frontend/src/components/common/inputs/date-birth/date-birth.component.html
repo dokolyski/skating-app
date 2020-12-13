@@ -1,0 +1,21 @@
+<mat-form-field>
+  <mat-label>{{ translation.form.inputs.DATE_BIRTH }}</mat-label>
+  <input id="dateBirth" matInput [matDatepicker]="picker" [formControl]="control" [min]="minDate" [max]="maxDate"
+    required>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+  <mat-icon>cake</mat-icon>
+
+  <mat-error *ngIf="control.hasError('minDatepickerMax')">
+    {{ translation.errors.inputs.dateBirth.INVALID }}
+  </mat-error>
+  <mat-error *ngIf="control.hasError('matDatepickerMax')">
+    {{ translation.errors.inputs.dateBirth.INVALID }}
+  </mat-error>
+  <mat-error *ngIf="control.hasError('required')">
+    {{ translation.errors.inputs.general.REQUIRED }}
+  </mat-error>
+  <mat-error *ngIf="control.hasError('server-error')">
+    {{ serverError }}
+  </mat-error>
+</mat-form-field>

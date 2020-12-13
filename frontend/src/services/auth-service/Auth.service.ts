@@ -5,6 +5,7 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUs
 import { RestService } from 'services/rest-service/Rest.service';
 import { VERIFICATION } from 'api/rest-types'
 import * as REST_PATH from 'api/rest-url.json'
+import { CookieService } from "ngx-cookie-service";
 
 type Token = VERIFICATION.LOGIN.Token
 @Injectable({
@@ -17,7 +18,8 @@ export class AuthService {
 
   constructor(
     private rest: RestService,
-    private tokenService: SocialAuthService) {}
+    private tokenService: SocialAuthService,
+    private cookieService: CookieService) {}
 
   loginViaEmail(email: string, password: string): Observable<void> {
     const body = { email, password }
@@ -40,6 +42,10 @@ export class AuthService {
         this.tokenSubject.next(null)
       })
     )
+  }
+
+  get uid() {
+    return this.cookieService.get('uid')
   }
 
   private loginViaSocialMedia(providerId: string, providerName: string): Observable<void> {

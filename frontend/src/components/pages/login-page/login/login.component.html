@@ -3,38 +3,12 @@
     <form [formGroup]="form">
       <mat-grid-list cols="1" rowHeight="7rem">
         <mat-grid-tile>
-          <mat-form-field *ngIf="form.get('email') as email">
-            <mat-label>{{ $.form.inputs.EMAIL }}</mat-label>
-            <input id="email" type="email" matInput [formControl]="email" required>
-
-            <mat-icon>email</mat-icon>
-
-            <mat-error *ngIf="email.hasError('required')">
-              {{ $.errors.inputs.general.REQUIRED }}
-            </mat-error>
-            <mat-error *ngIf="email.hasError('pattern')">
-              {{ $.errors.inputs.email.INVALID }}
-            </mat-error>
-            <mat-error *ngIf="email.hasError('server-error')">
-              {{ this.serverInputsErrors.email }}
-            </mat-error>
-          </mat-form-field>
+          <app-email [control]="form.get('email')" [translation]="$" [serverError]="serverInputsErrors?.email">
+          </app-email>
         </mat-grid-tile>
 
         <mat-grid-tile>
-          <mat-form-field *ngIf="form.get('password') as password">
-            <mat-label>{{ $.form.inputs.PASSWORD }}</mat-label>
-            <input id="password" type="password" matInput [formControl]="password" required>
-
-            <mat-icon>vpn_key</mat-icon>
-
-            <mat-error *ngIf="password.hasError('required')">
-              {{ $.errors.inputs.general.REQUIRED }}
-            </mat-error>
-            <mat-error *ngIf="password.hasError('server-error')">
-              {{ this.serverInputsErrors.password }}
-            </mat-error>
-          </mat-form-field>
+          <app-password [control]="form.get('password')" [translation]="$" [serverError]="serverInputsErrors?.password"></app-password>
         </mat-grid-tile>
 
         <mat-grid-tile>

@@ -53,7 +53,9 @@ export namespace PROFILES.GET_PROFILES {
     type OUTPUT = {
         fistname: string,
         lastname: string,
-        birth_date: string
+        birth_date: string,
+        skill_level: string | null,
+        type: 'OWNER' | 'PROFILE',
     }[]
 }
 
@@ -62,7 +64,7 @@ export namespace PROFILES.CREATE {
         fistname: string,
         lastname: string,
         birth_date: Date,
-        skill_level?: string
+        skill_level: string | null
     }
 }
 
@@ -71,14 +73,14 @@ export namespace PROFILES.EDIT {
         fistname: string,
         lastname: string,
         birth_date: Date,
-        skill_level?: string
+        skill_level: string | null
     }
 }
 
 export namespace SESSIONS.GET_SESSIONS {
     export type INPUT = {
-        date_from?: Date
-        date_to?: Date
+        date_from: Date | null
+        date_to: Date | null
     }
 
     export type OUTPUT = {
@@ -86,9 +88,9 @@ export namespace SESSIONS.GET_SESSIONS {
         start_date: Date,
         end_date: Date,
         max_participants: number,
-        difficulty?: number,
+        difficulty: number | null,
         price: number,
-        description?: string,
+        description: string | null,
         status: number,
         owner_name: string,
         owner_lastname: string
@@ -101,9 +103,9 @@ export namespace SESSIONS.CREATE {
         start_date: Date,
         end_date: Date,
         max_participants: number,
-        difficulty?: number,
+        difficulty: number | null,
         price: number,
-        description?: string,
+        description: string | null,
         status: number
     }
 }
@@ -114,9 +116,9 @@ export namespace SESSIONS.EDIT {
         start_date: Date,
         end_date: Date,
         max_participants: number,
-        difficulty?: number,
+        difficulty: number | null,
         price: number,
-        description?: string,
+        description: string | null,
         status: number
     }
 }
@@ -140,7 +142,7 @@ export namespace NOTIFICATIONS.GET_NOTIFICATIONS {
         expiration_date: Date,
         status: number,
         title: string,
-        description?: string
+        description: string | null,
         session_id: number
     }
 }
@@ -151,7 +153,7 @@ export namespace NOTIFICATIONS.CREATE {
         expiration_date: Date,
         status: number,
         title: string,
-        description?: string
+        description: string | null,
         session_id: number
     }
 }

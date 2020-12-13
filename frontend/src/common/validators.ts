@@ -1,6 +1,9 @@
 import { AbstractControl, FormGroup } from '@angular/forms';
+import { Validators as AngularValidators } from '@angular/forms';
 
 export namespace Validators {
+  export const email = AngularValidators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
+
   export function passwordPassAllRegex(controler: AbstractControl) {
     const password = controler.value
 

@@ -1,0 +1,11 @@
+<mat-form-field>
+    <mat-label>{{ translation.form.inputs.NAME }}</mat-label>
+    <input id="name" type="text" matInput [formControl]="control" required>
+
+    <mat-error *ngIf="control.hasError('required')">
+        {{ translation.errors.inputs.general.REQUIRED }}
+    </mat-error>
+    <mat-error *ngIf="control.hasError('server-error')">
+        {{ serverError }}
+    </mat-error>
+</mat-form-field>
