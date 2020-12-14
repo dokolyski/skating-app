@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {Session} from '../../../models/session';
-import {RestService} from '../../../services/rest-service/Rest.service';
+import { environment } from 'environments/environment';
+import { Session } from 'models/session';
+import { RestService } from 'services/rest-service/Rest.service';
 
 @Component({
   selector: 'app-schedule-page',
   templateUrl: './schedule-page.component.html',
   styleUrls: ['./schedule-page.component.scss']
 })
-export class SchedulePageComponent  implements OnInit {
+export class SchedulePageComponent implements OnInit {
   weekdays: string[] = environment.session_schedule.weekdays;
   calendar: {
     from: Date,
@@ -24,7 +24,7 @@ export class SchedulePageComponent  implements OnInit {
     this.clearSessions();
     this.sessions = [
       [new Session(1, 2, 'nazwa', new Date(), 45, 10, 'MEDIUM', 35, 'opis. świetne zajęcia.', 'ENDED'),
-        new Session(1, 2, 'nazwa', new Date(), 45, 10, 'MEDIUM', 35, 'opis. świetne zajęcia.', 'ENDED')], [], [], [], [], [], []];
+      new Session(1, 2, 'nazwa', new Date(), 45, 10, 'MEDIUM', 35, 'opis. świetne zajęcia.', 'ENDED')], [], [], [], [], [], []];
     this.initializeCalendarSettings();
   }
 

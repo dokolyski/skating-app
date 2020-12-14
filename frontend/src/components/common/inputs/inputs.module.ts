@@ -9,18 +9,20 @@ import { SkillLevelComponent } from './skill-level/skill-level.component';
 import { TelephoneComponent } from './telephone/telephone.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { NameComponent } from './name/name.component';
+import { ProfileSelectionComponent } from './profile-selection/profile-selection.component';
 
 @NgModule({
   imports: [
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
+    FormsModule,
     ReactiveFormsModule,
     MatNativeDateModule,
     MatDatepickerModule,
@@ -35,7 +37,8 @@ import { NameComponent } from './name/name.component';
     PasswordComponent,
     RepeatPasswordComponent,
     SkillLevelComponent,
-    TelephoneComponent
+    TelephoneComponent,
+    ProfileSelectionComponent
   ],
   exports: [
       DateBirthComponent,
@@ -45,7 +48,8 @@ import { NameComponent } from './name/name.component';
       PasswordComponent,
       RepeatPasswordComponent,
       SkillLevelComponent,
-      TelephoneComponent
+      TelephoneComponent,
+      ProfileSelectionComponent
   ]
 })
 export class InputsModule { }

@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountPageComponent } from './account-page.component';
-import { LanguageService } from 'services/language-service/Language.service';
-import { ProfileAddModule } from './profile-add/profile-add.module';
-import { SettingsChangeModule } from './settings-change/settings-change.module';
+import { AccountSettingsModule } from './account/account-settings/account-settings.module';
+import { ProfileAddModule } from './profile/profile-add/profile-add.module';
+import { ProfileSettingsModule } from './profile/profile-settings/profile-settings.module';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   imports: [
     CommonModule,
-    ProfileAddModule,
-    SettingsChangeModule
+    MatTabsModule,
+    ProfileAddModule, 
+    ProfileSettingsModule,
+    AccountSettingsModule
   ],
   declarations: [AccountPageComponent],
-  providers: [LanguageService]
+  exports: [AccountPageComponent]
 })
 export class AccountPageModule { }

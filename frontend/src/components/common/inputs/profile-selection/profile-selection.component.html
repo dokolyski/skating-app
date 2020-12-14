@@ -1,0 +1,10 @@
+<ng-container *ngIf="selected">
+  <mat-form-field>
+    <mat-label>{{ translation.form.inputs.SELECTED_PROFILE }}</mat-label>
+    <mat-select [(value)]="_selectedProfile" id="profile" [compareWith]="objectComparisonFunction">
+      <mat-option *ngFor="let profile of values" [value]="profile">
+        {{profile.firstname}} {{profile.lastname}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>

@@ -92,6 +92,23 @@
                     }
                 }
             },
+            "profile_settings": {
+                "form": {
+                    "inputs": {
+                        "NAME": "Imie",
+                        "LASTNAME": "Nazwisko",
+                        "DATE_BIRTH": "Data urodzenia",
+                        "SKILL_LEVEL": "Poziom umiejętności łyżwiarskich",
+                        "SELECTED_PROFILE": "Profil"
+                    },
+                    "controls": {
+                        "CREATE": "Stwórz profil",
+                        "CANCEL": "Anuluj",
+                        "EDIT": "Edytuj",
+                        "SAVE": "Zapisz ustawienia"
+                    }
+                }
+            },
             "settings": {
                 "form": {
                     "inputs": {
@@ -109,6 +126,11 @@
                         "EDIT": "Edytuj"
                     }
                 }
+            },
+            "menu": {
+                "ACCOUNT_SETTINGS": "Ustawienia konta",
+                "PROFILE_ADD": "Tworzenie profilu",
+                "PROFILE_SETTINGS": "Ustawienia profilu"
             }
         }
     }

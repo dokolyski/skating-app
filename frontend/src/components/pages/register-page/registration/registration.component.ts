@@ -18,6 +18,7 @@ import { LastnameComponent } from 'components/common/inputs/lastname/lastname.co
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { TelephoneComponent } from 'components/common/inputs/telephone/telephone.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -81,6 +82,8 @@ export class RegistrationComponent implements OnInit {
             const editBody = this.prepareSelfProfilePayload()
             return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
           }
+          
+          return of()
         })
       ).subscribe({
         next: () => this.onSubmit.emit(),
@@ -91,7 +94,7 @@ export class RegistrationComponent implements OnInit {
 
   private prepareRegisterPayload(): VERIFICATION.REGISTER.INPUT {
     return {
-      fistname: this.form.get('personal.name').value,
+      firstname: this.form.get('personal.name').value,
       lastname: this.form.get('personal.lastname').value,
       email: this.form.get('base.email').value,
       password: this.form.get('base.password').value,
@@ -102,7 +105,7 @@ export class RegistrationComponent implements OnInit {
 
   private prepareSelfProfilePayload(): PROFILES.EDIT.INPUT {
     return {
-      fistname: this.form.get('personal.name').value,
+      firstname: this.form.get('personal.name').value,
       lastname: this.form.get('personal.lastname').value,
       birth_date: this.form.get('personal.dateBirth').value,
       skill_level: this.form.get('additional.skillLevel').value

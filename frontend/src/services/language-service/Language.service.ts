@@ -6,9 +6,7 @@ export type NodeTranslation = {
   [node: string]: NodeTranslation | any // string
 };
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LanguageService { 
   private _language = null
   private loadingSubject: Subject<NodeTranslation> = new Subject()

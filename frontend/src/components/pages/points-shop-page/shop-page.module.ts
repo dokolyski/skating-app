@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ShopPageComponent } from './shop-page.component';
 import { PointsShopModule } from './points-shop/points-shop.module';
 import { MatCardModule } from '@angular/material/card';
-import { LanguageService } from 'services/language-service/Language.service';
 
 @NgModule({
   imports: [
@@ -12,6 +11,6 @@ import { LanguageService } from 'services/language-service/Language.service';
     MatCardModule
   ],
   declarations: [ShopPageComponent],
-  providers: [LanguageService]
+  exports: [ShopPageComponent]
 })
 export class ShopPageModule { }

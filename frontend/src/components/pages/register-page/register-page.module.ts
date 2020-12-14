@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RegisterPageComponent } from './register-page.component';
 import { RegistrationModule } from './registration/registration.module';
 import { MatCardModule } from '@angular/material/card';
-import { LanguageService } from 'services/language-service/Language.service';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -14,8 +13,6 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ],
   declarations: [RegisterPageComponent],
-  providers: [
-    LanguageService
-  ]
+  exports: [RegisterPageComponent]
 })
 export class RegisterPageModule { }

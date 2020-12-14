@@ -31,11 +31,6 @@ const routes: Routes = [
     // canActivate: [AuthGuard]
   },
   { 
-    path: PATH.LOGGED.PROFILES, 
-    component: Pages.ProfilesPageComponent,
-    // canActivate: [AuthGuard]
-  },
-  { 
     path: PATH.LOGGED.SCHEDULE, 
     component: Pages.SchedulePageComponent,
     // canActivate: [AuthGuard]

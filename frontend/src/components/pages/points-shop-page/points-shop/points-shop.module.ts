@@ -4,7 +4,6 @@ import { PointsShopComponent } from './points-shop.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { LanguageService } from 'services/language-service/Language.service';
 
 @NgModule({
   imports: [
@@ -14,7 +13,6 @@ import { LanguageService } from 'services/language-service/Language.service';
     ReactiveFormsModule
   ],
   declarations: [PointsShopComponent],
-  providers: [LanguageService],
   exports: [PointsShopComponent]
 })
 export class PointsShopModule { }

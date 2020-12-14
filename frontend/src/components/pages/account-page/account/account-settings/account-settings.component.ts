@@ -16,11 +16,11 @@ import { TelephoneComponent } from 'components/common/inputs/telephone/telephone
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 
 @Component({
-  selector: 'app-settings-change',
-  templateUrl: './settings-change.component.html',
-  styleUrls: ['./settings-change.component.css']
+  selector: 'app-account-settings',
+  templateUrl: './account-settings.component.html',
+  styleUrls: ['./account-settings.component.css']
 })
-export class SettingsChangeComponent implements OnInit {
+export class AccountSettingsComponent implements OnInit {
   form = this.fb.group({
     email: EmailComponent.controlSchema,
     name: NameComponent.controlSchema,
@@ -69,7 +69,7 @@ export class SettingsChangeComponent implements OnInit {
     .pipe(
       mergeMap(data => {
           this.form.get('email').setValue(data.email)
-          this.form.get('name').setValue(data.fistname)
+          this.form.get('name').setValue(data.firstname)
           this.form.get('lastname').setValue(data.lastname)
           this.form.get('dateBirth').setValue(data.birth_date)
           this.form.get('telephoneNumber').setValue(data.phone_number)
@@ -106,7 +106,7 @@ export class SettingsChangeComponent implements OnInit {
 
   private prepareUserInfoPayload(): USER_INFO.EDIT.INPUT {
     return {
-      fistname: this.form.get('name').value,
+      firstname: this.form.get('name').value,
       lastname: this.form.get('lastname').value,
       email: this.form.get('email').value,
       birth_date: this.form.get('dateBirth').value,
@@ -118,7 +118,7 @@ export class SettingsChangeComponent implements OnInit {
     const skill = this.form.get('skillLevel').value
 
     return {
-      fistname: this.form.get('name').value,
+      firstname: this.form.get('name').value,
       lastname: this.form.get('lastname').value,
       birth_date: this.form.get('dateBirth').value,
       skill_level: skill.length && skill != ' ' ? skill : null

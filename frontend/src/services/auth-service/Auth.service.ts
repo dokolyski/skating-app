@@ -3,14 +3,11 @@ import { BehaviorSubject, from, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from "angularx-social-login";
 import { RestService } from 'services/rest-service/Rest.service';
-import { VERIFICATION } from 'api/rest-types'
 import * as REST_PATH from 'api/rest-url.json'
 import { CookieService } from "ngx-cookie-service";
+import { Token } from "api/rest-models";
 
-type Token = VERIFICATION.LOGIN.Token
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
   private token: Token = null
   private tokenSubject: BehaviorSubject<Token> = new BehaviorSubject<Token>(this.token)
