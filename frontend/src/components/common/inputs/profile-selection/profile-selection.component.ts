@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PROFILES } from 'api/rest-types';
+import { PROFILES } from 'api/rest-types-client';
 
 type Profile = PROFILES.GET_PROFILES.OUTPUT[0]
 

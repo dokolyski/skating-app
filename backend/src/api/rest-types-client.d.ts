@@ -51,7 +51,7 @@ export namespace SESSIONS.JOIN {
 }
 
 export namespace NOTIFICATIONS.GET_NOTIFICATIONS {
-    export type OUTPUT = Notification[]
+    export type OUTPUT = Omit<Notification, 'show_date'|'expiration_date'|'status'>[]
 }
 
 export namespace NOTIFICATIONS.CREATE {
