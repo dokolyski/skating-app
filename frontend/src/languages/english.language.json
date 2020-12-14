@@ -43,12 +43,11 @@
                     "REGISTER": "Sign Up",
                     "BACK": "Previous",
                     "NEXT": "Next",
-                    "CANCEL": "Cancel",
-                    "PASSWORD_STRENGTH": "Password strength"
+                    "CANCEL": "Cancel"
                 },
                 "steps": {
                     "BASE": "Base informations",
-                    "PERSONAL": "Personal informations",            
+                    "PERSONAL": "Personal informations",
                     "ADDITIONAL": "Additional informations"
                 }
             },
@@ -67,7 +66,7 @@
             },
             "CARD_TITLE": "Sign In"
         },
-        "account": {
+        "shop": {
             "table": {
                 "columns": {
                     "POINTS": "Points",
@@ -77,6 +76,62 @@
                 "MONEY_UNIT": "zł"
             },
             "CARD_TITLE": "Points buying"
+        },
+        "account": {
+            "profile_add": {
+                "form": {
+                    "inputs": {
+                        "NAME": "Firstname",
+                        "LASTNAME": "Lastname",
+                        "DATE_BIRTH": "Date of birth",
+                        "SKILL_LEVEL": "Skating skills level"
+                    },
+                    "controls": {
+                        "CREATE": "Create profile",
+                        "CANCEL": "Cancel"
+                    }
+                }
+            },
+            "profile_settings": {
+                "form": {
+                    "inputs": {
+                        "NAME": "Firstname",
+                        "LASTNAME": "Lastname",
+                        "DATE_BIRTH": "Date of birth",
+                        "SKILL_LEVEL": "Skating skills level",
+                        "SELECTED_PROFILE": "Profile"
+                    },
+                    "controls": {
+                        "CREATE": "Create profile",
+                        "CANCEL": "Cancel",
+                        "EDIT": "Edit",
+                        "SAVE": "Save settings"
+                    }
+                }
+            },
+            "settings": {
+                "form": {
+                    "inputs": {
+                        "EMAIL": "Email",
+                        "PASSWORD": "Password",
+                        "NAME": "Firstname",
+                        "LASTNAME": "Lastname",
+                        "DATE_BIRTH": "Date of birth",
+                        "TELEPHONE_NUMBER": "Telephone No.",
+                        "SKILL_LEVEL": "Skating skills level"
+                    },
+                    "controls": {
+                        "CANCEL": "Cancel",
+                        "SAVE": "Save settings",
+                        "EDIT": "Edit"
+                    }
+                }
+            },
+            "menu": {
+                "ACCOUNT_SETTINGS": "Account settings",
+                "PROFILE_ADD": "Profile creation",
+                "PROFILE_SETTINGS": "Profile settings"
+            }
         }
     }
 }

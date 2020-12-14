@@ -2,7 +2,7 @@ import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper"
 import { ComponentFixture, TestBed } from "@angular/core/testing"
 
 import { By } from "@angular/platform-browser"
-import { asyncScheduler, Observable, of, scheduled } from "rxjs"
+import { Observable, of } from "rxjs"
 import { LanguageErrorService, TranslatedErrors } from "services/languageError-service/LanguageError.service"
 import { RestService } from "services/rest-service/Rest.service"
 import { RegistrationComponent } from "./registration.component"
@@ -56,10 +56,9 @@ describe('registration.component', () => {
 
         const module: any = {...moduleInfo}
         module.providers = [
-            ...module.providers, 
-            { provide: LanguageService, useValue: lngMock },
             { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
             { provide: RestService, useValue: restMock },
+            { provide: LanguageService, useValue: lngMock },
             { provide: LanguageErrorService, useValue: lngErrorMock }
         ]
 
@@ -92,13 +91,13 @@ describe('registration.component', () => {
     }, 100)
 
     it('fetch possible skills values', async (done: DoneFn) => {
-        restMock.do.and.returnValue(new Observable<any>(s => s.next(skills)))
+        const restPath = REST_PATH.CONFIG.GET
+        const options = { templateParamsValues: { key: 'skillLevelPossibleValues' } }
         
-        scheduled([component.onStartWaiting, component.onStopWaiting], asyncScheduler)
-        .subscribe(() => {
-            expect(component.skillLevelPossibleValues).toEqual([' ', ...skills])
+        restMock.do.withArgs(restPath, options).and.returnValue(new Observable<any>(s => {
+            expect().nothing()
             done()
-        })
+        }))
 
         component.ngOnInit()
     })
@@ -124,6 +123,7 @@ describe('registration.component', () => {
             done()
         })
 
+        component.ngOnInit()
         buttons.cancelButton.click()
     })
 
@@ -140,6 +140,8 @@ describe('registration.component', () => {
             expect(errorInfos.length).toEqual(0)
             done()
         })
+
+        component.ngOnInit()
 
         await buttons.emailInput.setValue(registerBody.email)
         await buttons.passwordInput.setValue(registerBody.password)
@@ -159,6 +161,8 @@ describe('registration.component', () => {
         const anotherPasswd = '4123'
         expect(anotherPasswd).not.toEqual(registerBody.password)
 
+        component.ngOnInit()
+
         await buttons.passwordInput.setValue(registerBody.password)
         await buttons.repeatPasswdInput.setValue(anotherPasswd)
         await buttons.nextButtons[0].click()
@@ -177,11 +181,17 @@ describe('registration.component', () => {
         const translatedErr: TranslatedErrors = { 
             inputs: {  [errKey]: errTrans } 
         }
+        const options = { templateParamsValues: { key: 'skillLevelPossibleValues' } }
+        
+        const body: any = registerBody
+        body.birth_date = new Date(body.birth_date)
 
-        restMock.do.withArgs(REST_PATH.VERIFICATION.REGISTER).and.returnValue(new Observable(s => s.error(error)))
-        restMock.do.and.returnValue(of(skills))
+        restMock.do.withArgs(REST_PATH.CONFIG.GET, options).and.returnValue(of(skills))
+        restMock.do.and.returnValue(new Observable(s => s.error(error)))
         lngErrorMock.getErrorsStrings.and.returnValue(of(translatedErr))
         
+        component.ngOnInit()
+
         await buttons.emailInput.setValue(registerBody.email)
         await buttons.passwordInput.setValue(registerBody.password)
         await buttons.repeatPasswdInput.setValue(registerBody.password)

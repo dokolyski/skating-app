@@ -42,3 +42,7 @@ h3 {
 #page-content-wrapper {
   padding: 10px;
 }
+
+mat-error + mat-error {
+  display: none !important;
+}

@@ -11,9 +11,7 @@ export type TranslatedErrors = {
   }
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LanguageErrorService {
   constructor(private readonly languageService: LanguageService) { }
 

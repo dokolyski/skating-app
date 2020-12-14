@@ -53,7 +53,6 @@ describe('login.component', () => {
       MatIconTestingModule
     ]
     module.providers = [
-      ...module.providers,
       { provide: AuthService, useValue: authMock },
       { provide: RestService, useValue: restMock },
       { provide: LanguageService, useValue: lngMock },

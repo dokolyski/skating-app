@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LoginPageComponent } from './login-page.component';
 import { LoginModule } from './login/login.module';
 import { MatCardModule } from '@angular/material/card';
-import { LanguageService } from 'services/language-service/Language.service';
 
 @NgModule({
   imports: [
@@ -11,7 +10,7 @@ import { LanguageService } from 'services/language-service/Language.service';
     LoginModule,
     MatCardModule
   ],
-  providers: [LanguageService],
-  declarations: [LoginPageComponent]
+  declarations: [LoginPageComponent],
+  exports: [LoginPageComponent]
 })
 export class LoginPageModule { }
