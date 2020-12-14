@@ -2,7 +2,7 @@ import { Observable, of } from "rxjs";
 import { RestOptions, RestPath } from "services/rest-service/Rest.service";
 import * as REST_PATH from 'api/rest-url.json'
 import { Injectable } from "@angular/core";
-import { PROFILES } from "api/rest-types";
+import { PROFILES } from "api/rest-types-client";
 
 @Injectable()
 export class RestServiceMock {
