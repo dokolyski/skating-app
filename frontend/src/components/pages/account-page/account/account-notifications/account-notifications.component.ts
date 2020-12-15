@@ -14,7 +14,10 @@ import { map, mergeMap } from 'rxjs/operators';
   styleUrls: ['./account-notifications.component.css']
 })
 export class AccountNotificationsComponent implements OnInit {
-  sessions: {session_info: Session, notification_info: Notification}[]
+  sessions: {
+    session_info: Pick<Session, 'name'|'session_id'>, 
+    notification_info: Omit<Notification, 'show_date'|'expiration_date'|'status'>
+  }[]
 
   @Output()
   onCancel = new EventEmitter<void>()
@@ -49,7 +52,7 @@ export class AccountNotificationsComponent implements OnInit {
       .subscribe({
         next: data => {
           data = data.sort((a, b) => a.session_info.start_date.getTime() - b.session_info.start_date.getTime())
-          this.sessions = data as any
+          this.sessions = data
         },
         error: (e: RestError) => this.handleErrors(e)
       })
