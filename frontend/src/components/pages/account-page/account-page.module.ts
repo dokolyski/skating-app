@@ -5,6 +5,7 @@ import { AccountSettingsModule } from './account/account-settings/account-settin
 import { ProfileAddModule } from './profile/profile-add/profile-add.module';
 import { ProfileSettingsModule } from './profile/profile-settings/profile-settings.module';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AccountNotificationsModule } from './account/account-notifications/account-notifications.module';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatTabsModule,
     ProfileAddModule, 
     ProfileSettingsModule,
-    AccountSettingsModule
+    AccountSettingsModule,
+    AccountNotificationsModule
   ],
   declarations: [AccountPageComponent],
   exports: [AccountPageComponent]

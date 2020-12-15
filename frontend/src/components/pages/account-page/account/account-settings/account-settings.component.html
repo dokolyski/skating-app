@@ -1,4 +1,4 @@
-<div *ngIf="(lngService.dictionary$ | async) as $">
+<ng-container *ngIf="(lngService.dictionary$ | async) as $">
   <ng-container *ngIf="{errors: $.errors, form: $.pages.account.settings.form} as $">
     <div>
       <mat-slide-toggle [(ngModel)]="editMode">
@@ -41,11 +41,11 @@
 
         <div>
           <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ $.form.controls.CANCEL }}</button>
-          <button mat-button (click)="edit()" id="saveButton" *ngIf="editMode">
+          <button mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">
             {{ $.form.controls.SAVE }}
           </button>
         </div>
       </form>
     </div>
   </ng-container>
-</div>
+</ng-container>
