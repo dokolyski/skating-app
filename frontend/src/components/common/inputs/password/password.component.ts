@@ -14,10 +14,16 @@ export class PasswordComponent {
   @Input()
   serverError: string
 
+  /**
+   * @description ```required```, ```min length of 8```, ```max length of 16```, ```pass all password regex```, ```above entropy of 0.5```
+   */
   static controlSchema = ['', [
     Validators.required, Validators.minLength(8), Validators.maxLength(16),
-    VLD.Validators.passwordPassAllRegex, VLD.Validators.aboveEntrophy(0.5)
+    VLD.Validators.passwordPassAllRegex, VLD.Validators.aboveEntropy(0.5)
   ]]
 
+  /**
+   * @description ```required```
+   */
   static controlSchemaOnlyRequired = ['', Validators.required]
 }

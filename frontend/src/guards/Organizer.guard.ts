@@ -2,6 +2,9 @@ import { Injectable } from "@angular/core";
 import { CanActivate } from "@angular/router";
 import { CookieService } from "ngx-cookie-service";
 
+/**
+ * @description Activate if user account type is ```organizer```
+ */
 @Injectable({
     providedIn: 'root'
 })

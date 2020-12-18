@@ -1,25 +1,18 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileAddComponent } from './profile-add.component';
+import { moduleInfo } from './profile-add.module';
 
 xdescribe('ProfileAddComponent', () => {
   let component: ProfileAddComponent;
   let fixture: ComponentFixture<ProfileAddComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ProfileAddComponent ]
-    })
-    .compileComponents();
-  }));
-
   beforeEach(() => {
+    TestBed.configureTestingModule(moduleInfo).compileComponents();
+
     fixture = TestBed.createComponent(ProfileAddComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

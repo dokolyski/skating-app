@@ -13,5 +13,8 @@ export class LastnameComponent {
   @Input()
   serverError: string
 
+  /**
+   * @description ```required```
+   */
   static controlSchema = ['', Validators.required]
 }

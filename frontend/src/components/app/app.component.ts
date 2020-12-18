@@ -21,7 +21,7 @@ export class AppComponent implements OnDestroy {
     private lngService: LanguageService,
     private adapter: DateAdapter<any>) {
 
-    this.setDatepickerLng()
+    this.setDatepickerLanguage()
     this.loadIcons()
     this.handlePWA()
   }
@@ -30,7 +30,7 @@ export class AppComponent implements OnDestroy {
     this.lngSubscription.unsubscribe()
   }
 
-  private setDatepickerLng() {
+  private setDatepickerLanguage() {
     this.lngSubscription = this.lngService.dictionary$.subscribe(() => {
       if (this.lngService.language == 'polish') {
         this.adapter.setLocale('pl')

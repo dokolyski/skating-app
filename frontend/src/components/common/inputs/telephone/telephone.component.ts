@@ -13,5 +13,8 @@ export class TelephoneComponent {
   @Input()
   serverError: string
 
+  /**
+   * @description ```required```
+   */
   static controlSchema = ['', Validators.required]
 }

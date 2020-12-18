@@ -3,12 +3,18 @@ import { CommonModule } from '@angular/common';
 import { AccountNotificationsComponent } from './account-notifications.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-@NgModule({
+export const moduleInfo = {
   imports: [
     CommonModule,
     MatExpansionModule
   ],
   declarations: [AccountNotificationsComponent],
   exports: [AccountNotificationsComponent]
+}
+
+@NgModule({
+  imports: moduleInfo.imports,
+  declarations: moduleInfo.declarations,
+  exports: moduleInfo.exports
 })
 export class AccountNotificationsModule { }

@@ -18,19 +18,32 @@ export class AuthService {
     private tokenService: SocialAuthService,
     private cookieService: CookieService) {}
 
+  /**
+  * @returns ```Observable```, emits ```next``` on fullfillment
+  */
   loginViaEmail(email: string, password: string): Observable<void> {
     const body = { email, password }
     return this.rest.do(REST_PATH.VERIFICATION.LOGIN, { body })
   }
 
+  /**
+  * @returns ```Observable```, emits ```next``` on fullfillment
+  */
   loginViaGoogle(): Observable<void> {
     return this.loginViaSocialMedia(GoogleLoginProvider.PROVIDER_ID, 'GOOGLE')
   }
 
+  /**
+  * @returns ```Observable```, emits ```next``` on fullfillment
+  */
   loginViaFacebook(): Observable<void> {
     return this.loginViaSocialMedia(FacebookLoginProvider.PROVIDER_ID, 'FACEBOOK')
   }
 
+  /**
+  * @description Notify server to logout, clear token
+  * @returns ```Observable```, emits ```next``` on fullfillment
+  */
   logout(): Observable<void> {
     return this.rest.do(REST_PATH.VERIFICATION.LOGOUT, { templateParamsValues: { token: this.token } })
     .pipe(
@@ -41,10 +54,17 @@ export class AuthService {
     )
   }
 
+  /**
+  * @returns Server user id
+  */
   get uid() {
     return this.cookieService.get('uid')
   }
 
+  /**
+  * @description Sign in to provider, then send ```token``` and ```provider name``` to the server, finally assign client token received from server
+  * @returns ```Observable```, emits ```next``` on fullfillment
+  */
   private loginViaSocialMedia(providerId: string, providerName: string): Observable<void> {
     return from(this.tokenService.signIn(providerId))
     .pipe(

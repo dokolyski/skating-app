@@ -73,11 +73,13 @@ export class RegistrationComponent implements OnInit {
   register() {
     const registerBody = this.prepareRegisterPayload()
 
+    // create account
     this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
       .pipe(
         mergeMap(() => {
           const skillLevel = this.form.get('additional.skillLevel').value
 
+          // when user selects one of the skill then create profile
           if (skillLevel.length && skillLevel != ' ') {
             const editBody = this.prepareSelfProfilePayload()
             return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })

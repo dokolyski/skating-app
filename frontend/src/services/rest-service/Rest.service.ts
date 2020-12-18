@@ -12,6 +12,11 @@ export type RestOptions = {templateParamsValues?: {[key: string]: string}, body?
 export class RestService {
     constructor(private http: HttpClient) {}
 
+    /**
+     * @description Parse data and send request to the REST server
+     * @param restPath informations loaded from end node from `rest-url.json`
+     * @param options ```body``` or ```HTTP Query Params```, template URL path with values
+     */
     do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {
         return new Observable(s => {
             try{
@@ -32,11 +37,23 @@ export class RestService {
         )
     }
 
+    /**
+     * @description Verify template URL path and replace template keys with assigned values
+     * @param templateUrl template URL path
+     * @param templateParams templates keys to be replacements
+     * @param paramsValues values to replaces template keys
+     */
     private parseTemplateUrl(templateUrl: string, templateParams: string[], paramsValues: {[key: string]: string}): string {
         this.verifyTemplateErrors(templateParams, paramsValues)
         return templateParams.reduce((p, c) => p.replace(`{${c}}`, paramsValues[c]), templateUrl)
     }
 
+    /**
+     * @description Verify template URL path 
+     * @param templateParams templates keys to be replacements
+     * @param paramsValues values to replaces template keys
+     * @throws Error on invalid template params keys 
+     */
     private verifyTemplateErrors(templateParams: string[] = [], paramsValues: {[key: string]: string} = {}): void|never {
         const differentLength = templateParams.length != Object.keys(paramsValues).length
         const differentArgs = !templateParams.every(p => p in paramsValues)
@@ -46,6 +63,10 @@ export class RestService {
         }
     }
 
+    /**
+     * @description Convert ```JSON``` into ```HTTP Query Params```
+     * @param body ```JSON``` payload 
+     */
     private parseQueryParams(body: RestJSON): HttpParams {
         const params = new HttpParams()
         for(const [k, v] of Object.entries(body)) {
@@ -54,8 +75,14 @@ export class RestService {
         return params
     }
 
+    /**
+     * @param url server endpoint path
+     * @param method ```GET```, ```POST```, ```PUT```, ```PATCH```, ```DELETE```
+     * @param payload ```JSON``` on ```POST```, ```PUT```, ```PATCH``` or ```HTTP Query Params``` on ```GET```, ```DELETE```
+     * @throws Error on unhandled HTTP method
+     */
     private sendRequest(url: string, method: string, 
-        payload: { body?: RestJSON, params?: HttpParams}): Observable<any> {
+        payload: { body?: RestJSON, params?: HttpParams}): Observable<any>|never {
         const options = {withCredentials: true}
         switch(method) {
             case 'GET':

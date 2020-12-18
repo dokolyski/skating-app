@@ -15,6 +15,10 @@ export class ProfileSelectionComponent implements OnInit {
   
   @Input()
   selected: Profile
+
+  /** 
+   * @description Selected another ```profile```
+  */
   @Output()
   selectedChange = new EventEmitter<Profile>()
 
