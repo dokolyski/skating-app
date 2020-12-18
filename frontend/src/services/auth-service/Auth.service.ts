@@ -7,6 +7,9 @@ import * as REST_PATH from 'api/rest-url.json'
 import { CookieService } from "ngx-cookie-service";
 import { Token } from "api/rest-models";
 
+/**
+ * @description Authorisation purpose proxy to the ```REST``` server and ```Token provider```
+ */
 @Injectable()
 export class AuthService {
   private token: Token = null

@@ -11,6 +11,9 @@ export type TranslatedErrors = {
   }
 }
 
+/**
+ * @description Translate ```REST``` server errors tokens into ```client``` errors messages, messages depends on the selected ```language```
+ */
 @Injectable()
 export class LanguageErrorService {
   constructor(private readonly languageService: LanguageService) { }

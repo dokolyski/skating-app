@@ -8,6 +8,10 @@ import { mergeMap } from 'rxjs/operators';
 export type RestPath = {URL: string, METHOD: string, PARAMS?: string[]}
 export type RestOptions = {templateParamsValues?: {[key: string]: string}, body?: RestJSON}
 
+/**
+ * @summary General purpose proxy to the ```REST``` server
+ * @description Allow to communicates easily with the ```REST``` server, can use template URL path, handle methods: ```GET```, ```POST```, ```PUT```, ```PATCH```, ```DELETE```
+ */
 @Injectable()
 export class RestService {
     constructor(private http: HttpClient) {}

@@ -8,6 +8,9 @@ import { Observable } from 'rxjs';
 import { EmailComponent } from 'components/common/inputs/email/email.component';
 import { PasswordComponent } from 'components/common/inputs/password/password.component';
 
+/**
+ * @description Allow user to sign in through ```email and password``` or ```social media``` like ```Google``` or ```Facebook```
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

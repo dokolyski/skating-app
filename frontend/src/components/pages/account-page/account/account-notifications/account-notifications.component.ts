@@ -8,6 +8,9 @@ import { Notification, Session } from 'api/rest-models'
 import * as REST_PATH from 'api/rest-url.json'
 import { map, mergeMap } from 'rxjs/operators';
 
+/**
+ * @description Show notifications associated with account profiles
+ */
 @Component({
   selector: 'app-account-notifications',
   templateUrl: './account-notifications.component.html',

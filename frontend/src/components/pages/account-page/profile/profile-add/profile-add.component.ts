@@ -11,6 +11,10 @@ import { LastnameComponent } from 'components/common/inputs/lastname/lastname.co
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 
+/**
+ * @description Creates next user profile with limit per user, gather informations about 
+ * required ```name```, ```lastname```, ```date of birth```, ```skill level```
+ */
 @Component({
   selector: 'app-profile-add',
   templateUrl: './profile-add.component.html',

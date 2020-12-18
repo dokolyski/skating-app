@@ -6,6 +6,9 @@ export type NodeTranslation = {
   [node: string]: NodeTranslation | any // string
 };
 
+/**
+ * @description Fetch selected language file
+ */
 @Injectable()
 export class LanguageService { 
   private _language = null

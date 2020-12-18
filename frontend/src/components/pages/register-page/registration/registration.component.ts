@@ -20,6 +20,10 @@ import { TelephoneComponent } from 'components/common/inputs/telephone/telephone
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { of } from 'rxjs';
 
+/**
+ * @description Gather, validate and send to the ```REST``` server required user informations like 
+ * ```email```, ```password```, ```name```, ```lastname```, ```date of birth```, ```telephone number``` and optional ```skill level```. 
+ */
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',

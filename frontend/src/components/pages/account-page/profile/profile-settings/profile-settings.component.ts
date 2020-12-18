@@ -14,6 +14,10 @@ import { mergeMap } from 'rxjs/operators';
 import { AuthService } from 'services/auth-service/Auth.service';
 import { Profile } from 'api/rest-models';
 
+/**
+ * @description Show profiles account settings and allow to change them, , gather informations about 
+ * required ```name```, ```lastname```, ```date of birth```, ```skill level```
+ */
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',

@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestError } from 'api/rest-error';
 import { USER_INFO, PROFILES, CONFIG } from 'api/rest-types-client';
-import { mergeMap, tap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
@@ -16,6 +16,10 @@ import { TelephoneComponent } from 'components/common/inputs/telephone/telephone
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { Profile, User } from 'api/rest-models';
 
+/**
+ * @description Show user settings and allow to change them, gather informations about 
+ * required ```email```, ```name```, ```lastname```, ```date of birth```, ```telephone number``` and optional ```skill level```
+ */
 @Component({
   selector: 'app-account-settings',
   templateUrl: './account-settings.component.html',
