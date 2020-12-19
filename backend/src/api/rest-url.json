@@ -102,7 +102,7 @@
             "METHOD": "PATCH"
         }
     },
-    "TRANSACTIONS": {
+    "PAYMENTS": {
         "BUY_POINTS": {
             "URL": "api/transactions/points",
             "METHOD": "POST"
