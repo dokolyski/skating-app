@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RestError } from 'api/rest-error';
-import { NOTIFICATIONS, SESSIONS } from 'api/rest-types-client';
+import { NOTIFICATIONS, SESSIONS } from 'api/rest-types';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';

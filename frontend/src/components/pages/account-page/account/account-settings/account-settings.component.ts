@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestError } from 'api/rest-error';
-import { USER_INFO, PROFILES, CONFIG } from 'api/rest-types-client';
+import { USER_INFO, PROFILES, CONFIG } from 'api/rest-types';
 import { mergeMap } from 'rxjs/operators';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
