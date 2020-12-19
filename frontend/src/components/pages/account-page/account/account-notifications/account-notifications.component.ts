@@ -45,7 +45,7 @@ export class AccountNotificationsComponent implements OnInit {
             .pipe(
               map(n =>
                 n.map(v => {
-                  const session_info = s.filter(({session_id}) => session_id == v.session_id)[0]
+                  const session_info = s.filter(({id: session_id}) => session_id == v.session_id)[0]
                   return {session_info, notification_info: v}
                 })
               )
