@@ -94,12 +94,11 @@ User.init({
             is: /[0-9]{9}/i
         }
     },
-    
-    token: {
-        type: SQL.STRING(45),
-        defaultValue: null
+    verified: {
+        type: SQL.BOOLEAN,
+        defaultValue: false
     },
-    social_login_token: {
+    token: {
         type: SQL.STRING(45),
         defaultValue: null
     },

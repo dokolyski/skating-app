@@ -1,41 +1,40 @@
-import smtp_config from 'config/smtp.json'
-import SMTP from 'static/smtp'
-import User from 'models/users'
-import server_config from 'config/server.json'
-import db from 'static/database'
+import {Validate, Validator} from "typescript-class-validator";
 import * as jwt from 'jsonwebtoken'
 import crypto from 'crypto'
-import * as API from 'api/tokens'
 import Bcrypt from 'bcrypt'
-import { decrypt } from 'init/generate-keys'
-import LogicError from 'misc/logic-error'
+import smtp_config from 'config/smtp.json'
+import SMTP from 'static/smtp'
+import User from '../models/users'
+import server_config from '../config/server.json'
+import * as API from '../api/tokens'
+import {decrypt} from '../init/generate-keys'
+import LogicError from '../misc/logic-error'
+import HttpCode from 'http-status-codes'
 
-export async function signIn(body: API.TOKEN.POST): Promise<{ user_id: number, token: string, expiresIn: number } | Error | LogicError> {
-    try {
-        body.password = decrypt(body.password)
-
-        if (body.password.length < 8 || body.password.length > 16) {
-            throw new LogicError('password must be between 8 and 16 characters')
-        }
+export default class Logging {
+    @Validate
+    public static async signIn(@Validator data: API.TOKEN.POST): Promise<{ token: string, expiresIn: number } | Error | LogicError> {
+        data.password = decrypt(data.password);
 
         const user = await User.findOne({
-            where: { email: body.email }
-        })
+            where: {email: data.email}
+        });
 
         if (!user) {
-            throw new LogicError("invalid username or password")
-        } else if (!Bcrypt.compareSync(body.password, user.password)) {
-            throw new LogicError("invalid username or password")
+            throw new LogicError("Invalid username or password", HttpCode.NOT_FOUND);
+        } else if (!Bcrypt.compareSync(data.password, user.password)) {
+            throw new LogicError("Invalid username or password");
         } else if (!user.verified) {
-            throw new LogicError("user hasn't finished registration")
+            throw new LogicError("User hasn't finished registration", HttpCode.UNAUTHORIZED);
         }
 
-        const id = crypto.randomBytes(64).toString('hex')
-        const token = jwt.sign({ id: id }, server_config.token.secret, { expiresIn: server_config.token.expiresIn }) // 24 hours
-        return { user_id: user.id, token, expiresIn: server_config.token.expiresIn }
-    } catch (err) {
-        console.error(err)
-        return err
+        const id = crypto.randomBytes(64).toString('hex');
+        const token = jwt.sign({id: id}, server_config.token.secret, {expiresIn: server_config.token.expiresIn}); // 24 hours
+
+        user.token = token;
+        await user.save();
+
+        return {token, expiresIn: server_config.token.expiresIn}
     }
 }
 
