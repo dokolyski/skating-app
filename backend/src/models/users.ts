@@ -13,7 +13,6 @@ class User extends SQL.Model {
     public verified: boolean;
 
     public token: string;
-    public social_login_token: string;
     public password_reset_token: string;
     public password_reset_token_expiration_date: Date;
 
@@ -95,12 +94,11 @@ User.init({
             is: /[0-9]{9}/i
         }
     },
-    
-    token: {
-        type: SQL.STRING(45),
-        defaultValue: null
+    verified: {
+        type: SQL.BOOLEAN,
+        defaultValue: false
     },
-    social_login_token: {
+    token: {
         type: SQL.STRING(45),
         defaultValue: null
     },
