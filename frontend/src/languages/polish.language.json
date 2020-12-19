@@ -43,8 +43,7 @@
                     "REGISTER": "Zarejestruj",
                     "BACK": "Poprzedni etap",
                     "NEXT": "Następny etap",
-                    "CANCEL": "Anuluj rejestracje",
-                    "PASSWORD_STRENGTH": "Siła hasła"
+                    "CANCEL": "Anuluj rejestracje"
                 },
                 "steps": {
                     "BASE": "Informacje podstawowe",
@@ -52,7 +51,87 @@
                     "ADDITIONAL": "Informacje dodatkowe"
                 }
             },
-            "cardTitle": "Rejestracja konta"
+            "CARD_TITLE": "Rejestracja konta"
+        },
+        "login": {
+            "form": {
+                "inputs": {
+                    "EMAIL": "Email",
+                    "PASSWORD": "Hasło"
+                },
+                "buttons": {
+                    "LOGIN_EMAIL": "Zaloguj"
+                },
+                "SIGN_IN_SOCIAL_MEDIA": "lub zaloguj się przy pomocy"
+            },
+            "CARD_TITLE": "Logowanie"
+        },
+        "shop": {
+            "table": {
+                "columns": {
+                    "POINTS": "Punkty",
+                    "REQUIRED_MONEY": "Cena"
+                },
+                "BUY_BUTTON": "Wybieram",
+                "MONEY_UNIT": "zł"
+            },
+            "CARD_TITLE": "Zakup punktów"
+        },
+        "account": {
+            "profile_add": {
+                "form": {
+                    "inputs": {
+                        "NAME": "Imie",
+                        "LASTNAME": "Nazwisko",
+                        "DATE_BIRTH": "Data urodzenia",
+                        "SKILL_LEVEL": "Poziom umiejętności łyżwiarskich"
+                    },
+                    "controls": {
+                        "CREATE": "Stwórz profil",
+                        "CANCEL": "Anuluj"
+                    }
+                }
+            },
+            "profile_settings": {
+                "form": {
+                    "inputs": {
+                        "NAME": "Imie",
+                        "LASTNAME": "Nazwisko",
+                        "DATE_BIRTH": "Data urodzenia",
+                        "SKILL_LEVEL": "Poziom umiejętności łyżwiarskich",
+                        "SELECTED_PROFILE": "Profil"
+                    },
+                    "controls": {
+                        "CREATE": "Stwórz profil",
+                        "CANCEL": "Anuluj",
+                        "EDIT": "Edytuj",
+                        "SAVE": "Zapisz ustawienia"
+                    }
+                }
+            },
+            "settings": {
+                "form": {
+                    "inputs": {
+                        "EMAIL": "Email",
+                        "PASSWORD": "Hasło",
+                        "NAME": "Imie",
+                        "LASTNAME": "Nazwisko",
+                        "DATE_BIRTH": "Data urodzenia",
+                        "TELEPHONE_NUMBER": "Numer telefonu",
+                        "SKILL_LEVEL": "Poziom umiejętności łyżwiarskich"
+                    },
+                    "controls": {
+                        "CANCEL": "Anuluj",
+                        "SAVE": "Zapisz ustawienia",
+                        "EDIT": "Edytuj"
+                    }
+                }
+            },
+            "menu": {
+                "ACCOUNT_SETTINGS": "Ustawienia konta",
+                "PROFILE_ADD": "Tworzenie profilu",
+                "PROFILE_SETTINGS": "Ustawienia profilu"
+            }
         }
     }
 }

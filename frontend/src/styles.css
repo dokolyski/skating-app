@@ -12,4 +12,37 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/*# sourceMappingURL=styles.css.map */
+p, h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+h1 {
+  font-size: xx-large;
+}
+
+h2 {
+  font-size: x-large;
+}
+
+h3 {
+  font-size: large;
+}
+
+:root {
+  --background-compatibility-full: #7F7FD5;
+  --background-compatibility: -webkit-linear-gradient(to bottom, #91eae482, #86a8e785, #7f7fd585);
+  --background: linear-gradient(to bottom, #91eae482, #86a8e785, #7f7fd585);
+  --very-dark-blue: #25257f;
+  --dark-blue: #3f51b5;
+  --azure-blue: #0087e8;
+  --malibu: #6cc8ff;
+  --bluish-white: #e8eaf6;
+}
+
+#page-content-wrapper {
+  padding: 10px;
+}
+
+mat-error + mat-error {
+  display: none !important;
+}

@@ -5,7 +5,22 @@
 export const environment = {
   production: false,
   server_addr: 'localhost',
-  language: 'polish'
+  language: 'polish',
+  keys: {
+    GOOGLE: '0123456789',
+    FACEBOOK: '0123456789'
+  },
+  session_schedule: {
+    weekdays: [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ]
+  }
 };
 
 /*

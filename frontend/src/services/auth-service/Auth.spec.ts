@@ -4,17 +4,26 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUs
 import * as REST_PATH from 'api/rest-url.json'
 import { of } from "rxjs"
 import { mergeMap } from "rxjs/operators"
+import { CookieService } from "ngx-cookie-service"
 
 describe('auth.service', () => {
     let restMock: jasmine.SpyObj<RestService>
     let socialMock: jasmine.SpyObj<SocialAuthService>
+    let cookieMock: jasmine.SpyObj<CookieService>
     let service: AuthService
     
     beforeEach(() => {
         restMock = jasmine.createSpyObj('RestService', ['do'])
         socialMock = jasmine.createSpyObj('SocialAuthService', ['signIn'])
+        cookieMock = jasmine.createSpyObj('CookieService', ['get'])
 
-        service = new AuthService(restMock, socialMock)
+        service = new AuthService(restMock, socialMock, cookieMock)
+    })
+
+    it('returns user id', () => {
+        const [key, val] = ['uid', '1']
+        cookieMock.get.withArgs(key).and.returnValue(val)
+        expect(service.uid).toEqual(val)
     })
 
     it('login via email', (done: DoneFn) => {

@@ -12,15 +12,7 @@ const routes: Routes = [
   /*EVERYONE*/
   { 
     path: PATH.EVERYONE.MAIN,
-    component: Pages.RegisterPageComponent//Pages.MainPageComponent
-  },
-  { 
-    path: PATH.EVERYONE.NEWS,
-    component: Pages.NewsPageComponent
-  },
-  { 
-    path: PATH.EVERYONE.ABOUT_US,
-    component: Pages.AboutUsPageComponent
+    component: Pages.AccountPageComponent//Pages.MainPageComponent
   },
   { 
     path: PATH.EVERYONE.REGISTER,
@@ -36,22 +28,22 @@ const routes: Routes = [
   { 
     path: PATH.LOGGED.ACCOUNT, 
     component: Pages.AccountPageComponent,
-    canActivate: [AuthGuard]
-  },
-  { 
-    path: PATH.LOGGED.PROFILES, 
-    component: Pages.ProfilesPageComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   { 
     path: PATH.LOGGED.SCHEDULE, 
     component: Pages.SchedulePageComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   { 
     path: PATH.LOGGED.SESSIONS, 
     component: Pages.SessionsPageComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: PATH.LOGGED.SHOP,
+    component: Pages.ShopPageComponent,
+    // canActivate: [AuthGuard]
   },
   /*ORGANIZER*/
   { 

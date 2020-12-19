@@ -1,0 +1,10 @@
+<mat-form-field>
+  <mat-label>{{ translation.form.inputs.SKILL_LEVEL }}</mat-label>
+  <mat-select [formControl]="control" id="skillLevel">
+    <mat-option *ngFor="let lvl of values" [value]="lvl">{{lvl}}</mat-option>
+  </mat-select>
+
+  <mat-error *ngIf="control.hasError('required')">
+    {{ translation.errors.inputs.general.REQUIRED }}
+  </mat-error>
+</mat-form-field>

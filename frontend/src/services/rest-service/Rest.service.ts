@@ -2,15 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment.prod';
-import { RestJSON } from 'api/rest-types';
+import { RestJSON } from 'api/rest-models';
 import { mergeMap } from 'rxjs/operators';
 
 export type RestPath = {URL: string, METHOD: string, PARAMS?: string[]}
 export type RestOptions = {templateParamsValues?: {[key: string]: string}, body?: RestJSON}
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class RestService {
     constructor(private http: HttpClient) {}
 
