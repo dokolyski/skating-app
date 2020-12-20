@@ -1,115 +1,119 @@
 import { IsNotEmpty, IsNumber, IsString, Matches, IsDate, ValidateIf, IsIn } from "class-validator"
 
+export const ALL_PROFILES_GROUP = 'ALL'
+export const CREATE_PROFILE_GROUP = 'CREATE'
+export const EDIT_PROFILE_GROUP = 'EDIT'
+
 export class Profile {
     @IsNotEmpty({
-        groups: ['PROFILES.GET_PROFILES']
+        groups: [ALL_PROFILES_GROUP]
     })
     @IsNumber({}, {
-        groups: ['PROFILES.GET_PROFILES']
+        groups: [ALL_PROFILES_GROUP]
     })
     id: number
 
     @IsNotEmpty({
-        groups: ['PROFILES.GET_PROFILES']
+        groups: [ALL_PROFILES_GROUP]
     })
     @IsNumber({}, {
-        groups: ['PROFILES.GET_PROFILES']
+        groups: [ALL_PROFILES_GROUP]
     })
     user_id: number
 
     @IsNotEmpty({
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     @IsString({
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i, {
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     firstname: string
 
     @IsNotEmpty({
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     @IsString({
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i, {
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     lastname: string
 
     @IsNotEmpty({
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     @IsDate({
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     birth_date: Date
 
     @ValidateIf(o => o.skill_level != null, {
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     @IsString({
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     @IsIn(['LOW', 'MEDIUM', 'HIGH'], {
         groups: [
-            'PROFILES.GET_PROFILES',
-            'PROFILES.CREATE',
-            'PROFILES.EDIT'
+            ALL_PROFILES_GROUP,
+            CREATE_PROFILE_GROUP,
+            EDIT_PROFILE_GROUP
         ]
     })
     skill_level: string | null
 
     @IsNotEmpty({
-        groups: ['PROFILES.GET_PROFILES']
+        groups: [ALL_PROFILES_GROUP]
     })
     @IsString({
-        groups: ['PROFILES.GET_PROFILES']
+        groups: [ALL_PROFILES_GROUP]
     })
     @IsIn(['OWNER', 'PROFILE'], {
-        groups: ['PROFILES.GET_PROFILES']
+        groups: [ALL_PROFILES_GROUP]
     })
     type: string
 }

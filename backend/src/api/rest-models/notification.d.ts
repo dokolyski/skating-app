@@ -1,99 +1,102 @@
 import { IsNotEmpty, IsNumber, IsDate, IsString, IsIn, ValidateIf } from "class-validator"
 
+export const ALL_GROUP = 'ALL'
+export const CREATE_GROUP = 'CREATE'
+
 export class Notification {
     @IsNotEmpty({
-        groups: ['NOTIFICATIONS.GET_NOTIFICATIONS']
+        groups: [ALL_GROUP]
     })
     @IsNumber({}, {
-        groups: ['NOTIFICATIONS.GET_NOTIFICATIONS']
+        groups: [ALL_GROUP]
     })
     id: number
 
     @IsNotEmpty({
-        groups: ['NOTIFICATIONS.GET_NOTIFICATIONS']
+        groups: [ALL_GROUP]
     })
     @IsNumber({}, {
-        groups: ['NOTIFICATIONS.GET_NOTIFICATIONS']
+        groups: [ALL_GROUP]
     })
     user_id: number
 
     @IsNotEmpty({
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     @IsNumber({}, {
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     session_id: number
     
     @IsNotEmpty({
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     @IsDate({
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     show_date: Date
 
     @IsNotEmpty({
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     @IsDate({
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     expiration_date: Date
 
     @IsNotEmpty({
-        groups: ['NOTIFICATIONS.GET_NOTIFICATIONS']
+        groups: [ALL_GROUP]
     })
     @IsString({
-        groups: ['NOTIFICATIONS.GET_NOTIFICATIONS']
+        groups: [ALL_GROUP]
     })
     @IsIn(['DISABLED', 'ENABLED'], {
-        groups: ['NOTIFICATIONS.GET_NOTIFICATIONS']
+        groups: [ALL_GROUP]
     })
     status: string
 
     @IsNotEmpty({
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     @IsString({
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     title: string
 
     @ValidateIf(o => o.description != null, {
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     @IsString({
         groups: [
-            'NOTIFICATIONS.GET_NOTIFICATIONS',
-            'NOTIFICATIONS.CREATE'
+            ALL_GROUP,
+            CREATE_GROUP
         ]
     })
     description: string | null

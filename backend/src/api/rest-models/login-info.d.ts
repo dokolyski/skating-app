@@ -1,34 +1,36 @@
 import { IsNotEmpty, IsString, IsIn, IsEmail } from "class-validator"
 
+export const PROVIDER_GROUP = 'PROVIDER'
+export const EMAIL_GROUP = 'EMAIL'
+
 export class LoginInfo {
     @IsNotEmpty({
-        groups: ['VERIFICATION.LOGIN.PROVIDER'],
-        context: {}
+        groups: [PROVIDER_GROUP]
     })
     @IsString({
-        groups: ['VERIFICATION.LOGIN.PROVIDER']
+        groups: [PROVIDER_GROUP]
     })
     @IsIn(['GOOGLE', 'FACEBOOK'], {
-        groups: ['VERIFICATION.LOGIN.PROVIDER']
+        groups: [PROVIDER_GROUP]
     })
     provider: string
 
     @IsNotEmpty({
-        groups: ['VERIFICATION.LOGIN.EMAIL']
+        groups: []
     })
     @IsString({
-        groups: ['VERIFICATION.LOGIN.EMAIL']
+        groups: [EMAIL_GROUP]
     })
     @IsEmail({}, {
-        groups: ['VERIFICATION.LOGIN.EMAIL']
+        groups: [EMAIL_GROUP]
     })
     email: string
 
     @IsNotEmpty({
-        groups: ['VERIFICATION.LOGIN.EMAIL']
+        groups: [EMAIL_GROUP]
     })
     @IsString({
-        groups: ['VERIFICATION.LOGIN.EMAIL']
+        groups: [EMAIL_GROUP]
     })
     password: string
 }

@@ -1,157 +1,161 @@
 import { IsNotEmpty, IsNumber, IsString, IsDate, ValidateIf, IsIn } from "class-validator"
 
+export const ALL_SESSION_GROUP = 'ALL'
+export const CREATE_SESSION_GROUP = 'CREATE'
+export const EDIT_SESSION_GROUP = 'EDIT'
+
 export class Session {
     @IsNotEmpty({
-        groups: ['SESSIONS.GET_SESSIONS']
+        groups: [ALL_SESSION_GROUP]
     })
     @IsNumber({}, {
-        groups: ['SESSIONS.GET_SESSIONS']
+        groups: [ALL_SESSION_GROUP]
     })
     id: number
 
     @IsNotEmpty({
-        groups: ['SESSIONS.GET_SESSIONS']
+        groups: [ALL_SESSION_GROUP]
     })
     @IsNumber({}, {
-        groups: ['SESSIONS.GET_SESSIONS']
+        groups: [ALL_SESSION_GROUP]
     })
     owner_id: number
 
     @IsNotEmpty({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsString({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     name: string
 
     @IsNotEmpty({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsDate({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     start_date: Date
 
     @IsNotEmpty({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsDate({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     end_date: Date
 
     @IsNotEmpty({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsNumber({}, {
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     max_participants: number
 
     @ValidateIf(o => o.difficulty != null, {
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsString({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsIn(['LOW', 'MEDIUM', 'HIGH'], {
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     difficulty: string | null
 
     @IsNotEmpty({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsNumber({}, {
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     price: number
 
     @ValidateIf(o => o.description != null, {
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsString({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.CREATE',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            CREATE_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     description: string | null
 
     @IsNotEmpty({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsString({
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     @IsIn(['DISABLED', 'ENABLED'], {
         groups: [
-            'SESSIONS.GET_SESSIONS',
-            'SESSIONS.EDIT'
+            ALL_SESSION_GROUP,
+            EDIT_SESSION_GROUP
         ]
     })
     status: string
