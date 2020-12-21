@@ -2,7 +2,7 @@ import { Observable, of } from "rxjs";
 import { RestOptions, RestPath } from "services/rest-service/Rest.service";
 import * as REST_PATH from 'api/rest-url.json'
 import { Injectable } from "@angular/core";
-import { PROFILES } from "api/rest-types-client";
+import { PROFILES, USER_INFO } from "api/rest-types-client";
 
 @Injectable()
 export class RestServiceMock {
@@ -30,6 +30,23 @@ export class RestServiceMock {
             type: 'OWNER'
         }
     ]
+    static sessions = [
+        {session_id: 1, name: 'Session1', start_date: new Date('01/01/1990')},
+        {session_id: 2, name: 'Session2', start_date: new Date('05/01/1990')},
+    ]
+    static notifications = [
+        {title: 'Title1', description: 'Description1', session_id: 1},
+        {title: 'Title2', description: 'Description2', session_id: 1},
+        {title: 'Title3', description: 'Description3', session_id: 2},
+        {title: 'Title4', description: 'Description4', session_id: 2},
+    ]
+    static userInfo: USER_INFO.GET.OUTPUT = {
+        firstname: 'Jan1',
+            lastname: 'Nowak1',
+            birth_date: new Date(),
+            email: 'example@mail.com',
+            phone_number: '123456789'
+    }
 
     do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {
         console.log(restPath, options)
@@ -44,8 +61,13 @@ export class RestServiceMock {
             case REST_PATH.PROFILES.EDIT:
                 return of(null)
             case REST_PATH.PROFILES.GET_PROFILES:
-                console.log('profiles', RestServiceMock.profiles)
                 return of(RestServiceMock.profiles as any)
+            case REST_PATH.SESSIONS.GET_SESSIONS:
+                return of(RestServiceMock.sessions as any)
+            case REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS:
+                return of(RestServiceMock.notifications as any)
+            case REST_PATH.USER_INFO.GET:
+                return of(RestServiceMock.userInfo as any)
         }
     }
 }

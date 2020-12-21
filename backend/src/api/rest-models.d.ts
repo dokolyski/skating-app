@@ -48,6 +48,7 @@ export type Session = {
     status: string,
     owner_name: string,
     owner_lastname: string
+    session_id: number
 }
 
 export type SessionJoin = {

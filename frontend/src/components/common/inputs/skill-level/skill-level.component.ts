@@ -13,6 +13,13 @@ export class SkillLevelComponent {
   @Input()
   values: string[]
 
+  /**
+   * @description no validators
+   */
   static controlSchema = ['']
+
+  /**
+   * @description ```required```
+   */
   static controlSchemaRequired = ['', Validators.required]
 }

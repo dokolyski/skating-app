@@ -6,6 +6,9 @@ export type NodeTranslation = {
   [node: string]: NodeTranslation | any // string
 };
 
+/**
+ * @description Fetch selected language file
+ */
 @Injectable()
 export class LanguageService { 
   private _language = null
@@ -13,6 +16,10 @@ export class LanguageService {
   private dictionarySubject: BehaviorSubject<NodeTranslation> = new BehaviorSubject<NodeTranslation>(null);
   readonly dictionary$: Observable<NodeTranslation> = this.dictionarySubject.asObservable();
 
+  /**
+  * @param language - initial language, first part of language file before sign `.` located in `path-languages`
+  * @param path-languages path to the directory containing language files in format `<language_name>.language.json`
+  */
   constructor(
     @Inject("language") language: string,
     @Inject("path-languages") private path: string) {
@@ -23,6 +30,10 @@ export class LanguageService {
     return this._language
   }
 
+  /**
+  * @description Set current language and loads translation from language file
+  * @param name first part of language file before sign `.` located in `path-languages`
+  */
   set language(name: string) {
     const end = new Subject()
    

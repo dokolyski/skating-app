@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestError } from 'api/rest-error';
-import { USER_INFO, PROFILES } from 'api/rest-types-client';
+import { USER_INFO, PROFILES, CONFIG } from 'api/rest-types-client';
 import { mergeMap } from 'rxjs/operators';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
@@ -14,7 +14,12 @@ import { LastnameComponent } from 'components/common/inputs/lastname/lastname.co
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { TelephoneComponent } from 'components/common/inputs/telephone/telephone.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
+import { Profile, User } from 'api/rest-models';
 
+/**
+ * @description Show user settings and allow to change them, gather informations about 
+ * required ```email```, ```name```, ```lastname```, ```date of birth```, ```telephone number``` and optional ```skill level```
+ */
 @Component({
   selector: 'app-account-settings',
   templateUrl: './account-settings.component.html',
@@ -33,12 +38,30 @@ export class AccountSettingsComponent implements OnInit {
   uid: string
   skillLevelPossibleValues: string[]
   serverInputsErrors: { [input: string]: string }
-  
+
+  private _uInfo: User & Omit<Profile, 'type'>
+  set userInfo(p) {
+    this._uInfo = p
+
+    this.form.get('email').setValue(p.email)
+    this.form.get('name').setValue(p.firstname)
+    this.form.get('lastname').setValue(p.lastname)
+    this.form.get('dateBirth').setValue(p.birth_date)
+    this.form.get('telephoneNumber').setValue(p.phone_number)
+    this.form.get('skillLevel').setValue(p.skill_level == null ? ' ' : p.skill_level)
+  }
+  get userInfo() {
+    return this._uInfo
+  }
+
   set editMode(value: boolean) {
-    if(value) {
+    if (value) {
       this.form.enable()
     } else {
       this.form.disable()
+      if (this._uInfo) {
+        this.userInfo = this._uInfo
+      }
     }
   }
   get editMode() {
@@ -62,27 +85,27 @@ export class AccountSettingsComponent implements OnInit {
     private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
-    this.editMode = false
-    this.uid = this.auth.uid
+    let user 
 
-    this.rest.do<USER_INFO.GET.OUTPUT>(REST_PATH.USER_INFO.GET, { templateParamsValues: { id: this.uid } })
-    .pipe(
-      mergeMap(data => {
-          this.form.get('email').setValue(data.email)
-          this.form.get('name').setValue(data.firstname)
-          this.form.get('lastname').setValue(data.lastname)
-          this.form.get('dateBirth').setValue(data.birth_date)
-          this.form.get('telephoneNumber').setValue(data.phone_number)
+    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'skillLevelPossibleValues' } })
+      .pipe(
+        mergeMap((v: string[]) => {
+          this.skillLevelPossibleValues = [' ', ...v]
+          this.editMode = false
+          this.uid = this.auth.uid
 
+          return this.rest.do<USER_INFO.GET.OUTPUT>(REST_PATH.USER_INFO.GET, { templateParamsValues: { id: this.uid } })
+        }),
+        mergeMap(data => {
+          user = data
           return this.rest.do<PROFILES.GET_PROFILES.OUTPUT>(REST_PATH.PROFILES.GET_PROFILES)
-      })
-    )
-    .subscribe({
+        })
+      )
+      .subscribe({
         next: data => {
           const profile = data.find(el => el.type == 'OWNER')
-          if(profile.skill_level) {
-            this.form.get('skillLevel').setValue(profile.skill_level)
-          }
+          user.skill_level = profile?.skill_level ?? null
+          this.userInfo = user
         },
         error: (e: RestError) => this.handleErrors(e, false)
       })

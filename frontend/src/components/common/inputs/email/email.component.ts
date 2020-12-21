@@ -14,5 +14,8 @@ export class EmailComponent {
   @Input()
   serverError: string
 
+  /**
+   * @description ```required```, ```email```
+   */
   static controlSchema = ['', [Validators.required, VLD.Validators.email]]
 }

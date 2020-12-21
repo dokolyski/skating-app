@@ -1,4 +1,4 @@
-import { DateRange, Email, Notification, Profile, Provider, RestJSON, Session, SessionJoin, Status, Token, User } from './rest-models.d'
+import { DateRange, Email, Notification, Profile, Provider, RestJSON, Session, SessionJoin, Status, Token, User } from './rest-models'
 
 export namespace VERIFICATION.LOGIN {
     export type INPUT = Provider | Email

@@ -49,7 +49,7 @@
             "URL": "api/profiles/{id}",
             "PARAMS": ["id"],
             "METHOD": "DELETE"
-        }  
+        }
     },
     "SESSIONS": {
         "GET_SESSIONS": {

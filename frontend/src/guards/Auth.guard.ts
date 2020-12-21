@@ -4,6 +4,9 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "services/auth-service/Auth.service";
 
+/**
+ * @description Activate if user is logged else navigate to the main page
+ */
 @Injectable({
     providedIn: 'root'
 })

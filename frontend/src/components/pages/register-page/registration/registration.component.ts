@@ -20,6 +20,10 @@ import { TelephoneComponent } from 'components/common/inputs/telephone/telephone
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { of } from 'rxjs';
 
+/**
+ * @description Gather, validate and send to the ```REST``` server required user informations like 
+ * ```email```, ```password```, ```name```, ```lastname```, ```date of birth```, ```telephone number``` and optional ```skill level```. 
+ */
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -73,11 +77,13 @@ export class RegistrationComponent implements OnInit {
   register() {
     const registerBody = this.prepareRegisterPayload()
 
+    // create account
     this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
       .pipe(
         mergeMap(() => {
           const skillLevel = this.form.get('additional.skillLevel').value
 
+          // when user selects one of the skill then create profile
           if (skillLevel.length && skillLevel != ' ') {
             const editBody = this.prepareSelfProfilePayload()
             return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
