@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RestError } from 'api/rest-error';
-import { NOTIFICATIONS, SESSIONS } from 'api/rest-types-client';
+import { NOTIFICATIONS, SESSIONS } from 'api/rest-types';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
@@ -45,7 +45,7 @@ export class AccountNotificationsComponent implements OnInit {
             .pipe(
               map(n =>
                 n.map(v => {
-                  const session_info = s.filter(({session_id}) => session_id == v.session_id)[0]
+                  const session_info = s.filter(({id: session_id}) => session_id == v.session_id)[0]
                   return {session_info, notification_info: v}
                 })
               )

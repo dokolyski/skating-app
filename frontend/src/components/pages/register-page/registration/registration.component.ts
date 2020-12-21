@@ -5,7 +5,7 @@ import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json'
 import { RestError } from 'api/rest-error'
 
-import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types-client'
+import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types'
 import { mergeMap } from 'rxjs/operators';
 
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';

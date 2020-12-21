@@ -10,7 +10,7 @@ class Profile extends SQL.Model {
     public firstname: string;
     public lastname: string;
     public birth_date: Date;
-    public skill_level: 'LOW' | 'MEDIUM' | 'HIGH';
+    public skill_level: string;
 
     public readonly createdAt: Date;
     public readonly updatedAt: Date
@@ -41,14 +41,14 @@ Profile.init({
         type: SQL.STRING(45),
         allowNull: false,
         validate: {
-            is: /^([\p{Lu}A-Z][\p{Ll}a-z]+)|\p{Lo}+$/i
+            is: /^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i
         }
     },
     lastname: {
         type: SQL.STRING(45),
         allowNull: false,
         validate: {
-            is: /^([\p{Lu}A-Z][\p{Ll}a-z]+)|\p{Lo}+$/i
+            is: /^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i
         }
     },
     birth_date: {

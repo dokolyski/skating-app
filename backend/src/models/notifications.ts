@@ -10,7 +10,7 @@ class Notification extends SQL.Model {
 
     public show_date: Date
     public expiration_date: Date
-    public status: 'NOT_RECEIVED'|'RECEIVED'
+    public status: string
     public title: string
     public description: string
 
@@ -53,10 +53,10 @@ Notification.init({
         allowNull: false
     },
     status: {
-        type: SQL.STRING(45),
+        type: SQL.STRING(8),
         allowNull: false,
         validate: {
-            isIn: [['NOT_RECEIVED', 'RECEIVED']]
+            isIn: [['DISABLED', 'ENABLED']]
         }
     },
     title: {
