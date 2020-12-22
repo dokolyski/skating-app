@@ -14,7 +14,7 @@ import { NewsTabModule } from './news-tab/news-tab.module';
     AboutUsTabModule,
     NewsTabModule
   ],
-  declarations: [	
+  declarations: [
     MainPageComponent
   ],
   exports: [MainPageComponent]

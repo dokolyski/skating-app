@@ -10,33 +10,33 @@ import { AuthGuard } from 'guards/Auth.guard';
 
 const routes: Routes = [
   /*EVERYONE*/
-  { 
+  {
     path: PATH.EVERYONE.MAIN,
-    component: Pages.AccountPageComponent//Pages.MainPageComponent
+    component: Pages.MainPageComponent
   },
-  { 
+  {
     path: PATH.EVERYONE.REGISTER,
     component: Pages.RegisterPageComponent,
     canActivate: [OnlineGuard, NotLoggedGuard]
   },
-  { 
+  {
     path: PATH.EVERYONE.LOGIN,
     component: Pages.LoginPageComponent,
     canActivate: [OnlineGuard, NotLoggedGuard]
   },
   /*LOGGED*/
-  { 
-    path: PATH.LOGGED.ACCOUNT, 
+  {
+    path: PATH.LOGGED.ACCOUNT,
     component: Pages.AccountPageComponent,
     // canActivate: [AuthGuard]
   },
-  { 
-    path: PATH.LOGGED.SCHEDULE, 
+  {
+    path: PATH.LOGGED.SCHEDULE,
     component: Pages.SchedulePageComponent,
     // canActivate: [AuthGuard]
   },
-  { 
-    path: PATH.LOGGED.SESSIONS, 
+  {
+    path: PATH.LOGGED.SESSIONS,
     component: Pages.SessionsPageComponent,
     // canActivate: [AuthGuard]
   },
@@ -46,13 +46,13 @@ const routes: Routes = [
     // canActivate: [AuthGuard]
   },
   /*ORGANIZER*/
-  { 
-    path: PATH.ORGANIZER.MANAGE_SCHEDULE, 
+  {
+    path: PATH.ORGANIZER.MANAGE_SCHEDULE,
     component: Pages.ManageSchedulePageComponent,
     canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
-  { 
-    path: PATH.ORGANIZER.ADD_SESSION, 
+  {
+    path: PATH.ORGANIZER.ADD_SESSION,
     component: Pages.AddSessionPageComponent,
     canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
