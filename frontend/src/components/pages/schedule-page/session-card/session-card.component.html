@@ -1,11 +1,14 @@
-<div class="sessionCard">
+<div cdkDropList (cdkDropListDropped)="dropProfile($event)" class="sessionCard" (click)="openDialog()">
+  <div class="time-header">
+    {{startTime}} - {{endTime}}
+  </div>
   <div class="cardTitle">{{sessionData.name}}</div>
-  <hr>
+  <mat-divider></mat-divider>
   <div class="groupLevel">Poziom grupy: {{sessionData.difficulty}}</div>
   <div class="sessionDescription">
     {{sessionData.description}}
   </div>
-  <div class="addParticipantButton">
+  <div (click)="addParticipant($event)" class="addParticipantButton">
     Dodaj uczestnika
   </div>
 </div>
