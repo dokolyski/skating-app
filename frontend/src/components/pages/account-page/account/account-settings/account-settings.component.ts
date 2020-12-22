@@ -14,7 +14,8 @@ import { LastnameComponent } from 'components/common/inputs/lastname/lastname.co
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { TelephoneComponent } from 'components/common/inputs/telephone/telephone.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
-import { Profile, User } from 'api/rest-models';
+import { Profile } from 'api/rest-models/profile';
+import { User } from 'api/rest-models/user';
 
 /**
  * @description Show user settings and allow to change them, gather informations about 

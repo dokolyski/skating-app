@@ -1,11 +1,11 @@
-import { map, mergeMap } from "rxjs/operators";
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { map } from "rxjs/operators";
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from "angularx-social-login";
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json'
+import * as REST_TYPE from 'api/rest-types'
 import { CookieService } from "ngx-cookie-service";
-import { Token } from "api/rest-models";
+import { Token } from "api/rest-models/token";
 
 /**
  * @description Authorisation purpose proxy to the ```REST``` server and ```Token provider```
@@ -18,14 +18,13 @@ export class AuthService {
 
   constructor(
     private rest: RestService,
-    private tokenService: SocialAuthService,
     private cookieService: CookieService) {}
 
   /**
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   loginViaEmail(email: string, password: string): Observable<void> {
-    const body = { email, password }
+    const body: REST_TYPE.VERIFICATION.LOGIN.INPUT = { email, password } as any
     return this.rest.do(REST_PATH.VERIFICATION.LOGIN, { body })
   }
 
@@ -33,14 +32,14 @@ export class AuthService {
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   loginViaGoogle(): Observable<void> {
-    return this.loginViaSocialMedia(GoogleLoginProvider.PROVIDER_ID, 'GOOGLE')
+    return this.loginViaSocialMedia('GOOGLE')
   }
 
   /**
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   loginViaFacebook(): Observable<void> {
-    return this.loginViaSocialMedia(FacebookLoginProvider.PROVIDER_ID, 'FACEBOOK')
+    return this.loginViaSocialMedia('FACEBOOK')
   }
 
   /**
@@ -68,11 +67,10 @@ export class AuthService {
   * @description Sign in to provider, then send ```token``` and ```provider name``` to the server, finally assign client token received from server
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
-  private loginViaSocialMedia(providerId: string, providerName: string): Observable<void> {
-    return from(this.tokenService.signIn(providerId))
+  private loginViaSocialMedia(providerName: string): Observable<void> {
+    const body = {  }
+    return this.rest.do<Token>(REST_PATH.VERIFICATION.LOGIN, { body })
     .pipe(
-      map((v: SocialUser) => ({ token: v.idToken, provider: providerName })),
-      mergeMap(body => this.rest.do<Token>(REST_PATH.VERIFICATION.LOGIN, { body })),
       map(token => {
         this.token = token
         this.tokenSubject.next(token)
