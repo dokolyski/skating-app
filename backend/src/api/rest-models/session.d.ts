@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsNumber, IsString, IsDate, ValidateIf, IsIn } from "class-validator"
+import { IsNotEmpty, IsNumber, IsString, IsDate, ValidateIf, IsIn } from 'class-validator';
 
-export const ALL_SESSION_GROUP = 'ALL'
-export const CREATE_SESSION_GROUP = 'CREATE'
-export const EDIT_SESSION_GROUP = 'EDIT'
+export const ALL_SESSION_GROUP = 'ALL';
+export const CREATE_SESSION_GROUP = 'CREATE';
+export const EDIT_SESSION_GROUP = 'EDIT';
 
 export class Session {
     @IsNotEmpty({
@@ -11,7 +11,7 @@ export class Session {
     @IsNumber({}, {
         groups: [ALL_SESSION_GROUP]
     })
-    id: number
+    id: number;
 
     @IsNotEmpty({
         groups: [ALL_SESSION_GROUP]
@@ -19,7 +19,7 @@ export class Session {
     @IsNumber({}, {
         groups: [ALL_SESSION_GROUP]
     })
-    owner_id: number
+    owner_id: number;
 
     @IsNotEmpty({
         groups: [
@@ -35,7 +35,7 @@ export class Session {
             EDIT_SESSION_GROUP
         ]
     })
-    name: string
+    name: string;
 
     @IsNotEmpty({
         groups: [
@@ -51,7 +51,7 @@ export class Session {
             EDIT_SESSION_GROUP
         ]
     })
-    start_date: Date
+    start_date: Date;
 
     @IsNotEmpty({
         groups: [
@@ -67,7 +67,7 @@ export class Session {
             EDIT_SESSION_GROUP
         ]
     })
-    end_date: Date
+    end_date: Date;
 
     @IsNotEmpty({
         groups: [
@@ -83,7 +83,7 @@ export class Session {
             EDIT_SESSION_GROUP
         ]
     })
-    max_participants: number
+    max_participants: number;
 
     @ValidateIf(o => o.difficulty != null, {
         groups: [
@@ -106,7 +106,7 @@ export class Session {
             EDIT_SESSION_GROUP
         ]
     })
-    difficulty: string | null
+    difficulty: string | null;
 
     @IsNotEmpty({
         groups: [
@@ -122,7 +122,7 @@ export class Session {
             EDIT_SESSION_GROUP
         ]
     })
-    price: number
+    price: number;
 
     @ValidateIf(o => o.description != null, {
         groups: [
@@ -138,7 +138,7 @@ export class Session {
             EDIT_SESSION_GROUP
         ]
     })
-    description: string | null
+    description: string | null;
 
     @IsNotEmpty({
         groups: [
@@ -158,5 +158,5 @@ export class Session {
             EDIT_SESSION_GROUP
         ]
     })
-    status: string
+    status: string;
 }
