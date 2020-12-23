@@ -19,8 +19,8 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 export class AccountNotificationsComponent implements OnInit {
   sessions: {
-    session_info: Pick<Session, 'id'>,
-    notification_info: Omit<Notification, 'show_date'|'expiration_date'|'status'>
+    session_info: Session,
+    notification_info: Notification
   }[];
 
   @Output()
@@ -34,15 +34,15 @@ export class AccountNotificationsComponent implements OnInit {
     private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
-    const body: SESSIONS.GET_SESSIONS.INPUT = {
+    const body: SESSIONS.GET_SESSIONS.COMPILATION.INPUT = {
       date_from: null,
       date_to: null
     };
 
-    this.rest.do<SESSIONS.GET_SESSIONS.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, { body })
+    this.rest.do<SESSIONS.GET_SESSIONS.COMPILATION.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, { body })
       .pipe(
         mergeMap(s =>
-          this.rest.do<NOTIFICATIONS.GET_NOTIFICATIONS.OUTPUT>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)
+          this.rest.do<NOTIFICATIONS.GET_NOTIFICATIONS.COMPILATION.OUTPUT>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)
             .pipe(
               map(n =>
                 n.map(v => {

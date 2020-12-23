@@ -44,7 +44,6 @@ export class ProfileSettingsComponent implements OnInit {
     return this._profile;
   }
 
-  uid: string;
   profiles: Profile[];
   serverInputsErrors: { [input: string]: string };
   skillLevelPossibleValues: string[];
@@ -79,18 +78,17 @@ export class ProfileSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.editMode = false;
-    this.uid = this.auth.uid;
 
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'skillLevelPossibleValues' } })
       .pipe(
         mergeMap((v: string[]) => {
           this.skillLevelPossibleValues = [' ', ...v];
-          return this.rest.do<PROFILES.GET_PROFILES.OUTPUT[]>(REST_PATH.PROFILES.GET_PROFILES);
+          return this.rest.do<PROFILES.GET_PROFILES.COMPILATION.OUTPUT>(REST_PATH.PROFILES.GET_PROFILES);
         })
       )
       .subscribe({
         next: data => {
-          const indexOwner = data.findIndex(p => p.type == 'OWNER');
+          const indexOwner = data.findIndex(p => p.type === 'OWNER');
           if (indexOwner) {
             data.splice(indexOwner);
           }
@@ -112,15 +110,17 @@ export class ProfileSettingsComponent implements OnInit {
       });
   }
 
-  private prepareProfilePayload() {
+  private prepareProfilePayload(): PROFILES.EDIT.COMPILATION.INPUT {
+    const body = new PROFILES.EDIT.RUNTIME.INPUT();
+
     const skill = this.form.get('skillLevel').value;
 
-    return {
-      firstname: this.form.get('name').value,
-      lastname: this.form.get('lastname').value,
-      birth_date: this.form.get('dateBirth').value,
-      skill_level: skill.length && skill !== ' ' ? skill : null
-    };
+    body.firstname = this.form.get('name').value;
+    body.lastname = this.form.get('lastname').value;
+    body.birth_date = this.form.get('dateBirth').value;
+    body.skill_level = skill.length && skill !== ' ' ? skill : null;
+
+    return body;
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {

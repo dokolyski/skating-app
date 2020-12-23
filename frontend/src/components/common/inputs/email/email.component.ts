@@ -7,15 +7,15 @@ import * as VLD from 'common/validators';
   templateUrl: './email.component.html'
 })
 export class EmailComponent {
-  @Input()
-  control: FormControl
-  @Input()
-  translation: { errors, form }
-  @Input()
-  serverError: string
 
   /**
    * @description ```required```, ```email```
    */
-  static controlSchema = ['', [Validators.required, VLD.Validators.email]]
+  static controlSchema = ['', [Validators.required, VLD.Validators.email]];
+  @Input()
+  control: FormControl;
+  @Input()
+  translation: { errors, form };
+  @Input()
+  serverError: string;
 }

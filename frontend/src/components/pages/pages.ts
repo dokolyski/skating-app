@@ -30,7 +30,7 @@ export const Pages = {
     RegisterPageComponent,
     LoginPageComponent,
     ShopPageComponent
-}
+};
 
 @NgModule({
     imports: [

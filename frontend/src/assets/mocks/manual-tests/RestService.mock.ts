@@ -47,7 +47,7 @@ export class RestServiceMock {
     {title: 'Title3', description: 'Description3', session_id: 2},
     {title: 'Title4', description: 'Description4', session_id: 2},
   ];
-  static userInfo: USER_INFO.GET.OUTPUT = {
+  static userInfo: USER_INFO.GET.COMPILATION.OUTPUT = {
     id: 0, password: 'password',
     firstname: 'Jan1',
     lastname: 'Nowak1',

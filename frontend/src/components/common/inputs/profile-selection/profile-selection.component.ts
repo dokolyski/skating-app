@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {PROFILES} from 'api/rest-types';
-
-type Profile = PROFILES.GET_PROFILES.OUTPUT;
+import {Profile} from 'api/rest-models/profile';
 
 @Component({
   selector: 'app-profile-selection[translation][values]',

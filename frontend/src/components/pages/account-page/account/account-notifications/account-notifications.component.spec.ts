@@ -2,7 +2,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountNotificationsComponent } from './account-notifications.component';
-import { moduleInfo } from './account-notifications.module'
+import { moduleInfo } from './account-notifications.module';
 
 xdescribe('ProfileAddComponent', () => {
   let component: AccountNotificationsComponent;
@@ -17,17 +17,17 @@ xdescribe('ProfileAddComponent', () => {
 
   it('fetch sessions and notifications', () => {
 
-  })
+  });
 
   it('merged notifications with related sessions', () => {
 
-  })
+  });
 
   it('emits generalised server error', () => {
 
-  })
+  });
 
   it('show notification title, description and session name on same panel', () => {
 
-  })
+  });
 });

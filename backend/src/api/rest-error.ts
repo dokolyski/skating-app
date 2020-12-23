@@ -3,4 +3,4 @@ export type RestError = {
     inputsTokens?: {
         [input: string]: string
     } // inputs messages
-}
+};

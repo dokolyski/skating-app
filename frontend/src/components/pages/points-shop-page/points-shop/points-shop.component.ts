@@ -9,11 +9,11 @@ import { LanguageService } from 'services/language-service/Language.service';
 })
 export class PointsShopComponent {
   readonly displayedColumns = ['points', 'money', 'buy'];
-  readonly priceTable = PRICE_TABLE['default']
+  readonly priceTable = PRICE_TABLE['default'];
 
   constructor(public lngService: LanguageService) { }
 
   buy(money: number, points: number) {
-    
+
   }
 }

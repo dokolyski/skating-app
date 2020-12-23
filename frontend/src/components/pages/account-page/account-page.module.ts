@@ -11,7 +11,7 @@ import { AccountNotificationsModule } from './account/account-notifications/acco
   imports: [
     CommonModule,
     MatTabsModule,
-    ProfileAddModule, 
+    ProfileAddModule,
     ProfileSettingsModule,
     AccountSettingsModule,
     AccountNotificationsModule

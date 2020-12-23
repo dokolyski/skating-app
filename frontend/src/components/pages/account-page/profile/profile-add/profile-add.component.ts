@@ -64,15 +64,17 @@ export class ProfileAddComponent implements OnInit {
       });
   }
 
-  private prepareProfilePayload() {
+  private prepareProfilePayload(): PROFILES.EDIT.COMPILATION.INPUT {
+    const body = new PROFILES.EDIT.RUNTIME.INPUT();
+
     const skill = this.form.get('skillLevel').value;
 
-    return {
-      firstname: this.form.get('name').value,
-      lastname: this.form.get('lastname').value,
-      birth_date: this.form.get('dateBirth').value,
-      skill_level: skill.length && skill !== ' ' ? skill : null
-    };
+    body.firstname = this.form.get('name').value,
+    body.lastname = this.form.get('lastname').value,
+    body.birth_date = this.form.get('dateBirth').value,
+    body.skill_level = skill.length && skill !== ' ' ? skill : null;
+
+    return body;
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {

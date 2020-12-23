@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Session} from 'models/session';
+// import {Session} from 'models/session';
 
 @Component({
   selector: 'app-weekday',
@@ -7,8 +7,8 @@ import {Session} from 'models/session';
   styleUrls: ['./weekday.component.css']
 })
 export class WeekdayComponent implements OnInit {
-  @Input() sessions: Session[];
-  @Input() weekday: string;
+  // @Input() sessions: Session[];
+  // @Input() weekday: string;
 
   constructor() { }
 
