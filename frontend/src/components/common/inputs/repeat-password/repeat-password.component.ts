@@ -12,6 +12,13 @@ export class RepeatPasswordComponent {
   @Input()
   translation: { errors, form }
 
+  /**
+   * @description no validators
+   */
   static controlSchema = ['']
+
+  /**
+   * @description ```same as password```
+   */
   static groupValidator = VLD.Validators.repeatPassword
 }

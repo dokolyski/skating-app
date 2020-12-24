@@ -128,7 +128,8 @@
                 }
             },
             "menu": {
-                "ACCOUNT_SETTINGS": "Ustawienia konta",
+                "ACCOUNT_SETTINGS": "Ustawienia",
+                "ACCOUNT_NOTIFICATIONS": "Powiadomienia",
                 "PROFILE_ADD": "Tworzenie profilu",
                 "PROFILE_SETTINGS": "Ustawienia profilu"
             }

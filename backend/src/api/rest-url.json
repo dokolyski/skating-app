@@ -49,7 +49,7 @@
             "URL": "api/profiles/{id}",
             "PARAMS": ["id"],
             "METHOD": "DELETE"
-        }  
+        }
     },
     "SESSIONS": {
         "GET_SESSIONS": {
@@ -74,10 +74,17 @@
             "URL": "api/sessions/{id}",
             "PARAMS": ["id"],
             "METHOD": "DELETE"
-        },
+        }
+    },
+    "SESSION_PARTICIPANTS": {
         "JOIN": {
             "URL": "api/session_paricipant",
             "METHOD": "POST"
+        },
+        "LEAVE": {
+            "URL": "api/session_paricipant/{id}",
+            "PARAMS": ["id"],
+            "METHOD": "DELETE"
         }
     },
     "NOTIFICATIONS": {
@@ -93,6 +100,16 @@
             "URL": "api/notifications/{id}/status",
             "PARAMS": ["id"],
             "METHOD": "PATCH"
+        }
+    },
+    "PAYMENTS": {
+        "BUY_POINTS": {
+            "URL": "api/transactions/points",
+            "METHOD": "POST"
+        },
+        "BUY_SESSIONS": {
+            "URL": "api/transactions/sessions",
+            "METHOD": "POST"
         }
     },
     "CONFIG": {

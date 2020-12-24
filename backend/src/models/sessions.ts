@@ -10,10 +10,10 @@ class Session extends SQL.Model {
     public start_date: Date
     public end_date: Date
     public max_participants: number
-    public difficulty: 'LOW'|'MEDIUM'|'HIGH'
+    public difficulty: string
     public price: number
     public description: string
-    public status: 'CANCELLED'|'ENDED'
+    public status: string
 
     public readonly createdAt: Date
     public readonly updatedAt: Date
@@ -76,7 +76,7 @@ Session.init({
         type: SQL.STRING,
         allowNull: false,
         validate: {
-            isIn: [['CANCELLED', 'ENDED']]
+            isIn: [['DISABLED', 'ENABLED']]
         }
     },
 }, {

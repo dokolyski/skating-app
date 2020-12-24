@@ -1,10 +1,10 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from 'environments/environment';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from 'environments/environment';
 
 import { PagesModule } from 'components/pages/pages';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialAuthServiceConfig } from 'angularx-social-login';
@@ -27,6 +27,7 @@ import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import { RestServiceMock } from 'assets/mocks/manual-tests/RestService.mock';
+import {MatBadgeModule} from '@angular/material/badge';
 
 const config: SocialAuthServiceConfig = {
   providers: [
@@ -60,13 +61,15 @@ export function provideConfig() {
     MatToolbarModule,
     FlexLayoutModule,
     RouterModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatBadgeModule
   ],
   declarations: [
     AppComponent,
     MenuComponent
   ],
   providers: [
+    RestService,
     HttpClient,
     CookieService,
     SocialAuthService,
@@ -74,7 +77,7 @@ export function provideConfig() {
     AuthService,
     LanguageService,
     LanguageErrorService,
-    { provide: RestService, useClass: RestServiceMock }, 
+    { provide: RestService, useClass: RestServiceMock },
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
     { provide: 'path-languages', useValue: 'languages' },

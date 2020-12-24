@@ -7,14 +7,14 @@ import { AboutUsTabModule } from './about-us-tab/about-us-tab.module';
 import { NewsTabModule } from './news-tab/news-tab.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatTabsModule,
-    MatIconModule,
-    AboutUsTabModule,
-    NewsTabModule
-  ],
-  declarations: [	
+    imports: [
+        CommonModule,
+        MatTabsModule,
+        MatIconModule,
+        AboutUsTabModule,
+        NewsTabModule
+    ],
+  declarations: [
     MainPageComponent
   ],
   exports: [MainPageComponent]

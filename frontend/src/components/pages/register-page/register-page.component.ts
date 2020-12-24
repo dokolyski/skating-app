@@ -12,6 +12,7 @@ export class RegisterPageComponent {
     private router: Router,
     public lngService: LanguageService) { }
 
+  // navigate to previous url on same origin, if not same origin then navigate to main page
   back() {
     if(document.referrer.length > 0) {
       this.router.navigateByUrl(document.referrer)

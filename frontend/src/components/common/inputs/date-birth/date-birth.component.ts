@@ -18,5 +18,8 @@ export class DateBirthComponent {
   @Input()
   serverError: string
 
+  /**
+   * @description ```required```
+   */
   static controlSchema = ['', Validators.required]
 }

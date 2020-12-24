@@ -11,6 +11,8 @@
   color: white;
   border-radius: 5px;
   word-wrap: break-word;
+  font-size: large;
+  font-weight: 500;
 
   border-style: solid;
   border-width: 1px;

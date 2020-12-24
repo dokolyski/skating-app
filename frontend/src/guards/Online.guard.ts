@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { CanActivate } from "@angular/router";
 
+/**
+ * @description Activate if user is online
+ */
 @Injectable({
     providedIn: 'root'
 })

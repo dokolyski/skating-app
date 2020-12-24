@@ -1,9 +1,21 @@
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Validators as AngularValidators } from '@angular/forms';
 
+/**
+ * @description Custom forms validators
+ */
 export namespace Validators {
+  /**
+  * @summary Valid email validator
+  * @description Checks if input pass regular expression test. Standard angular email validator only checks if input has sign ```@``` sourrended by letters.
+  */
   export const email = AngularValidators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
 
+  /**
+  * @summary Check password regex strength
+  * @description Checks if input password contains digits, lowercase and uppercase letters and special characters.
+  * @param controler - password controler
+  */
   export function passwordPassAllRegex(controler: AbstractControl) {
     const password = controler.value
 
@@ -16,7 +28,12 @@ export namespace Validators {
     return !all.every(v => v.test(password)) ? {'not-pass-regex': true} : null
   }
 
-  export function aboveEntrophy(value: number) {
+  /**
+  * @summary Check password entrophy strength
+  * @description Checks if entrophy of input password is above minimum. Entrophy is calculated using characters bytes.
+  * @param value - minimum entrophy value
+  */
+  export function aboveEntropy(value: number) {
     return function(controler: AbstractControl) {
       const password = controler.value
       
@@ -47,6 +64,11 @@ export namespace Validators {
     }
   }
 
+  /**
+  * @summary Check if passwords are equals
+  * @description Checks if password from password controler is equal to password from repeatPassword controler. 
+  * @param base - form contains password and repeatPassword controlers
+  */
   export function repeatPassword(base: FormGroup) {
     const controler = base.get('repeatPassword')
     const password = base.get('password').value

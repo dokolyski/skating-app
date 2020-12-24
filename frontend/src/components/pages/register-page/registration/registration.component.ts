@@ -2,10 +2,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestService } from 'services/rest-service/Rest.service';
 
-import * as REST_PATH from 'api/rest-url.json'
-import { RestError } from 'api/rest-error'
+import * as REST_PATH from 'api/rest-url.json';
+import { RestError } from 'api/rest-error';
 
-import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types-client'
+import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types';
 import { mergeMap } from 'rxjs/operators';
 
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
@@ -20,6 +20,10 @@ import { TelephoneComponent } from 'components/common/inputs/telephone/telephone
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { of } from 'rxjs';
 
+/**
+ * @description Gather, validate and send to the ```REST``` server required user informations like
+ * ```email```, ```password```, ```name```, ```lastname```, ```date of birth```, ```telephone number``` and optional ```skill level```.
+ */
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -43,17 +47,17 @@ export class RegistrationComponent implements OnInit {
     additional: this.fb.group({
       skillLevel: SkillLevelComponent.controlSchema
     })
-  })
+  });
 
-  skillLevelPossibleValues: string[]
-  serverInputsErrors: { [input: string]: string }
+  skillLevelPossibleValues: string[];
+  serverInputsErrors: { [input: string]: string };
 
   @Output()
-  onSubmit = new EventEmitter<void>()
+  onSubmit = new EventEmitter<void>();
   @Output()
-  onCancel = new EventEmitter<void>()
+  onCancel = new EventEmitter<void>();
   @Output()
-  onError = new EventEmitter<string>()
+  onError = new EventEmitter<string>();
 
 
   constructor(
@@ -67,32 +71,34 @@ export class RegistrationComponent implements OnInit {
       .subscribe({
         next: (v: string[]) => this.skillLevelPossibleValues = [' ', ...v],
         error: (e: RestError) => this.handleErrors(e, false)
-      })
+      });
   }
 
   register() {
-    const registerBody = this.prepareRegisterPayload()
+    const registerBody = this.prepareRegisterPayload();
 
+    // create account
     this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
       .pipe(
         mergeMap(() => {
-          const skillLevel = this.form.get('additional.skillLevel').value
+          const skillLevel = this.form.get('additional.skillLevel').value;
 
-          if (skillLevel.length && skillLevel != ' ') {
-            const editBody = this.prepareSelfProfilePayload()
-            return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
+          // when user selects one of the skill then create profile
+          if (skillLevel.length && skillLevel !== ' ') {
+            const editBody = this.prepareSelfProfilePayload();
+            return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody });
           }
-          
-          return of()
+
+          return of();
         })
       ).subscribe({
         next: () => this.onSubmit.emit(),
         complete: () => this.onSubmit.emit(),
         error: (e: RestError) => this.handleErrors(e, true)
-      })
+      });
   }
 
-  private prepareRegisterPayload(): VERIFICATION.REGISTER.INPUT {
+  private prepareRegisterPayload() {
     return {
       firstname: this.form.get('personal.name').value,
       lastname: this.form.get('personal.lastname').value,
@@ -100,37 +106,37 @@ export class RegistrationComponent implements OnInit {
       password: this.form.get('base.password').value,
       birth_date: this.form.get('personal.dateBirth').value,
       phone_number: this.form.get('personal.telephoneNumber').value
-    }
+    };
   }
 
-  private prepareSelfProfilePayload(): PROFILES.EDIT.INPUT {
+  private prepareSelfProfilePayload() {
     return {
       firstname: this.form.get('personal.name').value,
       lastname: this.form.get('personal.lastname').value,
       birth_date: this.form.get('personal.dateBirth').value,
       skill_level: this.form.get('additional.skillLevel').value
-    }
+    };
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {
     this.lngErrorService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message)
+          this.onError.emit(translation.message);
         }
 
         if (showServerErrors && translation.inputs) {
           for (const input of Object.keys(translation.inputs)) {
             for (const c of Object.values(this.form.controls)) {
-              const subfm = c as FormGroup
+              const subfm = c as FormGroup;
               if (subfm.contains(input)) {
-                subfm.get(input).setErrors({ 'server-error': true })
+                subfm.get(input).setErrors({ 'server-error': true });
               }
             }
           }
 
-          this.serverInputsErrors = translation.inputs
+          this.serverInputsErrors = translation.inputs;
         }
-      })
+      });
   }
 }
