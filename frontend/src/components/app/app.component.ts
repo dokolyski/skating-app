@@ -12,7 +12,7 @@ import { LanguageService } from 'services/language-service/Language.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnDestroy {
-  lngSubscription: Subscription
+  lngSubscription: Subscription;
 
   constructor(
     private matIconRegistry: MatIconRegistry,
@@ -21,46 +21,46 @@ export class AppComponent implements OnDestroy {
     private lngService: LanguageService,
     private adapter: DateAdapter<any>) {
 
-    this.setDatepickerLanguage()
-    this.loadIcons()
-    this.handlePWA()
+    this.setDatepickerLanguage();
+    this.loadIcons();
+    this.handlePWA();
   }
 
   ngOnDestroy() {
-    this.lngSubscription.unsubscribe()
+    this.lngSubscription.unsubscribe();
   }
 
   private setDatepickerLanguage() {
     this.lngSubscription = this.lngService.dictionary$.subscribe(() => {
-      if (this.lngService.language == 'polish') {
-        this.adapter.setLocale('pl')
+      if (this.lngService.language === 'polish') {
+        this.adapter.setLocale('pl');
       } else {
-        this.adapter.setLocale('en')
+        this.adapter.setLocale('en');
       }
-    })
+    });
   }
 
   private loadIcons() {
     this.matIconRegistry.addSvgIcon(
       'google',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/icons/google-icon.svg')
-    )
+    );
 
     this.matIconRegistry.addSvgIcon(
       'facebook',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/icons/facebook-icon.svg')
-    )
+    );
   }
 
   private handlePWA() {
     if (this.sw.isEnabled) {
       this.sw.available.subscribe(() => { // pozniej to zmienimy na inne komponenty
         if (confirm('There is a new version of application. Would you like to update?')) {
-          window.location.reload()
+          window.location.reload();
         }
-      })
+      });
     } else {
-      alert('Application cannot be used in offline mode')
+      alert('Application cannot be used in offline mode');
     }
   }
 }

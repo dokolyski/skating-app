@@ -98,24 +98,28 @@ export class RegistrationComponent implements OnInit {
       });
   }
 
-  private prepareRegisterPayload() {
-    return {
-      firstname: this.form.get('personal.name').value,
-      lastname: this.form.get('personal.lastname').value,
-      email: this.form.get('base.email').value,
-      password: this.form.get('base.password').value,
-      birth_date: this.form.get('personal.dateBirth').value,
-      phone_number: this.form.get('personal.telephoneNumber').value
-    };
+  private prepareRegisterPayload(): VERIFICATION.REGISTER.COMPILATION.INPUT {
+    const payload = new VERIFICATION.REGISTER.RUNTIME.INPUT();
+
+    payload.firstname = this.form.get('personal.name').value;
+    payload.lastname = this.form.get('personal.lastname').value;
+    payload.email = this.form.get('base.email').value;
+    payload.password = this.form.get('base.password').value;
+    payload.birth_date = this.form.get('personal.dateBirth').value;
+    payload.phone_number = this.form.get('personal.telephoneNumber').value;
+
+    return payload;
   }
 
-  private prepareSelfProfilePayload() {
-    return {
-      firstname: this.form.get('personal.name').value,
-      lastname: this.form.get('personal.lastname').value,
-      birth_date: this.form.get('personal.dateBirth').value,
-      skill_level: this.form.get('additional.skillLevel').value
-    };
+  private prepareSelfProfilePayload(): PROFILES.CREATE.COMPILATION.INPUT {
+    const payload = new PROFILES.CREATE.RUNTIME.INPUT();
+
+    payload.firstname = this.form.get('personal.name').value;
+    payload.lastname = this.form.get('personal.lastname').value;
+    payload.birth_date = this.form.get('personal.dateBirth').value;
+    payload.skill_level = this.form.get('additional.skillLevel').value;
+
+    return payload;
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {
@@ -127,16 +131,22 @@ export class RegistrationComponent implements OnInit {
 
         if (showServerErrors && translation.inputs) {
           for (const input of Object.keys(translation.inputs)) {
-            for (const c of Object.values(this.form.controls)) {
-              const subfm = c as FormGroup;
-              if (subfm.contains(input)) {
-                subfm.get(input).setErrors({ 'server-error': true });
-              }
-            }
+            const fullName = this.getFormControlFullName(input);
+            this.form.get(fullName).setErrors({ 'server-error': true });
           }
 
           this.serverInputsErrors = translation.inputs;
         }
       });
+  }
+
+  private getFormControlFullName(name: string): string {
+    switch(name) {
+      case 'email': return 'base.email';
+      case 'password': return 'base.password';
+      case 'firstname': return 'base.name';
+      case 'lastname': return 'base.lastname';
+      case 'phone_number': return 'base.telephoneNumber';
+    }
   }
 }

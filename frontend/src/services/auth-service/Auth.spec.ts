@@ -1,91 +1,96 @@
-import { RestService } from "services/rest-service/Rest.service"
-import { AuthService } from "./Auth.service"
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from "angularx-social-login"
-import * as REST_PATH from 'api/rest-url.json'
-import { of } from "rxjs"
-import { mergeMap } from "rxjs/operators"
-import { CookieService } from "ngx-cookie-service"
+import { RestService } from 'services/rest-service/Rest.service';
+import { AuthService } from './Auth.service';
+import * as REST_PATH from 'api/rest-url.json';
+import { of } from 'rxjs';
+import { mergeMap, tap } from 'rxjs/operators';
+import { VERIFICATION } from 'api/rest-types';
 
 describe('auth.service', () => {
-    let restMock: jasmine.SpyObj<RestService>
-    let socialMock: jasmine.SpyObj<SocialAuthService>
-    let cookieMock: jasmine.SpyObj<CookieService>
-    let service: AuthService
-    
+    let restMock: jasmine.SpyObj<RestService>;
+    let service: AuthService;
+
     beforeEach(() => {
-        restMock = jasmine.createSpyObj('RestService', ['do'])
-        socialMock = jasmine.createSpyObj('SocialAuthService', ['signIn'])
-        cookieMock = jasmine.createSpyObj('CookieService', ['get'])
-
-        service = new AuthService(restMock, socialMock, cookieMock)
-    })
-
-    it('returns user id', () => {
-        const [key, val] = ['uid', '1']
-        cookieMock.get.withArgs(key).and.returnValue(val)
-        expect(service.uid).toEqual(val)
-    })
+        restMock = jasmine.createSpyObj('RestService', ['do']);
+        service = new AuthService(restMock);
+    });
 
     it('login via email', (done: DoneFn) => {
-        const [email, password] = ['example@mail.com', 'password']
-        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGIN, { body: { email, password } }).and.returnValue(of(undefined))
+        const [email, password] = ['example@mail.com', 'password'];
+        const info = { token: 'token', uid: 1 };
+
+        const body = new VERIFICATION.LOGIN.RUNTIME.INPUT();
+        body.email = email;
+        body.password = password;
+
+        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGIN, { body }).and.returnValue(of(info));
 
         service.loginViaEmail(email, password)
-        .subscribe(() => {
-            expect().nothing()
-            done()
-        })
-    })
+        .pipe(
+            mergeMap(() => service.token$),
+            tap(token => expect(token).toEqual(info.token)),
+            mergeMap(() => service.uid$)
+        )
+        .subscribe(uid => {
+            expect(uid).toEqual(info.uid);
+            done();
+        });
+    });
 
     it('login via google', (done: DoneFn) => {
-        const user = {idToken: 'idToken'} as SocialUser
-        const token = user.idToken
-        const provider = 'GOOGLE'
-        const serverToken = 'serverToken'
-        socialMock.signIn.withArgs(GoogleLoginProvider.PROVIDER_ID).and.returnValue(of(user).toPromise())
-        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGIN, { body: { token, provider } }).and.returnValue(of(serverToken))
+        const info = { token: 'token', uid: 1 };
+
+        const body = new VERIFICATION.LOGIN.RUNTIME.INPUT();
+        body.provider = 'GOOGLE';
+
+        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGIN, { body }).and.returnValue(of(info));
 
         service.loginViaGoogle()
         .pipe(
-            mergeMap(() => service.token$)
+            mergeMap(() => service.token$),
+            tap(token => expect(token).toEqual(info.token)),
+            mergeMap(() => service.uid$)
         )
-        .subscribe(token => {
-            expect(token).toEqual(serverToken)
-            done()
-        })
-    })
+        .subscribe(uid => {
+            expect(uid).toEqual(info.uid);
+            done();
+        });
+    });
 
     it('login via facebook', (done: DoneFn) => {
-        const user = {idToken: 'idToken'} as SocialUser
-        const token = user.idToken
-        const provider = 'FACEBOOK'
-        const serverToken = 'serverToken'
-        socialMock.signIn.withArgs(FacebookLoginProvider.PROVIDER_ID).and.returnValue(of(user).toPromise())
-        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGIN, { body: { token, provider } }).and.returnValue(of(serverToken))
+        const info = { token: 'token', uid: 1 };
+
+        const body = new VERIFICATION.LOGIN.RUNTIME.INPUT();
+        body.provider = 'FACEBOOK';
+
+        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGIN, { body }).and.returnValue(of(info));
 
         service.loginViaFacebook()
         .pipe(
-            mergeMap(() => service.token$)
+            mergeMap(() => service.token$),
+            tap(token => expect(token).toEqual(info.token)),
+            mergeMap(() => service.uid$)
         )
-        .subscribe(token => {
-            expect(token).toEqual(serverToken)
-            done()
-        })
-    })
+        .subscribe(uid => {
+            expect(uid).toEqual(info.uid);
+            done();
+        });
+    });
 
     it('logout', (done: DoneFn) => {
-        const initToken = 'token'
-        service['token'] = initToken
+        const [token, uid] = ['token', 1];
+        service['sessionInfo'] = {token, uid};
+        service['tokenSubject'].next(token);
+        service['uidSubject'].next(uid);
 
-        const token = initToken
-        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGOUT, {templateParamsValues: {token}}).and.returnValue(of(undefined))
+        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGOUT, {templateParamsValues: { token }}).and.returnValue(of(undefined));
+
         service.logout()
         .pipe(
-            mergeMap(() => service.token$)
+            mergeMap(() => service.token$),
         )
-        .subscribe(token => {
-            expect(token).toEqual(null)
-            done()
-        })
-    })
-})
+        .subscribe(currentToken => {
+            expect(currentToken).toEqual(null);
+            done();
+        });
+    });
+});

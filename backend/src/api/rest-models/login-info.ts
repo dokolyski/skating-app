@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsString, IsIn, IsEmail } from "class-validator"
+import { IsNotEmpty, IsString, IsIn, IsEmail } from 'class-validator';
 
-export const PROVIDER_GROUP = 'PROVIDER'
-export const EMAIL_GROUP = 'EMAIL'
+export const PROVIDER_GROUP = 'PROVIDER';
+export const EMAIL_GROUP = 'EMAIL';
 
 export class LoginInfo {
     @IsNotEmpty({
@@ -13,7 +13,7 @@ export class LoginInfo {
     @IsIn(['GOOGLE', 'FACEBOOK'], {
         groups: [PROVIDER_GROUP]
     })
-    provider: string
+    provider: string;
 
     @IsNotEmpty({
         groups: []
@@ -24,7 +24,7 @@ export class LoginInfo {
     @IsEmail({}, {
         groups: [EMAIL_GROUP]
     })
-    email: string
+    email: string;
 
     @IsNotEmpty({
         groups: [EMAIL_GROUP]
@@ -32,5 +32,5 @@ export class LoginInfo {
     @IsString({
         groups: [EMAIL_GROUP]
     })
-    password: string
+    password: string;
 }

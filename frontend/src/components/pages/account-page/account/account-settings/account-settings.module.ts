@@ -19,7 +19,7 @@ export const moduleInfo = {
   ],
   declarations: [AccountSettingsComponent],
   exports: [AccountSettingsComponent]
-}
+};
 
 @NgModule({
   imports: moduleInfo.imports,

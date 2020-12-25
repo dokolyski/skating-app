@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsNumber, IsDate, IsString, IsIn, ValidateIf } from "class-validator"
+import { IsNotEmpty, IsNumber, IsDate, IsString, IsIn, ValidateIf } from 'class-validator';
 
-export const ALL_GROUP = 'ALL'
-export const CREATE_GROUP = 'CREATE'
+export const ALL_GROUP = 'ALL';
+export const CREATE_GROUP = 'CREATE';
 
 export class Notification {
     @IsNotEmpty({
@@ -10,7 +10,7 @@ export class Notification {
     @IsNumber({}, {
         groups: [ALL_GROUP]
     })
-    id: number
+    id: number;
 
     @IsNotEmpty({
         groups: [ALL_GROUP]
@@ -18,7 +18,7 @@ export class Notification {
     @IsNumber({}, {
         groups: [ALL_GROUP]
     })
-    user_id: number
+    user_id: number;
 
     @IsNotEmpty({
         groups: [
@@ -32,21 +32,7 @@ export class Notification {
             CREATE_GROUP
         ]
     })
-    session_id: number
-    
-    @IsNotEmpty({
-        groups: [
-            ALL_GROUP,
-            CREATE_GROUP
-        ]
-    })
-    @IsDate({
-        groups: [
-            ALL_GROUP,
-            CREATE_GROUP
-        ]
-    })
-    show_date: Date
+    session_id: number;
 
     @IsNotEmpty({
         groups: [
@@ -60,7 +46,21 @@ export class Notification {
             CREATE_GROUP
         ]
     })
-    expiration_date: Date
+    show_date: Date;
+
+    @IsNotEmpty({
+        groups: [
+            ALL_GROUP,
+            CREATE_GROUP
+        ]
+    })
+    @IsDate({
+        groups: [
+            ALL_GROUP,
+            CREATE_GROUP
+        ]
+    })
+    expiration_date: Date;
 
     @IsNotEmpty({
         groups: [ALL_GROUP]
@@ -71,7 +71,7 @@ export class Notification {
     @IsIn(['DISABLED', 'ENABLED'], {
         groups: [ALL_GROUP]
     })
-    status: string
+    status: string;
 
     @IsNotEmpty({
         groups: [
@@ -85,7 +85,7 @@ export class Notification {
             CREATE_GROUP
         ]
     })
-    title: string
+    title: string;
 
     @ValidateIf(o => o.description != null, {
         groups: [
@@ -99,5 +99,5 @@ export class Notification {
             CREATE_GROUP
         ]
     })
-    description: string | null
+    description: string | null;
 }

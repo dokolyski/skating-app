@@ -6,20 +6,20 @@ import { FormControl, Validators } from '@angular/forms';
   templateUrl: './skill-level.component.html'
 })
 export class SkillLevelComponent {
-  @Input()
-  control: FormControl
-  @Input()
-  translation: { errors, form }
-  @Input()
-  values: string[]
 
   /**
    * @description no validators
    */
-  static controlSchema = ['']
+  static controlSchema = [''];
 
   /**
    * @description ```required```
    */
-  static controlSchemaRequired = ['', Validators.required]
+  static controlSchemaRequired = ['', Validators.required];
+  @Input()
+  control: FormControl;
+  @Input()
+  translation: { errors, form };
+  @Input()
+  values: string[];
 }

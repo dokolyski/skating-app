@@ -1,10 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, Matches, IsEmail, Length, IsDate, IsPhoneNumber } from "class-validator"
-import { PasswordPassEntrophyTest, PasswordPassRegexes } from 'api/rest-validators'
+import { IsNotEmpty, IsNumber, IsString, Matches, IsEmail, Length, IsDate, IsPhoneNumber } from 'class-validator';
+import { PasswordPassEntrophyTest, PasswordPassRegexes } from 'api/rest-validators';
 
-export const REGISTER_GROUP = 'REGISTER'
-export const PART_GROUP = 'PART'
-export const FULL_GROUP = 'FULL'
-export const EDIT_GROUP = 'EDIT'
+export const REGISTER_GROUP = 'REGISTER';
+export const PART_GROUP = 'PART';
+export const FULL_GROUP = 'FULL';
+export const EDIT_GROUP = 'EDIT';
 
 export class User {
     @IsNotEmpty({
@@ -13,7 +13,7 @@ export class User {
     @IsNumber({}, {
         groups: [FULL_GROUP]
     })
-    id: number
+    id: number;
 
     @IsNotEmpty({
         groups: [
@@ -36,7 +36,7 @@ export class User {
             EDIT_GROUP
         ]
     })
-    firstname: string
+    firstname: string;
 
     @IsNotEmpty({
         groups: [
@@ -59,7 +59,7 @@ export class User {
             EDIT_GROUP
         ]
     })
-    lastname: string
+    lastname: string;
 
     @IsNotEmpty({
         groups: [
@@ -82,7 +82,7 @@ export class User {
             EDIT_GROUP
         ]
     })
-    email: string
+    email: string;
 
     @IsNotEmpty({
         groups: [REGISTER_GROUP]
@@ -99,7 +99,7 @@ export class User {
     @PasswordPassEntrophyTest({
         groups: [REGISTER_GROUP]
     })
-    password: string
+    password: string;
 
     @IsNotEmpty({
         groups: [
@@ -115,7 +115,7 @@ export class User {
             EDIT_GROUP
         ]
     })
-    birth_date: Date
+    birth_date: Date;
 
     @IsNotEmpty({
         groups: [
@@ -138,5 +138,5 @@ export class User {
             EDIT_GROUP
         ]
     })
-    phone_number: string
+    phone_number: string;
 }

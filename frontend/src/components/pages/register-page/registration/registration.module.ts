@@ -26,7 +26,7 @@ export const moduleInfo = {
   ],
   declarations: [RegistrationComponent],
   exports: [RegistrationComponent]
-}
+};
 
 @NgModule({
   imports: moduleInfo.imports,

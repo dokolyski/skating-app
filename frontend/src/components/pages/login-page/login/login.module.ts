@@ -20,7 +20,7 @@ export const moduleInfo = {
   ],
   declarations: [LoginComponent],
   exports: [LoginComponent]
-}
+};
 
 @NgModule({
   imports: moduleInfo.imports,

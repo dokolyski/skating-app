@@ -20,14 +20,14 @@ export class LoginComponent {
   form = this.fb.group({
     email: EmailComponent.controlSchema,
     password: PasswordComponent.controlSchemaOnlyRequired
-  })
+  });
 
-  serverInputsErrors: { [input: string]: string }
+  serverInputsErrors: { [input: string]: string };
 
   @Output()
-  onSubmit = new EventEmitter<void>()
+  onSubmit = new EventEmitter<void>();
   @Output()
-  onError = new EventEmitter<string>()
+  onError = new EventEmitter<string>();
 
   constructor(
     private fb: FormBuilder,
@@ -37,18 +37,18 @@ export class LoginComponent {
 
   loginViaEmail() {
     if (this.form.valid) {
-      const email = this.form.get('email').value
-      const password = this.form.get('password').value
-      this.handleResponse(this.auth.loginViaEmail(email, password))
+      const email = this.form.get('email').value;
+      const password = this.form.get('password').value;
+      this.handleResponse(this.auth.loginViaEmail(email, password));
     }
   }
 
   loginViaGoogle() {
-    this.handleResponse(this.auth.loginViaGoogle())
+    this.handleResponse(this.auth.loginViaGoogle());
   }
 
   loginViaFacebook() {
-    this.handleResponse(this.auth.loginViaFacebook())
+    this.handleResponse(this.auth.loginViaFacebook());
   }
 
   private handleResponse(response: Observable<void>) {
@@ -56,23 +56,23 @@ export class LoginComponent {
       complete: () => this.onSubmit.emit(),
       next: () => this.onSubmit.emit(),
       error: (e: RestError) => this.handleErrors(e)
-    })
+    });
   }
 
   private handleErrors(errors: RestError) {
     this.lngErrorService.getErrorsStrings(errors)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message)
+          this.onError.emit(translation.message);
         }
 
         if (translation.inputs) {
           for (const input of Object.keys(translation.inputs)) {
-            this.form.get(input).setErrors({ 'server-error': true })
+            this.form.get(input).setErrors({ 'server-error': true });
           }
 
-          this.serverInputsErrors = translation.inputs
+          this.serverInputsErrors = translation.inputs;
         }
-      })
+      });
   }
 }
