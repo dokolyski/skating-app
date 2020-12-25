@@ -1,4 +1,4 @@
-<!-- <div id="page-content-wrapper">
+<ng-container cdkDropListGroup>
   <div class="container-grid">
     <div class="calendarHeader">
       <div class="calendarWeekChoice">
@@ -13,9 +13,17 @@
         </button>
       </div>
     </div>
-
     <div class="calendarContent">
-      <app-weekday *ngFor="let weekday of weekdays; index as i" [sessions]="sessions[i]" [weekday]="weekday"></app-weekday>
+      <app-weekday *ngFor="let weekday of weekdays; index as i" [sessions]="sessions[i]" [weekday]="weekday" [profiles]="profiles"></app-weekday>
     </div>
+    <mat-expansion-panel class="expand-profiles">
+      <mat-expansion-panel-header class="expand-header">
+        <mat-panel-description>
+          <mat-icon class="expand-profiles-icon">account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-profiles-viewport [profiles]="profiles"></app-profiles-viewport>
+    </mat-expansion-panel>
   </div>
-</div> -->
+  <app-waiting-reservations></app-waiting-reservations>
+</ng-container>

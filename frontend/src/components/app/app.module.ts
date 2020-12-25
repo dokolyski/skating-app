@@ -28,7 +28,6 @@ import { LanguageErrorService } from 'services/languageError-service/LanguageErr
 import { RestService } from 'services/rest-service/Rest.service';
 import { RestServiceMock } from 'assets/mocks/manual-tests/RestService.mock';
 import {MatBadgeModule} from '@angular/material/badge';
-import {FacebookModule} from 'ngx-facebook';
 
 const config: SocialAuthServiceConfig = {
   providers: [
@@ -63,8 +62,7 @@ export function provideConfig() {
     FlexLayoutModule,
     RouterModule,
     MatDatepickerModule,
-    MatBadgeModule,
-    FacebookModule
+    MatBadgeModule
   ],
   declarations: [
     AppComponent,

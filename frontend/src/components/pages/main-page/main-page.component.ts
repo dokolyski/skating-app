@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import {MatTabChangeEvent} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-main-page',
@@ -6,4 +7,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./main-page.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class MainPageComponent { }
+export class MainPageComponent {
+  tabIndex = 0;
+  changeTab(event: MatTabChangeEvent) {
+    this.tabIndex = event.index;
+  }
+}
