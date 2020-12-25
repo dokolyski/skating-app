@@ -30,12 +30,11 @@ export class AccountNotificationsComponent implements OnInit {
 
   constructor(
     private rest: RestService,
-    public lngService: LanguageService,
     private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
     const body: SESSIONS.GET_SESSIONS.COMPILATION.INPUT = {
-      date_from: null,
+      date_from: new Date(),
       date_to: null
     };
 
@@ -55,7 +54,7 @@ export class AccountNotificationsComponent implements OnInit {
       )
       .subscribe({
         next: data => {
-          data = data.sort((a, b) => a.session_info.start_date.getTime() - b.session_info.start_date.getTime());
+          data = data.sort((a, b) => a.notification_info.expiration_date.getTime() - b.notification_info.expiration_date.getTime());
           this.sessions = data;
         },
         error: (e: RestError) => this.handleErrors(e)

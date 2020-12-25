@@ -169,12 +169,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
 
         if (showServerErrors && translation.inputs) {
           for (const input of Object.keys(translation.inputs)) {
-            for (const c of Object.values(this.form.controls)) {
-              const subfm = c as FormGroup;
-              if (subfm.contains(input)) {
-                subfm.get(input).setErrors({ 'server-error': true });
-              }
-            }
+            this.form.get(input).setErrors({ 'server-error': true });
           }
 
           this.serverInputsErrors = translation.inputs;
