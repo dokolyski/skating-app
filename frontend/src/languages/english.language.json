@@ -133,6 +133,16 @@
                 "PROFILE_ADD": "Profile creation",
                 "PROFILE_SETTINGS": "Profile settings"
             }
+        },
+        "main": {
+            "ABOUT_US": "About us",
+            "NEWS": "News"
+        }
+    },
+    "navbar": {
+        "languages": {
+            "POLISH": "Polish language",
+            "ENGLISH": "English language"
         }
     }
 }

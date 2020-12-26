@@ -27,8 +27,9 @@ import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import { RestServiceMock } from 'assets/mocks/manual-tests/RestService.mock';
-import {MatBadgeModule} from '@angular/material/badge';
-import {FacebookModule} from 'ngx-facebook';
+import { MatBadgeModule } from '@angular/material/badge';
+import { FacebookModule } from 'ngx-facebook';
+import { MatMenuModule } from '@angular/material/menu';
 
 const config: SocialAuthServiceConfig = {
   providers: [
@@ -64,7 +65,8 @@ export function provideConfig() {
     RouterModule,
     MatDatepickerModule,
     MatBadgeModule,
-    FacebookModule
+    FacebookModule,
+    MatMenuModule
   ],
   declarations: [
     AppComponent,

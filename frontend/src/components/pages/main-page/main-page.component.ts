@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { LanguageService } from 'services/language-service/Language.service';
 
 @Component({
   selector: 'app-main-page',
@@ -6,4 +7,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./main-page.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class MainPageComponent { }
+export class MainPageComponent {
+  constructor(
+    public lngService: LanguageService
+  ) {}
+}

@@ -69,6 +69,9 @@ describe('login.component', () => {
   });
 
   beforeEach(async (done: DoneFn) => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    
     buttons = {
       emailInput: await loader.getHarness(MatInputHarness.with({ selector: '#email' })),
       passwordInput: await loader.getHarness(MatInputHarness.with({ selector: '#password' })),
@@ -78,7 +81,7 @@ describe('login.component', () => {
     };
 
     done();
-  }, 100);
+  });
 
   it('login via email', async (done: DoneFn) => {
     authMock.loginViaEmail.withArgs(user.email, user.password).and.returnValue(of());
