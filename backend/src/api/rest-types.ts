@@ -29,6 +29,10 @@ export namespace VERIFICATION.REGISTER {
 
 
 export namespace USERS {
+    export namespace GET {
+        export type OUTPUT = User;
+    }
+
     export namespace EDIT {
         export const GROUPS = {
             INPUT: {EDIT_GROUP}
