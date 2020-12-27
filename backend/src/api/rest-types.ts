@@ -6,7 +6,7 @@ import {Profile, ALL_PROFILES_GROUP, CREATE_PROFILE_GROUP, EDIT_PROFILE_GROUP} f
 import {SessionJoin} from './rest-models/session-join';
 import {SessionsSelection} from './rest-models/session-selection';
 import {Session, ALL_SESSION_GROUP, CREATE_SESSION_GROUP, EDIT_SESSION_GROUP} from './rest-models/session';
-import {Status} from './rest-models/status';
+import {SessionStatus} from './rest-models/sessionStatus';
 import {Token} from './rest-models/token';
 import {REGISTER_GROUP, PART_GROUP, FULL_GROUP, EDIT_GROUP, User} from './rest-models/user';
 
@@ -103,11 +103,11 @@ export namespace SESSIONS.EDIT {
 
 export namespace SESSIONS.EDIT_STATUS {
     export namespace RUNTIME {
-        export const INPUT = Status;
+        export const INPUT = SessionStatus;
     }
 
     export namespace COMPILATION {
-        export type INPUT = Status;
+        export type INPUT = SessionStatus;
     }
 }
 
@@ -152,11 +152,11 @@ export namespace NOTIFICATIONS.CREATE {
 
 export namespace NOTIFICATIONS.EDIT_STATUS {
     export namespace RUNTIME {
-        export const INPUT = Status;
+        export const INPUT = SessionStatus;
     }
 
     export namespace COMPILATION {
-        export type INPUT = Status;
+        export type INPUT = SessionStatus;
     }
 }
 

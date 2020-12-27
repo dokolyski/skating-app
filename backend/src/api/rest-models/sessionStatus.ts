@@ -1,8 +1,8 @@
 import { IsNotEmpty, IsString, IsIn } from 'class-validator';
 
-export class Status {
+export class SessionStatus {
     @IsNotEmpty()
     @IsString()
-    @IsIn(['DISABLED', 'ENABLED'])
+    @IsIn(['OPEN', 'CLOSED', 'CANCELLED'])
     status: string;
 }
