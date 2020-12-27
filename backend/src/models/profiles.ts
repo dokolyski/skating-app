@@ -34,6 +34,7 @@ Profile.init({
     },
     is_owner: {
         type: SQL.BOOLEAN,
+        defaultValue: false,
         allowNull: false
     },
 
