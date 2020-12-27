@@ -75,8 +75,9 @@ Session.init({
     status: {
         type: SQL.STRING,
         allowNull: false,
+        defaultValue: 'OPEN',
         validate: {
-            isIn: [['DISABLED', 'ENABLED']]
+            isIn: [['OPEN', 'CLOSED', 'CANCELLED']]
         }
     },
 }, {
