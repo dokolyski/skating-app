@@ -82,12 +82,8 @@ export namespace SESSIONS {
 }
 
 
-export namespace SESSION_PARTICIPANTS.JOIN {
-    export namespace RUNTIME {
-        export const INPUT = SessionJoin;
-    }
-
-    export namespace COMPILATION {
+export namespace SESSION_PARTICIPANTS {
+    export namespace JOIN {
         export type INPUT = SessionJoin;
     }
 }
