@@ -28,16 +28,16 @@ export namespace VERIFICATION.REGISTER {
 }
 
 
-export namespace USER_INFO.EDIT {
-    export const GROUPS = {
-        INPUT: {EDIT_GROUP}
-    };
-
-    export namespace RUNTIME {
-        export const INPUT = User;
+export namespace USERS {
+    export namespace GET {
+        export type OUTPUT = User;
     }
 
-    export namespace COMPILATION {
+    export namespace EDIT {
+        export const GROUPS = {
+            INPUT: {EDIT_GROUP}
+        };
+
         export type INPUT = User;
     }
 }
