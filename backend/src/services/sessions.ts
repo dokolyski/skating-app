@@ -58,4 +58,16 @@ export default class Sessions {
 
         await session.destroy();
     }
+
+
+    @Validate
+    public static async editStatus(sessionId: number, @Validator data: SESSIONS.EDIT_STATUS.INPUT): Promise<void> {
+
+        const session = await Session.findByPk(sessionId);
+        if (session === null)
+            throw new NotFoundException();
+
+        session.update(data);
+        await session.save();
+    }
 }

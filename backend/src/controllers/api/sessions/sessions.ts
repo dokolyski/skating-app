@@ -55,7 +55,13 @@ router.route('/sessions/:id')
 
 router
     .patch('/sessions/:id/status', async (req: Request, res: Response, next) => {
-
+        Sessions.editStatus(req.params.id, req.body)
+            .then(result => {
+                res.status(HttpCode.OK).send(result);
+            })
+            .catch(e => {
+                next(e)
+            });
     })
 
 
