@@ -4,29 +4,29 @@ import User from '../models/users'
 import Profile from '../models/profiles'
 import server_config from '../config/server.json'
 import db from '../static/database'
-import * as API from '../api/users'
 import { decrypt } from '../init/generate-keys'
 import LogicError from '../misc/logic-error'
 import {Validator, Validate} from "typescript-class-validator";
+import {VERIFICATION} from "../api/rest-types";
 
 export default class Registration {
     @Validate()
-    public static async signUp(@Validator() postData: API.USER.POST): Promise<void | Error> {
+    public static async signUp(@Validator() data: VERIFICATION.REGISTER.INPUT): Promise<void | Error> {
         const t = await db.transaction();
 
         try {
-            let userData = postData as unknown as User;
+            let userData = data as unknown as User;
 
             // userData.password = decrypt(userData.password);
             userData.account_type = "USER";
-            userData.birth_date = new Date(postData.birth_date);
+            userData.birth_date = new Date(data.birth_date);
 
             const user = await User.create(userData, {transaction: t});
 
             let profile = Profile.build({
-                firstname: postData.firstname,
-                lastname: postData.lastname,
-                birth_date: new Date(postData.birth_date),
+                firstname: data.firstname,
+                lastname: data.lastname,
+                birth_date: new Date(data.birth_date),
                 is_owner: true,
                 skill_level: "LOW",
                 user_id: user.id
