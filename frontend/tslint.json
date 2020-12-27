@@ -1,6 +1,11 @@
 {
   "extends": "tslint:recommended",
   "rules": {
+    "no-string-literal": false,
+    "variable-name": [
+      false,
+      "allow-leading-underscore"
+    ],
     "align": {
       "options": [
         "parameters",
@@ -72,6 +77,7 @@
       true,
       "ignore-params"
     ],
+    "no-namespace": false,
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
@@ -92,7 +98,7 @@
     "no-input-rename": true,
     "no-inputs-metadata-property": true,
     "no-output-native": true,
-    "no-output-on-prefix": true,
+    "no-output-on-prefix": false,
     "no-output-rename": true,
     "semicolon": {
       "options": [
@@ -130,24 +136,17 @@
       ]
     },
     "use-lifecycle-interface": true,
-    "use-pipe-transform-interface": true,
-    "variable-name": {
-      "options": [
-        "ban-keywords",
-        "check-format",
-        "allow-pascal-case"
-      ]
-    },
-    "whitespace": {
-      "options": [
-        "check-branch",
-        "check-decl",
-        "check-operator",
-        "check-separator",
-        "check-type",
-        "check-typecast"
-      ]
-    }
+    "use-pipe-transform-interface": true
+  },
+  "whitespace": {
+    "options": [
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-separator",
+      "check-type",
+      "check-typecast"
+    ]
   },
   "rulesDirectory": [
     "codelyzer"

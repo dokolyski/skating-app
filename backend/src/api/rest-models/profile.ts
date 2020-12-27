@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsNumber, IsString, Matches, IsDate, ValidateIf, IsIn } from "class-validator"
+import { IsNotEmpty, IsNumber, IsString, Matches, IsDate, ValidateIf, IsIn } from 'class-validator';
 
-export const ALL_PROFILES_GROUP = 'ALL'
-export const CREATE_PROFILE_GROUP = 'CREATE'
-export const EDIT_PROFILE_GROUP = 'EDIT'
+export const ALL_PROFILES_GROUP = 'ALL';
+export const CREATE_PROFILE_GROUP = 'CREATE';
+export const EDIT_PROFILE_GROUP = 'EDIT';
 
 export class Profile {
     @IsNotEmpty({
@@ -11,7 +11,7 @@ export class Profile {
     @IsNumber({}, {
         groups: [ALL_PROFILES_GROUP]
     })
-    id: number
+    id: number;
 
     @IsNotEmpty({
         groups: [ALL_PROFILES_GROUP]
@@ -19,7 +19,7 @@ export class Profile {
     @IsNumber({}, {
         groups: [ALL_PROFILES_GROUP]
     })
-    user_id: number
+    user_id: number;
 
     @IsNotEmpty({
         groups: [
@@ -42,7 +42,7 @@ export class Profile {
             EDIT_PROFILE_GROUP
         ]
     })
-    firstname: string
+    firstname: string;
 
     @IsNotEmpty({
         groups: [
@@ -65,7 +65,7 @@ export class Profile {
             EDIT_PROFILE_GROUP
         ]
     })
-    lastname: string
+    lastname: string;
 
     @IsNotEmpty({
         groups: [
@@ -81,7 +81,7 @@ export class Profile {
             EDIT_PROFILE_GROUP
         ]
     })
-    birth_date: Date
+    birth_date: Date;
 
     @ValidateIf(o => o.skill_level != null, {
         groups: [
@@ -104,7 +104,7 @@ export class Profile {
             EDIT_PROFILE_GROUP
         ]
     })
-    skill_level: string | null
+    skill_level: string | null;
 
     @IsNotEmpty({
         groups: [ALL_PROFILES_GROUP]
@@ -115,5 +115,5 @@ export class Profile {
     @IsIn(['OWNER', 'PROFILE'], {
         groups: [ALL_PROFILES_GROUP]
     })
-    type: string
+    type: string;
 }

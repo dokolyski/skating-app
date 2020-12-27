@@ -1,8 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestError } from 'api/rest-error';
 import { USER_INFO, PROFILES, CONFIG } from 'api/rest-types';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, takeUntil, takeWhile } from 'rxjs/operators';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
@@ -16,6 +16,7 @@ import { TelephoneComponent } from 'components/common/inputs/telephone/telephone
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { Profile } from 'api/rest-models/profile';
 import { User } from 'api/rest-models/user';
+import { Subject } from 'rxjs';
 
 /**
  * @description Show user settings and allow to change them, gather informations about
@@ -26,7 +27,9 @@ import { User } from 'api/rest-models/user';
   templateUrl: './account-settings.component.html',
   styleUrls: ['./account-settings.component.css']
 })
-export class AccountSettingsComponent implements OnInit {
+export class AccountSettingsComponent implements OnInit, OnDestroy {
+  private destroy = new Subject();
+
   form = this.fb.group({
     email: EmailComponent.controlSchema,
     name: NameComponent.controlSchema,
@@ -36,7 +39,6 @@ export class AccountSettingsComponent implements OnInit {
     skillLevel: SkillLevelComponent.controlSchema
   });
 
-  uid: string;
   skillLevelPossibleValues: string[];
   serverInputsErrors: { [input: string]: string };
 
@@ -93,13 +95,15 @@ export class AccountSettingsComponent implements OnInit {
         mergeMap((v: string[]) => {
           this.skillLevelPossibleValues = [' ', ...v];
           this.editMode = false;
-          this.uid = this.auth.uid;
-
-          return this.rest.do<USER_INFO.GET.OUTPUT>(REST_PATH.USER_INFO.GET, { templateParamsValues: { id: this.uid } });
+          return this.auth.uid$;
+        }),
+        takeUntil(this.destroy),
+        mergeMap(uid => {
+          return this.rest.do<USER_INFO.GET.COMPILATION.OUTPUT>(REST_PATH.USER_INFO.GET, { templateParamsValues: { id: uid.toString() } });
         }),
         mergeMap(data => {
           user = data;
-          return this.rest.do<PROFILES.GET_PROFILES.OUTPUT[]>(REST_PATH.PROFILES.GET_PROFILES);
+          return this.rest.do<PROFILES.GET_PROFILES.COMPILATION.OUTPUT>(REST_PATH.PROFILES.GET_PROFILES);
         })
       )
       .subscribe({
@@ -110,6 +114,10 @@ export class AccountSettingsComponent implements OnInit {
         },
         error: (e: RestError) => this.handleErrors(e, false)
       });
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
   }
 
   edit() {
@@ -128,24 +136,28 @@ export class AccountSettingsComponent implements OnInit {
       });
   }
 
-  private prepareUserInfoPayload() {
-    return {
-      firstname: this.form.get('name').value,
-      lastname: this.form.get('lastname').value,
-      email: this.form.get('email').value,
-      birth_date: this.form.get('dateBirth').value,
-      phone_number: this.form.get('telephoneNumber').value
-    };
+  private prepareUserInfoPayload(): USER_INFO.EDIT.COMPILATION.INPUT {
+    const body = new USER_INFO.EDIT.RUNTIME.INPUT();
+
+    body.firstname = this.form.get('name').value;
+    body.lastname = this.form.get('lastname').value;
+    body.email = this.form.get('email').value;
+    body.birth_date = this.form.get('dateBirth').value;
+    body.phone_number = this.form.get('telephoneNumber').value;
+
+    return body;
   }
 
-  private prepareSelfProfilePayload() {
+  private prepareSelfProfilePayload(): PROFILES.EDIT.COMPILATION.INPUT {
+    const body = new PROFILES.EDIT.RUNTIME.INPUT();
+
     const skill = this.form.get('skillLevel').value;
-    return {
-      firstname: this.form.get('name').value,
-      lastname: this.form.get('lastname').value,
-      birth_date: this.form.get('dateBirth').value,
-      skill_level: skill.length && skill !== ' ' ? skill : null
-    };
+    body.firstname = this.form.get('name').value,
+    body.lastname = this.form.get('lastname').value,
+    body.birth_date = this.form.get('dateBirth').value,
+    body.skill_level = skill.length && skill !== ' ' ? skill : null;
+
+    return body;
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {
@@ -157,12 +169,7 @@ export class AccountSettingsComponent implements OnInit {
 
         if (showServerErrors && translation.inputs) {
           for (const input of Object.keys(translation.inputs)) {
-            for (const c of Object.values(this.form.controls)) {
-              const subfm = c as FormGroup;
-              if (subfm.contains(input)) {
-                subfm.get(input).setErrors({ 'server-error': true });
-              }
-            }
+            this.form.get(input).setErrors({ 'server-error': true });
           }
 
           this.serverInputsErrors = translation.inputs;

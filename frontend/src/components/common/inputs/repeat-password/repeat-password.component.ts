@@ -7,18 +7,18 @@ import * as VLD from 'common/validators';
   templateUrl: './repeat-password.component.html'
 })
 export class RepeatPasswordComponent {
-  @Input()
-  control: FormControl
-  @Input()
-  translation: { errors, form }
 
   /**
    * @description no validators
    */
-  static controlSchema = ['']
+  static controlSchema = [''];
 
   /**
    * @description ```same as password```
    */
-  static groupValidator = VLD.Validators.repeatPassword
+  static groupValidator = VLD.Validators.repeatPassword;
+  @Input()
+  control: FormControl;
+  @Input()
+  translation: { errors, form };
 }

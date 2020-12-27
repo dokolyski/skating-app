@@ -2,15 +2,15 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'environments/environment.prod';
-import {RestJSON} from 'api/rest-models/rest-json';
 import {mergeMap} from 'rxjs/operators';
 
 export type RestPath = { URL: string, METHOD: string, PARAMS?: string[] };
-export type RestOptions = { templateParamsValues?: { [key: string]: string }, body?: any };
+export type RestOptions = { templateParamsValues?: { [key: string]: string }, body? };
 
 /**
  * @summary General purpose proxy to the ```REST``` server
- * @description Allow to communicates easily with the ```REST``` server, can use template URL path, handle methods: ```GET```, ```POST```, ```PUT```, ```PATCH```, ```DELETE```
+ * @description Allow to communicates easily with the ```REST``` server,
+ * can use template URL path, handle methods: ```GET```, ```POST```, ```PUT```, ```PATCH```, ```DELETE```
  */
 @Injectable()
 export class RestService {
@@ -72,7 +72,7 @@ export class RestService {
    * @description Convert ```JSON``` into ```HTTP Query Params```
    * @param body ```JSON``` payload
    */
-  private parseQueryParams(body: RestJSON): HttpParams {
+  private parseQueryParams(body): HttpParams {
     const params = new HttpParams();
     for (const [k, v] of Object.entries(body)) {
       params.set(k, v as string);
@@ -87,7 +87,7 @@ export class RestService {
    * @throws Error on unhandled HTTP method
    */
   private sendRequest(url: string, method: string,
-                      payload: { body?: RestJSON, params?: HttpParams }): Observable<any> | never {
+                      payload: { body?, params?: HttpParams }): Observable<any> | never {
     const options: any = {withCredentials: true};
     switch (method) {
       case 'GET':

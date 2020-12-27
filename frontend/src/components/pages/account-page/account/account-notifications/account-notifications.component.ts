@@ -19,8 +19,8 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 export class AccountNotificationsComponent implements OnInit {
   sessions: {
-    session_info: Pick<Session, 'id'>,
-    notification_info: Omit<Notification, 'show_date'|'expiration_date'|'status'>
+    session_info: Session,
+    notification_info: Notification
   }[];
 
   @Output()
@@ -30,19 +30,18 @@ export class AccountNotificationsComponent implements OnInit {
 
   constructor(
     private rest: RestService,
-    public lngService: LanguageService,
     private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
-    const body: SESSIONS.GET_SESSIONS.INPUT = {
-      date_from: null,
+    const body: SESSIONS.GET_SESSIONS.COMPILATION.INPUT = {
+      date_from: new Date(),
       date_to: null
     };
 
-    this.rest.do<SESSIONS.GET_SESSIONS.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, { body })
+    this.rest.do<SESSIONS.GET_SESSIONS.COMPILATION.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, { body })
       .pipe(
         mergeMap(s =>
-          this.rest.do<NOTIFICATIONS.GET_NOTIFICATIONS.OUTPUT>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)
+          this.rest.do<NOTIFICATIONS.GET_NOTIFICATIONS.COMPILATION.OUTPUT>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)
             .pipe(
               map(n =>
                 n.map(v => {
@@ -55,7 +54,7 @@ export class AccountNotificationsComponent implements OnInit {
       )
       .subscribe({
         next: data => {
-          data = data.sort((a, b) => a.session_info.start_date.getTime() - b.session_info.start_date.getTime());
+          data = data.sort((a, b) => a.notification_info.expiration_date.getTime() - b.notification_info.expiration_date.getTime());
           this.sessions = data;
         },
         error: (e: RestError) => this.handleErrors(e)

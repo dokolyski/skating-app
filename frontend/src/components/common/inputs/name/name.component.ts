@@ -6,15 +6,15 @@ import { FormControl, Validators } from '@angular/forms';
   templateUrl: './name.component.html'
 })
 export class NameComponent {
-  @Input()
-  control: FormControl
-  @Input()
-  translation: { errors, form }
-  @Input()
-  serverError: string
 
   /**
    * @description ```required```
    */
-  static controlSchema = ['', Validators.required]
+  static controlSchema = ['', Validators.required];
+  @Input()
+  control: FormControl;
+  @Input()
+  translation: { errors, form };
+  @Input()
+  serverError: string;
 }

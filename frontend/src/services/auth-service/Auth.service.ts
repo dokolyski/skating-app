@@ -1,83 +1,88 @@
-import { map, mergeMap } from 'rxjs/operators';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import { CookieService } from 'ngx-cookie-service';
 import { Token } from 'api/rest-models/token';
+import { VERIFICATION } from 'api/rest-types';
 
 /**
  * @description Authorisation purpose proxy to the ```REST``` server and ```Token provider```
  */
 @Injectable()
 export class AuthService {
-  private token: Token = null;
-  private tokenSubject: BehaviorSubject<Token> = new BehaviorSubject<Token>(this.token);
-  readonly token$: Observable<Token> = this.tokenSubject.asObservable();
+  private sessionInfo: Token = null;
+  private tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  private uidSubject: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  readonly token$: Observable<string> = this.tokenSubject.asObservable();
+  readonly uid$: Observable<number> = this.uidSubject.asObservable();
 
   constructor(
-    private rest: RestService,
-    private tokenService: SocialAuthService,
-    private cookieService: CookieService) {}
+    private rest: RestService) {}
 
-  /**
+ /**
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   loginViaEmail(email: string, password: string): Observable<void> {
-    const body = { email, password };
-    return this.rest.do(REST_PATH.VERIFICATION.LOGIN, { body });
+    const body = new VERIFICATION.LOGIN.RUNTIME.INPUT();
+    body.email = email;
+    body.password = password;
+
+    return this.login(body);
   }
 
-  /**
+ /**
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   loginViaGoogle(): Observable<void> {
-    return this.loginViaSocialMedia(GoogleLoginProvider.PROVIDER_ID, 'GOOGLE');
+    return this.loginViaSocialMedia('GOOGLE');
   }
 
-  /**
+ /**
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   loginViaFacebook(): Observable<void> {
-    return this.loginViaSocialMedia(FacebookLoginProvider.PROVIDER_ID, 'FACEBOOK');
+    return this.loginViaSocialMedia('FACEBOOK');
   }
 
-  /**
+ /**
   * @description Notify server to logout, clear token
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   logout(): Observable<void> {
-    return this.rest.do(REST_PATH.VERIFICATION.LOGOUT, { templateParamsValues: { token: this.token.token } })
+    return this.rest.do(REST_PATH.VERIFICATION.LOGOUT, { templateParamsValues: { token: this.sessionInfo.token } })
     .pipe(
       map(() => {
-        this.token = null;
+        this.sessionInfo = null;
         this.tokenSubject.next(null);
       })
     );
   }
 
-  /**
-  * @returns Server user id
-  */
-  get uid() {
-    return this.cookieService.get('uid');
-  }
-
-  /**
-  * @description Sign in to provider, then send ```token``` and ```provider name``` to the server, finally assign client token received from server
+ /**
+  * @description Send ```provider name``` to the server
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
-  private loginViaSocialMedia(providerId: string, providerName: string): Observable<void> {
-    return from(this.tokenService.signIn(providerId))
+  private loginViaSocialMedia(providerName: string): Observable<void> {
+    const body = new VERIFICATION.LOGIN.RUNTIME.INPUT();
+    body.provider = providerName;
+
+    return this.login(body);
+  }
+
+ /**
+  * @description Send ```body``` to the server,
+  * then assign client session information received from server
+  * @returns ```Observable```, emits ```next``` on fullfillment
+  */
+  private login(body): Observable<void> {
+    return this.rest.do<Token>(REST_PATH.VERIFICATION.LOGIN, { body })
     .pipe(
-      map((v: SocialUser) => ({ token: v.idToken, provider: providerName })),
-      mergeMap(body => this.rest.do<Token>(REST_PATH.VERIFICATION.LOGIN, { body })),
-      map(token => {
-        this.token = token;
-        this.tokenSubject.next(token);
+      map(session => {
+        this.sessionInfo = session;
+        this.tokenSubject.next(session.token);
+        this.uidSubject.next(session.uid);
       })
     );
   }
-
 }

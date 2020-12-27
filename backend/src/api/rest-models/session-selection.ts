@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsNumber } from "class-validator";
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class SessionsSelection {
     @IsNotEmpty()
     @IsNumber({}, {
         each: true
     })
-    sessions_id: number[]
+    sessions_id: number[];
 }

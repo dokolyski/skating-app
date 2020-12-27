@@ -10,7 +10,7 @@ export const moduleInfo = {
   ],
   declarations: [AccountNotificationsComponent],
   exports: [AccountNotificationsComponent]
-}
+};
 
 @NgModule({
   imports: moduleInfo.imports,

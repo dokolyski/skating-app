@@ -21,7 +21,7 @@ export const moduleInfo = {
   ],
   declarations: [ProfileSettingsComponent],
   exports: [ProfileSettingsComponent]
-}
+};
 
 @NgModule({
   imports: moduleInfo.imports,

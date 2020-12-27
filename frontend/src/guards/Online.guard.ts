@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { CanActivate } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { CanActivate } from '@angular/router';
 
 /**
  * @description Activate if user is online
@@ -9,6 +9,6 @@ import { CanActivate } from "@angular/router";
 })
 export class OnlineGuard implements CanActivate {
     canActivate(): boolean {
-        return navigator.onLine
+        return navigator.onLine;
     }
 }

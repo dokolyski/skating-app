@@ -7,12 +7,6 @@ import * as VLD from 'common/validators';
   templateUrl: './password.component.html'
 })
 export class PasswordComponent {
-  @Input()
-  control: FormControl
-  @Input()
-  translation: { errors, form }
-  @Input()
-  serverError: string
 
   /**
    * @description ```required```, ```min length of 8```, ```max length of 16```, ```pass all password regex```, ```above entropy of 0.5```
@@ -20,10 +14,16 @@ export class PasswordComponent {
   static controlSchema = ['', [
     Validators.required, Validators.minLength(8), Validators.maxLength(16),
     VLD.Validators.passwordPassAllRegex, VLD.Validators.aboveEntropy(0.5)
-  ]]
+  ]];
 
   /**
    * @description ```required```
    */
-  static controlSchemaOnlyRequired = ['', Validators.required]
+  static controlSchemaOnlyRequired = ['', Validators.required];
+  @Input()
+  control: FormControl;
+  @Input()
+  translation: { errors, form };
+  @Input()
+  serverError: string;
 }
