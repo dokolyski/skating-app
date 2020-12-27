@@ -73,43 +73,28 @@ export namespace SESSIONS.GET_SESSIONS {
     }
 }
 
-export namespace SESSIONS.CREATE {
-    export const GROUPS = {
-        INPUT: {CREATE_SESSION_GROUP}
-    };
+export namespace SESSIONS {
+    export namespace CREATE {
+        export const GROUPS = {
+            INPUT: {CREATE_SESSION_GROUP}
+        };
 
-    export namespace RUNTIME {
-        export const INPUT = Session;
-    }
-
-    export namespace COMPILATION {
         export type INPUT = Session;
     }
-}
 
-export namespace SESSIONS.EDIT {
-    export const GROUPS = {
-        INPUT: {EDIT_SESSION_GROUP}
-    };
+    export namespace EDIT {
+        export const GROUPS = {
+            INPUT: {EDIT_SESSION_GROUP}
+        };
 
-    export namespace RUNTIME {
-        export const INPUT = Session;
-    }
-
-    export namespace COMPILATION {
         export type INPUT = Session;
     }
-}
 
-export namespace SESSIONS.EDIT_STATUS {
-    export namespace RUNTIME {
-        export const INPUT = SessionStatus;
-    }
-
-    export namespace COMPILATION {
+    export namespace EDIT_STATUS {
         export type INPUT = SessionStatus;
     }
 }
+
 
 export namespace SESSION_PARTICIPANTS.JOIN {
     export namespace RUNTIME {
@@ -136,19 +121,6 @@ export namespace NOTIFICATIONS.GET_NOTIFICATIONS {
     }
 }
 
-export namespace NOTIFICATIONS.CREATE {
-    export const GROUPS = {
-        INPUT: {CREATE_GROUP}
-    };
-
-    export namespace RUNTIME {
-        export const INPUT = Notification;
-    }
-
-    export namespace COMPILATION {
-        export type INPUT = Notification;
-    }
-}
 
 export namespace NOTIFICATIONS.EDIT_STATUS {
     export namespace RUNTIME {
