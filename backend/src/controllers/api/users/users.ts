@@ -1,27 +1,46 @@
 import express, {Request, Response} from 'express'
 import Registration from '../../../services/registration';
 import HttpCode from 'http-status-codes'
+import Users from "../../../services/users";
+import ForbiddenException from "../../../misc/forbidden-exception";
 
 const router = express.Router();
 
-
-router.post('/users', (req: Request, res: Response, next) => {
-    Registration.signUp(req.body).then(value =>
-        res.status(HttpCode.CREATED).json()
-    ).catch(e => {
-        next(e)
-    });
-});
-
 router.route('/users/:id')
-    .get((req: Request, res: Response) => {
+    .get((req: Request, res: Response, next) => {
+        // TODO allow admin edit all users
+        if( req.params.id != req.user.id )
+            throw new ForbiddenException();
 
+        Users.get(req.params.id).then(value =>
+            res.status(HttpCode.OK).json(value)
+        ).catch(e => {
+            next(e)
+        });
     })
-    .put((req: Request, res: Response) => {
+    .put((req: Request, res: Response, next) => {
 
+        // TODO allow admin edit all users
+        if( req.params.id != req.user.id )
+            throw new ForbiddenException();
+
+        Users.edit(req.params.id, req.body).then(value =>
+            res.status(HttpCode.OK).json()
+        ).catch(e => {
+            next(e)
+        });
     })
-    .delete((req: Request, res: Response) => {
+    .delete((req: Request, res: Response, next) => {
 
+        // TODO allow admin edit all users
+        if( req.params.id != req.user.id )
+            throw new ForbiddenException();
+
+        Users.delete(req.params.id).then(value =>
+            res.status(HttpCode.OK).json()
+        ).catch(e => {
+            next(e)
+        });
     });
 
 export default router
