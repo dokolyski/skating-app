@@ -58,20 +58,6 @@ export namespace PROFILES.EDIT {
     export type INPUT = Profile;
 }
 
-export namespace SESSIONS.GET_SESSIONS {
-    export const GROUPS = {
-        OUTPUT: {ALL_SESSION_GROUP}
-    };
-
-    export namespace RUNTIME {
-        export const INPUT = DateRange;
-    }
-
-    export namespace COMPILATION {
-        export type INPUT = DateRange;
-        export type OUTPUT = Session[];
-    }
-}
 
 export namespace SESSIONS {
     export namespace CREATE {
