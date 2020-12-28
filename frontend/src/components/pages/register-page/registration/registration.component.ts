@@ -19,6 +19,7 @@ import { DateBirthComponent } from 'components/common/inputs/date-birth/date-bir
 import { TelephoneComponent } from 'components/common/inputs/telephone/telephone.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { of } from 'rxjs';
+import { Skills } from 'api/rest-models/config-models';
 
 /**
  * @description Gather, validate and send to the ```REST``` server required user informations like
@@ -49,7 +50,7 @@ export class RegistrationComponent implements OnInit {
     })
   });
 
-  skillLevelPossibleValues: string[];
+  skillLevelPossibleValues: Skills;
   serverInputsErrors: { [input: string]: string };
 
   @Output()

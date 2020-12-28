@@ -13,6 +13,7 @@ import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-
 import { mergeMap } from 'rxjs/operators';
 import { AuthService } from 'services/auth-service/Auth.service';
 import { Profile } from 'api/rest-models/profile';
+import { Skills } from 'api/rest-models/config-models';
 
 /**
  * @description Show profiles account settings and allow to change them, , gather informations about
@@ -46,7 +47,7 @@ export class ProfileSettingsComponent implements OnInit {
 
   profiles: Profile[];
   serverInputsErrors: { [input: string]: string };
-  skillLevelPossibleValues: string[];
+  skillLevelPossibleValues: Skills;
 
   set editMode(value: boolean) {
     if (value) {

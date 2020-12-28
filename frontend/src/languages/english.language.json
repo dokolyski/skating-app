@@ -113,7 +113,6 @@
                 "form": {
                     "inputs": {
                         "EMAIL": "Email",
-                        "PASSWORD": "Password",
                         "NAME": "Firstname",
                         "LASTNAME": "Lastname",
                         "DATE_BIRTH": "Date of birth",

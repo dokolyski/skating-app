@@ -7,7 +7,6 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from 'environments/environment';
 
 import { PagesModule } from 'components/pages/pages';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialAuthServiceConfig } from 'angularx-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,23 +29,6 @@ import { RestServiceMock } from 'assets/mocks/manual-tests/RestService.mock';
 import { MatBadgeModule } from '@angular/material/badge';
 import { FacebookModule } from 'ngx-facebook';
 import { MatMenuModule } from '@angular/material/menu';
-
-const config: SocialAuthServiceConfig = {
-  providers: [
-    {
-      id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider(environment.keys.FACEBOOK)
-    },
-    {
-      id: GoogleLoginProvider.PROVIDER_ID,
-      provider: new GoogleLoginProvider(environment.keys.GOOGLE)
-    }
-  ]
-};
-
-export function provideConfig() {
-  return config;
-}
 
 @NgModule({
   imports: [
@@ -76,7 +58,6 @@ export function provideConfig() {
     RestService,
     HttpClient,
     CookieService,
-    SocialAuthService,
     FormBuilder,
     AuthService,
     LanguageService,
@@ -85,7 +66,6 @@ export function provideConfig() {
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
     { provide: 'path-languages', useValue: 'languages' },
-    { provide: 'SocialAuthServiceConfig', useFactory: provideConfig },
     { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
   ],
   bootstrap: [AppComponent]

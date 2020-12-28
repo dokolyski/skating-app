@@ -71,7 +71,7 @@ describe('login.component', () => {
   beforeEach(async (done: DoneFn) => {
     fixture.detectChanges();
     await fixture.whenStable();
-    
+
     buttons = {
       emailInput: await loader.getHarness(MatInputHarness.with({ selector: '#email' })),
       passwordInput: await loader.getHarness(MatInputHarness.with({ selector: '#password' })),
