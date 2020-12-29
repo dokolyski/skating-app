@@ -8,8 +8,8 @@ class AuthorizedUser {
         this.user = user;
     }
 
-    public checkOwnership(id: number) {
-        if (this.user.id != id)
+    public checkOwnership(userId: number) {
+        if (this.user.id != userId)
             throw new ForbiddenException()
     }
 }
