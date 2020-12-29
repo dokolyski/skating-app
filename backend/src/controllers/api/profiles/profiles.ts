@@ -15,7 +15,7 @@ router.route('/profiles')
             });
     })
     .post(async (req: Request, res: Response, next) => {
-        Profiles.create(req.body, req.user.id)
+        Profiles.create(req.body)
             .then(result => {
                 res.status(HttpCode.CREATED).send(result);
             })
