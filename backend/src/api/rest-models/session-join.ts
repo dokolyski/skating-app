@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from "class-validator"
+import {IsIn, IsNotEmpty, IsNumber, IsString} from "class-validator"
 
 export class SessionJoin {
     @IsNotEmpty()
@@ -10,4 +10,9 @@ export class SessionJoin {
     @IsNotEmpty()
     @IsNumber()
     session_id: number
+
+    @IsNotEmpty()
+    @IsString()
+    @IsIn(['POINTS', 'CASH'])
+    format: string;
 }
