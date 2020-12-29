@@ -13,6 +13,17 @@ router
             .catch(e => {
                 next(e)
             });
-    })
+    });
+
+router.route('/session_participants/:id')
+    .delete(async (req: Request, res: Response, next) => {
+        SessionsParticipants.disjoin(req.params.id, req.user.id)
+            .then(result => {
+                res.status(HttpCode.OK).send(result);
+            })
+            .catch(e => {
+                next(e)
+            });
+    });
 
 export default router

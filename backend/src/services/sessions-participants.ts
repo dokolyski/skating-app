@@ -12,23 +12,10 @@ export default class SessionsParticipants {
 
     @Validate
     public static async join(@Validator data: SESSION_PARTICIPANTS.JOIN.INPUT, userId: number): Promise<void> {
-
-        const session = await Session.findByPk(data.session_id);
-        if (session === null)
-            throw new NotFoundException()
-
-        const profiles = await Profile.findAll({
-            where: {
-                id: data.profiles_ids,
-                user_id: userId
-            }
-        })
-
-        if (profiles.length != data.profiles_ids.length)
-            throw new ForbiddenException();
+        const session = await this.getSession(data.session_id);
+        const profiles = await this.getProfiles(data.profiles_ids, userId);
 
         const t = await db.transaction();
-
 
         try {
             for (const profile of profiles) {
@@ -43,5 +30,40 @@ export default class SessionsParticipants {
             await t.rollback();
             throw err;
         }
+    }
+
+    public static async disjoin(id: number, authorizedUserId: number): Promise<void> {
+
+        const sp = await SessionParticipant.findByPk(id);
+        if (sp === null)
+            throw new NotFoundException()
+
+        const profile = await Profile.findByPk(sp.profile_id);
+        if (profile.user_id !== authorizedUserId)
+            throw new ForbiddenException();
+
+        sp.destroy();
+    }
+
+    private static async getSession(sessionId: number): Promise<Session> {
+        const session = await Session.findByPk(sessionId);
+        if (session === null)
+            throw new NotFoundException()
+
+        return session;
+    }
+
+    private static async getProfiles(profilesIds: number[], userId: number): Promise<Profile[]> {
+        const profiles = await Profile.findAll({
+            where: {
+                id: profilesIds,
+                user_id: userId
+            }
+        })
+
+        if (profiles.length != profilesIds.length)
+            throw new ForbiddenException();
+
+        return profiles
     }
 }
