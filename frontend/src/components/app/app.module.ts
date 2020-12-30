@@ -30,6 +30,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { FacebookModule } from 'ngx-facebook';
 import { MatMenuModule } from '@angular/material/menu';
 import { NewsService } from 'services/news-service/News.service';
+import { MenuModule } from './menu/menu.module';
 
 @NgModule({
   imports: [
@@ -43,17 +44,14 @@ import { NewsService } from 'services/news-service/News.service';
     SchedulePageModule,
     HttpClientModule,
     MatIconModule,
-    MatToolbarModule,
     FlexLayoutModule,
     RouterModule,
     MatDatepickerModule,
-    MatBadgeModule,
     FacebookModule,
-    MatMenuModule
+    MenuModule
   ],
   declarations: [
     AppComponent,
-    MenuComponent
   ],
   providers: [
     RestService,

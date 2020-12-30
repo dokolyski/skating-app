@@ -7,43 +7,29 @@
       </button>
       <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
     </span>
+
     <span class="spacer"></span>
-    <button *ngIf="!IsNotLogged" [routerLink]="'/' + path.LOGGED.SCHEDULE" mat-icon-button aria-label="Schedule">
-      <mat-icon>today</mat-icon>
-    </button>
-    <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
-  <span class="spacer"></span>
-
-  <button *ngIf="!IsNotLogged" [routerLink]="'/' + path.LOGGED.SCHEDULE" mat-icon-button aria-label="Schedule">
-    <mat-icon>today</mat-icon>
-  </button>
-
-  <button *ngIf="!IsNotLogged" [routerLink]="'/' + path.LOGGED.ACCOUNT" mat-icon-button aria-label="Profile">
-    <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true"
-              matBadgePosition="above after" matBadgeColor="var(--azure)">account_circle</mat-icon>
-  </button>
-
-  <button *ngIf="IsNotLogged" [routerLink]="'/' + path.EVERYONE.LOGIN" mat-icon-button aria-label="Sign In" class="bigger-space">
-    {{ $.navbar.buttons.SIGN_IN }}
-  </button>
-
-  <button *ngIf="IsNotLogged" [routerLink]="'/' + path.EVERYONE.REGISTER" mat-icon-button aria-label="Sign In" class="bigger-space">
-    {{ $.navbar.buttons.SIGN_UP }}
-  </button>
-
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>language</mat-icon>
-  </button>
-
-  <mat-menu #menu="matMenu" yPosition="below">
-    <!--lazy loading-->
-    <ng-template matMenuContent>
-      <button mat-menu-item (click)="changeLanguage('polish')">
-        {{ $.navbar.languages.POLISH }}
-      </button>
-      <button mat-menu-item (click)="changeLanguage('english')">
-        {{ $.navbar.languages.ENGLISH }}
-      </button>
+    <ng-container *ngIf="IsNotLogged; else logged">
+      <app-menu-unlogged></app-menu-unlogged>
+    </ng-container>
+    <ng-template #logged>
+      <app-menu-logged></app-menu-logged>
     </ng-template>
-  </mat-menu>
-</mat-toolbar>
+
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>language</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" yPosition="below">
+      <!--lazy loading-->
+      <ng-template matMenuContent>
+        <button mat-menu-item (click)="changeLanguage('polish')">
+          {{ $.navbar.languages.POLISH }}
+        </button>
+        <button mat-menu-item (click)="changeLanguage('english')">
+          {{ $.navbar.languages.ENGLISH }}
+        </button>
+      </ng-template>
+    </mat-menu>
+  </mat-toolbar>
