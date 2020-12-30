@@ -1,15 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-<<<<<<< HEAD
 import { FormBuilder } from '@angular/forms';
 import { RestError } from 'api/rest-error';
 import { USER_INFO, PROFILES, CONFIG } from 'api/rest-types';
 import { mergeMap, takeUntil } from 'rxjs/operators';
-=======
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { RestError } from 'api/rest-error';
-import { USER_INFO, PROFILES, CONFIG } from 'api/rest-types';
-import { mergeMap, takeUntil, takeWhile } from 'rxjs/operators';
->>>>>>> develop
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
@@ -23,12 +16,8 @@ import { TelephoneComponent } from 'components/common/inputs/telephone/telephone
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { Profile } from 'api/rest-models/profile';
 import { User } from 'api/rest-models/user';
-<<<<<<< HEAD
 import { of, Subject } from 'rxjs';
 import { Skills } from 'api/rest-models/config-models';
-=======
-import { Subject } from 'rxjs';
->>>>>>> develop
 
 /**
  * @description Show user settings and allow to change them, gather informations about
@@ -51,11 +40,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     skillLevel: SkillLevelComponent.controlSchema
   });
 
-<<<<<<< HEAD
   skillLevelPossibleValues: Skills;
-=======
-  skillLevelPossibleValues: string[];
->>>>>>> develop
   serverInputsErrors: { [input: string]: string };
 
   private _uInfo: User & Omit<Profile, 'type'>;
