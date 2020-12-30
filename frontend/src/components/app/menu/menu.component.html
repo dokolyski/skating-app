@@ -20,6 +20,10 @@
     <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true"
               matBadgePosition="above after" matBadgeColor="var(--azure)">account_circle</mat-icon>
   </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>language</mat-icon>
+  </button>
+
   <mat-menu #menu="matMenu" yPosition="below">
     <!--lazy loading-->
     <ng-template matMenuContent>

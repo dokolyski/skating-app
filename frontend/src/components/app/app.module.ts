@@ -29,6 +29,7 @@ import { RestServiceMock } from 'assets/mocks/manual-tests/RestService.mock';
 import { MatBadgeModule } from '@angular/material/badge';
 import { FacebookModule } from 'ngx-facebook';
 import { MatMenuModule } from '@angular/material/menu';
+import { NewsService } from 'services/news-service/News.service';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { MatMenuModule } from '@angular/material/menu';
     AuthService,
     LanguageService,
     LanguageErrorService,
+    NewsService,
     { provide: RestService, useClass: RestServiceMock },
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },

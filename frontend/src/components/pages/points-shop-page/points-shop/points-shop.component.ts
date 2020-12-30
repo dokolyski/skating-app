@@ -6,6 +6,7 @@ import { CONFIG, PAYMENTS } from 'api/rest-types';
 import { RestError } from 'api/rest-error';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { PaymentTable } from 'api/rest-models/config-models';
+import { PaymentsPoints } from 'api/rest-models/payments-points';
 
 @Component({
   selector: 'app-points-shop',
@@ -43,8 +44,8 @@ export class PointsShopComponent implements OnInit {
     });
   }
 
-  private preparePayload(option: number): PAYMENTS.BUY_POINTS.COMPILATION.INPUT {
-    const payload = new PAYMENTS.BUY_POINTS.RUNTIME.INPUT();
+  private preparePayload(option: number): PAYMENTS.BUY_POINTS.INPUT {
+    const payload: PAYMENTS.BUY_POINTS.INPUT = new PaymentsPoints();
     payload.option_id = option;
     return payload;
   }

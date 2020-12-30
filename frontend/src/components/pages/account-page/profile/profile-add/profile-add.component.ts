@@ -11,6 +11,7 @@ import { LastnameComponent } from 'components/common/inputs/lastname/lastname.co
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { Skills } from 'api/rest-models/config-models';
+import { Profile } from 'api/rest-models/profile';
 
 /**
  * @description Creates next user profile with limit per user, gather informations about
@@ -65,8 +66,8 @@ export class ProfileAddComponent implements OnInit {
       });
   }
 
-  private prepareProfilePayload(): PROFILES.EDIT.COMPILATION.INPUT {
-    const body = new PROFILES.EDIT.RUNTIME.INPUT();
+  private prepareProfilePayload(): PROFILES.EDIT.INPUT {
+    const body: PROFILES.EDIT.INPUT = new Profile();
 
     const skill = this.form.get('skillLevel').value;
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { RestError } from 'api/rest-error';
-import { USER_INFO, PROFILES, CONFIG } from 'api/rest-types';
+import { USERS, PROFILES, CONFIG } from 'api/rest-types';
 import { mergeMap, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
@@ -100,11 +100,11 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
         }),
         takeUntil(this.destroy),
         mergeMap(uid => {
-          return this.rest.do<USER_INFO.GET.COMPILATION.OUTPUT>(REST_PATH.USER_INFO.GET, { templateParamsValues: { id: uid.toString() } });
+          return this.rest.do<USERS.GET.OUTPUT>(REST_PATH.USERS.GET, { templateParamsValues: { id: uid.toString() } });
         }),
         mergeMap(data => {
           user = data;
-          return this.rest.do<PROFILES.GET_PROFILES.COMPILATION.OUTPUT>(REST_PATH.PROFILES.GET_PROFILES);
+          return this.rest.do<PROFILES.GET.OUTPUT>(REST_PATH.PROFILES.GET);
         })
       )
       .subscribe({
@@ -124,7 +124,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   edit() {
     const userInfoBody = this.prepareUserInfoPayload();
 
-    this.rest.do(REST_PATH.USER_INFO.EDIT, { body: userInfoBody })
+    this.rest.do(REST_PATH.USERS.EDIT, { body: userInfoBody })
       .pipe(
         mergeMap(() => {
           if(this.userInfo.skill_level !== this.form.get('skillLevel').value) {
@@ -144,8 +144,8 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private prepareUserInfoPayload(): USER_INFO.EDIT.COMPILATION.INPUT {
-    const body = new USER_INFO.EDIT.RUNTIME.INPUT();
+  private prepareUserInfoPayload(): USERS.EDIT.INPUT {
+    const body: USERS.EDIT.INPUT = new User();
 
     body.firstname = this.form.get('name').value;
     body.lastname = this.form.get('lastname').value;
@@ -156,8 +156,8 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     return body;
   }
 
-  private prepareSelfProfilePayload(): PROFILES.EDIT.COMPILATION.INPUT {
-    const body = new PROFILES.EDIT.RUNTIME.INPUT();
+  private prepareSelfProfilePayload(): PROFILES.EDIT.INPUT {
+    const body: PROFILES.EDIT.INPUT = new Profile();
 
     const skill = this.form.get('skillLevel').value;
     body.firstname = this.form.get('name').value,
