@@ -2,7 +2,7 @@ import {Observable, of} from 'rxjs';
 import {RestOptions, RestPath} from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {Injectable} from '@angular/core';
-import {USER_INFO} from 'api/rest-types';
+import {USERS} from 'api/rest-types';
 import {Profile} from 'api/rest-models/profile';
 
 @Injectable()
@@ -47,7 +47,7 @@ export class RestServiceMock {
     {title: 'Title3', description: 'Description3', session_id: 2},
     {title: 'Title4', description: 'Description4', session_id: 2},
   ];
-  static userInfo: USER_INFO.GET.COMPILATION.OUTPUT = {
+  static userInfo: USERS.GET.OUTPUT = {
     id: 0, password: 'password',
     firstname: 'Jan1',
     lastname: 'Nowak1',
@@ -66,13 +66,13 @@ export class RestServiceMock {
         return of(null);
       case REST_PATH.PROFILES.EDIT:
         return of(null);
-      case REST_PATH.PROFILES.GET_PROFILES:
+      case REST_PATH.PROFILES.GET:
         return of(RestServiceMock.profiles as any);
       case REST_PATH.SESSIONS.GET_SESSIONS:
         return of(RestServiceMock.sessions as any);
       case REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS:
         return of(RestServiceMock.notifications as any);
-      case REST_PATH.USER_INFO.GET:
+      case REST_PATH.USERS.GET:
         return of(RestServiceMock.userInfo as any);
     }
   }

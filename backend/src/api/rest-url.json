@@ -14,7 +14,7 @@
             "METHOD": "POST"
         }
     },
-    "USER_INFO": {
+    "USERS": {
         "GET": {
             "URL": "api/users/{id}",
             "PARAMS": ["id"],
@@ -32,7 +32,7 @@
         }
     },
     "PROFILES": {
-        "GET_PROFILES": {
+        "GET": {
             "URL": "api/profiles",
             "METHOD": "GET"
         },

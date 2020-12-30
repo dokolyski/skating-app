@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RestError } from 'api/rest-error';
 import { NOTIFICATIONS, SESSIONS } from 'api/rest-types';
-import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import { Session } from 'api/rest-models/session';
@@ -33,12 +32,12 @@ export class AccountNotificationsComponent implements OnInit {
     private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
-    const body: SESSIONS.GET_SESSIONS.COMPILATION.INPUT = {
+    const body: SESSIONS.GET.INPUT = {
       date_from: new Date(),
       date_to: null
     };
 
-    this.rest.do<SESSIONS.GET_SESSIONS.COMPILATION.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, { body })
+    this.rest.do<SESSIONS.GET.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, { body })
       .pipe(
         mergeMap(s =>
           this.rest.do<NOTIFICATIONS.GET_NOTIFICATIONS.COMPILATION.OUTPUT>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)

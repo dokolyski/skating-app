@@ -113,7 +113,6 @@
                 "form": {
                     "inputs": {
                         "EMAIL": "Email",
-                        "PASSWORD": "Hasło",
                         "NAME": "Imie",
                         "LASTNAME": "Nazwisko",
                         "DATE_BIRTH": "Data urodzenia",
@@ -133,6 +132,20 @@
                 "PROFILE_ADD": "Tworzenie profilu",
                 "PROFILE_SETTINGS": "Ustawienia profilu"
             }
+        },
+        "main": {
+            "ABOUT_US": "Kim jesteśmy",
+            "NEWS": "Aktualności"
+        }
+    },
+    "navbar": {
+        "buttons": {
+            "SIGN_IN": "Logowanie",
+            "SIGN_UP": "Rejestracja"
+        },
+        "languages": {
+            "POLISH": "Język polski",
+            "ENGLISH": "Język angielski"
         }
     }
 }

@@ -5,7 +5,7 @@ export class SessionJoin {
     @IsNumber({}, {
         each: true
     })
-    profiles_ids: number[]
+    profiles_id: number[]
 
     @IsNotEmpty()
     @IsNumber()

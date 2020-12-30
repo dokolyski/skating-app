@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-declare var window: any;
+import {AfterViewInit, Component} from '@angular/core';
+import { NewsService } from 'services/news-service/News.service';
 
 @Component({
   selector: 'app-news-tab',
@@ -8,10 +8,11 @@ declare var window: any;
 })
 export class NewsTabComponent implements AfterViewInit {
 
-  constructor() {
+  constructor(private news: NewsService) {
+    this.news.fetchNews();
   }
 
   ngAfterViewInit(): void {
-    window.FB.XFBML.parse();
+    this.news.fetchNews();
   }
 }

@@ -19,6 +19,9 @@ import { DateBirthComponent } from 'components/common/inputs/date-birth/date-bir
 import { TelephoneComponent } from 'components/common/inputs/telephone/telephone.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { of } from 'rxjs';
+import { Skills } from 'api/rest-models/config-models';
+import { Profile } from 'api/rest-models/profile';
+import { User } from 'api/rest-models/user';
 
 /**
  * @description Gather, validate and send to the ```REST``` server required user informations like
@@ -49,7 +52,7 @@ export class RegistrationComponent implements OnInit {
     })
   });
 
-  skillLevelPossibleValues: string[];
+  skillLevelPossibleValues: Skills;
   serverInputsErrors: { [input: string]: string };
 
   @Output()
@@ -98,8 +101,8 @@ export class RegistrationComponent implements OnInit {
       });
   }
 
-  private prepareRegisterPayload(): VERIFICATION.REGISTER.COMPILATION.INPUT {
-    const payload = new VERIFICATION.REGISTER.RUNTIME.INPUT();
+  private prepareRegisterPayload(): VERIFICATION.REGISTER.INPUT {
+    const payload: VERIFICATION.REGISTER.INPUT = new User();
 
     payload.firstname = this.form.get('personal.name').value;
     payload.lastname = this.form.get('personal.lastname').value;
@@ -111,8 +114,8 @@ export class RegistrationComponent implements OnInit {
     return payload;
   }
 
-  private prepareSelfProfilePayload(): PROFILES.CREATE.COMPILATION.INPUT {
-    const payload = new PROFILES.CREATE.RUNTIME.INPUT();
+  private prepareSelfProfilePayload(): PROFILES.CREATE.INPUT {
+    const payload: PROFILES.CREATE.INPUT = new Profile();
 
     payload.firstname = this.form.get('personal.name').value;
     payload.lastname = this.form.get('personal.lastname').value;

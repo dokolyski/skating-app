@@ -1,16 +1,35 @@
-<mat-toolbar id="navbar">
-  <span [routerLink]="'/' + path.EVERYONE.MAIN" id="logo_name_link">
-    <button  [disableRipple]="true" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon svgIcon="small-logo" class="main-logo"></mat-icon>
+<ng-container *ngIf="(language.dictionary$ | async) as $">
+  <mat-toolbar id="navbar" *ngIf="(notLoggedGuard.canActivate()| async) as IsNotLogged">
+    <span [routerLink]="'/' + path.EVERYONE.MAIN" id="logo_name_link">
+      <button [disableRipple]="true" mat-icon-button class="example-icon"
+        aria-label="Example icon-button with menu icon">
+        <mat-icon svgIcon="small-logo" class="main-logo"></mat-icon>
+      </button>
+      <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
+    </span>
+
+    <span class="spacer"></span>
+    <ng-container *ngIf="IsNotLogged; else logged">
+      <app-menu-unlogged></app-menu-unlogged>
+    </ng-container>
+    <ng-template #logged>
+      <app-menu-logged></app-menu-logged>
+    </ng-template>
+
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>language</mat-icon>
     </button>
-    <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
-  </span>
-  <span class="spacer"></span>
-  <button [routerLink]="'/' + path.LOGGED.SCHEDULE" mat-icon-button aria-label="Schedule">
-    <mat-icon>today</mat-icon>
-  </button>
-  <button [routerLink]="'/' + path.LOGGED.ACCOUNT" mat-icon-button aria-label="Profile">
-    <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true"
-              matBadgePosition="above after" matBadgeColor="var(--azure)">account_circle</mat-icon>
-  </button>
-</mat-toolbar>
+
+    <mat-menu #menu="matMenu" yPosition="below">
+      <!--lazy loading-->
+      <ng-template matMenuContent>
+        <button mat-menu-item (click)="changeLanguage('polish')">
+          {{ $.navbar.languages.POLISH }}
+        </button>
+        <button mat-menu-item (click)="changeLanguage('english')">
+          {{ $.navbar.languages.ENGLISH }}
+        </button>
+      </ng-template>
+    </mat-menu>
+  </mat-toolbar>

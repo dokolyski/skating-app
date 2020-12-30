@@ -13,6 +13,7 @@ import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-
 import { mergeMap } from 'rxjs/operators';
 import { AuthService } from 'services/auth-service/Auth.service';
 import { Profile } from 'api/rest-models/profile';
+import { Skills } from 'api/rest-models/config-models';
 
 /**
  * @description Show profiles account settings and allow to change them, , gather informations about
@@ -46,7 +47,7 @@ export class ProfileSettingsComponent implements OnInit {
 
   profiles: Profile[];
   serverInputsErrors: { [input: string]: string };
-  skillLevelPossibleValues: string[];
+  skillLevelPossibleValues: Skills;
 
   set editMode(value: boolean) {
     if (value) {
@@ -83,7 +84,7 @@ export class ProfileSettingsComponent implements OnInit {
       .pipe(
         mergeMap((v: string[]) => {
           this.skillLevelPossibleValues = [' ', ...v];
-          return this.rest.do<PROFILES.GET_PROFILES.COMPILATION.OUTPUT>(REST_PATH.PROFILES.GET_PROFILES);
+          return this.rest.do<PROFILES.GET.OUTPUT>(REST_PATH.PROFILES.GET);
         })
       )
       .subscribe({
@@ -110,8 +111,8 @@ export class ProfileSettingsComponent implements OnInit {
       });
   }
 
-  private prepareProfilePayload(): PROFILES.EDIT.COMPILATION.INPUT {
-    const body = new PROFILES.EDIT.RUNTIME.INPUT();
+  private prepareProfilePayload(): PROFILES.EDIT.INPUT {
+    const body: PROFILES.EDIT.INPUT = new Profile();
 
     const skill = this.form.get('skillLevel').value;
 

@@ -11,6 +11,7 @@ import {Session, ALL_SESSION_GROUP, CREATE_SESSION_GROUP, EDIT_SESSION_GROUP} fr
 import {SessionStatus} from './rest-models/sessionStatus';
 import {Token} from './rest-models/token';
 import Profile from '../models/profiles'
+import { PaymentsPoints } from './rest-models/payments-points';
 
 export namespace VERIFICATION {
     export namespace LOGIN {
@@ -54,6 +55,11 @@ export namespace PROFILES {
 }
 
 export namespace SESSIONS {
+    export namespace GET {
+        export type INPUT = DateRange;
+        export type OUTPUT = Session[];
+    }
+
     export namespace CREATE {
         export const GROUPS = {
             INPUT: {CREATE_SESSION_GROUP}
@@ -105,6 +111,12 @@ export namespace NOTIFICATIONS.EDIT_STATUS {
 
     export namespace COMPILATION {
         export type INPUT = SessionStatus;
+    }
+}
+
+export namespace PAYMENTS {
+    export namespace BUY_POINTS {
+        export type INPUT = PaymentsPoints;
     }
 }
 

@@ -1,7 +1,7 @@
 <ng-container *ngIf="(lngService.dictionary$ | async) as $">
     <ng-container *ngIf="{table: $.pages.account['points-shop'].table} as $">
-        <div>
-            <table mat-table [dataSource]="priceTable">
+        <div *ngIf="table">
+            <table mat-table [dataSource]="table">
                 <ng-container matColumnDef="points">
                     <th mat-header-cell *matHeaderCellDef> {{$.table.columns.POINTS}}</th>
                     <td mat-cell *matCellDef="let option" class="points"> {{option.points}} </td>
@@ -15,8 +15,8 @@
 
                 <ng-container matColumnDef="buy">
                     <th mat-header-cell *matHeaderCellDef> </th>
-                    <td mat-cell *matCellDef="let option">
-                        <button mat-button color="secondary" (click)="buy(option.require_money, option.points)">
+                    <td mat-cell *matCellDef="let index">
+                        <button mat-button color="secondary" (click)="buy(index)">
                             {{$.table.BUY_BUTTON}}
                         </button>
                     </td>
