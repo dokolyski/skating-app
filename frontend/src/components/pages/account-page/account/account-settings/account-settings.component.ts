@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { RestError } from 'api/rest-error';
 import { USER_INFO, PROFILES, CONFIG } from 'api/rest-types';
-import { mergeMap, takeUntil, takeWhile } from 'rxjs/operators';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
@@ -16,7 +16,8 @@ import { TelephoneComponent } from 'components/common/inputs/telephone/telephone
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { Profile } from 'api/rest-models/profile';
 import { User } from 'api/rest-models/user';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
+import { Skills } from 'api/rest-models/config-models';
 
 /**
  * @description Show user settings and allow to change them, gather informations about
@@ -39,7 +40,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     skillLevel: SkillLevelComponent.controlSchema
   });
 
-  skillLevelPossibleValues: string[];
+  skillLevelPossibleValues: Skills;
   serverInputsErrors: { [input: string]: string };
 
   private _uInfo: User & Omit<Profile, 'type'>;
@@ -126,11 +127,18 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     this.rest.do(REST_PATH.USER_INFO.EDIT, { body: userInfoBody })
       .pipe(
         mergeMap(() => {
-          const profileBody = this.prepareSelfProfilePayload();
-          return this.rest.do(REST_PATH.PROFILES.EDIT, { body: (profileBody as any) });
+          if(this.userInfo.skill_level !== this.form.get('skillLevel').value) {
+            const profileBody = this.prepareSelfProfilePayload();
+            return this.rest.do(REST_PATH.PROFILES.EDIT, { body: (profileBody as any) });
+          }
+
+          return of(null);
         })
       ).subscribe({
-        next: () => this.onSubmit.emit(),
+        next: () => {
+          this.userInfo = this.userInfo;
+          this.onSubmit.emit();
+        },
         complete: () => this.onSubmit.emit(),
         error: (e: RestError) => this.handleErrors(e, true)
       });

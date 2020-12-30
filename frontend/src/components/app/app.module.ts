@@ -7,7 +7,6 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from 'environments/environment';
 
 import { PagesModule } from 'components/pages/pages';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialAuthServiceConfig } from 'angularx-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,24 +26,9 @@ import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import { RestServiceMock } from 'assets/mocks/manual-tests/RestService.mock';
-import {MatBadgeModule} from '@angular/material/badge';
-
-const config: SocialAuthServiceConfig = {
-  providers: [
-    {
-      id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider(environment.keys.FACEBOOK)
-    },
-    {
-      id: GoogleLoginProvider.PROVIDER_ID,
-      provider: new GoogleLoginProvider(environment.keys.GOOGLE)
-    }
-  ]
-};
-
-export function provideConfig() {
-  return config;
-}
+import { MatBadgeModule } from '@angular/material/badge';
+import { FacebookModule } from 'ngx-facebook';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -62,7 +46,9 @@ export function provideConfig() {
     FlexLayoutModule,
     RouterModule,
     MatDatepickerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    FacebookModule,
+    MatMenuModule
   ],
   declarations: [
     AppComponent,
@@ -72,7 +58,6 @@ export function provideConfig() {
     RestService,
     HttpClient,
     CookieService,
-    SocialAuthService,
     FormBuilder,
     AuthService,
     LanguageService,
@@ -81,7 +66,6 @@ export function provideConfig() {
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
     { provide: 'path-languages', useValue: 'languages' },
-    { provide: 'SocialAuthServiceConfig', useFactory: provideConfig },
     { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
   ],
   bootstrap: [AppComponent]

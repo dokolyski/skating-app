@@ -21,6 +21,7 @@ export class AppComponent implements OnDestroy {
     private lngService: LanguageService,
     private adapter: DateAdapter<any>) {
 
+    this.setBrowserLanguage();
     this.setDatepickerLanguage();
     this.loadIcons();
     this.handlePWA();
@@ -30,13 +31,13 @@ export class AppComponent implements OnDestroy {
     this.lngSubscription.unsubscribe();
   }
 
+  private setBrowserLanguage() {
+    this.lngService.language = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
+  }
+
   private setDatepickerLanguage() {
     this.lngSubscription = this.lngService.dictionary$.subscribe(() => {
-      if (this.lngService.language === 'polish') {
-        this.adapter.setLocale('pl');
-      } else {
-        this.adapter.setLocale('en');
-      }
+      this.adapter.setLocale(this.lngService.language === 'polish' ? 'pl' : 'en');
     });
   }
 

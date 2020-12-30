@@ -10,6 +10,7 @@ import { NameComponent } from 'components/common/inputs/name/name.component';
 import { LastnameComponent } from 'components/common/inputs/lastname/lastname.component';
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
+import { Skills } from 'api/rest-models/config-models';
 
 /**
  * @description Creates next user profile with limit per user, gather informations about
@@ -30,7 +31,7 @@ export class ProfileAddComponent implements OnInit {
   });
 
   serverInputsErrors: { [input: string]: string };
-  skillLevelPossibleValues: string[];
+  skillLevelPossibleValues: Skills;
 
   @Output()
   onSubmit = new EventEmitter<void>();

@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, IsString, Matches, IsEmail, Length, IsDate, IsPhoneNumber } from 'class-validator';
-import { PasswordPassEntrophyTest, PasswordPassRegexes } from '../rest-validators';
+import { PasswordPassEntrophyTest, PasswordPassRegexes } from 'api/rest-validators';
 
 export const REGISTER_GROUP = 'REGISTER';
 export const PART_GROUP = 'PART';
