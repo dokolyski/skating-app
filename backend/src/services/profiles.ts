@@ -6,15 +6,17 @@ import {notfound} from "../misc/helpers";
 
 export default class Profiles {
 
-    public static async index(userId: number): Promise<Profile[]> {
+    public static async index(userId: PROFILES.INDEX.INPUT): Promise<PROFILES.INDEX.OUTPUT> {
 
         AuthorizedUser.checkOwnership(userId);
 
-        return Profile.findAll({
+        const profiles = await Profile.findAll({
             where: {
                 user_id: userId
             }
         });
+
+        return profiles as any as PROFILES.INDEX.OUTPUT;
     }
 
     public static async get(profileId: number): Promise<Profile> {

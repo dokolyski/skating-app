@@ -42,22 +42,33 @@ export namespace USERS {
     }
 }
 
-export namespace PROFILES.CREATE {
-    export const GROUPS = {
-        INPUT: {CREATE_PROFILE_GROUP}
-    };
 
-    export type INPUT = Profile;
+export namespace PROFILES {
+    export namespace INDEX {
+        export const GROUPS = {
+            INPUT: {CREATE_PROFILE_GROUP}
+        };
+
+        export type INPUT = number;
+        export type OUTPUT = Profile[];
+    }
+
+    export namespace CREATE {
+        export const GROUPS = {
+            INPUT: {CREATE_PROFILE_GROUP}
+        };
+
+        export type INPUT = Profile;
+    }
+
+    export namespace EDIT {
+        export const GROUPS = {
+            INPUT: {EDIT_PROFILE_GROUP}
+        };
+
+        export type INPUT = Profile;
+    }
 }
-
-export namespace PROFILES.EDIT {
-    export const GROUPS = {
-        INPUT: {EDIT_PROFILE_GROUP}
-    };
-
-    export type INPUT = Profile;
-}
-
 
 export namespace SESSIONS {
     export namespace CREATE {
