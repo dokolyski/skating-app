@@ -5,6 +5,7 @@ import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { Token } from 'api/rest-models/token';
 import { VERIFICATION } from 'api/rest-types';
+import { LoginInfo } from 'api/rest-models/login-info';
 
 /**
  * @description Authorisation purpose proxy to the ```REST``` server and ```Token provider```
@@ -24,7 +25,7 @@ export class AuthService {
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   loginViaEmail(email: string, password: string): Observable<void> {
-    const body = new VERIFICATION.LOGIN.RUNTIME.INPUT();
+    const body: VERIFICATION.LOGIN.INPUT = new LoginInfo();
     body.email = email;
     body.password = password;
 
@@ -64,7 +65,7 @@ export class AuthService {
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   private loginViaSocialMedia(providerName: string): Observable<void> {
-    const body = new VERIFICATION.LOGIN.RUNTIME.INPUT();
+    const body: VERIFICATION.LOGIN.INPUT = new LoginInfo();
     body.provider = providerName;
 
     return this.login(body);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { Observable  } from 'rxjs';
+import { first, map  } from 'rxjs/operators';
 import { AuthService } from 'services/auth-service/Auth.service';
 
 /**
@@ -14,13 +14,9 @@ export class NotLoggedGuard implements CanActivate {
     constructor(private auth: AuthService) {}
 
     canActivate(): Observable<boolean> {
-        const destroy = new Subject();
         return this.auth.token$.pipe(
-            takeUntil(destroy),
-            map(token => {
-                destroy.next();
-                return !!token;
-            })
+            first(),
+            map(token => !token)
         );
     }
 }

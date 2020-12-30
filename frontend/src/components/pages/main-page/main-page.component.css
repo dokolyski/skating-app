@@ -22,6 +22,10 @@ header {
     background-color: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 
+#whiteboard mat-icon {
+    margin-right: 5px;
+}
+
 @media (min-width: 769px){
     #logo {
         width: 50%;

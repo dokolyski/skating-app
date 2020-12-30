@@ -5,7 +5,7 @@ import {SessionInfoPaneComponent} from './session-info-pane/session-info-pane.co
 import * as moment from 'moment';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {AddParticipantDialogComponent} from './add-participant-dialog/add-participant-dialog.component';
-import {EventService} from 'services/event-service/event.service';
+import {EventService} from 'services/event-service/Event.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ChooseParticipantDialogComponent} from './choose-participant-dialog/choose-participant-dialog.component';
 import {Profile} from 'api/rest-models/profile';
