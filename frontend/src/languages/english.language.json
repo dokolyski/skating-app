@@ -139,6 +139,10 @@
         }
     },
     "navbar": {
+        "buttons": {
+            "SIGN_IN": "Sign In",
+            "SIGN_UP": "Sign Up"
+        },
         "languages": {
             "POLISH": "Polish language",
             "ENGLISH": "English language"

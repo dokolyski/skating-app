@@ -3,6 +3,8 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as PATH from 'assets/config/url.json';
 import { LanguageService } from 'services/language-service/Language.service';
+import { NotLoggedGuard } from 'guards/NotLogged.guard';
+import { AuthService } from 'services/auth-service/Auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,11 +13,13 @@ import { LanguageService } from 'services/language-service/Language.service';
 })
 export class MenuComponent {
   private bodyElement: HTMLBodyElement = document.querySelector('body');
+  notLoggedGuard = new NotLoggedGuard(this.auth);
   path = PATH['default'];
 
   constructor(
     public language: LanguageService,
     private sanitizer: DomSanitizer,
+    private auth: AuthService,
     private matIconRegistry: MatIconRegistry) {
     this.matIconRegistry.addSvgIcon(
       `small-logo`,
