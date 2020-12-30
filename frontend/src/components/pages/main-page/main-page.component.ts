@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { LanguageService } from 'services/language-service/Language.service';
+import {MatTabChangeEvent} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-main-page',
@@ -11,4 +12,8 @@ export class MainPageComponent {
   constructor(
     public lngService: LanguageService
   ) {}
+  tabIndex = 0;
+  changeTab(event: MatTabChangeEvent) {
+    this.tabIndex = event.index;
+  }
 }

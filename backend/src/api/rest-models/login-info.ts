@@ -16,7 +16,7 @@ export class LoginInfo {
     provider: string;
 
     @IsNotEmpty({
-        groups: []
+        groups: [EMAIL_GROUP]
     })
     @IsString({
         groups: [EMAIL_GROUP]

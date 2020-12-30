@@ -1,0 +1,47 @@
+<<<<<<< HEAD
+import { IsNotEmpty, IsNumber } from "class-validator"
+=======
+<<<<<<< HEAD:backend/src/api/rest-models/payments-sessions.ts
+import { IsNotEmpty, IsNumber, IsString, IsIn } from 'class-validator';
+
+export class PaymentsSessions {
+    @IsNotEmpty()
+    @IsNumber()
+    session_id: number;
+=======
+import {IsIn, IsNotEmpty, IsNumber, IsString} from "class-validator"
+>>>>>>> develop:backend/src/api/rest-models/session-join.ts
+>>>>>>> develop
+
+export class SessionJoin {
+    @IsNotEmpty()
+    @IsNumber({}, {
+        each: true
+    })
+<<<<<<< HEAD
+    profiles_id: number[]
+=======
+<<<<<<< HEAD:backend/src/api/rest-models/payments-sessions.ts
+    profiles_id: number[];
+=======
+    profiles_ids: number[]
+>>>>>>> develop
+
+    @IsNotEmpty()
+    @IsNumber()
+    session_id: number
+<<<<<<< HEAD
+}
+=======
+>>>>>>> develop:backend/src/api/rest-models/session-join.ts
+
+    @IsNotEmpty()
+    @IsString()
+    @IsIn(['POINTS', 'CASH'])
+    format: string;
+<<<<<<< HEAD:backend/src/api/rest-models/payments-sessions.ts
+}
+=======
+}
+>>>>>>> develop:backend/src/api/rest-models/session-join.ts
+>>>>>>> develop

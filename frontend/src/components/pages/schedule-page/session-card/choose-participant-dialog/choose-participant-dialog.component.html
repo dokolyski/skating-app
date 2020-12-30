@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>
+  Choose participants for the session "{{data.session.name}}" at {{data.session.start_date}}
+</h1>
+<div>
+  <mat-selection-list #participants>
+    <mat-list-option *ngFor="let participant of data.profiles" [value]="participant">
+      {{participant.firstname}} {{participant.lastname}}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <!--  TODO already added-->
+  <p>
+    Options selected: {{chosenParticipantsString(participants.selectedOptions)}}
+  </p>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Cancel</button>
+  <button mat-button [mat-dialog-close]="getValues(participants.selectedOptions)">Add participants</button>
+</div>

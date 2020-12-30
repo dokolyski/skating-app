@@ -6,14 +6,14 @@ import smtp_config from 'config/smtp.json'
 import SMTP from 'static/smtp'
 import User from '../models/users'
 import server_config from '../config/server.json'
-import * as API from '../api/tokens'
 import {decrypt} from '../init/generate-keys'
 import LogicError from '../misc/logic-error'
 import HttpCode from 'http-status-codes'
+import {VERIFICATION} from "../api/rest-types";
 
 export default class Logging {
     @Validate
-    public static async signIn(@Validator data: API.TOKEN.POST): Promise<{ token: string, expiresIn: number } | Error | LogicError> {
+    public static async signIn(@Validator data: VERIFICATION.LOGIN.INPUT): Promise<VERIFICATION.LOGIN.OUTPUT> {
         data.password = decrypt(data.password);
 
         const user = await User.findOne({
@@ -34,7 +34,8 @@ export default class Logging {
         user.token = token;
         await user.save();
 
-        return {token, expiresIn: server_config.token.expiresIn}
+        // TODO change uid
+        return { token: token, uid: 0 };
     }
 }
 

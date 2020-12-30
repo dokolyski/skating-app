@@ -152,7 +152,7 @@ export class Session {
             EDIT_SESSION_GROUP
         ]
     })
-    @IsIn(['DISABLED', 'ENABLED'], {
+    @IsIn(['OPEN', 'CLOSED', 'CANCELLED'], {
         groups: [
             ALL_SESSION_GROUP,
             EDIT_SESSION_GROUP

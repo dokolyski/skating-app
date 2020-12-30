@@ -16,6 +16,9 @@ app
     .use(QueryParamsToJson())
     .use(endpoints)
     .use('/public-key', PublicKey())
-    .use(ValidateRequestMiddleware());
+    .use(ValidateRequestMiddleware())
+    .use(function (req, res){
+        res.send(404)
+    });
 
 export default app;
