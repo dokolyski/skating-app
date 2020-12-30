@@ -7,12 +7,13 @@ const {Op} = require("sequelize");
 
 export default class Sessions {
 
-    public static async index(dateStart: Date, dateEnd: Date): Promise<Session[]> {
+    @Validate
+    public static async index(@Validator dateRange: SESSIONS.INDEX.INPUT): Promise<SESSIONS.INDEX.OUTPUT> {
 
         const sessions = await Session.findAll({
             where: {
                 start_date: {
-                    [Op.between]: [dateStart, dateEnd]
+                    [Op.between]: [dateRange.date_from, dateRange.date_to]
                 }
             }
         });
@@ -22,7 +23,7 @@ export default class Sessions {
         return sessions;
     }
 
-    public static async get(sessionId: number): Promise<Session> {
+    public static async get(sessionId: number): Promise<SESSIONS.GET.OUTPUT> {
 
         // TODO return participants
         const session = await Session.findByPk(sessionId);
