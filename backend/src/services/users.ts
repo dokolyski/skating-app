@@ -5,14 +5,16 @@ import Profile from "../models/profiles";
 import {Validator, Validate} from "typescript-class-validator";
 import {USERS} from "../api/rest-types";
 import NotFoundException from "../misc/not-found-exception";
+import {notfound} from "../misc/helpers";
+import AuthorizedUser from "../misc/authorized-user"
 
 export default class Users {
 
     public static async get(userId: number): Promise<USERS.GET.OUTPUT> {
 
         const user = await User.findByPk(userId);
-        if (user === null)
-            throw new NotFoundException();
+        notfound(user);
+        AuthorizedUser.checkOwnership(user.id);
 
         const profile = await Profile.findOne({
             where: {
@@ -38,8 +40,8 @@ export default class Users {
     public static async edit(userId: number, @Validator() data: USERS.EDIT.INPUT): Promise<void> {
 
         const user = await User.findByPk(userId);
-        if (user === null)
-            throw new NotFoundException();
+        notfound(user);
+        AuthorizedUser.checkOwnership(user.id);
 
         user.update(data);
         await user.save();
@@ -48,8 +50,8 @@ export default class Users {
     public static async delete(userId: number): Promise<void> {
 
         const user = await User.findByPk(userId);
-        if (user === null)
-            throw new NotFoundException();
+        notfound(user);
+        AuthorizedUser.checkOwnership(user.id);
 
         await user.destroy();
     }

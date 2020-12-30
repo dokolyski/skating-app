@@ -8,10 +8,6 @@ const router = express.Router();
 
 router.route('/users/:id')
     .get((req: Request, res: Response, next) => {
-        // TODO allow admin edit all users
-        if( req.params.id != req.user.id )
-            throw new ForbiddenException();
-
         Users.get(req.params.id).then(value =>
             res.status(HttpCode.OK).json(value)
         ).catch(e => {
@@ -20,10 +16,6 @@ router.route('/users/:id')
     })
     .put((req: Request, res: Response, next) => {
 
-        // TODO allow admin edit all users
-        if( req.params.id != req.user.id )
-            throw new ForbiddenException();
-
         Users.edit(req.params.id, req.body).then(value =>
             res.status(HttpCode.OK).json()
         ).catch(e => {
@@ -31,10 +23,6 @@ router.route('/users/:id')
         });
     })
     .delete((req: Request, res: Response, next) => {
-
-        // TODO allow admin edit all users
-        if( req.params.id != req.user.id )
-            throw new ForbiddenException();
 
         Users.delete(req.params.id).then(value =>
             res.status(HttpCode.OK).json()

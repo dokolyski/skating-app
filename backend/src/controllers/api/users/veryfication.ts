@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 router.post('/users', (req: Request, res: Response, next) => {
-    Registration.signUp(req.body).then(value =>
+    Registration.signUp(req.body).then(() =>
         res.status(HttpCode.CREATED).json()
     ).catch(e => {
         next(e)

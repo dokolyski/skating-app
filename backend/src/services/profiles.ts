@@ -1,38 +1,36 @@
 import {Validate, Validator} from "typescript-class-validator";
 import {PROFILES} from '../api/rest-types';
-import NotFoundException from "../misc/not-found-exception";
 import Profile from "../models/profiles";
-
-const {Op} = require("sequelize");
+import AuthorizedUser from "../misc/authorized-user"
+import {notfound} from "../misc/helpers";
 
 export default class Profiles {
 
-    public static async index(userId: number): Promise<Profile[]> {
+    public static async index(data: PROFILES.INDEX.INPUT): Promise<PROFILES.INDEX.OUTPUT> {
 
-        const profiles = await Profile.findAll({
+        AuthorizedUser.checkOwnership(data.userId);
+
+        return Profile.findAll({
             where: {
-                user_id: userId
+                user_id: data.userId
             }
         });
-        if (profiles === null)
-            throw new NotFoundException();
-
-        return profiles;
     }
 
-    public static async get(profileId: number): Promise<Profile> {
+    public static async get(profileId: number): Promise<PROFILES.GET.OUTPUT> {
 
         const profile = await Profile.findByPk(profileId);
-        if (profile === null)
-            throw new NotFoundException();
+        notfound(profile);
+        AuthorizedUser.checkOwnership(profile.user_id)
 
         return profile;
     }
 
     @Validate
-    public static async create(@Validator data: PROFILES.CREATE.INPUT, userId: number): Promise<void> {
+    public static async create(@Validator data: PROFILES.CREATE.INPUT): Promise<void> {
 
-        data.user_id = userId;
+        AuthorizedUser.checkOwnership(data.user_id);
+
         await Profile.create(data);
     }
 
@@ -40,8 +38,8 @@ export default class Profiles {
     public static async edit(profileId: number, @Validator data: PROFILES.EDIT.INPUT): Promise<void> {
 
         const profile = await Profile.findByPk(profileId);
-        if (profile === null)
-            throw new NotFoundException();
+        notfound(profile);
+        AuthorizedUser.checkOwnership(profile.user_id);
 
         profile.update(data);
         await profile.save();
@@ -50,8 +48,8 @@ export default class Profiles {
     public static async delete(profileId: number): Promise<void> {
 
         const profile = await Profile.findByPk(profileId);
-        if (profile === null)
-            throw new NotFoundException();
+        notfound(profile);
+        AuthorizedUser.checkOwnership(profile.user_id);
 
         await profile.destroy();
     }
