@@ -1,142 +1,38 @@
-import { IsNotEmpty, IsNumber, IsString, Matches, IsEmail, Length, IsDate, IsPhoneNumber } from 'class-validator';
-import { PasswordPassEntrophyTest, PasswordPassRegexes } from '../rest-validators';
+import {IsNotEmpty, IsNumber, IsString, Matches, IsEmail, Length, IsDate, IsPhoneNumber} from 'class-validator';
+import {PasswordPassEntrophyTest, PasswordPassRegexes} from '../rest-validators';
 
-export const REGISTER_GROUP = 'REGISTER';
-export const PART_GROUP = 'PART';
-export const FULL_GROUP = 'FULL';
-export const EDIT_GROUP = 'EDIT';
-
-export class User {
-    @IsNotEmpty({
-        groups: [FULL_GROUP]
-    })
-    @IsNumber({}, {
-        groups: [FULL_GROUP]
-    })
+export class UserRequest {
+    @IsNotEmpty()
+    @IsNumber()
     id: number;
 
-    @IsNotEmpty({
-        groups: [
-            REGISTER_GROUP,
-            PART_GROUP,
-            EDIT_GROUP
-        ]
-    })
-    @IsString({
-        groups: [
-            REGISTER_GROUP,
-            PART_GROUP,
-            EDIT_GROUP
-        ]
-    })
-    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i, {
-        groups: [
-            REGISTER_GROUP,
-            PART_GROUP,
-            EDIT_GROUP
-        ]
-    })
+    @IsNotEmpty()
+    @IsString()
+    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i)
     firstname: string;
 
-    @IsNotEmpty({
-        groups: [
-            REGISTER_GROUP,
-            PART_GROUP,
-            EDIT_GROUP
-        ]
-    })
-    @IsString({
-        groups: [
-            REGISTER_GROUP,
-            PART_GROUP,
-            EDIT_GROUP
-        ]
-    })
-    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i, {
-        groups: [
-            REGISTER_GROUP,
-            PART_GROUP,
-            EDIT_GROUP
-        ]
-    })
+    @IsNotEmpty()
+    @IsString()
+    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i)
     lastname: string;
 
-    @IsNotEmpty({
-        groups: [
-            REGISTER_GROUP,
-            FULL_GROUP,
-            EDIT_GROUP
-        ]
-    })
-    @IsString({
-        groups: [
-            REGISTER_GROUP,
-            FULL_GROUP,
-            EDIT_GROUP
-        ]
-    })
-    @IsEmail({}, {
-        groups: [
-            REGISTER_GROUP,
-            FULL_GROUP,
-            EDIT_GROUP
-        ]
-    })
+    @IsNotEmpty()
+    @IsString()
+    @IsEmail()
     email: string;
 
-    @IsNotEmpty({
-        groups: [REGISTER_GROUP]
-    })
-    @IsString({
-        groups: [REGISTER_GROUP]
-    })
-    @Length(8, 16, {
-        groups: [REGISTER_GROUP]
-    })
-    @PasswordPassRegexes({
-        groups: [REGISTER_GROUP]
-    })
-    @PasswordPassEntrophyTest({
-        groups: [REGISTER_GROUP]
-    })
+    @IsNotEmpty()
+    @IsString()
+    @Length(8, 16)
+    @PasswordPassRegexes()
+    @PasswordPassEntrophyTest()
     password: string;
 
-    @IsNotEmpty({
-        groups: [
-            REGISTER_GROUP,
-            FULL_GROUP,
-            EDIT_GROUP
-        ]
-    })
-    @IsDate({
-        groups: [
-            REGISTER_GROUP,
-            FULL_GROUP,
-            EDIT_GROUP
-        ]
-    })
+    @IsNotEmpty()
+    @IsDate()
     birth_date: Date;
 
-    @IsNotEmpty({
-        groups: [
-            REGISTER_GROUP,
-            FULL_GROUP,
-            EDIT_GROUP
-        ]
-    })
-    @IsString({
-        groups: [
-            REGISTER_GROUP,
-            FULL_GROUP,
-            EDIT_GROUP
-        ]
-    })
-    @IsPhoneNumber('PL', {
-        groups: [
-            REGISTER_GROUP,
-            FULL_GROUP,
-            EDIT_GROUP
-        ]
-    })
+    @IsString()
+    @IsPhoneNumber('PL')
     phone_number: string;
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {EventService} from '../../../../services/event-service/event.service';
+import {EventService} from 'services/event-service/Event.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {SessionParticipant} from 'models/session-participant';
 import {MatSnackBar} from '@angular/material/snack-bar';

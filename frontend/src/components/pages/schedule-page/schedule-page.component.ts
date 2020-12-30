@@ -4,9 +4,6 @@ import {Session} from 'api/rest-models/session';
 import {RestService} from 'services/rest-service/Rest.service';
 import {Profile} from 'api/rest-models/profile';
 
-class Session {
-    constructor(a, b, c, d, e, f, g, h, i, j) {}
-}
 @Component({
   selector: 'app-schedule-page',
   templateUrl: './schedule-page.component.html',

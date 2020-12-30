@@ -11,7 +11,7 @@ import {VERIFICATION} from "../api/rest-types";
 
 export default class Registration {
     @Validate()
-    public static async signUp(@Validator() data: VERIFICATION.REGISTER.INPUT): Promise<void | Error> {
+    public static async signUp(@Validator() data: VERIFICATION.REGISTER.INPUT): Promise<void> {
         const t = await db.transaction();
 
         try {

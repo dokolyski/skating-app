@@ -1,9 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SwUpdate } from '@angular/service-worker';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { LanguageService } from 'services/language-service/Language.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { LanguageService } from 'services/language-service/Language.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnDestroy, AfterViewInit {
+  private bodyElement: HTMLBodyElement = document.querySelector('body');
   lngSubscription: Subscription;
 
   constructor(
@@ -21,22 +23,31 @@ export class AppComponent implements OnDestroy {
     private lngService: LanguageService,
     private adapter: DateAdapter<any>) {
 
+    this.bodyElement.style.visibility = 'hidden';
+
+    this.setBrowserLanguage();
     this.setDatepickerLanguage();
     this.loadIcons();
     this.handlePWA();
+  }
+
+  ngAfterViewInit() {
+    of(null).pipe(delay(500)).subscribe(() => {
+      this.bodyElement.style.visibility = 'visible';
+    });
   }
 
   ngOnDestroy() {
     this.lngSubscription.unsubscribe();
   }
 
+  private setBrowserLanguage() {
+    this.lngService.language = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
+  }
+
   private setDatepickerLanguage() {
     this.lngSubscription = this.lngService.dictionary$.subscribe(() => {
-      if (this.lngService.language === 'polish') {
-        this.adapter.setLocale('pl');
-      } else {
-        this.adapter.setLocale('en');
-      }
+      this.adapter.setLocale(this.lngService.language === 'polish' ? 'pl' : 'en');
     });
   }
 

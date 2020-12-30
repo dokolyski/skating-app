@@ -20,10 +20,10 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { WaitingReservationsComponent } from './waiting-reservations/waiting-reservations.component';
 import {MatTableModule} from '@angular/material/table';
-import {EventService} from 'services/event-service/event.service';
+import {EventService} from 'services/event-service/Event.service';
 import { ChooseParticipantDialogComponent } from './session-card/choose-participant-dialog/choose-participant-dialog.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {FacebookModule} from "ngx-facebook";
+import {FacebookModule} from 'ngx-facebook';
 
 @NgModule({
   imports: [

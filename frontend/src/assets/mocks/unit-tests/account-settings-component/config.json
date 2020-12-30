@@ -1,0 +1,39 @@
+{
+    "translation": {
+        "errors": {
+            "inputs": {
+                "email": {
+                    "NOT_EXISTS": "",
+                    "INVALID": ""
+                },
+                "dateBirth": {
+                    "INVALID": ""
+                },
+                "general": {
+                    "REQUIRED": ""
+                }
+            }
+        },
+        "pages": {
+            "account": {
+                "settings": {
+                    "form": {
+                        "inputs": {
+                            "EMAIL": "",
+                            "NAME": "",
+                            "LASTNAME": "",
+                            "DATE_BIRTH": "",
+                            "TELEPHONE_NUMBER": "",
+                            "SKILL_LEVEL": ""
+                        },
+                        "controls": {
+                            "CANCEL": "",
+                            "SAVE": "",
+                            "EDIT": ""
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
