@@ -27,3 +27,7 @@ mat-toolbar {
 #logo_name_link:focus {
   outline: 0;
 }
+
+.bigger-space {
+  margin: 2vw;
+}
