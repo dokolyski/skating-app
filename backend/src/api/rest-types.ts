@@ -19,7 +19,7 @@ export namespace VERIFICATION {
         export type OUTPUT = Token;
     }
 
-    export namespace VERIFICATION.REGISTER {
+    export namespace REGISTER {
         export type INPUT = UserRequest;
     }
 }
