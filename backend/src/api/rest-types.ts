@@ -3,43 +3,33 @@ import {EMAIL_GROUP, LoginInfo, PROVIDER_GROUP} from './rest-models/login-info';
 import {Notification, ALL_GROUP, CREATE_GROUP} from './rest-models/notification';
 import {PaymentsSessions} from './rest-models/payments-sessions';
 import {ProfileRequest, ProfileIndexRequest} from './rest-models/profile-request';
+import {UserRequest} from './rest-models/user';
+
 import {SessionJoin} from './rest-models/session-join';
 import {SessionsSelection} from './rest-models/session-selection';
 import {Session, ALL_SESSION_GROUP, CREATE_SESSION_GROUP, EDIT_SESSION_GROUP} from './rest-models/session';
 import {SessionStatus} from './rest-models/sessionStatus';
 import {Token} from './rest-models/token';
-import {REGISTER_GROUP, PART_GROUP, FULL_GROUP, EDIT_GROUP, User} from './rest-models/user';
 import Profile from '../models/profiles'
 
-export namespace VERIFICATION.LOGIN {
-    export const GROUPS = {
-        INPUT: {PROVIDER_GROUP, EMAIL_GROUP}
-    };
+export namespace VERIFICATION {
+    export namespace LOGIN {
+        export type INPUT = LoginInfo;
+        export type OUTPUT = Token;
+    }
 
-    export type INPUT = LoginInfo;
-    export type OUTPUT = Token;
+    export namespace VERIFICATION.REGISTER {
+        export type INPUT = UserRequest;
+    }
 }
-
-export namespace VERIFICATION.REGISTER {
-    export const GROUPS = {
-        INPUT: {REGISTER_GROUP}
-    };
-
-    export type INPUT = User;
-}
-
 
 export namespace USERS {
     export namespace GET {
-        export type OUTPUT = User;
+        export type OUTPUT = UserRequest;
     }
 
     export namespace EDIT {
-        export const GROUPS = {
-            INPUT: {EDIT_GROUP}
-        };
-
-        export type INPUT = User;
+        export type INPUT = UserRequest;
     }
 }
 
