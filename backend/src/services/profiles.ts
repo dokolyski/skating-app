@@ -6,20 +6,18 @@ import {notfound} from "../misc/helpers";
 
 export default class Profiles {
 
-    public static async index(userId: PROFILES.INDEX.INPUT): Promise<PROFILES.INDEX.OUTPUT> {
+    public static async index(data: PROFILES.INDEX.INPUT): Promise<PROFILES.INDEX.OUTPUT> {
 
-        AuthorizedUser.checkOwnership(userId);
+        AuthorizedUser.checkOwnership(data.userId);
 
-        const profiles = await Profile.findAll({
+        return Profile.findAll({
             where: {
-                user_id: userId
+                user_id: data.userId
             }
         });
-
-        return profiles as any as PROFILES.INDEX.OUTPUT;
     }
 
-    public static async get(profileId: number): Promise<Profile> {
+    public static async get(profileId: number): Promise<PROFILES.GET.OUTPUT> {
 
         const profile = await Profile.findByPk(profileId);
         notfound(profile);
