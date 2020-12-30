@@ -15,7 +15,7 @@ router.route('/profiles')
             });
     })
     .post(async (req: Request, res: Response, next) => {
-        Profiles.create(req.body, req.user.id)
+        Profiles.create(req.body)
             .then(result => {
                 res.status(HttpCode.CREATED).send(result);
             })
@@ -25,6 +25,15 @@ router.route('/profiles')
     })
 
 router.route('/profiles/:id')
+    .get(async (req: Request, res: Response, next) => {
+        Profiles.get(req.params.id)
+            .then(result => {
+                res.status(HttpCode.OK).send(result);
+            })
+            .catch(e => {
+                next(e)
+            });
+    })
     .put(async (req: Request, res: Response, next) => {
         Profiles.edit(req.params.id, req.body)
             .then(result => {
