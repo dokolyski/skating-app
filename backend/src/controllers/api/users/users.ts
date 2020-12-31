@@ -3,12 +3,13 @@ import Registration from '../../../services/registration';
 import HttpCode from 'http-status-codes'
 import Users from "../../../services/users";
 import ForbiddenException from "../../../misc/forbidden-exception";
+import {toNumber} from "../../../misc/helpers";
 
 const router = express.Router();
 
 router.route('/users/:id')
     .get((req: Request, res: Response, next) => {
-        Users.get(req.params.id).then(value =>
+        Users.get(toNumber(req.params.id)).then(value =>
             res.status(HttpCode.OK).json(value)
         ).catch(e => {
             next(e)
@@ -16,7 +17,7 @@ router.route('/users/:id')
     })
     .put((req: Request, res: Response, next) => {
 
-        Users.edit(req.params.id, req.body).then(value =>
+        Users.edit(toNumber(req.params.id), req.body).then(() =>
             res.status(HttpCode.OK).json()
         ).catch(e => {
             next(e)
@@ -24,7 +25,7 @@ router.route('/users/:id')
     })
     .delete((req: Request, res: Response, next) => {
 
-        Users.delete(req.params.id).then(value =>
+        Users.delete(toNumber(req.params.id)).then(() =>
             res.status(HttpCode.OK).json()
         ).catch(e => {
             next(e)
