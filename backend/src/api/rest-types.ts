@@ -11,7 +11,7 @@ import {SessionStatus} from './rest-models/sessionStatus';
 import {Token} from './rest-models/token';
 import Profile from '../models/profiles'
 import Session from '../models/sessions'
-import { PaymentsPoints } from './rest-models/payments-points';
+import {PaymentsPoints} from './rest-models/payments-points';
 
 export namespace VERIFICATION {
     export namespace LOGIN {
@@ -84,28 +84,17 @@ export namespace SESSION_PARTICIPANTS {
     }
 }
 
-export namespace NOTIFICATIONS.GET_NOTIFICATIONS {
-    export const GROUPS = {
-        OUTPUT: {ALL_GROUP}
-    };
-
-    export namespace RUNTIME {
-        export const INPUT = SessionsSelection;
-    }
-
-    export namespace COMPILATION {
+export namespace NOTIFICATIONS {
+    export namespace INDEX {
         export type INPUT = SessionsSelection;
         export type OUTPUT = Notification[];
     }
-}
 
-
-export namespace NOTIFICATIONS.EDIT_STATUS {
-    export namespace RUNTIME {
-        export const INPUT = SessionStatus;
+    export namespace CREATE {
+        export type INPUT = Notification;
     }
 
-    export namespace COMPILATION {
+    export namespace EDIT_STATUS {
         export type INPUT = SessionStatus;
     }
 }
