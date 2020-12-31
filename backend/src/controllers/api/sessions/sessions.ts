@@ -40,7 +40,7 @@ router.route('/sessions/:id')
                 res.status(HttpCode.OK).send(result);
             })
             .catch(e => {
-                next(e)
+                next(e);
             });
     })
     .delete(async (req: Request, res: Response, next) => {

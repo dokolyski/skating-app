@@ -17,7 +17,7 @@ router
 
 router.route('/session_participants/:id')
     .delete(async (req: Request, res: Response, next) => {
-        SessionsParticipants.disjoin(req.params.id, req.user.id)
+        SessionsParticipants.disjoin(req.params.id)
             .then(result => {
                 res.status(HttpCode.OK).send(result);
             })

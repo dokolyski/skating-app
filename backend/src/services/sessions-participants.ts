@@ -1,14 +1,14 @@
 import {Validate, Validator} from "typescript-class-validator";
 import Session from "../models/sessions";
-import NotFoundException from "../misc/not-found-exception";
 import {SESSION_PARTICIPANTS} from "../api/rest-types";
 import Profile from "../models/profiles";
 import SessionParticipant from "../models/session_participants";
 import ForbiddenException from "../misc/forbidden-exception";
 import db from "../static/database";
+import {notfound} from "../misc/helpers";
+import AuthorizedUser from "../misc/authorized-user";
 
 export default class SessionsParticipants {
-
 
     @Validate
     public static async join(@Validator data: SESSION_PARTICIPANTS.JOIN.INPUT, userId: number): Promise<void> {
@@ -32,23 +32,21 @@ export default class SessionsParticipants {
         }
     }
 
-    public static async disjoin(id: number, authorizedUserId: number): Promise<void> {
+    public static async disjoin(id: number): Promise<void> {
 
         const sp = await SessionParticipant.findByPk(id);
-        if (sp === null)
-            throw new NotFoundException()
+        notfound(sp)
 
         const profile = await Profile.findByPk(sp.profile_id);
-        if (profile.user_id !== authorizedUserId)
-            throw new ForbiddenException();
+        notfound(profile)
+        AuthorizedUser.checkOwnership(profile.user_id);
 
         sp.destroy();
     }
 
     private static async getSession(sessionId: number): Promise<Session> {
         const session = await Session.findByPk(sessionId);
-        if (session === null)
-            throw new NotFoundException()
+        notfound(session);
 
         return session;
     }
