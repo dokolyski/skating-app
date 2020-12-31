@@ -1,12 +1,13 @@
 import express, {Request, Response} from 'express'
 import Sessions from "../../../services/sessions";
 import HttpCode from "http-status-codes";
+import {toNumber} from "../../../misc/helpers";
 
 const router = express.Router()
 
 router.route('/sessions')
     .get(async (req: Request, res: Response, next) => {
-        Sessions.index(req.query.dateStart, req.query.dateEnd)
+        Sessions.index(req.body)
             .then(result => {
                 res.status(HttpCode.OK).send(result);
             })
@@ -26,7 +27,7 @@ router.route('/sessions')
 
 router.route('/sessions/:id')
     .get(async (req: Request, res: Response, next) => {
-        Sessions.get(req.params.id)
+        Sessions.get(toNumber(req.params.id))
             .then(result => {
                 res.status(HttpCode.OK).send(result);
             })
@@ -35,7 +36,7 @@ router.route('/sessions/:id')
             });
     })
     .put(async (req: Request, res: Response, next) => {
-        Sessions.edit(req.params.id, req.body)
+        Sessions.edit(toNumber(req.params.id), req.body)
             .then(result => {
                 res.status(HttpCode.OK).send(result);
             })
@@ -44,7 +45,7 @@ router.route('/sessions/:id')
             });
     })
     .delete(async (req: Request, res: Response, next) => {
-        Sessions.delete(req.params.id)
+        Sessions.delete(toNumber(req.params.id))
             .then(result => {
                 res.status(HttpCode.OK).send(result);
             })
@@ -55,7 +56,7 @@ router.route('/sessions/:id')
 
 router
     .patch('/sessions/:id/status', async (req: Request, res: Response, next) => {
-        Sessions.editStatus(req.params.id, req.body)
+        Sessions.editStatus(toNumber(req.params.id), req.body)
             .then(result => {
                 res.status(HttpCode.OK).send(result);
             })
