@@ -15,7 +15,7 @@ router.route('/sessions')
             });
     })
     .post(async (req: Request, res: Response, next) => {
-        Sessions.create(req.body, req.user.id)
+        Sessions.create(req.body)
             .then(result => {
                 res.status(HttpCode.CREATED).send(result);
             })
