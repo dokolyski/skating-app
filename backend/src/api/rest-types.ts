@@ -1,16 +1,16 @@
-import {DateRange} from './rest-models/date-range';
 import {EMAIL_GROUP, LoginInfo, PROVIDER_GROUP} from './rest-models/login-info';
 import {Notification, ALL_GROUP, CREATE_GROUP} from './rest-models/notification';
 import {PaymentsSessions} from './rest-models/payments-sessions';
 import {ProfileRequest, ProfileIndexRequest} from './rest-models/profile-request';
 import {UserRequest} from './rest-models/user';
+import {SessionRequest, SessionIndexRequest} from './rest-models/session-request';
 
-import {SessionJoin} from './rest-models/session-join';
+import {SessionJoinRequest} from './rest-models/session-join-request';
 import {SessionsSelection} from './rest-models/session-selection';
-import {Session, ALL_SESSION_GROUP, CREATE_SESSION_GROUP, EDIT_SESSION_GROUP} from './rest-models/session';
 import {SessionStatus} from './rest-models/sessionStatus';
 import {Token} from './rest-models/token';
 import Profile from '../models/profiles'
+import Session from '../models/sessions'
 import { PaymentsPoints } from './rest-models/payments-points';
 
 export namespace VERIFICATION {
@@ -55,25 +55,21 @@ export namespace PROFILES {
 }
 
 export namespace SESSIONS {
-    export namespace GET {
-        export type INPUT = DateRange;
+    export namespace INDEX {
+        export type INPUT = SessionIndexRequest;
         export type OUTPUT = Session[];
     }
 
-    export namespace CREATE {
-        export const GROUPS = {
-            INPUT: {CREATE_SESSION_GROUP}
-        };
+    export namespace GET {
+        export type OUTPUT = Session;
+    }
 
-        export type INPUT = Session;
+    export namespace CREATE {
+        export type INPUT = SessionRequest;
     }
 
     export namespace EDIT {
-        export const GROUPS = {
-            INPUT: {EDIT_SESSION_GROUP}
-        };
-
-        export type INPUT = Session;
+        export type INPUT = SessionRequest;
     }
 
     export namespace EDIT_STATUS {
@@ -84,7 +80,7 @@ export namespace SESSIONS {
 
 export namespace SESSION_PARTICIPANTS {
     export namespace JOIN {
-        export type INPUT = SessionJoin;
+        export type INPUT = SessionJoinRequest;
     }
 }
 
