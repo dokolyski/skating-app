@@ -1,4 +1,3 @@
-import {DateRange} from './rest-models/date-range';
 import {EMAIL_GROUP, LoginInfo, PROVIDER_GROUP} from './rest-models/login-info';
 import {Notification, ALL_GROUP, CREATE_GROUP} from './rest-models/notification';
 import {PaymentsSessions} from './rest-models/payments-sessions';
@@ -6,7 +5,7 @@ import {ProfileRequest, ProfileIndexRequest} from './rest-models/profile-request
 import {UserRequest} from './rest-models/user';
 import {SessionRequest, SessionIndexRequest} from './rest-models/session-request';
 
-import {SessionJoin} from './rest-models/session-join';
+import {SessionJoinRequest} from './rest-models/session-join-request';
 import {SessionsSelection} from './rest-models/session-selection';
 import {SessionStatus} from './rest-models/sessionStatus';
 import {Token} from './rest-models/token';
@@ -81,7 +80,7 @@ export namespace SESSIONS {
 
 export namespace SESSION_PARTICIPANTS {
     export namespace JOIN {
-        export type INPUT = SessionJoin;
+        export type INPUT = SessionJoinRequest;
     }
 }
 

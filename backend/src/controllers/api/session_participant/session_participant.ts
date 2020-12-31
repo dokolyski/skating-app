@@ -6,7 +6,7 @@ const router = express.Router()
 
 router
     .post('/session_participants', async (req: Request, res: Response, next) => {
-        SessionsParticipants.join(req.body, req.user.id)
+        SessionsParticipants.join(req.body)
             .then(result => {
                 res.status(HttpCode.OK).send(result);
             })

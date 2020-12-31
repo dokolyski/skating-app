@@ -11,9 +11,9 @@ import AuthorizedUser from "../misc/authorized-user";
 export default class SessionsParticipants {
 
     @Validate
-    public static async join(@Validator data: SESSION_PARTICIPANTS.JOIN.INPUT, userId: number): Promise<void> {
+    public static async join(@Validator data: SESSION_PARTICIPANTS.JOIN.INPUT): Promise<void> {
         const session = await this.getSession(data.session_id);
-        const profiles = await this.getProfiles(data.profiles_ids, userId);
+        const profiles = await this.getProfiles(data.profile_ids, AuthorizedUser.getId());
 
         const t = await db.transaction();
 
