@@ -8,13 +8,14 @@
         height: 100%;
         width: 100%;
         padding: 0;
+        padding-top: 5%;
     }
 }
 
 @media (min-width: 769px) {
     div {
         padding-top: 2vw;
-        padding-left: 30vw;
-        padding-right: 30vw;
+        padding-left: 20vw;
+        padding-right: 20vw;
     }
 }
