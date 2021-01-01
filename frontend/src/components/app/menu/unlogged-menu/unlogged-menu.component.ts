@@ -4,8 +4,7 @@ import * as PATH from 'assets/config/url.json';
 
 @Component({
   selector: 'app-menu-unlogged',
-  templateUrl: './unlogged-menu.component.html',
-  styleUrls: ['./unlogged-menu.component.css']
+  templateUrl: './unlogged-menu.component.html'
 })
 export class UnloggedMenuComponent {
   path = PATH['default'];

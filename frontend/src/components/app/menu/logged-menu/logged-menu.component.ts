@@ -4,8 +4,7 @@ import * as PATH from 'assets/config/url.json';
 
 @Component({
   selector: 'app-menu-logged',
-  templateUrl: './logged-menu.component.html',
-  styleUrls: ['./logged-menu.component.css']
+  templateUrl: './logged-menu.component.html'
 })
 export class LoggedMenuComponent {
   path = PATH['default'];
