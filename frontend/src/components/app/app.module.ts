@@ -26,9 +26,9 @@ import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import { RestServiceMock } from 'assets/mocks/manual-tests/RestService.mock';
-import { MatBadgeModule } from '@angular/material/badge';
-import { FacebookModule } from 'ngx-facebook';
-import { MatMenuModule } from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
+import {ReservationsService} from 'services/reservations-service/reservations.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { NewsService } from 'services/news-service/News.service';
 import { MenuModule } from './menu/menu.module';
 
@@ -47,8 +47,8 @@ import { MenuModule } from './menu/menu.module';
     FlexLayoutModule,
     RouterModule,
     MatDatepickerModule,
-    FacebookModule,
-    MenuModule
+    MenuModule,
+    MatBadgeModule
   ],
   declarations: [
     AppComponent,
@@ -61,6 +61,8 @@ import { MenuModule } from './menu/menu.module';
     AuthService,
     LanguageService,
     LanguageErrorService,
+    ReservationsService,
+    MatSnackBar,
     NewsService,
     { provide: RestService, useClass: RestServiceMock },
     /* INJECTED CONSTANTS */

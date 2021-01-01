@@ -11,7 +11,7 @@ import { LastnameComponent } from 'components/common/inputs/lastname/lastname.co
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { Skills } from 'api/rest-models/config-models';
-import { Profile } from 'api/rest-models/profile';
+import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 
 /**
  * @description Creates next user profile with limit per user, gather informations about

@@ -3,7 +3,7 @@ import {RestOptions, RestPath} from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {Injectable} from '@angular/core';
 import {USERS} from 'api/rest-types';
-import {Profile} from 'api/rest-models/profile';
+import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 
 @Injectable()
 export class RestServiceMock {
