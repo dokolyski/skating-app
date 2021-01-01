@@ -8,4 +8,5 @@ import {SessionParticipant} from 'models/session-participant';
 export class EventService {
   newSessionParticipantsEvent = new EventEmitter<SessionParticipant[]>();
   deleteSessionParticipantsEvent = new EventEmitter<SessionParticipant[]>();
+  reservationsChange = new EventEmitter<SessionParticipant[]>();
 }
