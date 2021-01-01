@@ -1,11 +1,11 @@
 import { IsNotEmpty, IsNumber } from "class-validator"
 
-export class SessionJoin {
+export class SessionJoinRequest {
     @IsNotEmpty()
     @IsNumber({}, {
         each: true
     })
-    profiles_id: number[]
+    profile_ids: number[]
 
     @IsNotEmpty()
     @IsNumber()
