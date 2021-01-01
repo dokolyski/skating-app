@@ -1,9 +1,10 @@
 import {Request, Response} from 'express'
-import HttpCode from 'http-status-codes'
 import * as jwt from 'jsonwebtoken'
 import server_config from '../config/server.json'
 import User from "../models/users";
 import UnauthorizedException from "../misc/unauthorized-exception";
+import AuthorizedUser from "../misc/authorized-user"
+import {notfound} from "../misc/helpers";
 
 export function TokenMiddleware() {
     return async (req: Request, res: Response, next) => {
@@ -24,10 +25,8 @@ export function TokenMiddleware() {
                 where: {token: token}
             });
 
-            if (user === null)
-                throw new UnauthorizedException();
-
-            req.user = user;
+            notfound(user);
+            AuthorizedUser.setUser(user);
             next();
         } catch (e) {
             next(e)
