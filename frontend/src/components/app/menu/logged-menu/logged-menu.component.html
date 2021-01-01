@@ -1,6 +1,4 @@
 <ng-container *ngIf="(language.dictionary$ | async) as $">
-    <span class="spacer"></span>    
-
     <button [routerLink]="'/' + path.LOGGED.SCHEDULE" mat-icon-button aria-label="Schedule">
         <mat-icon>today</mat-icon>
     </button>
