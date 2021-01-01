@@ -43,7 +43,7 @@ const routes: Routes = [
   {
     path: PATH.LOGGED.SHOP,
     component: Pages.ShopPageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [OnlineGuard, AuthGuard]
   },
   /*ORGANIZER*/
   {

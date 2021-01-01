@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 /**
@@ -9,11 +9,15 @@ import { CookieService } from 'ngx-cookie-service';
     providedIn: 'root'
 })
 export class OrganizerGuard implements CanActivate {
-    constructor(private cookie: CookieService) {}
+    constructor(private cookie: CookieService, private router: Router) {}
 
     canActivate(): boolean {
         const canNavigate = this.cookie.check('is-organizer') &&
             this.cookie.get('is-organizer') as unknown as boolean === true;
+
+        if(!canNavigate) {
+            this.router.navigate(['/']);
+        }
 
         return canNavigate;
     }

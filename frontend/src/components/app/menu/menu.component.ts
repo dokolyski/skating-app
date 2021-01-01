@@ -13,7 +13,7 @@ import { AuthService } from 'services/auth-service/Auth.service';
 })
 export class MenuComponent {
   private bodyElement: HTMLBodyElement = document.querySelector('body');
-  notLoggedGuard = new NotLoggedGuard(this.auth);
+  notLogged = NotLoggedGuard.isLogged(this.auth);
   path = PATH['default'];
 
   constructor(

@@ -1,9 +1,11 @@
-<ng-container *ngIf="(language.dictionary$ | async) as $">
-    <button [routerLink]="'/' + path.EVERYONE.LOGIN" mat-icon-button aria-label="Sign In">
-        {{ $.navbar.buttons.SIGN_IN }}
-    </button>
+<ng-container *ngIf="online | async">
+    <ng-container *ngIf="(language.dictionary$ | async) as $">
+        <button [routerLink]="'/' + path.EVERYONE.LOGIN" mat-icon-button aria-label="Sign In">
+            {{ $.navbar.buttons.SIGN_IN }}
+        </button>
 
-    <button [routerLink]="'/' + path.EVERYONE.REGISTER" mat-icon-button aria-label="Sign In">
-        {{ $.navbar.buttons.SIGN_UP }}
-    </button>
+        <button [routerLink]="'/' + path.EVERYONE.REGISTER" mat-icon-button aria-label="Sign In">
+            {{ $.navbar.buttons.SIGN_UP }}
+        </button>
+    </ng-container>
 </ng-container>
