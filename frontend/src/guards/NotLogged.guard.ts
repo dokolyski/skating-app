@@ -24,7 +24,7 @@ export class NotLoggedGuard implements CanActivate {
         return NotLoggedGuard.isLogged(this.auth)
         .pipe(
             map(notLogged => {
-                if(notLogged) {
+                if(!notLogged) {
                     this.router.navigate(['/']);
                 }
 

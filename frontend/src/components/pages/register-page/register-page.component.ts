@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { isMobile } from 'common/mobile-check';
 import { LanguageService } from 'services/language-service/Language.service';
 
 @Component({
@@ -8,6 +9,8 @@ import { LanguageService } from 'services/language-service/Language.service';
   styleUrls: ['./register-page.style.css']
 })
 export class RegisterPageComponent {
+  isMobile = isMobile();
+
   constructor(
     private router: Router,
     public lngService: LanguageService) { }

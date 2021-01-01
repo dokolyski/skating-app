@@ -1,4 +1,4 @@
-<div id="page-content-wrapper">
+<div [id]="(isMobile | async) ? '' : 'page-content-wrapper'">
     <div>
         <mat-card>
             <mat-card-header>
