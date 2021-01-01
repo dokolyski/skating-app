@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatListOption} from '@angular/material/list';
 import {SelectionModel} from '@angular/cdk/collections';
+import * as moment from 'moment';
+import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 
 @Component({
   selector: 'app-choose-participant-dialog',
@@ -23,5 +25,13 @@ export class ChooseParticipantDialogComponent implements OnInit {
 
   getValues(selectedOptions): any[] {
     return selectedOptions.selected.map(value => value.value);
+  }
+
+  formatDateString() {
+    return moment(this.data.session.start_date).format('LLLL');
+  }
+
+  isAlreadyAdded(profile: Profile) {
+    return this.data.alreadyAddedParticipants.map(value => value.id).includes(profile.id);
   }
 }

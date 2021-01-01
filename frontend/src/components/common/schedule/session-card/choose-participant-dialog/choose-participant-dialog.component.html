@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>
+  Choose participants for the session "{{data.session.name}}" at {{formatDateString()}}
+</h2>
+<div>
+  <mat-selection-list #participants>
+    <mat-list-option *ngFor="let participant of data.profiles" [value]="participant" [disabled]="isAlreadyAdded(participant)">
+      <span *ngIf="isAlreadyAdded(participant)" style="text-decoration: line-through">{{participant.firstname}} {{participant.lastname}} (dodany)</span>
+      <span *ngIf="!isAlreadyAdded(participant)">{{participant.firstname}} {{participant.lastname}}</span>
+    </mat-list-option>
+  </mat-selection-list>
+
+  <!--  TODO already added-->
+  <p>
+    Options selected: {{chosenParticipantsString(participants.selectedOptions)}}
+  </p>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Cancel</button>
+  <button mat-button [mat-dialog-close]="getValues(participants.selectedOptions)">Add participants</button>
+</div>

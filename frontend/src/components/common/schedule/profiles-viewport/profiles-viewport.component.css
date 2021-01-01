@@ -1,3 +1,12 @@
+.expand-profiles {
+  background-color: transparent!important;
+  padding: 0;
+}
+
+.expand-header {
+  background-color: transparent!important;
+}
+
 .profile-item {
   border-radius: 30px;
   text-align: center;
@@ -33,4 +42,10 @@
 
 .main-logo {
   margin-right: 15px;
+}
+
+.profiles-gallery {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }

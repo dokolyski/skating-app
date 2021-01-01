@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Session} from 'api/rest-models/session';
-import {Profile} from 'api/rest-models/profile';
+import {SessionRequest as Session} from 'api/rest-models/session-request';
+import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 
 @Component({
   selector: 'app-weekday',
