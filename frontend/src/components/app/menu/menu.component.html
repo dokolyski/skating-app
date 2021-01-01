@@ -1,6 +1,6 @@
 <ng-container *ngIf="(language.dictionary$ | async) as $">
   <mat-toolbar id="navbar" 
-  *ngIf="(notLoggedGuard.canActivate()| async) as IsNotLogged">
+  *ngIf="(notLogged | async) as IsNotLogged">
     <div class="nav-grid">
       <div>
         <span [routerLink]="'/' + path.EVERYONE.MAIN" id="logo_name_link">
