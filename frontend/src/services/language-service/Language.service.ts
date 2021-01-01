@@ -23,7 +23,10 @@ export class LanguageService {
   constructor(
     @Inject('language') language: string,
     @Inject('path-languages') private path: string) {
-      this.language = language;
+      this.language = localStorage.getItem('language');
+      if(this.language === 'null') {
+        this.language = language;
+      }
     }
 
   get language(): string {
@@ -44,6 +47,7 @@ export class LanguageService {
       destroy.next();
       this._language = name;
       this.dictionarySubject.next(data);
+      localStorage.setItem('language', name);
     });
 
     this.readTranslation(`${name}.language.json`);

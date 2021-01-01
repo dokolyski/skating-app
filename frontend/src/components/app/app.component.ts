@@ -42,7 +42,10 @@ export class AppComponent implements OnDestroy, AfterViewInit {
   }
 
   private setBrowserLanguage() {
-    this.lngService.language = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
+    if(localStorage.getItem('browser-lng') === 'null') {
+      this.lngService.language = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
+      localStorage.setItem('browser-lng', this.lngService.language);
+    }
   }
 
   private setDatepickerLanguage() {
