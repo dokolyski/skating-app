@@ -22,6 +22,7 @@ import { ChooseParticipantDialogComponent } from './session-card/choose-particip
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ScheduleComponent } from './schedule.component';
+import { NewSessionFormComponent } from './session-card/new-session-form/new-session-form.component';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { ScheduleComponent } from './schedule.component';
     ProfilesViewportComponent,
     AddParticipantDialogComponent,
     ChooseParticipantDialogComponent,
+    NewSessionFormComponent,
   ],
   providers: [
     EventService

@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {environment} from 'environments/environment';
 import {SessionRequest as Session} from 'api/rest-models/session-request'
 import {RestService} from 'services/rest-service/Rest.service';
 import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-schedule',
@@ -10,7 +10,6 @@ import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
-  weekdays: string[] = environment.session_schedule.weekdays;
   @Input() withProfilesDragging = false;
 
   calendar: {
@@ -31,7 +30,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.clearSessions();
     this.sessions = [
       [{
         id: 0,
@@ -65,10 +63,8 @@ export class ScheduleComponent implements OnInit {
 
   private initializeCalendarSettings() {
     const weekContainsDate: Date = new Date(Date.now());
-    const weekFrom = new Date();
-    const weekTo = new Date();
-    weekFrom.setDate(weekContainsDate.getDate() - weekContainsDate.getDay() + 1);
-    weekTo.setDate(weekFrom.getDate() + 7);
+    const weekFrom = moment(weekContainsDate).subtract(weekContainsDate.getDay() - 1, 'days').toDate();
+    const weekTo = moment(weekFrom).add(6, 'days').toDate();
     this.calendar = {
       from: weekFrom,
       to: weekTo
@@ -76,25 +72,16 @@ export class ScheduleComponent implements OnInit {
   }
 
   changeWeek(change: number) {
-    this.calendar.from.setDate(this.calendar.from.getDate() + 7 * change);
-    this.calendar.to.setDate(this.calendar.to.getDate() + 7 * change);
+    this.calendar.from = moment(this.calendar.from).add(7 * change, 'days').toDate();
+    this.calendar.to = moment(this.calendar.from).add(6, 'days').toDate();
   }
 
-  filterSessionsByEmptiness(empty: boolean) {
-    return this.sessions.map((value, index) => ({
-      sessions: value,
-      index,
-      weekday: this.weekdays[index]
-    })).filter(value => {
-      if (empty) {
-        return value.sessions.length === 0;
-      } else {
-        return value.sessions.length > 0;
-      }
-    });
+  getWeekdayDates(): Date[] {
+    return Array(7).fill(0).map((x, i) => moment(this.calendar.from).add(i, 'days').toDate());
   }
 
-  private getSessions() {
+  private updateSessions() {
+    this.sessions = Array.from(Array(7), () => []);
     this.restService.do<Session[]>({
       URL: '/api/sessions',
       METHOD: 'GET'
@@ -113,9 +100,4 @@ export class ScheduleComponent implements OnInit {
       this.sessions[value.start_date.getDay()].push(value);
     });
   }
-
-  private clearSessions() {
-    this.sessions = Array.from(Array(7), () => []);
-  }
-
 }

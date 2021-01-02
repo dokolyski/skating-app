@@ -5,18 +5,7 @@
 export const environment = {
   production: false,
   server_addr: 'localhost',
-  language: 'english',
-  session_schedule: {
-    weekdays: [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday'
-    ]
-  }
+  language: 'english'
 };
 
 /*

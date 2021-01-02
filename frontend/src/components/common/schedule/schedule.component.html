@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="calendarContent">
-      <app-weekday *ngFor="let weekday of weekdays; index as i" [sessions]="sessions[i]" [weekday]="weekday"
+      <app-weekday *ngFor="let date of getWeekdayDates(); index as i" [sessions]="sessions[i]" [date]="date"
                    [profiles]="profiles"></app-weekday>
     </div>
     <app-profiles-viewport *ngIf="withProfilesDragging" [profiles]="profiles"></app-profiles-viewport>
