@@ -1,0 +1,62 @@
+form {
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: center;
+    align-items: center;
+}
+
+form>* {
+    margin-bottom: 2.5%;
+}
+
+form>*:last-child {
+    margin-bottom: 0%;
+}
+
+::ng-deep .mat-form-field {
+    width: 100%;
+}
+
+app-email, app-name, app-lastname, app-date-birth, app-telephone, app-skill-level {
+    width: 100%;
+}
+
+.inline-flex {
+    width: 100%;
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .inline-flex {
+        flex-direction: column;
+    }
+
+    form {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+}
+
+@media (min-width: 769px) {
+    .inline-flex {
+        justify-content: space-around;
+        align-items: baseline;
+    }
+
+    .inline-flex>* {
+        margin-left: 5%;
+    }
+    
+    .inline-flex>*:first-child {
+        margin-left: 0%;
+    }
+}
+
+.row-right {
+    display: flex;
+    justify-content: center;
+}
+
+.buttons {
+    margin-top: 5%;
+}

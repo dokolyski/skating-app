@@ -53,7 +53,7 @@ export class AccountNotificationsComponent implements OnInit {
       )
       .subscribe({
         next: data => {
-          data = data.sort((a, b) => a.notification_info.expiration_date.getTime() - b.notification_info.expiration_date.getTime());
+          data = data.sort((a, b) => b.notification_info.expiration_date.getTime() - a.notification_info.expiration_date.getTime());
           this.sessions = data;
         },
         error: (e: RestError) => this.handleErrors(e)

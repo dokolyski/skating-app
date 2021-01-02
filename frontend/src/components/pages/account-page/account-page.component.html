@@ -1,7 +1,7 @@
 <ng-container *ngIf="(lngService.dictionary$ | async) as $">
     <ng-container *ngIf="{menu: $.pages.account.menu} as $">
         <div>
-            <mat-tab-group mat-align-tabs="center">
+            <mat-tab-group mat-align-tabs="center" dynamicHeight animationDuration="0ms">
                 <mat-tab [label]="$.menu.ACCOUNT_SETTINGS">
                     <app-account-settings></app-account-settings>
                 </mat-tab>

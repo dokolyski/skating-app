@@ -1,6 +1,12 @@
 div {
     background-color: white;
+    height: 100%;
 }
+
+::ng-deep mat-tab-body {
+    margin-top: 5%;
+}
+
 @media (max-width: 768px) {
     div {
         padding: 0;

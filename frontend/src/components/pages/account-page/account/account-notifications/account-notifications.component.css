@@ -1,0 +1,15 @@
+mat-expansion-panel {
+  margin-bottom: 2.5% !important;
+  background-color: var(--bluish-white) !important;
+}
+
+@media (max-width: 768px) {
+  div {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+}
+
+::ng-deep .mat-expansion-panel-header:hover {
+  background-color: var(--bluish-white) !important;
+}
