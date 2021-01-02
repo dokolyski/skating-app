@@ -26,7 +26,8 @@ Config.init({
     }
 }, {
     sequelize: db,
-    tableName: 'config'
+    tableName: 'config',
+    underscored: true
 })
 
 export default Config

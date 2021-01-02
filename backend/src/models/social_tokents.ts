@@ -41,7 +41,8 @@ SocialTokens.init({
     }
 }, {
     sequelize: db,
-    tableName: 'social_tokens'
+    tableName: 'social_tokens',
+    underscored: true
 })
 
 export default SocialTokens

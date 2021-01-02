@@ -1,12 +1,11 @@
 import {EMAIL_GROUP, LoginInfo, PROVIDER_GROUP} from './rest-models/login-info';
-import {Notification, ALL_GROUP, CREATE_GROUP} from './rest-models/notification';
 import {PaymentsSessions} from './rest-models/payments-sessions';
 import {ProfileRequest, ProfileIndexRequest} from './rest-models/profile-request';
 import {UserRequest} from './rest-models/user';
 import {SessionRequest, SessionIndexRequest} from './rest-models/session-request';
+import {NotificationRequest, NotificationIndexRequest} from './rest-models/notification-request';
 
 import {SessionJoinRequest} from './rest-models/session-join-request';
-import {SessionsSelection} from './rest-models/session-selection';
 import {SessionStatus} from './rest-models/sessionStatus';
 import {Token} from './rest-models/token';
 import Profile from '../models/profiles'
@@ -86,12 +85,12 @@ export namespace SESSION_PARTICIPANTS {
 
 export namespace NOTIFICATIONS {
     export namespace INDEX {
-        export type INPUT = SessionsSelection;
-        export type OUTPUT = Notification[];
+        export type INPUT = NotificationIndexRequest;
+        export type OUTPUT = NotificationRequest[];
     }
 
     export namespace CREATE {
-        export type INPUT = Notification;
+        export type INPUT = NotificationRequest;
     }
 
     export namespace EDIT_STATUS {

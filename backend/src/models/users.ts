@@ -117,7 +117,8 @@ User.init({
       }
     },
     sequelize: db,
-    tableName: 'users'
+    tableName: 'users',
+    underscored: true
 });
 
 export default User

@@ -1,10 +1,9 @@
 import smtp_config from '../config/smtp.json'
 import SMTP from '../static/smtp'
-import User from '../models/users'
-import Profile from '../models/profiles'
+import {User, Profile} from '../models/models'
 import server_config from '../config/server.json'
 import db from '../static/database'
-import { decrypt } from '../init/generate-keys'
+import {decrypt} from '../init/generate-keys'
 import LogicError from '../misc/logic-error'
 import {Validator, Validate} from "typescript-class-validator";
 import {VERIFICATION} from "../api/rest-types";

@@ -64,7 +64,8 @@ Profile.init({
     }
 }, {
     sequelize: db,
-    tableName: 'profiles'
+    tableName: 'profiles',
+    underscored: true
 });
 
 export default Profile

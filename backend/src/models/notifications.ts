@@ -68,7 +68,8 @@ Notification.init({
     }
 }, {
     sequelize: db,
-    tableName: 'notifications'
+    tableName: 'notifications',
+    underscored: true
 })
 
 export default Notification

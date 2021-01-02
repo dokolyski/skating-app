@@ -32,7 +32,7 @@ export default class Sessions {
         return session;
     }
 
-    @Validate
+    @Validate()
     public static async create(@Validator data: SESSIONS.CREATE.INPUT): Promise<void> {
 
         AuthorizedUser.checkOwnership(data.owner_id);

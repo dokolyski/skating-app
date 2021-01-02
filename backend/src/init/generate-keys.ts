@@ -19,6 +19,7 @@ export default async function generateKeys() {
 }
 
 export function decrypt(val: string) {
+    return val;
     const buffer = Buffer.from(val, 'base64');
     const decrypted = crypto.privateDecrypt({
         key: keys.privateKey.toString(),

@@ -82,7 +82,8 @@ Session.init({
     },
 }, {
     sequelize: db,
-    tableName: 'sessions'
+    tableName: 'sessions',
+    underscored: true
 })
 
 export default Session

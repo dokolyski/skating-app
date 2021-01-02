@@ -41,7 +41,8 @@ SessionParticipant.init({
     }
 }, {
     sequelize: db,
-    tableName: 'session_participants'
+    tableName: 'session_participants',
+    underscored: true
 })
 
 export default SessionParticipant
