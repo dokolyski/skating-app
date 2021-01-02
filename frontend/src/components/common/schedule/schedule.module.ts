@@ -23,6 +23,10 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ScheduleComponent } from './schedule.component';
 import { NewSessionFormComponent } from './session-card/new-session-form/new-session-form.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -40,7 +44,11 @@ import { NewSessionFormComponent } from './session-card/new-session-form/new-ses
     MatExpansionModule,
     MatSidenavModule,
     MatBadgeModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatInputModule
   ],
   exports: [
     ScheduleComponent

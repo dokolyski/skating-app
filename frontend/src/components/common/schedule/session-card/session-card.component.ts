@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SessionRequest as Session} from 'api/rest-models/session-request'
+import {SessionRequest as Session} from 'api/rest-models/session-request';
 import {MatDialog} from '@angular/material/dialog';
 import {SessionInfoPaneComponent} from './session-info-pane/session-info-pane.component';
 import * as moment from 'moment';
@@ -93,6 +93,6 @@ export class SessionCardComponent implements OnInit {
   }
 
   formatParticipantsList(): string {
-    return `Dodani uczestnicy:\n`.concat(...(this.participants.map(value => `${value.firstname} ${value.lastname}\n`)));
+    return `Dodani uczestnicy:\n`.concat(...this.participants.map(value => `${value.firstname} ${value.lastname}\n`));
   }
 }

@@ -8,8 +8,6 @@
       <span *ngIf="!isAlreadyAdded(participant)">{{participant.firstname}} {{participant.lastname}}</span>
     </mat-list-option>
   </mat-selection-list>
-
-  <!--  TODO already added-->
   <p>
     Options selected: {{chosenParticipantsString(participants.selectedOptions)}}
   </p>

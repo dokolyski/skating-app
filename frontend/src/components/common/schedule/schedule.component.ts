@@ -11,6 +11,8 @@ import * as moment from 'moment';
 })
 export class ScheduleComponent implements OnInit {
   @Input() withProfilesDragging = false;
+  @Input() adminView = false;
+  weekdayNumbers = Array(7).fill(0).map((_, i) => i);
 
   calendar: {
     from: Date,
@@ -76,8 +78,8 @@ export class ScheduleComponent implements OnInit {
     this.calendar.to = moment(this.calendar.from).add(6, 'days').toDate();
   }
 
-  getWeekdayDates(): Date[] {
-    return Array(7).fill(0).map((x, i) => moment(this.calendar.from).add(i, 'days').toDate());
+  getWeekdayDate(i: number): Date {
+    return moment(this.calendar.from).add(i, 'days').toDate();
   }
 
   private updateSessions() {
@@ -99,5 +101,9 @@ export class ScheduleComponent implements OnInit {
     sessions.forEach(value => {
       this.sessions[value.start_date.getDay()].push(value);
     });
+  }
+
+  daysRangeFormatter(): string {
+    return `${moment(this.calendar.from).format('L')} - ${moment(this.calendar.to).format('L')}`;
   }
 }
