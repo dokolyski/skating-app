@@ -12,7 +12,7 @@ import { DateBirthComponent } from 'components/common/inputs/date-birth/date-bir
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { mergeMap } from 'rxjs/operators';
 import { AuthService } from 'services/auth-service/Auth.service';
-import { Profile } from 'api/rest-models/profile';
+import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 import { Skills } from 'api/rest-models/config-models';
 
 /**
@@ -89,12 +89,13 @@ export class ProfileSettingsComponent implements OnInit {
       )
       .subscribe({
         next: data => {
-          const indexOwner = data.findIndex(p => p.type === 'OWNER');
-          if (indexOwner) {
-            data.splice(indexOwner);
-          }
-          this.profiles = data;
-          this.selectedProfile = data[0];
+          //  TODO - verify subscription type
+          // const indexOwner = data.findIndex(p => p.type === 'OWNER');
+          // if (indexOwner) {
+          //   data.splice(indexOwner);
+          // }
+          // this.profiles = data;
+          // this.selectedProfile = data[0];
         },
         error: (e: RestError) => this.handleErrors(e, false)
       });

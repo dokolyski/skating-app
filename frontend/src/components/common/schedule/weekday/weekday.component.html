@@ -1,0 +1,13 @@
+<div class="calendarColumn">
+  <div class="weekdayHeader">
+    {{dayFormatter()}}
+  </div>
+  <app-session-card *ngFor="let session of sessions" [sessionData]="session" [profiles]="profiles"></app-session-card>
+  <div *ngIf="sessions.length == 0" class="noSessionMessage">
+    Brak treningów
+  </div>
+  <button (click)="openNewSessionForm()" *ngIf="adminView" mat-raised-button color="primary" class="add-new-session-button">
+    <mat-icon class="mat-icon-add-session" aria-hidden="true">add</mat-icon>
+    <span>Utwórz nowe zajęcia</span>
+  </button>
+</div>

@@ -20,8 +20,8 @@ import { TelephoneComponent } from 'components/common/inputs/telephone/telephone
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { of } from 'rxjs';
 import { Skills } from 'api/rest-models/config-models';
-import { Profile } from 'api/rest-models/profile';
-import { User } from 'api/rest-models/user';
+import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
+import { UserRequest as User } from 'api/rest-models/user-request';
 
 /**
  * @description Gather, validate and send to the ```REST``` server required user informations like

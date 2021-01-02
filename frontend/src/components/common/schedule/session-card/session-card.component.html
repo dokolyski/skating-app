@@ -1,0 +1,12 @@
+<div cdkDropList [cdkDropListEnterPredicate]="blockIfAlreadyReserved" (cdkDropListDropped)="dropProfile($event)" class="sessionCard" (click)="openInfoPane()">
+  <div class="time-header">
+    {{startTime}} - {{endTime}}
+  </div>
+  <div class="cardTitle">{{sessionData.name}}</div>
+  <mat-divider></mat-divider>
+  <div class="groupLevel">{{sessionData.difficulty}}</div>
+  <div (click)="addParticipantsButtonClicked($event)" class="addParticipantButton">
+    Dodaj uczestnika
+  </div>
+  <mat-icon *ngIf="participants.length > 0" matTooltipClass="participants-tooltip" [matTooltip]="formatParticipantsList()" class="added-participants">account_circle</mat-icon>
+</div>

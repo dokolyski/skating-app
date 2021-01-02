@@ -7,3 +7,15 @@ table {
 td, th {
   padding: 2px 5px 2px 5px!important;
 }
+
+.mat-elevation-z8 {
+  margin-top: 15px;
+  border-radius: 5px;
+}
+
+.reserve-button {
+  background-color: var(--azure-blue);
+  color: var(--bluish-white);
+  margin-top: 10px;
+  font-size: x-large;
+}

@@ -14,8 +14,8 @@ import { LastnameComponent } from 'components/common/inputs/lastname/lastname.co
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { TelephoneComponent } from 'components/common/inputs/telephone/telephone.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
-import { Profile } from 'api/rest-models/profile';
-import { User } from 'api/rest-models/user';
+import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
+import { UserRequest as User } from 'api/rest-models/user-request';
 import { of, Subject } from 'rxjs';
 import { Skills } from 'api/rest-models/config-models';
 
@@ -109,7 +109,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: data => {
-          const profile = data.find(el => el.type === 'OWNER');
+          const profile = data; // .find(el => el.type === 'OWNER'); TODO - verify subscription type
           user.skill_level = profile?.skill_level ?? null;
           this.userInfo = user;
         },

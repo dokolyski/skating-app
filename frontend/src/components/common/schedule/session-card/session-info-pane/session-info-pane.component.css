@@ -1,0 +1,36 @@
+.info-header {
+  text-align: center;
+  background-color: var(--malibu);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.session-img {
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.header-date {
+  font-size: x-large;
+}
+
+.header-name {
+  font-weight: 500;
+  font-size: x-large;
+  margin-bottom: 3px;
+}
+
+.content-header {
+  font-weight: 500;
+  font-size: large;
+  margin: 5px 0 5px 0;
+}
+
+.content-description {
+  margin: 3px;
+}
+
+.info-content {
+  text-align: center;
+}

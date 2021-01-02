@@ -1,0 +1,23 @@
+<div class="info-header">
+  <div class="header-name">{{data.session.name}}</div>
+  <div class="header-date">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">today</mat-icon>
+    {{formatDateString()}}
+  </div>
+</div>
+
+<mat-dialog-content class="info-content">
+  <div class="content-header">{{data.session.difficulty}}</div>
+  <mat-divider></mat-divider>
+  <div class="content-header">Zarezerwowane miejsca: 5 / {{data.session.max_participants}}</div>
+  <mat-divider></mat-divider>
+  <div class="content-header">Cena za pojedyncze zajęcia: {{data.session.price}}</div>
+  <mat-divider></mat-divider>
+  <div class="content-header">Opis:</div>
+  <div class="content-description">{{data.session.description}}</div>
+  <img class="session-img" src="assets/img/x0.jpg" alt="">
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Powrót</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Dodaj uczestników</button>
+</mat-dialog-actions>
