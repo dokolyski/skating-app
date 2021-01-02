@@ -13,7 +13,7 @@ form>*:last-child {
     margin-bottom: 0%;
 }
 
-::ng-deep .mat-form-field {
+:host::ng-deep .mat-form-field {
     width: 100%;
 }
 

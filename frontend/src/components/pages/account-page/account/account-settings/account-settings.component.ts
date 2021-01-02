@@ -86,7 +86,12 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private rest: RestService,
     public lngService: LanguageService,
-    private lngErrorService: LanguageErrorService) { }
+    private lngErrorService: LanguageErrorService) {
+      this.onCancel.subscribe(() => {
+        this.editMode = false;
+        this.editMode = true;
+      });
+     }
 
   ngOnInit() {
     let user;
@@ -104,12 +109,12 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
         }),
         mergeMap(data => {
           user = data;
-          return this.rest.do<PROFILES.GET.OUTPUT>(REST_PATH.PROFILES.GET);
+          return this.rest.do<PROFILES.INDEX.OUTPUT>(REST_PATH.PROFILES.GET);
         })
       )
       .subscribe({
         next: data => {
-          const profile = data; // .find(el => el.type === 'OWNER'); TODO - verify subscription type
+          const profile = data.find(el => el.type === 'OWNER');
           user.skill_level = profile?.skill_level ?? null;
           this.userInfo = user;
         },

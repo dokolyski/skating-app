@@ -3,7 +3,7 @@ div {
     height: 100%;
 }
 
-::ng-deep mat-tab-body {
+:host::ng-deep mat-tab-body {
     margin-top: 5%;
 }
 

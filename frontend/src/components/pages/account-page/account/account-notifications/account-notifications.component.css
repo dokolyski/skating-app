@@ -10,6 +10,21 @@ mat-expansion-panel {
   }
 }
 
-::ng-deep .mat-expansion-panel-header:hover {
+@media (min-width: 769px) {
+  div {
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+}
+
+.mat-expansion-panel-header {
+  box-shadow: 0 0 8px 0 var(--dark-blue) !important;
+}
+
+.mat-expansion-panel-header:hover {
   background-color: var(--bluish-white) !important;
+}
+
+:host::ng-deep .mat-expansion-panel-content {
+  background-color: white !important;
 }

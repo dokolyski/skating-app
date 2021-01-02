@@ -12,7 +12,7 @@ import { DateBirthComponent } from 'components/common/inputs/date-birth/date-bir
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { mergeMap } from 'rxjs/operators';
 import { AuthService } from 'services/auth-service/Auth.service';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
+import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
 import { Skills } from 'api/rest-models/config-models';
 
 /**
@@ -75,7 +75,12 @@ export class ProfileSettingsComponent implements OnInit {
     private fb: FormBuilder,
     private rest: RestService,
     public lngService: LanguageService,
-    private lngErrorService: LanguageErrorService) { }
+    private lngErrorService: LanguageErrorService) {
+    this.onCancel.subscribe(() => {
+      this.editMode = false;
+      this.editMode = true;
+    });
+  }
 
   ngOnInit() {
     this.editMode = false;
@@ -84,18 +89,17 @@ export class ProfileSettingsComponent implements OnInit {
       .pipe(
         mergeMap((v: string[]) => {
           this.skillLevelPossibleValues = [' ', ...v];
-          return this.rest.do<PROFILES.GET.OUTPUT>(REST_PATH.PROFILES.GET);
+          return this.rest.do<PROFILES.INDEX.OUTPUT>(REST_PATH.PROFILES.GET);
         })
       )
       .subscribe({
         next: data => {
-          //  TODO - verify subscription type
-          // const indexOwner = data.findIndex(p => p.type === 'OWNER');
-          // if (indexOwner) {
-          //   data.splice(indexOwner);
-          // }
-          // this.profiles = data;
-          // this.selectedProfile = data[0];
+          const indexOwner = data.findIndex(p => p.type === 'OWNER');
+          if (indexOwner) {
+            data.splice(indexOwner);
+          }
+          this.profiles = data;
+          this.selectedProfile = data[0];
         },
         error: (e: RestError) => this.handleErrors(e, false)
       });

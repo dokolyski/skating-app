@@ -26,7 +26,7 @@
                     [values]="skillLevelPossibleValues"></app-skill-level>
 
                 <div class="buttons">
-                    <button mat-button (click)="onCancel.emit()" class="cancelButton">{{
+                    <button mat-button (click)="onCancel.emit()" class="cancelButton" [disabled]="!editMode">{{
                         $.form.controls.CANCEL}}</button>
                     <button mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">{{
                         $.form.controls.SAVE}}</button>
