@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>
+  Add new session
+</h2>
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Session name</mat-label>
+    <input matInput>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Start date</mat-label>
+    <input matInput [matDatepicker]="startPicker">
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker touchUi #startPicker></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label>Start time</mat-label>
+    <input matInput type="time">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label>End time</mat-label>
+    <input matInput type="time">
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Group</mat-label>
+    <mat-select>
+      <mat-option value="option">Brązowa+</mat-option>
+      <mat-option value="option">Srebrna</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button>Cancel</button>
+  <button mat-button [mat-dialog-close]="true">Create session</button>
+</div>
