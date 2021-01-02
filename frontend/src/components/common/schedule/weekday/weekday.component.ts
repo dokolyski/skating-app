@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SessionRequest as Session} from 'api/rest-models/session-request';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
-import {NewSessionFormComponent} from '../session-card/new-session-form/new-session-form.component';
-import {MatDialog} from '@angular/material/dialog';
+import { Component, Input, OnInit } from '@angular/core';
+import { SessionRequest as Session } from 'api/rest-models/session-request';
+import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
+import { NewSessionFormComponent } from '../session-card/new-session-form/new-session-form.component';
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 
 @Component({
@@ -22,7 +22,7 @@ export class WeekdayComponent implements OnInit {
   }
 
   openNewSessionForm() {
-    this.dialog.open(NewSessionFormComponent, {data: {day: this.date}}).afterClosed().subscribe(() => {
+    this.dialog.open(NewSessionFormComponent, { data: { day: this.date } }).afterClosed().subscribe(() => {
     });
   }
 
