@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LanguageService } from 'services/language-service/Language.service';
 
 @Component({
@@ -6,11 +6,8 @@ import { LanguageService } from 'services/language-service/Language.service';
   templateUrl: './account-page.component.html',
   styleUrls: ['./account-page.component.css']
 })
-export class AccountPageComponent implements OnInit {
+export class AccountPageComponent {
 
   constructor(public lngService: LanguageService) { }
-
-  ngOnInit() {
-  }
 
 }

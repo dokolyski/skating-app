@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as PATH from 'assets/config/url.json';
@@ -11,9 +11,9 @@ import { AuthService } from 'services/auth-service/Auth.service';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   private bodyElement: HTMLBodyElement = document.querySelector('body');
-  notLogged = NotLoggedGuard.isLogged(this.auth);
+  notLogged: boolean;
   path = PATH['default'];
 
   constructor(
@@ -21,13 +21,18 @@ export class MenuComponent {
     private sanitizer: DomSanitizer,
     private auth: AuthService,
     private matIconRegistry: MatIconRegistry) {
+
     this.matIconRegistry.addSvgIcon(
       `small-logo`,
       sanitizer.bypassSecurityTrustResourceUrl(`assets/icons/small-logo-thick.svg`)
     );
   }
 
-  changeLanguage(language: 'polish'|'english') {
+  ngOnInit() {
+    NotLoggedGuard.isLogged(this.auth).subscribe(notLogged => this.notLogged = notLogged);
+  }
+
+  changeLanguage(language: 'polish' | 'english') {
     this.bodyElement.animate([
       { opacity: 1 }, { opacity: 0 }
     ], { duration: 300 });

@@ -45,7 +45,9 @@ export class ProfileAddComponent implements OnInit {
     private fb: FormBuilder,
     private rest: RestService,
     public lngService: LanguageService,
-    private lngErrorService: LanguageErrorService) { }
+    private lngErrorService: LanguageErrorService) {
+      this.onCancel.subscribe(() => this.clearForm());
+     }
 
   ngOnInit() {
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'skillLevelPossibleValues' } })
@@ -99,5 +101,16 @@ export class ProfileAddComponent implements OnInit {
           this.serverInputsErrors = translation.inputs;
         }
       });
+  }
+
+  private clearForm() {
+    this.form.reset();
+    for(const c of Object.values(this.form.controls)) {
+      for(const k of Object.keys(c.errors)) {
+        c.errors[k] = null;
+        // @ts-ignore
+        c['status'] = 'VALID';
+      }
+    }
   }
 }

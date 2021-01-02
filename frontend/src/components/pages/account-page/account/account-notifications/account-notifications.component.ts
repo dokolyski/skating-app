@@ -1,9 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { RestError } from 'api/rest-error';
 import { NOTIFICATIONS, SESSIONS } from 'api/rest-types';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
-import {SessionRequest as Session} from 'api/rest-models/session-request';
+import { SessionRequest as Session } from 'api/rest-models/session-request';
 import { Notification } from 'api/rest-models/notification';
 import * as REST_PATH from 'api/rest-url.json';
 import { map, mergeMap } from 'rxjs/operators';
@@ -23,8 +23,6 @@ export class AccountNotificationsComponent implements OnInit {
   }[];
 
   @Output()
-  onCancel = new EventEmitter<void>();
-  @Output()
   onError = new EventEmitter<string>();
 
   constructor(
@@ -37,15 +35,15 @@ export class AccountNotificationsComponent implements OnInit {
       date_to: null
     };
 
-    this.rest.do<SESSIONS.GET.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, { body })
+    this.rest.do<SESSIONS.INDEX.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, { body })
       .pipe(
         mergeMap(s =>
           this.rest.do<NOTIFICATIONS.GET_NOTIFICATIONS.COMPILATION.OUTPUT>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)
             .pipe(
               map(n =>
                 n.map(v => {
-                  const session_info = s; // .filter(({id: session_id}) => session_id === v.session_id)[0];
-                  return {session_info, notification_info: v};
+                  const session_info = s.filter(({id: session_id}) => session_id === v.session_id)[0];
+                  return { session_info, notification_info: v };
                 })
               )
             )
@@ -53,7 +51,7 @@ export class AccountNotificationsComponent implements OnInit {
       )
       .subscribe({
         next: data => {
-          data = data.sort((a, b) => a.notification_info.expiration_date.getTime() - b.notification_info.expiration_date.getTime());
+          data = data.sort((a, b) => b.notification_info.expiration_date.getTime() - a.notification_info.expiration_date.getTime());
           this.sessions = data;
         },
         error: (e: RestError) => this.handleErrors(e)

@@ -59,6 +59,6 @@
   border-radius: 15px;
 }
 
-::ng-deep .participants-tooltip {
+:host::ng-deep .participants-tooltip {
   white-space: pre-line;
 }

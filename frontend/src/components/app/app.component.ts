@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SwUpdate } from '@angular/service-worker';
-import { of, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { LanguageService } from 'services/language-service/Language.service';
 
 @Component({
@@ -12,9 +11,8 @@ import { LanguageService } from 'services/language-service/Language.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy, AfterViewInit {
-  private bodyElement: HTMLBodyElement = document.querySelector('body');
-  lngSubscription: Subscription;
+export class AppComponent implements OnDestroy {
+  subs: Subscription[] = [];
 
   constructor(
     private matIconRegistry: MatIconRegistry,
@@ -23,35 +21,30 @@ export class AppComponent implements OnDestroy, AfterViewInit {
     private lngService: LanguageService,
     private adapter: DateAdapter<any>) {
 
-    this.bodyElement.style.visibility = 'hidden';
-
     this.setBrowserLanguage();
     this.setDatepickerLanguage();
     this.loadIcons();
     this.handlePWA();
   }
 
-  ngAfterViewInit() {
-    of(null).pipe(delay(500)).subscribe(() => {
-      this.bodyElement.style.visibility = 'visible';
-    });
-  }
-
   ngOnDestroy() {
-    this.lngSubscription.unsubscribe();
+    this.subs.forEach(e => e.unsubscribe());
   }
 
   private setBrowserLanguage() {
-    if(localStorage.getItem('browser-lng') === 'null') {
+    const lng = localStorage.getItem('browser-lng');
+    if (lng === 'null' || lng === null) {
       this.lngService.language = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
       localStorage.setItem('browser-lng', this.lngService.language);
     }
   }
 
   private setDatepickerLanguage() {
-    this.lngSubscription = this.lngService.dictionary$.subscribe(() => {
+    const lngSubscription = this.lngService.dictionary$.subscribe(() => {
       this.adapter.setLocale(this.lngService.language === 'polish' ? 'pl' : 'en');
     });
+
+    this.subs.push(lngSubscription);
   }
 
   private loadIcons() {

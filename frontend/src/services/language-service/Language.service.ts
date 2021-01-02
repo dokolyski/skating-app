@@ -16,39 +16,37 @@ export class LanguageService {
   private dictionarySubject: BehaviorSubject<NodeTranslation> = new BehaviorSubject<NodeTranslation>(null);
   readonly dictionary$: Observable<NodeTranslation> = this.dictionarySubject.asObservable();
 
- /**
-  * @param language - initial language, first part of language file before sign `.` located in `path-languages`
-  * @param path-languages path to the directory containing language files in format `<language_name>.language.json`
-  */
+  /**
+   * @param language - initial language, first part of language file before sign `.` located in `path-languages`
+   * @param path - languages path to the directory containing language files in format `<language_name>.language.json`
+   */
   constructor(
     @Inject('language') language: string,
     @Inject('path-languages') private path: string) {
-      this.language = localStorage.getItem('language');
-      if(this.language === 'null') {
-        this.language = language;
-      }
-    }
+    const tmp = localStorage.getItem('language');
+    this.language = tmp !== 'null' && tmp !== null ? tmp : language;
+  }
 
   get language(): string {
     return this._language;
   }
 
- /**
-  * @description Set current language and loads translation from language file
-  * @param name first part of language file before sign `.` located in `path-languages`
-  */
+  /**
+   * @description Set current language and loads translation from language file
+   * @param name first part of language file before sign `.` located in `path-languages`
+   */
   set language(name: string) {
     const destroy = new Subject();
 
     this.loadingSubject
-    .pipe(
-      takeUntil(destroy)
-    ).subscribe(data => {
-      destroy.next();
-      this._language = name;
-      this.dictionarySubject.next(data);
-      localStorage.setItem('language', name);
-    });
+      .pipe(
+        takeUntil(destroy)
+      ).subscribe(data => {
+        destroy.next();
+        this._language = name;
+        localStorage.setItem('language', name);
+        this.dictionarySubject.next(data);
+      });
 
     this.readTranslation(`${name}.language.json`);
   }
@@ -58,9 +56,9 @@ export class LanguageService {
     new Observable(s => {
       s.next(from(import(`../../${this.path}/${fileName}`)));
     })
-    .pipe(
-      mergeMap(v => v as any),
-      map((v: {default}) => v.default)
-    ).subscribe((data: NodeTranslation) => this.loadingSubject.next(data));
+      .pipe(
+        mergeMap(v => v as any),
+        map((v: { default }) => v.default)
+      ).subscribe((data: NodeTranslation) => this.loadingSubject.next(data));
   }
 }

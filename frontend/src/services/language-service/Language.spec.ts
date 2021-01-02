@@ -9,6 +9,8 @@ describe('language.service', () => {
     let languageService: LanguageService;
 
     beforeEach(async (done: DoneFn) => {
+        localStorage.clear();
+
         await TestBed.configureTestingModule({
             providers: [
                 LanguageService,

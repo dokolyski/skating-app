@@ -36,7 +36,7 @@ mat-toolbar {
   align-items: center;
 }
 
-::ng-deep .buttons-flex button {
+:host::ng-deep .buttons-flex button {
   width: fit-content !important;
   margin: 1vw !important;
 }

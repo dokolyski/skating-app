@@ -1,6 +1,5 @@
 <ng-container *ngIf="(language.dictionary$ | async) as $">
-  <mat-toolbar id="navbar" 
-  *ngIf="(notLogged | async) as IsNotLogged">
+  <mat-toolbar id="navbar">
     <div class="nav-grid">
       <div>
         <span [routerLink]="'/' + path.EVERYONE.MAIN" id="logo_name_link">
@@ -14,7 +13,7 @@
 
       <!-- buttons -->
       <div class="buttons-flex">
-        <ng-container *ngIf="IsNotLogged; else logged">
+        <ng-container *ngIf="notLogged; else logged">
           <app-menu-unlogged></app-menu-unlogged>
         </ng-container>
         <ng-template #logged>
