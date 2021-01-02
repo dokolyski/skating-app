@@ -6,7 +6,7 @@
   <div *ngIf="sessions.length == 0" class="noSessionMessage">
     Brak treningów
   </div>
-  <button (click)="openNewSessionForm()" *ngIf="adminView" mat-raised-button color="primary" class="add-new-session-button">
+  <button mat-raised-button color="primary" class="add-new-session-button" (click)="openNewSessionForm()" *ngIf="adminView">
     <mat-icon class="mat-icon-add-session" aria-hidden="true">add</mat-icon>
     <span>Utwórz nowe zajęcia</span>
   </button>

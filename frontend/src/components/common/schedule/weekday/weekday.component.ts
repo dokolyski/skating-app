@@ -22,8 +22,7 @@ export class WeekdayComponent implements OnInit {
   }
 
   openNewSessionForm() {
-    this.dialog.open(NewSessionFormComponent, { data: { day: this.date } }).afterClosed().subscribe(() => {
-    });
+    this.dialog.open(NewSessionFormComponent, {data: {day: this.date}}).afterClosed().subscribe(() => {});
   }
 
   dayFormatter(): string {
