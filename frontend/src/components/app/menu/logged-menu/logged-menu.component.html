@@ -7,4 +7,8 @@
         <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true" matBadgePosition="above after"
             matBadgeColor="var(--azure)">account_circle</mat-icon>
     </button>
+
+    <button mat-icon-button aria-label="Logout" (click)="auth.logout()">
+        <mat-icon>exit_to_app</mat-icon>
+    </button>
 </ng-container>
