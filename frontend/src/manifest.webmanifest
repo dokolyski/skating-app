@@ -8,8 +8,8 @@
   "theme_color": "#1976d2",
   "scope": "./",
   "icons": [{
-    "src": "assets/icons/small-logo-thick.svg",
+    "src": "assets/icons/app-logo-512.png",
     "sizes": "512x512",
-    "type": "image/svg"
+    "type": "image/png"
   }]
 }

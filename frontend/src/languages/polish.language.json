@@ -147,5 +147,8 @@
             "POLISH": "Język polski",
             "ENGLISH": "Język angielski"
         }
+    },
+    "service_worker": {
+        "UPDATE": "Dostępna jest nowa wersja aplikacji.\n Czy zechciałbyś dokonać aktualizacji?"
     }
 }

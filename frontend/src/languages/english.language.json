@@ -147,5 +147,8 @@
             "POLISH": "Polish language",
             "ENGLISH": "English language"
         }
+    },
+    "service_worker": {
+        "UPDATE": "There is a new version of application.\n Would you like to update?"
     }
 }

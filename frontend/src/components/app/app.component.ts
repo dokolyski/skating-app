@@ -5,6 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { Subscription } from 'rxjs';
 import { LanguageService } from 'services/language-service/Language.service';
+import { pubKey } from 'assets/config/vapid.pub.json';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -33,10 +35,10 @@ export class AppComponent implements OnDestroy {
   }
 
   private setBrowserLanguage() {
-    const lng = localStorage.getItem('browser-lng');
+    let lng = localStorage.getItem('browser-lng');
     if (lng === 'null' || lng === null) {
-      this.lngService.language = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
-      localStorage.setItem('browser-lng', this.lngService.language);
+      this.lngService.language = lng = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
+      localStorage.setItem('browser-lng', lng);
     }
   }
 
@@ -62,15 +64,18 @@ export class AppComponent implements OnDestroy {
 
   private handlePWA() {
     if (this.sw.isEnabled) {
-      this.sw.available.subscribe(() => {
-        if (confirm('There is a new version of application. Would you like to update?')) {
+      this.sw.available
+      .pipe(
+        mergeMap(() => this.lngService.dictionary$),
+        map(dict => dict.service_worker.UPDATE)
+      )
+      .subscribe((label: string) => {
+        if (confirm(label)) {
           window.location.reload();
         }
       });
-    }
 
-    this.swPush.notificationClicks.subscribe(data => {
-      console.log(data);
-  })
+      this.swPush.requestSubscription({serverPublicKey: pubKey});
+    }
   }
 }
