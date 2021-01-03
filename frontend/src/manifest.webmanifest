@@ -1,9 +1,15 @@
 {
-  "name": "skating-app",
-  "short_name": "skating-app",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Figurowy Mińsk Mazowiecki",
+  "short_name": "FigurowyMM",
+  "description": "Aplikacja umożliwiająca internetowe zarządzanie obiektem lodowiska.",
+  "start_url": "./",
   "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#1976d2",
   "scope": "./",
-  "start_url": "./"
+  "icons": [{
+    "src": "assets/icons/small-logo-thick.svg",
+    "sizes": "512x512",
+    "type": "image/svg"
+  }]
 }

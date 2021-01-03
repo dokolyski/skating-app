@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SwUpdate } from '@angular/service-worker';
+import { SwPush, SwUpdate } from '@angular/service-worker';
 import { Subscription } from 'rxjs';
 import { LanguageService } from 'services/language-service/Language.service';
 
@@ -18,6 +18,7 @@ export class AppComponent implements OnDestroy {
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private sw: SwUpdate,
+    private swPush: SwPush,
     private lngService: LanguageService,
     private adapter: DateAdapter<any>) {
 
@@ -61,13 +62,15 @@ export class AppComponent implements OnDestroy {
 
   private handlePWA() {
     if (this.sw.isEnabled) {
-      this.sw.available.subscribe(() => { // pozniej to zmienimy na inne komponenty
+      this.sw.available.subscribe(() => {
         if (confirm('There is a new version of application. Would you like to update?')) {
           window.location.reload();
         }
       });
-    } else {
-      alert('Application cannot be used in offline mode');
     }
+
+    this.swPush.notificationClicks.subscribe(data => {
+      console.log(data);
+  })
   }
 }

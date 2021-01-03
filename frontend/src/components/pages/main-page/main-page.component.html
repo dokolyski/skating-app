@@ -1,7 +1,7 @@
 <ng-container *ngIf="(lngService.dictionary$ | async) as $">
 <div id="whiteboard">
   <header>
-    <img src="assets/img/large-logo.png" id="logo">
+    <img src="assets/img/large-logo.png" id="logo" alt="Logo">
   </header>
   <mat-tab-group [tabIndex]="0" (selectedTabChange)="changeTab($event)" mat-align-tabs="center" animationDuration="0ms" dynamicHeight mat-stretch-tabs>
     <mat-tab>

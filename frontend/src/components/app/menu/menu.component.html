@@ -20,7 +20,7 @@
           <app-menu-logged></app-menu-logged>
         </ng-template>
 
-        <button mat-icon-button [matMenuTriggerFor]="menu">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Select language">
           <mat-icon>language</mat-icon>
         </button>
       </div>
@@ -31,10 +31,10 @@
   <mat-menu #menu="matMenu" yPosition="below">
     <!--lazy loading-->
     <ng-template matMenuContent>
-      <button mat-menu-item (click)="changeLanguage('polish')">
+      <button mat-menu-item (click)="changeLanguage('polish')" aria-label="Polish language">
         {{ $.navbar.languages.POLISH }}
       </button>
-      <button mat-menu-item (click)="changeLanguage('english')">
+      <button mat-menu-item (click)="changeLanguage('english')" aria-label="English language">
         {{ $.navbar.languages.ENGLISH }}
       </button>
     </ng-template>
