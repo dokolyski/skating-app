@@ -48,3 +48,7 @@ h3 {
 mat-error + mat-error {
   display: none !important;
 }
+
+div.mat-tab-label-content {
+  color: black;
+}

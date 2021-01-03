@@ -2,9 +2,11 @@ import { Component, OnDestroy } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SwUpdate } from '@angular/service-worker';
+import { SwPush, SwUpdate } from '@angular/service-worker';
 import { Subscription } from 'rxjs';
 import { LanguageService } from 'services/language-service/Language.service';
+import { pubKey } from 'assets/config/vapid.pub.json';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +20,7 @@ export class AppComponent implements OnDestroy {
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private sw: SwUpdate,
+    private swPush: SwPush,
     private lngService: LanguageService,
     private adapter: DateAdapter<any>) {
 
@@ -32,10 +35,10 @@ export class AppComponent implements OnDestroy {
   }
 
   private setBrowserLanguage() {
-    const lng = localStorage.getItem('browser-lng');
+    let lng = localStorage.getItem('browser-lng');
     if (lng === 'null' || lng === null) {
-      this.lngService.language = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
-      localStorage.setItem('browser-lng', this.lngService.language);
+      this.lngService.language = lng = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
+      localStorage.setItem('browser-lng', lng);
     }
   }
 
@@ -61,13 +64,18 @@ export class AppComponent implements OnDestroy {
 
   private handlePWA() {
     if (this.sw.isEnabled) {
-      this.sw.available.subscribe(() => { // pozniej to zmienimy na inne komponenty
-        if (confirm('There is a new version of application. Would you like to update?')) {
+      this.sw.available
+      .pipe(
+        mergeMap(() => this.lngService.dictionary$),
+        map(dict => dict.service_worker.UPDATE)
+      )
+      .subscribe((label: string) => {
+        if (confirm(label)) {
           window.location.reload();
         }
       });
-    } else {
-      alert('Application cannot be used in offline mode');
+
+      this.swPush.requestSubscription({serverPublicKey: pubKey});
     }
   }
 }

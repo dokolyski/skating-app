@@ -5,7 +5,7 @@
   <div class="cardTitle">{{sessionData.name}}</div>
   <mat-divider></mat-divider>
   <div class="groupLevel">{{sessionData.difficulty}}</div>
-  <div (click)="addParticipantsButtonClicked($event)" class="addParticipantButton">
+  <div (click)="addParticipantsButtonClicked($event)" class="addParticipantButton" aria-label="Add participant">
     Dodaj uczestnika
   </div>
   <mat-icon *ngIf="participants.length > 0" matTooltipClass="participants-tooltip" [matTooltip]="formatParticipantsList()" class="added-participants">account_circle</mat-icon>
