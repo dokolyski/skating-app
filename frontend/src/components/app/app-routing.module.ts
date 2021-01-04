@@ -33,12 +33,7 @@ const routes: Routes = [
   {
     path: PATH.LOGGED.SCHEDULE,
     component: Pages.SchedulePageComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: PATH.LOGGED.SESSIONS,
-    component: Pages.SessionsPageComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard] TODO: only for tests
   },
   {
     path: PATH.LOGGED.SHOP,
@@ -49,11 +44,6 @@ const routes: Routes = [
   {
     path: PATH.ORGANIZER.MANAGE_SCHEDULE,
     component: Pages.ManageSchedulePageComponent,
-    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
-  },
-  {
-    path: PATH.ORGANIZER.ADD_SESSION,
-    component: Pages.AddSessionPageComponent,
     canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
   /*NOT FOUND*/
