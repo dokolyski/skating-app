@@ -6,23 +6,21 @@ import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { By } from '@angular/platform-browser';
 import { AuthService } from 'services/auth-service/Auth.service';
-import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
 
 import { LoginComponent } from './login.component';
 import { moduleInfo } from './login.module';
-import { LanguageService } from 'services/language-service/Language.service';
 import { Observable, of } from 'rxjs';
 
-import { translation, user } from 'assets/mocks/unit-tests/login-component/config.json';
+import { user } from 'assets/mocks/unit-tests/login-component/config.json';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RestError } from 'api/rest-error';
+import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 
 describe('login.component', () => {
   let authMock: jasmine.SpyObj<AuthService>;
   let restMock: jasmine.SpyObj<RestService>;
-  let lngMock: jasmine.SpyObj<LanguageService>;
-  let lngErrorMock: jasmine.SpyObj<LanguageErrorService>;
+  let errorMock: jasmine.SpyObj<ErrorMessageService>;
 
   let loader: HarnessLoader;
   let component: LoginComponent;
@@ -42,9 +40,7 @@ describe('login.component', () => {
 
     restMock = jasmine.createSpyObj('ResetService', ['do']);
 
-    lngMock = jasmine.createSpyObj('LanguageService', [], {dictionary$: of(translation)});
-
-    lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings']);
+    errorMock = jasmine.createSpyObj('ErrorMessageService', ['getErrorsStrings']);
 
     const module: any = moduleInfo;
     module.imports = [
@@ -54,9 +50,7 @@ describe('login.component', () => {
     ];
     module.providers = [
       { provide: AuthService, useValue: authMock },
-      { provide: RestService, useValue: restMock },
-      { provide: LanguageService, useValue: lngMock },
-      { provide: LanguageErrorService, useValue: lngErrorMock }
+      { provide: RestService, useValue: restMock }
     ];
 
     await TestBed.configureTestingModule(module).compileComponents();
@@ -135,7 +129,7 @@ describe('login.component', () => {
       inputs: { [errKey]: errTrans }
     };
     authMock.loginViaEmail.withArgs(user.email, user.password).and.returnValue(new Observable<void>(s => s.error(error)));
-    lngErrorMock.getErrorsStrings.withArgs(error).and.returnValue(of(translatedErr));
+    errorMock.getErrorsStrings.withArgs(error).and.returnValue(of(translatedErr));
 
     await buttons.emailInput.setValue(user.email);
     await buttons.passwordInput.setValue(user.password);

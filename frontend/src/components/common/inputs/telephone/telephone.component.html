@@ -1,10 +1,10 @@
 <mat-form-field>
-  <mat-label>{{ translation.form.inputs.TELEPHONE_NUMBER }}</mat-label>
+  <mat-label>{{ 'inputs.TELEPHONE_NUMBER' | translate }}</mat-label>
   <input id="telephoneNumber" type="tel" matInput [formControl]="control">
   <mat-icon>local_phone</mat-icon>
 
   <mat-error *ngIf="control.hasError('required')">
-    {{ translation.errors.inputs.general.REQUIRED }}
+    {{ 'errors.inputs.general.REQUIRED' | translate }}
   </mat-error>
   <mat-error *ngIf="control.hasError('server-error')">
     {{ serverError }}

@@ -6,15 +6,17 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
-  imports: [
-    ScheduleModule,
-    MatIconModule,
-    MatTableModule,
-    MatButtonModule,
-    CommonModule,
-  ],
+    imports: [
+        ScheduleModule,
+        MatIconModule,
+        MatTableModule,
+        MatButtonModule,
+        CommonModule,
+        TranslateModule,
+    ],
   exports: [
     SchedulePageComponent
   ],

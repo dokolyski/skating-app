@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { InputsModule } from 'components/common/inputs/inputs.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 export const moduleInfo = {
   imports: [
@@ -19,7 +20,10 @@ export const moduleInfo = {
 };
 
 @NgModule({
-  imports: moduleInfo.imports,
+    imports: [
+        moduleInfo.imports,
+        TranslateModule
+    ],
   declarations: moduleInfo.declarations,
   exports: moduleInfo.exports
 })

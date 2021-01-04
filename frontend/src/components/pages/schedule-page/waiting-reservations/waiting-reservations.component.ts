@@ -3,7 +3,6 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SessionParticipant} from 'models/session-participant';
 import * as moment from 'moment';
 import {ReservationsService} from 'services/reservations-service/reservations.service';
-import {EventService} from 'services/event-service/event.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
@@ -13,7 +12,6 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 })
 export class WaitingReservationsComponent implements OnInit {
   constructor(public reservationsService: ReservationsService,
-              private eventService: EventService,
               private breakPointObserver: BreakpointObserver) {
   }
 
@@ -23,7 +21,7 @@ export class WaitingReservationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<SessionParticipant>(this.reservationsService.data);
-    this.eventService.reservationsChange.subscribe(data => {
+    this.reservationsService.reservationsChange.subscribe(data => {
       this.dataSource.data = [...data];
     });
 

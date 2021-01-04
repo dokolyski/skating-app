@@ -1,42 +1,40 @@
-<ng-container *ngIf="(language.dictionary$ | async) as $">
-  <mat-toolbar id="navbar">
-    <div class="nav-grid">
-      <div>
-        <span [routerLink]="'/' + path.EVERYONE.MAIN" id="logo_name_link">
-          <button [disableRipple]="true" mat-icon-button class="example-icon"
-            aria-label="Example icon-button with menu icon">
-            <mat-icon svgIcon="small-logo" class="main-logo"></mat-icon>
-          </button>
-          <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
-        </span>
-      </div>
-
-      <!-- buttons -->
-      <div class="buttons-flex">
-        <ng-container *ngIf="notLogged; else logged">
-          <app-menu-unlogged></app-menu-unlogged>
-        </ng-container>
-        <ng-template #logged>
-          <app-menu-logged></app-menu-logged>
-        </ng-template>
-
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Select language">
-          <mat-icon>language</mat-icon>
+<mat-toolbar id="navbar">
+  <div class="nav-grid">
+    <div>
+      <span [routerLink]="'/' + path.EVERYONE.MAIN" id="logo_name_link">
+        <button [disableRipple]="true" mat-icon-button class="example-icon"
+          aria-label="Example icon-button with menu icon">
+          <mat-icon svgIcon="small-logo" class="main-logo"></mat-icon>
         </button>
-      </div>
-
+        <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
+      </span>
     </div>
-  </mat-toolbar>
 
-  <mat-menu #menu="matMenu" yPosition="below">
-    <!--lazy loading-->
-    <ng-template matMenuContent>
-      <button mat-menu-item (click)="changeLanguage('polish')" aria-label="Polish language">
-        {{ $.navbar.languages.POLISH }}
+    <!-- buttons -->
+    <div class="buttons-flex">
+      <ng-container *ngIf="notLogged; else logged">
+        <app-menu-unlogged></app-menu-unlogged>
+      </ng-container>
+      <ng-template #logged>
+        <app-menu-logged></app-menu-logged>
+      </ng-template>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>language</mat-icon>
       </button>
-      <button mat-menu-item (click)="changeLanguage('english')" aria-label="English language">
-        {{ $.navbar.languages.ENGLISH }}
-      </button>
-    </ng-template>
-  </mat-menu>
-</ng-container>
+    </div>
+
+  </div>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu" yPosition="below">
+  <!--lazy loading-->
+  <ng-template matMenuContent>
+    <button mat-menu-item (click)="changeLanguage('pl')">
+      {{ 'navbar.languages.POLISH' | translate }}
+    </button>
+    <button mat-menu-item (click)="changeLanguage('en')">
+      {{ 'navbar.languages.ENGLISH' | translate }}
+    </button>
+  </ng-template>
+</mat-menu>

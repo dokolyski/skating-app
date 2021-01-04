@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { LanguageService } from 'services/language-service/Language.service';
-import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
+import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import { RestError } from 'api/rest-error';
 import { AuthService } from 'services/auth-service/Auth.service';
 import { Observable } from 'rxjs';
@@ -29,11 +28,12 @@ export class LoginComponent {
   @Output()
   onError = new EventEmitter<string>();
 
+  labelsPath = 'pages.login';
+
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    public lngService: LanguageService,
-    private lngErrorService: LanguageErrorService) { }
+    private errorMessageService: ErrorMessageService) {}
 
   loginViaEmail() {
     if (this.form.valid) {
@@ -60,7 +60,7 @@ export class LoginComponent {
   }
 
   private handleErrors(errors: RestError) {
-    this.lngErrorService.getErrorsStrings(errors)
+    this.errorMessageService.getErrorsStrings(errors)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
           this.onError.emit(translation.message);

@@ -1,0 +1,200 @@
+{
+  "errors": {
+    "messages": {
+      "UNAUTHORIZED": "Login required to execute operation.",
+      "SERVER_ERROR": "Internal server error."
+    },
+    "inputs": {
+      "email": {
+        "NOT_EXISTS": "Email not exists.",
+        "INVALID": "Invalid email format."
+      },
+      "password": {
+        "MIN_LENGTH": "Password have to be minimum 8 characters length.",
+        "MAX_LENGTH": "Password have to be maximum 16 characters length.",
+        "REGEX_SECURITY": "Password must contains digits, special characters and be mix of uppercase and lowercase.",
+        "TOO_EASY": "Password is too easy."
+      },
+      "repeatPassword": {
+        "NOT_EQUALS": "Passwords are not the same."
+      },
+      "dateBirth": {
+        "INVALID": "Invalid date."
+      },
+      "general": {
+        "REQUIRED": "Input value is required."
+      }
+    }
+  },
+  "inputs": {
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "REPEAT_PASSWORD": "Repeat password",
+    "NAME": "Firstname",
+    "LASTNAME": "Lastname",
+    "DATE_BIRTH": "Date of birth",
+    "TELEPHONE_NUMBER": "Telephone No.",
+    "SKILL_LEVEL": "Skating skills level"
+  },
+  "pages": {
+    "registration": {
+      "form": {
+        "controls": {
+          "REGISTER": "Sign Up",
+          "BACK": "Previous",
+          "NEXT": "Next",
+          "CANCEL": "Cancel"
+        },
+        "steps": {
+          "BASE": "Base informations",
+          "PERSONAL": "Personal informations",
+          "ADDITIONAL": "Additional informations"
+        }
+      },
+      "CARD_TITLE": "Sign Up"
+    },
+    "login": {
+      "form": {
+        "buttons": {
+          "LOGIN_EMAIL": "Sign In"
+        },
+        "SIGN_IN_SOCIAL_MEDIA": "Or Sign In with"
+      },
+      "CARD_TITLE": "Sign In"
+    },
+    "shop": {
+      "table": {
+        "columns": {
+          "POINTS": "Points",
+          "REQUIRED_MONEY": "Cost"
+        },
+        "BUY_BUTTON": "Buy"
+      },
+      "CARD_TITLE": "Points buying"
+    },
+    "account": {
+      "profile_add": {
+        "form": {
+          "inputs": {
+            "NAME": "Firstname",
+            "LASTNAME": "Lastname",
+            "DATE_BIRTH": "Date of birth",
+            "SKILL_LEVEL": "Skating skills level"
+          },
+          "controls": {
+            "CREATE": "Create profile",
+            "CANCEL": "Cancel"
+          }
+        }
+      },
+      "profile_settings": {
+        "form": {
+          "inputs": {
+            "NAME": "Firstname",
+            "LASTNAME": "Lastname",
+            "DATE_BIRTH": "Date of birth",
+            "SKILL_LEVEL": "Skating skills level",
+            "SELECTED_PROFILE": "Profile"
+          },
+          "controls": {
+            "CREATE": "Create profile",
+            "CANCEL": "Cancel",
+            "EDIT": "Edit",
+            "SAVE": "Save settings"
+          }
+        }
+      },
+      "settings": {
+        "form": {
+          "inputs": {
+            "EMAIL": "Email",
+            "NAME": "Firstname",
+            "LASTNAME": "Lastname",
+            "DATE_BIRTH": "Date of birth",
+            "TELEPHONE_NUMBER": "Telephone No.",
+            "SKILL_LEVEL": "Skating skills level"
+          },
+          "controls": {
+            "CANCEL": "Cancel",
+            "SAVE": "Save settings",
+            "EDIT": "Edit"
+          }
+        }
+      },
+      "menu": {
+        "ACCOUNT_SETTINGS": "Settings",
+        "ACCOUNT_NOTIFICATIONS": "Notifications",
+        "PROFILE_ADD": "Profile creation",
+        "PROFILE_SETTINGS": "Profile settings"
+      }
+    },
+    "main": {
+      "ABOUT_US": "About us",
+      "NEWS": "News"
+    }
+  },
+  "navbar": {
+    "buttons": {
+      "SIGN_IN": "Sign In",
+      "SIGN_UP": "Sign Up"
+    },
+    "languages": {
+      "POLISH": "Polish language",
+      "ENGLISH": "English language"
+    }
+  },
+  "schedule": {
+    "add-participant": "Add participant",
+    "create-new-session": "Create new session",
+    "no-sessions": "No sessions",
+    "already-added-participants": "Added participants:\n{{value}}"
+  },
+  "pending-reservations": {
+    "columns": {
+      "participant": "Participant",
+      "session-duration-time": "Hours of session",
+      "session-name": "Session name",
+      "group": "Group",
+      "price": "Price (zł/pkt)",
+      "remove": "Remove"
+    },
+    "footer": {
+      "totalPrice": "Total cost:"
+    },
+    "reserve": "Reserve"
+  },
+  "add-participant": {
+    "header": "Do you want to add participant \"{{data.participantName}}\" to the session \"{{data.session.name}}\" at {{data.session.date}}?",
+    "dont-show-message": "Don't show this message again"
+  },
+  "service_worker": {
+    "UPDATE": "There is a new version of application.\n Would you like to update?"
+  },
+  "dialog-outcomes": {
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "add-participants": "Add participants",
+    "go-back": "Go back",
+    "create-session": "Create session"
+  },
+  "session-details": {
+    "number-of-reserved-places": "Reserved places: {{reserved}} / {{max}}",
+    "session-price": "Price for the single session: {{value}} (pkt/zł)",
+    "description": "Description:"
+  },
+  "choose-participant": {
+    "header": "Choose participants for the session \"{{name}}\" at {{date}}",
+    "added": "added",
+    "selected-participants": "Selected participants: {{value}}"
+  },
+  "create-session": {
+    "header": "Create new session",
+    "session-name": "Session name",
+    "start-date": "Start date",
+    "start-time": "Start time",
+    "end-time": "End time",
+    "group": "Group",
+    "description": "Description"
+  }
+}

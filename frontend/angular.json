@@ -25,6 +25,7 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
+              "src/assets/i18n",
               "src/assets/config",
               "src/assets/icons",
               "src/assets/img",

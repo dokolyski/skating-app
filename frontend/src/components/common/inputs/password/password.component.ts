@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import * as VLD from 'common/validators';
 
 @Component({
-  selector: 'app-password[control][translation]',
+  selector: 'app-password[control]',
   templateUrl: './password.component.html'
 })
 export class PasswordComponent {
@@ -22,8 +22,6 @@ export class PasswordComponent {
   static controlSchemaOnlyRequired = ['', Validators.required];
   @Input()
   control: FormControl;
-  @Input()
-  translation: { errors, form };
   @Input()
   serverError: string;
 }

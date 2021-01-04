@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { LoggedMenuComponent } from './logged-menu/logged-menu.component';
 import { MenuComponent } from './menu.component';
 import { UnloggedMenuComponent } from './unlogged-menu/unlogged-menu.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { UnloggedMenuComponent } from './unlogged-menu/unlogged-menu.component';
         MatIconModule,
         MatToolbarModule,
         RouterModule,
-        FlexLayoutModule
+        FlexLayoutModule,
+        TranslateModule
     ],
     declarations: [
         MenuComponent,

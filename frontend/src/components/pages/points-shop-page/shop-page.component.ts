@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LanguageService } from 'services/language-service/Language.service';
 
 @Component({
   selector: 'app-shop-page',
@@ -7,5 +6,5 @@ import { LanguageService } from 'services/language-service/Language.service';
   styleUrls: ['./shop-page.component.css']
 })
 export class ShopPageComponent {
-  constructor(public lngService: LanguageService) { }
+  constructor() { }
 }

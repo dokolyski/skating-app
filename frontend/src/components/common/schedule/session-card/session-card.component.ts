@@ -5,7 +5,6 @@ import {SessionInfoPaneComponent} from './session-info-pane/session-info-pane.co
 import * as moment from 'moment';
 import {CdkDrag, CdkDragDrop, CdkDropList} from '@angular/cdk/drag-drop';
 import {AddParticipantDialogComponent} from './add-participant-dialog/add-participant-dialog.component';
-import {EventService} from 'services/event-service/event.service';
 import {ChooseParticipantDialogComponent} from './choose-participant-dialog/choose-participant-dialog.component';
 import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 import {ReservationsService} from 'services/reservations-service/reservations.service';
@@ -13,7 +12,7 @@ import {ReservationsService} from 'services/reservations-service/reservations.se
 @Component({
   selector: 'app-session-card',
   templateUrl: './session-card.component.html',
-  styleUrls: ['./session-card.component.scss']
+  styleUrls: ['./session-card.component.css']
 })
 export class SessionCardComponent implements OnInit {
   @Input() sessionData: Session;
@@ -24,8 +23,7 @@ export class SessionCardComponent implements OnInit {
   blockIfAlreadyReserved;
 
   constructor(public dialog: MatDialog,
-              private reservationsService: ReservationsService,
-              private eventService: EventService) {
+              private reservationsService: ReservationsService) {
   }
 
   openInfoPane() {
@@ -47,7 +45,7 @@ export class SessionCardComponent implements OnInit {
     endTime.setMinutes(this.sessionData.start_date.getMinutes() + 20);
     this.endTime = moment(endTime).format('HH:mm');
     this.participants = this.reservationsService.getReservationsForSession(this.sessionData.id);
-    this.eventService.reservationsChange.subscribe(() => {
+    this.reservationsService.reservationsChange.subscribe(() => {
       this.participants = this.reservationsService.getReservationsForSession(this.sessionData.id);
     });
     const that = this;
@@ -93,6 +91,6 @@ export class SessionCardComponent implements OnInit {
   }
 
   formatParticipantsList(): string {
-    return `Dodani uczestnicy:\n`.concat(...this.participants.map(value => `${value.firstname} ${value.lastname}\n`));
+    return this.participants.map(value => `${value.firstname} ${value.lastname}`).join('\n');
   }
 }

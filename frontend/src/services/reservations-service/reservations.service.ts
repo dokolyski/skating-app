@@ -1,6 +1,5 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {SessionParticipant} from 'models/session-participant';
-import {EventService} from '../event-service/event.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 
@@ -9,12 +8,12 @@ import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 })
 export class ReservationsService {
   data: SessionParticipant[];
+  reservationsChange = new EventEmitter<SessionParticipant[]>();
 
-  constructor(private eventService: EventService,
-              private snackBar: MatSnackBar) {
+  constructor(private snackBar: MatSnackBar) {
     this.data = JSON.parse(window.localStorage.getItem('sessionParticipants')) || [];
     if (this.data.length > 0) {
-      this.eventService.reservationsChange.emit(this.data);
+      this.reservationsChange.emit(this.data);
     }
   }
 
@@ -27,7 +26,7 @@ export class ReservationsService {
   addNewParticipants(newParticipant: SessionParticipant[]) {
     this.data = this.data.concat(newParticipant);
     window.localStorage.setItem('sessionParticipants', JSON.stringify(this.data));
-    this.eventService.reservationsChange.emit(this.data);
+    this.reservationsChange.emit(this.data);
   }
 
   isAlreadyReserved(sessionParticipant: SessionParticipant): boolean {
@@ -50,7 +49,7 @@ export class ReservationsService {
       });
       const removedNumber = beforeNumber - this.data.length;
       if (removedNumber > 0) {
-        this.eventService.reservationsChange.emit(this.data);
+        this.reservationsChange.emit(this.data);
       }
       this.displayReservationsCanceledMessage(removedNumber);
     } else {

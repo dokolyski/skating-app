@@ -6,16 +6,18 @@ import { ProfileAddModule } from './profile/profile-add/profile-add.module';
 import { ProfileSettingsModule } from './profile/profile-settings/profile-settings.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AccountNotificationsModule } from './account/account-notifications/account-notifications.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatTabsModule,
-    ProfileAddModule,
-    ProfileSettingsModule,
-    AccountSettingsModule,
-    AccountNotificationsModule
-  ],
+    imports: [
+        CommonModule,
+        MatTabsModule,
+        ProfileAddModule,
+        ProfileSettingsModule,
+        AccountSettingsModule,
+        AccountNotificationsModule,
+        TranslateModule
+    ],
   declarations: [AccountPageComponent],
   exports: [AccountPageComponent]
 })

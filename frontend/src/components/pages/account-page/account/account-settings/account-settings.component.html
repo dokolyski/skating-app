@@ -1,41 +1,38 @@
-<ng-container *ngIf="(lngService.dictionary$ | async) as $">
-  <ng-container *ngIf="{errors: $.errors, form: $.pages.account.settings.form} as $">
-    <div class="row-right">
-      <mat-slide-toggle [(ngModel)]="editMode" id="editSlider">
-        {{ $.form.controls.EDIT }}
-      </mat-slide-toggle>
-    </div>
+<div class="row-right">
+  <mat-slide-toggle [(ngModel)]="editMode" id="editSlider">
+    {{ 'pages.account.settings.form.controls.EDIT' | translate }}
+  </mat-slide-toggle>
+</div>
 
-    <form [formGroup]="form">
-      <app-email [control]="form.get('email')" [translation]="$" [serverError]="serverInputsErrors?.email">
-      </app-email>
+<form [formGroup]="form">
+  <app-email [control]="form.get('email')" [serverError]="serverInputsErrors?.email">
+  </app-email>
 
-      <div class="inline-flex">
-        <app-name [control]="form.get('name')" [translation]="$" [serverError]="serverInputsErrors?.name">
-        </app-name>
+  <div class="inline-flex">
+    <app-name [control]="form.get('name')" [serverError]="serverInputsErrors?.name">
+    </app-name>
 
-        <app-lastname [control]="form.get('lastname')" [translation]="$" [serverError]="serverInputsErrors?.lastname">
-        </app-lastname>
-      </div>
+    <app-lastname [control]="form.get('lastname')" [serverError]="serverInputsErrors?.lastname">
+    </app-lastname>
+  </div>
 
-      <div class="inline-flex">
-        <app-date-birth [control]="form.get('dateBirth')" [translation]="$"
-          [serverError]="serverInputsErrors?.dateBirth">
-        </app-date-birth>
+  <div class="inline-flex">
+    <app-date-birth [control]="form.get('dateBirth')"
+                    [serverError]="serverInputsErrors?.dateBirth">
+    </app-date-birth>
 
-        <app-telephone [control]="form.get('telephoneNumber')" [translation]="$"
-          [serverError]="serverInputsErrors?.telephoneNumber"></app-telephone>
-      </div>
+    <app-telephone [control]="form.get('telephoneNumber')"
+                   [serverError]="serverInputsErrors?.telephoneNumber"></app-telephone>
+  </div>
 
-      <app-skill-level [control]="form.get('skillLevel')" [translation]="$" [values]="skillLevelPossibleValues">
-      </app-skill-level>
+  <app-skill-level [control]="form.get('skillLevel')" [values]="skillLevelPossibleValues">
+  </app-skill-level>
 
-      <div class="buttons">
-        <button mat-button (click)="onCancel.emit()" class="cancelButton" [disabled]="!editMode">{{ $.form.controls.CANCEL }}</button>
-        <button mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">
-          {{ $.form.controls.SAVE }}
-        </button>
-      </div>
-    </form>
-  </ng-container>
-</ng-container>
+  <div class="buttons">
+    <button mat-button (click)="onCancel.emit()" class="cancelButton"
+            [disabled]="!editMode">{{ 'pages.account.settings.form.controls.CANCEL' | translate }}</button>
+    <button mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">
+      {{ 'pages.account.settings.form.controls.SAVE' | translate }}
+    </button>
+  </div>
+</form>

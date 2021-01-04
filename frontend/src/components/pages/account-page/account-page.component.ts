@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LanguageService } from 'services/language-service/Language.service';
 
 @Component({
   selector: 'app-account-page',
@@ -8,6 +7,6 @@ import { LanguageService } from 'services/language-service/Language.service';
 })
 export class AccountPageComponent {
 
-  constructor(public lngService: LanguageService) { }
+  constructor() { }
 
 }
