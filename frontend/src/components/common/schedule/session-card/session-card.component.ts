@@ -48,19 +48,17 @@ export class SessionCardComponent implements OnInit {
     this.reservationsService.reservationsChange.subscribe(() => {
       this.participants = this.reservationsService.getReservationsForSession(this.sessionData.id);
     });
-    const that = this;
     this.blockIfAlreadyReserved = (drag: CdkDrag<Profile>, drop: CdkDropList): boolean => {
-      return !that.reservationsService.isAlreadyReserved({participant: drag.data, session: that.sessionData});
+      return !this.reservationsService.isAlreadyReserved({participant: drag.data, session: this.sessionData});
     };
   }
 
   dropProfile(event: CdkDragDrop<any>) {
     if (event.isPointerOverContainer) {
       const sessionParticipant = {session: this.sessionData, participant: event.item.data};
-      const that = this;
       this.dialog.open(AddParticipantDialogComponent, {data: sessionParticipant}).afterClosed().subscribe((confirmed: boolean) => {
         if (confirmed) {
-          that.addParticipants([event.item.data]);
+          this.addParticipants([event.item.data]);
         }
       });
     }
@@ -75,9 +73,8 @@ export class SessionCardComponent implements OnInit {
 
   private addParticipantsService() {
     const data = {session: this.sessionData, profiles: this.profiles, alreadyAddedParticipants: this.participants};
-    const that = this;
     this.dialog.open(ChooseParticipantDialogComponent, {data}).afterClosed().subscribe((selectedParticipants: any[]) => {
-      that.addParticipants(selectedParticipants);
+      this.addParticipants(selectedParticipants);
     });
   }
 
