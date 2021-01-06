@@ -1,27 +1,36 @@
-import { HarnessLoader } from '@angular/cdk/testing';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatInputHarness } from '@angular/material/input/testing';
-import { MatButtonHarness } from '@angular/material/button/testing';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { By } from '@angular/platform-browser';
-import { AuthService } from 'services/auth-service/Auth.service';
-import { RestService } from 'services/rest-service/Rest.service';
-
-import { LoginComponent } from './login.component';
-import { moduleInfo } from './login.module';
-import { Observable, of } from 'rxjs';
-
-import { user } from 'assets/mocks/unit-tests/login-component/config.json';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RestError } from 'api/rest-error';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {MatInputHarness} from '@angular/material/input/testing';
+import {MatButtonHarness} from '@angular/material/button/testing';
+import {MatIconTestingModule} from '@angular/material/icon/testing';
+import {By} from '@angular/platform-browser';
+import {AuthService} from 'services/auth-service/Auth.service';
 import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
+import {RestService} from 'services/rest-service/Rest.service';
+
+import {LoginComponent} from './login.component';
+import {moduleInfo} from './login.module';
+import {Observable, of} from 'rxjs';
+
+import {user} from 'assets/mocks/unit-tests/login-component/config.json';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RestError} from 'api/rest-error';
+import {TranslateService} from '@ngx-translate/core';
+import {Pipe, PipeTransform} from '@angular/core';
+
+@Pipe({name: 'translate'})
+class TranslatePipeMock implements PipeTransform {
+  transform(value: string): string {
+    return value;
+  }
+}
 
 describe('login.component', () => {
   let authMock: jasmine.SpyObj<AuthService>;
   let restMock: jasmine.SpyObj<RestService>;
-  let errorMock: jasmine.SpyObj<ErrorMessageService>;
-
+  let lngErrorMock: jasmine.SpyObj<ErrorMessageService>;
+  let translateServiceMock: jasmine.SpyObj<TranslateService>;
   let loader: HarnessLoader;
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
@@ -40,7 +49,9 @@ describe('login.component', () => {
 
     restMock = jasmine.createSpyObj('ResetService', ['do']);
 
-    errorMock = jasmine.createSpyObj('ErrorMessageService', ['getErrorsStrings']);
+    lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings']);
+
+    translateServiceMock = jasmine.createSpyObj<TranslateService>('TranslateService', ['instant', 'get']);
 
     const module: any = moduleInfo;
     module.imports = [
@@ -49,8 +60,13 @@ describe('login.component', () => {
       MatIconTestingModule
     ];
     module.providers = [
-      { provide: AuthService, useValue: authMock },
-      { provide: RestService, useValue: restMock }
+      {provide: AuthService, useValue: authMock},
+      {provide: RestService, useValue: restMock},
+      {provide: ErrorMessageService, useValue: lngErrorMock},
+      {provide: TranslateService, useValue: translateServiceMock}
+    ];
+    module.declarations = [
+      TranslatePipeMock
     ];
 
     await TestBed.configureTestingModule(module).compileComponents();
@@ -67,11 +83,11 @@ describe('login.component', () => {
     await fixture.whenStable();
 
     buttons = {
-      emailInput: await loader.getHarness(MatInputHarness.with({ selector: '#email' })),
-      passwordInput: await loader.getHarness(MatInputHarness.with({ selector: '#password' })),
-      loginViaEmail: await loader.getHarness(MatButtonHarness.with({ selector: '#loginEmail' })),
-      loginViaGoogle: await loader.getHarness(MatButtonHarness.with({ selector: '#loginGoogle' })),
-      loginViaFacebook: await loader.getHarness(MatButtonHarness.with({ selector: '#loginFacebook' }))
+      emailInput: await loader.getHarness(MatInputHarness.with({selector: '#email'})),
+      passwordInput: await loader.getHarness(MatInputHarness.with({selector: '#password'})),
+      loginViaEmail: await loader.getHarness(MatButtonHarness.with({selector: '#loginEmail'})),
+      loginViaGoogle: await loader.getHarness(MatButtonHarness.with({selector: '#loginGoogle'})),
+      loginViaFacebook: await loader.getHarness(MatButtonHarness.with({selector: '#loginFacebook'}))
     };
 
     done();
@@ -123,13 +139,14 @@ describe('login.component', () => {
   server responds with error which contains inputs messages', async (done: DoneFn) => {
     const [controlId, errKey, errToken, errTrans] = ['email', 'email', 'INV_EMAIL', 'Invalid email'];
     const error: RestError = {
-      inputsTokens: { [errKey]: errToken }
+      inputsTokens: {[errKey]: errToken}
     };
     const translatedErr: TranslatedErrors = {
-      inputs: { [errKey]: errTrans }
+      inputs: {[errKey]: errTrans}
     };
-    authMock.loginViaEmail.withArgs(user.email, user.password).and.returnValue(new Observable<void>(s => s.error(error)));
-    errorMock.getErrorsStrings.withArgs(error).and.returnValue(of(translatedErr));
+    authMock.loginViaEmail
+      .withArgs(user.email, user.password).and.returnValue(new Observable<void>(s => s.error(error)));
+    lngErrorMock.getErrorsStrings.withArgs(error).and.returnValue(of(translatedErr));
 
     await buttons.emailInput.setValue(user.email);
     await buttons.passwordInput.setValue(user.password);
