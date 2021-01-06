@@ -1,6 +1,6 @@
 import {Table, Column, Model, DataType} from 'sequelize-typescript';
 
-@Table
+@Table({underscored: true})
 export class Session extends Model<Session> {
     @Column({
         type: DataType.INTEGER,

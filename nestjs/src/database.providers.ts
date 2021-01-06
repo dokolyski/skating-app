@@ -1,6 +1,8 @@
-import { Sequelize } from 'sequelize-typescript';
-import { Session } from './sessions/session.entity';
-import path from 'path';
+import {Sequelize} from 'sequelize-typescript';
+import {Profile} from "./profiles/profile.entity";
+import {User} from "./users/user.entity";
+import {Session} from './sessions/session.entity';
+import {Notification} from "./notifications/notification.entity";
 
 export const databaseProviders = [
     {
@@ -10,8 +12,10 @@ export const databaseProviders = [
                 dialect: 'sqlite',
                 storage: 'database_test.sqlite'
             });
-            sequelize.addModels([Session]);
-            await sequelize.sync();
+
+            sequelize.addModels([User, Profile, Session, Notification]);
+
+            await sequelize.sync({force: true});
             return sequelize;
         },
     },
