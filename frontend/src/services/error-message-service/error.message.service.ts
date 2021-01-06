@@ -34,12 +34,12 @@ export class ErrorMessageService {
     .subscribe(dict => {
       const translations = {};
       if (restError.messageToken) {
-        translations['message'] = dict.errors.messages[restError.messageToken];
+        translations['message'] = dict.messages[restError.messageToken];
       }
 
       if (restError.inputsTokens) {
         translations['inputs'] = Object.entries(restError.inputsTokens)
-          .reduce((p, [k, v]) => ({...p, [k]: dict.errors.inputs[k][v]}), {});
+          .reduce((p, [k, v]) => ({...p, [k]: dict.inputs[k][v]}), {});
       }
 
       subjectTranslation.next(translations);

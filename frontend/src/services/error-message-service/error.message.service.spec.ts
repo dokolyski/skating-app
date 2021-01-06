@@ -2,17 +2,23 @@ import {TestBed} from '@angular/core/testing';
 import {TranslateService} from '@ngx-translate/core';
 import {ErrorMessageService} from './error.message.service';
 import {filter} from 'rxjs/operators';
-import {translation} from 'assets/mocks/unit-tests/language-error-service/config.json';
+import {translation} from 'assets/mocks/unit-tests/error-message-service/config.json';
+import {Observable, of} from 'rxjs';
+
+export class TranslateServiceStub {
+  public get(key: any): Observable<any> {
+    return of(translation.errors);
+  }
+}
 
 describe('error.message.service', () => {
   let errorMessageService: ErrorMessageService;
 
   beforeEach(async (done: DoneFn) => {
-    const mock = jasmine.createSpyObj('TranslateService');
     await TestBed.configureTestingModule({
       providers: [
         ErrorMessageService,
-        {provide: TranslateService, useValue: mock}
+        {provide: TranslateService, useClass: TranslateServiceStub}
       ]
     }).compileComponents();
 
