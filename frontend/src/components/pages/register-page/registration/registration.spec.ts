@@ -17,8 +17,10 @@ import {RestError} from 'api/rest-error';
 import {moduleInfo} from './registration.module';
 
 import {profileBody, registerBody, skills} from 'assets/mocks/unit-tests/registration-component/config.json';
-import {TranslateService} from '@ngx-translate/core';
 import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
+import {TranslateServiceMock} from 'common/translation-mocks/translate-service-mock';
+import {TranslatePipeMock} from 'common/translation-mocks/translate-pipe-mock';
+import {TranslateService} from '@ngx-translate/core';
 
 describe('registration.component', () => {
   let restMock: jasmine.SpyObj<RestService>;
@@ -52,7 +54,11 @@ describe('registration.component', () => {
     module.providers = [
       {provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true}},
       {provide: RestService, useValue: restMock},
-      {provide: ErrorMessageService, useValue: errorMessageServiceMock}
+      {provide: ErrorMessageService, useValue: errorMessageServiceMock},
+      {provide: TranslateService, useClass: TranslateServiceMock}
+    ];
+    module.declarations = [
+      TranslatePipeMock
     ];
 
     await TestBed.configureTestingModule(module).compileComponents();

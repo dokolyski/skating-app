@@ -17,20 +17,13 @@ import {user} from 'assets/mocks/unit-tests/login-component/config.json';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RestError} from 'api/rest-error';
 import {TranslateService} from '@ngx-translate/core';
-import {Pipe, PipeTransform} from '@angular/core';
-
-@Pipe({name: 'translate'})
-class TranslatePipeMock implements PipeTransform {
-  transform(value: string): string {
-    return value;
-  }
-}
+import {TranslateServiceMock} from 'common/translation-mocks/translate-service-mock';
+import {TranslatePipeMock} from 'common/translation-mocks/translate-pipe-mock';
 
 describe('login.component', () => {
   let authMock: jasmine.SpyObj<AuthService>;
   let restMock: jasmine.SpyObj<RestService>;
   let lngErrorMock: jasmine.SpyObj<ErrorMessageService>;
-  let translateServiceMock: jasmine.SpyObj<TranslateService>;
   let loader: HarnessLoader;
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
@@ -51,8 +44,6 @@ describe('login.component', () => {
 
     lngErrorMock = jasmine.createSpyObj('LanguageErrorService', ['getErrorsStrings']);
 
-    translateServiceMock = jasmine.createSpyObj<TranslateService>('TranslateService', ['instant', 'get']);
-
     const module: any = moduleInfo;
     module.imports = [
       ...module.imports,
@@ -63,7 +54,7 @@ describe('login.component', () => {
       {provide: AuthService, useValue: authMock},
       {provide: RestService, useValue: restMock},
       {provide: ErrorMessageService, useValue: lngErrorMock},
-      {provide: TranslateService, useValue: translateServiceMock}
+      {provide: TranslateService, useClass: TranslateServiceMock}
     ];
     module.declarations = [
       TranslatePipeMock
