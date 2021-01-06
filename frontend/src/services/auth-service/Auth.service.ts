@@ -8,22 +8,19 @@ import { VERIFICATION } from 'api/rest-types';
 import { LoginInfo } from 'api/rest-models/login-info';
 
 /**
- * @description Authorisation purpose proxy to the ```REST``` server and ```Token provider```
+ * @description Authorisation purpose proxy to the ```REST``` server
  */
 @Injectable()
 export class AuthService {
   private sessionInfo: Token = null;
-  private tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  private uidSubject: BehaviorSubject<number> = new BehaviorSubject<number>(null);
-  readonly token$: Observable<string> = this.tokenSubject.asObservable();
-  readonly uid$: Observable<number> = this.uidSubject.asObservable();
+  private sessionInfoSubject: BehaviorSubject<Token> = new BehaviorSubject<Token>(null);
+  readonly sessionInfo$: Observable<Token> = this.sessionInfoSubject.asObservable();
 
   constructor(
     private rest: RestService) {
-      this.sessionInfo = JSON.parse(localStorage.getItem('token'));
+      this.sessionInfo = JSON.parse(localStorage.getItem('sessionInfo'));
       if(this.sessionInfo) {
-        this.tokenSubject.next(this.sessionInfo.token);
-        this.uidSubject.next(this.sessionInfo.uid);
+        this.sessionInfoSubject.next(this.sessionInfo);
       }
     }
 
@@ -53,7 +50,7 @@ export class AuthService {
   }
 
  /**
-  * @description Notify server to logout, clear token
+  * @description Notify server to logout, clear session info
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   logout(): Observable<void> {
@@ -61,8 +58,8 @@ export class AuthService {
     .pipe(
       map(() => {
         this.sessionInfo = null;
-        this.tokenSubject.next(null);
-        localStorage.removeItem('token');
+        this.sessionInfoSubject.next(null);
+        localStorage.removeItem('sessionInfo');
       })
     );
   }
@@ -88,9 +85,8 @@ export class AuthService {
     .pipe(
       map(session => {
         this.sessionInfo = session;
-        this.tokenSubject.next(session.token);
-        this.uidSubject.next(session.uid);
-        localStorage.setItem('token', JSON.stringify(session));
+        this.sessionInfoSubject.next(session);
+        localStorage.setItem('sessionInfo', JSON.stringify(session));
       })
     );
   }

@@ -7,7 +7,7 @@ import { MainPageComponent } from 'components/pages/main-page/main-page.componen
 import { RegisterPageComponent } from 'components/pages/register-page/register-page.component';
 import { LoginPageComponent } from 'components/pages/login-page/login-page.component';
 import { ShopPageComponent } from './points-shop-page/shop-page.component';
-
+import { AdminPageComponent } from './admin-page/admin-page.component';
 
 import { NgModule } from '@angular/core';
 import { AccountPageModule } from './account-page/account-page.module';
@@ -19,6 +19,7 @@ import { RegisterPageModule } from './register-page/register-page.module';
 import { SchedulePageModule } from './schedule-page/schedule-page.module';
 import { SessionsPageModule } from './sessions-page/sessions-page.module';
 import { ShopPageModule } from './points-shop-page/shop-page.module';
+import { AdminPageModule } from './admin-page/admin-page.module';
 
 export const Pages = {
     AccountPageComponent,
@@ -29,7 +30,8 @@ export const Pages = {
     MainPageComponent,
     RegisterPageComponent,
     LoginPageComponent,
-    ShopPageComponent
+    ShopPageComponent,
+    AdminPageComponent
 };
 
 @NgModule({
@@ -42,7 +44,8 @@ export const Pages = {
         MainPageModule,
         RegisterPageModule,
         LoginPageModule,
-        ShopPageModule
+        ShopPageModule,
+        AdminPageModule
     ]
 })
 export class PagesModule {}

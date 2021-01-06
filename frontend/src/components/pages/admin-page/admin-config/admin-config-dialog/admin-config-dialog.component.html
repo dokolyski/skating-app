@@ -1,0 +1,14 @@
+<ng-container>
+  <h2 mat-dialog-title>{{ title }}</h2>
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <app-points [control]="form.get('points')"></app-points>
+      <app-money [control]="form.get('money')"></app-money>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="onSave()">Save</button>
+    <button mat-button (click)="onCancel()">Cancel</button>
+  </mat-dialog-actions>
+</ng-container>

@@ -5,6 +5,7 @@ import {ProfileRequest, ProfileIndexRequest} from './rest-models/profile-request
 import {UserRequest} from '../api/rest-models/user-request';
 import {SessionRequest, SessionIndexRequest} from './rest-models/session-request';
 
+import {UserChmod, HEAD_ADMIN_GROUP} from './rest-models/user-chmod';
 import {SessionJoinRequest} from './rest-models/session-join-request';
 import {SessionsSelection} from './rest-models/session-selection';
 import {SessionStatus} from './rest-models/sessionStatus';
@@ -25,12 +26,24 @@ export namespace VERIFICATION {
 }
 
 export namespace USERS {
+    export namespace ALL {
+        export type OUTPUT = UserRequest[];
+    }
+
     export namespace GET {
         export type OUTPUT = UserRequest;
     }
 
     export namespace EDIT {
         export type INPUT = UserRequest;
+    }
+
+    export namespace CHMOD {
+        export const GROUPS = {
+            INPUT: {HEAD_ADMIN_GROUP}
+        };
+
+        export type INPUT = UserChmod;
     }
 }
 
@@ -116,6 +129,12 @@ export namespace PAYMENTS {
     }
 }
 
-export namespace CONFIG.GET {
-    export type OUTPUT = any;
+export namespace CONFIG {
+    export namespace GET {
+        export type OUTPUT = any;
+    }
+
+    export namespace EDIT {
+        export type INPUT = any;
+    }
 }

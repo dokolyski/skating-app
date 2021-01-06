@@ -5,6 +5,7 @@ import * as PATH from 'assets/config/url.json';
 import { LanguageService } from 'services/language-service/Language.service';
 import { NotLoggedGuard } from 'guards/NotLogged.guard';
 import { AuthService } from 'services/auth-service/Auth.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-menu',
@@ -29,7 +30,12 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    NotLoggedGuard.isLogged(this.auth).subscribe(notLogged => this.notLogged = notLogged);
+    this.auth.sessionInfo$
+    .pipe(
+      first()
+    ).subscribe(token => {
+      this.notLogged = token == null;
+    });
   }
 
   changeLanguage(language: 'polish' | 'english') {

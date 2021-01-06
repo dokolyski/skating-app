@@ -1,5 +1,4 @@
 {
-	"LOGIN_VERIFY": "verify",
 	"EVERYONE": {
 		"MAIN": "",
 		"LOGIN": "login",
@@ -15,5 +14,10 @@
 	"ORGANIZER": {
 		"MANAGE_SCHEDULE": "schedule/manage",
 		"ADD_SESSION": "sessions/add"
+	},
+	"ADMIN": {
+		"DASHBOARD": "admin",
+		"CONFIG": "admin/settings",
+		"USERS": "admin/users"
 	}
 }

@@ -12,14 +12,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
-import { MenuComponent } from './menu/menu.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { SchedulePageModule } from '../pages/schedule-page/schedule-page.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { CookieService } from 'ngx-cookie-service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { AuthService } from 'services/auth-service/Auth.service';
 import { LanguageService } from 'services/language-service/Language.service';
@@ -31,6 +29,11 @@ import {ReservationsService} from 'services/reservations-service/reservations.se
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { NewsService } from 'services/news-service/News.service';
 import { MenuModule } from './menu/menu.module';
+import { AdminConfigDialogComponent } from 'components/pages/admin-page/admin-config/admin-config-dialog/admin-config-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { InputsModule } from 'components/common/inputs/inputs.module';
+import { AdminUsersDialogComponent } from 'components/pages/admin-page/admin-users/admin-users-dialog/admin-users-dialog.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   imports: [
@@ -48,10 +51,17 @@ import { MenuModule } from './menu/menu.module';
     RouterModule,
     MatDatepickerModule,
     MenuModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    InputsModule,
+    MatCheckboxModule,
+    FormsModule
   ],
   declarations: [
     AppComponent,
+    AdminConfigDialogComponent,
+    AdminUsersDialogComponent
   ],
   providers: [
     RestService,
@@ -69,6 +79,10 @@ import { MenuModule } from './menu/menu.module';
     { provide: 'language', useValue: environment.language },
     { provide: 'path-languages', useValue: 'languages' },
     { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
+  ],
+  entryComponents: [
+    AdminConfigDialogComponent,
+    AdminUsersDialogComponent
   ],
   bootstrap: [AppComponent]
 })

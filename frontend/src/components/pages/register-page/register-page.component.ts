@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { isMobile } from 'common/mobile-check';
+import { redirectToMain } from 'common/page-redirect';
 import { LanguageService } from 'services/language-service/Language.service';
 
 @Component({
@@ -9,18 +9,13 @@ import { LanguageService } from 'services/language-service/Language.service';
   styleUrls: ['./register-page.style.css']
 })
 export class RegisterPageComponent {
+  redirectToMain = redirectToMain;
   isMobile = isMobile();
 
   constructor(
-    private router: Router,
     public lngService: LanguageService) { }
 
-  // navigate to previous url on same origin, if not same origin then navigate to main page
-  back() {
-    if(document.referrer.length > 0) {
-      this.router.navigateByUrl(document.referrer);
-    } else {
-      this.router.navigate(['/']);
-    }
+  showError(e) {
+    console.error(e);
   }
 }

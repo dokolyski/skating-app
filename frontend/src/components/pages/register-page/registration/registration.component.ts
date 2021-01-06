@@ -22,6 +22,7 @@ import { of } from 'rxjs';
 import { Skills } from 'api/rest-models/config-models';
 import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
 import { UserRequest as User } from 'api/rest-models/user-request';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
 
 /**
  * @description Gather, validate and send to the ```REST``` server required user informations like
@@ -70,7 +71,7 @@ export class RegistrationComponent implements OnInit {
     private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'skillLevelPossibleValues' } })
+    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .subscribe({
         next: (v: string[]) => this.skillLevelPossibleValues = [' ', ...v],
         error: (e: RestError) => this.handleErrors(e, false)

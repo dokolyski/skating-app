@@ -1,0 +1,13 @@
+<ng-container>
+  <app-interactive-table 
+  [columns]="cols" [rows]="rows" 
+  [addDisabled]="true"
+  (onEdit)="onEdit($event)"
+  (onDelete)="onDelete($event)"
+  pagination rowsPerPage="10"></app-interactive-table>
+
+  <div>
+    <button mat-raised-button (click)="saveData()" aria-label="Save">Save</button>
+    <button mat-raised-button (click)="cancelData()" aria-label="Cancel">Cancel</button>
+  </div>
+</ng-container>

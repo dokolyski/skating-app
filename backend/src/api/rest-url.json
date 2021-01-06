@@ -15,6 +15,10 @@
         }
     },
     "USERS": {
+        "ALL": {
+            "URL": "api/users",
+            "METHOD": "GET"
+        },
         "GET": {
             "URL": "api/users/{id}",
             "PARAMS": ["id"],
@@ -24,6 +28,11 @@
             "URL": "api/users/{id}",
             "PARAMS": ["id"],
             "METHOD": "PUT"
+        },
+        "CHMOD": {
+            "URL": "api/users/{id}/chmod",
+            "PARAMS": ["id"],
+            "METHOD": "PATCH"
         },
         "DELETE": {
             "URL": "api/users/{id}",
@@ -117,6 +126,11 @@
             "URL": "api/config/{key}",
             "PARAMS": ["key"],
             "METHOD": "GET"
+        },
+        "EDIT": {
+            "URL": "api/config/{key}",
+            "PARAMS": ["key"],
+            "METHOD": "PUT"
         }
     }
 }

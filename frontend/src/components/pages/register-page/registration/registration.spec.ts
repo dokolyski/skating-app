@@ -19,6 +19,7 @@ import { moduleInfo } from './registration.module';
 import { LanguageService } from 'services/language-service/Language.service';
 
 import { profileBody, registerBody, skills, translation } from 'assets/mocks/unit-tests/registration-component/config.json';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
 
 describe('registration.component', () => {
     let restMock: jasmine.SpyObj<RestService>;
@@ -92,7 +93,7 @@ describe('registration.component', () => {
 
     it('fetch possible skills values', async (done: DoneFn) => {
         const restPath = REST_PATH.CONFIG.GET;
-        const options = { templateParamsValues: { key: 'skillLevelPossibleValues' } };
+        const options = { templateParamsValues: { key: REST_CONFIG.skills } };
 
         restMock.do.withArgs(restPath, options).and.returnValue(new Observable<any>(s => {
             expect().nothing();
@@ -128,7 +129,7 @@ describe('registration.component', () => {
     });
 
     it('submits registration when user pass all phases without errors', async (done: DoneFn) => {
-        const templateParamsValues = {key: 'skillLevelPossibleValues'};
+        const templateParamsValues = {key: REST_CONFIG.skills};
         const regBodyInput = {...registerBody, birth_date: new Date(registerBody.birth_date)};
 
         restMock.do.withArgs(REST_PATH.CONFIG.GET, {templateParamsValues}).and.returnValue(of([profileBody.skill_level]));
@@ -182,7 +183,7 @@ describe('registration.component', () => {
         const translatedErr: TranslatedErrors = {
             inputs: {  [errKey]: errTrans }
         };
-        const options = { templateParamsValues: { key: 'skillLevelPossibleValues' } };
+        const options = { templateParamsValues: { key: REST_CONFIG.skills } };
 
         const body: any = registerBody;
         body.birth_date = new Date(body.birth_date);

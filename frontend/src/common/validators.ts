@@ -5,18 +5,32 @@ import { Validators as AngularValidators } from '@angular/forms';
  * @description Custom forms validators
  */
 export namespace Validators {
- /**
-  * @summary Valid email validator
-  * @description Checks if input pass regular expression test.
-  * Standard angular email validator only checks if input has sign ```@``` sourrended by letters.
-  */
+  /**
+   * @summary Valid email validator
+   * @description Checks if input pass regular expression test.
+   * Standard angular email validator only checks if input has sign ```@``` sourrended by letters.
+   */
   export const email = AngularValidators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$');
 
- /**
-  * @summary Check password regex strength
-  * @description Checks if input password contains digits, lowercase and uppercase letters and special characters.
-  * @param controler - password controler
-  */
+  /**
+   * @summary Validate integer number
+   * @description Checks if input pass regular expression test.
+   */
+  export const integer = AngularValidators.pattern('^[+-]?(([1-9][0-9]+)|([0-9]))$');
+
+  /**
+   * @summary Validate precision
+   * @description Checks if input pass regular expression test.
+   */
+  export function precision(value: number) {
+    return AngularValidators.pattern(`^[+-]?(([1-9][0-9]+)|([0-9]))[\.,][0-9]{${value}}$`);
+  }
+
+  /**
+   * @summary Check password regex strength
+   * @description Checks if input password contains digits, lowercase and uppercase letters and special characters.
+   * @param controler - password controler
+   */
   export function passwordPassAllRegex(controler: AbstractControl) {
     const password = controler.value;
 
@@ -26,14 +40,14 @@ export namespace Validators {
     const containsSpecialCharacters = /[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+/;
     const all = [containsDigits, containsUppercase, containsLowercase, containsSpecialCharacters];
 
-    return !all.every(v => v.test(password)) ? {'not-pass-regex': true} : null;
+    return !all.every(v => v.test(password)) ? { 'not-pass-regex': true } : null;
   }
 
- /**
-  * @summary Check password entrophy strength
-  * @description Checks if entrophy of input password is above minimum. Entrophy is calculated using characters bytes.
-  * @param value - minimum entrophy value
-  */
+  /**
+   * @summary Check password entrophy strength
+   * @description Checks if entrophy of input password is above minimum. Entrophy is calculated using characters bytes.
+   * @param value - minimum entrophy value
+   */
   export function aboveEntropy(value: number) {
     return (controler: AbstractControl) => {
       const password = controler.value;
@@ -61,15 +75,15 @@ export namespace Validators {
         return -part * Math.log2(1 / phrase.length);
       };
 
-      return isBeloweEntrophy(value) ? {'below-entrophy': true} : null;
+      return isBeloweEntrophy(value) ? { 'below-entrophy': true } : null;
     };
   }
 
- /**
-  * @summary Check if passwords are equals
-  * @description Checks if password from password controler is equal to password from repeatPassword controler.
-  * @param base - form contains password and repeatPassword controlers
-  */
+  /**
+   * @summary Check if passwords are equals
+   * @description Checks if password from password controler is equal to password from repeatPassword controler.
+   * @param base - form contains password and repeatPassword controlers
+   */
   export function repeatPassword(base: FormGroup) {
     const controler = base.get('repeatPassword');
     const password = base.get('password').value;

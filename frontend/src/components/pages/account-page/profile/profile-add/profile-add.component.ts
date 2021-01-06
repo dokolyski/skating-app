@@ -12,6 +12,7 @@ import { DateBirthComponent } from 'components/common/inputs/date-birth/date-bir
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { Skills } from 'api/rest-models/config-models';
 import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
 
 /**
  * @description Creates next user profile with limit per user, gather informations about
@@ -50,7 +51,7 @@ export class ProfileAddComponent implements OnInit {
      }
 
   ngOnInit() {
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'skillLevelPossibleValues' } })
+    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .subscribe({
         next: (v: string[]) => this.skillLevelPossibleValues = [' ', ...v],
         error: (e: RestError) => this.handleErrors(e, false)

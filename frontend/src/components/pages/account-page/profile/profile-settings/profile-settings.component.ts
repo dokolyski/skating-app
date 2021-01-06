@@ -14,6 +14,7 @@ import { mergeMap } from 'rxjs/operators';
 import { AuthService } from 'services/auth-service/Auth.service';
 import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
 import { Skills } from 'api/rest-models/config-models';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
 
 /**
  * @description Show profiles account settings and allow to change them, , gather informations about
@@ -85,7 +86,7 @@ export class ProfileSettingsComponent implements OnInit {
   ngOnInit() {
     this.editMode = false;
 
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'skillLevelPossibleValues' } })
+    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .pipe(
         mergeMap((v: string[]) => {
           this.skillLevelPossibleValues = [' ', ...v];

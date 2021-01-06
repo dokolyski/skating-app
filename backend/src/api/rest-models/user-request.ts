@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumber, IsString, Matches, IsEmail, Length, IsDate, IsPhoneNumber} from 'class-validator';
+import {IsNotEmpty, IsNumber, IsString, Matches, IsEmail, Length, IsDate, IsPhoneNumber, IsBoolean} from 'class-validator';
 import {PasswordPassEntrophyTest, PasswordPassRegexes} from '../rest-validators';
 
 export class UserRequest {
@@ -35,4 +35,16 @@ export class UserRequest {
     @IsString()
     @IsPhoneNumber('PL')
     phone_number: string;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    isOrganizer: boolean;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    isAdmin: boolean;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    isHAdmin: boolean;
 }

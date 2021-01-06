@@ -13,22 +13,17 @@ import { AuthService } from 'services/auth-service/Auth.service';
 export class NotLoggedGuard implements CanActivate {
     constructor(private auth: AuthService, private router: Router) {}
 
-    static isLogged(auth: AuthService): Observable<boolean> {
-        return auth.token$.pipe(
-            first(),
-            map(token => !token)
-        );
-    }
-
     canActivate(): Observable<boolean> {
-        return NotLoggedGuard.isLogged(this.auth)
+        return this.auth.sessionInfo$
         .pipe(
-            map(notLogged => {
-                if(!notLogged) {
+            first(),
+            map(token => {
+                const isNotLogged = token == null;
+                if(!isNotLogged) {
                     this.router.navigate(['/']);
                 }
 
-                return notLogged;
+                return isNotLogged;
             })
         );
     }

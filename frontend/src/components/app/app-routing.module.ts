@@ -7,6 +7,7 @@ import { OrganizerGuard } from 'guards/Organizer.guard';
 import { OnlineGuard } from 'guards/Online.guard';
 import { NotLoggedGuard } from 'guards/NotLogged.guard';
 import { AuthGuard } from 'guards/Auth.guard';
+import { AdminGuard } from 'guards/Admin.guard';
 
 const routes: Routes = [
   /*EVERYONE*/
@@ -55,6 +56,12 @@ const routes: Routes = [
     path: PATH.ORGANIZER.ADD_SESSION,
     component: Pages.AddSessionPageComponent,
     canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
+  },
+  /*ADMIN*/
+  {
+    path: PATH.ADMIN.DASHBOARD,
+    component: Pages.AdminPageComponent,
+    canActivate: [OnlineGuard, AuthGuard, AdminGuard]
   },
   /*NOT FOUND*/
   {

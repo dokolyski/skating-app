@@ -18,8 +18,9 @@ import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
 import { UserRequest as User } from 'api/rest-models/user-request';
 import { of, Subject } from 'rxjs';
 import { Skills } from 'api/rest-models/config-models';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
 
-/**
+/***
  * @description Show user settings and allow to change them, gather informations about
  * required ```email```, ```name```, ```lastname```, ```date of birth```, ```telephone number``` and optional ```skill level```
  */
@@ -96,15 +97,15 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let user;
 
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'skillLevelPossibleValues' } })
+    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .pipe(
         mergeMap((v: string[]) => {
           this.skillLevelPossibleValues = [' ', ...v];
           this.editMode = false;
-          return this.auth.uid$;
+          return this.auth.sessionInfo$;
         }),
         takeUntil(this.destroy),
-        mergeMap(uid => {
+        mergeMap(({uid}) => {
           return this.rest.do<USERS.GET.OUTPUT>(REST_PATH.USERS.GET, { templateParamsValues: { id: uid.toString() } });
         }),
         mergeMap(data => {

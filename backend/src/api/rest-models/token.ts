@@ -1,11 +1,23 @@
-import { IsNotEmpty, IsString, IsNumber } from "class-validator"
+import { IsNotEmpty, IsString, IsNumber, IsBoolean } from 'class-validator';
 
-export class Token { 
+export class Token {
     @IsNotEmpty()
     @IsString()
-    token: string
+    token: string;
 
     @IsNotEmpty()
     @IsNumber()
-    uid: number 
+    uid: number;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    isOrganizer: boolean;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    isAdmin: boolean;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    isHAdmin: boolean;
 }

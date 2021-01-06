@@ -1,0 +1,29 @@
+div {
+    background-color: white;
+    height: 100%;
+}
+
+:host::ng-deep mat-tab-body {
+    margin-top: 5%;
+}
+
+@media (max-width: 768px) {
+    div {
+        padding: 0;
+    }
+
+    mat-card {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        padding: 0;
+    }
+}
+
+@media (min-width: 769px) {
+    div {
+        padding-top: 2vw;
+        padding-left: 20vw;
+        padding-right: 20vw;
+    }
+}

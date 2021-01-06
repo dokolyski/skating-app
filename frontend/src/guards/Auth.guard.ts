@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     constructor(private auth: AuthService, private router: Router) {}
 
     canActivate(): Observable<boolean> {
-        return this.auth.token$.pipe(
+        return this.auth.sessionInfo$.pipe(
             first(),
             map(token => {
                 if (token) {

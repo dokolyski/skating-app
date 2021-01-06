@@ -4,12 +4,14 @@ import { PointsShopComponent } from './points-shop.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
     CommonModule,
     MatTableModule,
     MatButtonModule,
+    MatPaginatorModule,
     ReactiveFormsModule
   ],
   declarations: [PointsShopComponent],

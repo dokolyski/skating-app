@@ -4,7 +4,7 @@ import * as REST_PATH from 'api/rest-url.json';
 import {Injectable} from '@angular/core';
 import {USERS} from 'api/rest-types';
 import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
-
+import * as CONFIG from 'assets/config/config.rest.json';
 @Injectable()
 export class RestServiceMock {
   static readonly skills = ['skill_1', 'skill_2', 'skill_3'];
@@ -53,14 +53,31 @@ export class RestServiceMock {
     lastname: 'Nowak1',
     birth_date: new Date(),
     email: 'example@mail.com',
-    phone_number: '123456789'
+    phone_number: '123456789',
+    isOrganizer: false,
+    isAdmin: false,
+    isHAdmin: false,
   };
+  static priceTable = [
+    {
+      required_money: 123,
+      points: 10
+    },
+    {
+      required_money: 666,
+      points: 33
+    }
+  ];
 
   do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {
     switch (restPath) {
       case REST_PATH.CONFIG.GET:
-        return of(RestServiceMock.skills as any);
+        return this.handleConfig(options);
       case REST_PATH.VERIFICATION.REGISTER:
+        return of(null);
+      case REST_PATH.VERIFICATION.LOGIN:
+        return of({token: 'token', uid: 1, isOrganizer: false, isAdmin: true, isHAdmin: false} as any);
+      case REST_PATH.VERIFICATION.LOGOUT:
         return of(null);
       case REST_PATH.PROFILES.EDIT:
         return of(null);
@@ -72,6 +89,17 @@ export class RestServiceMock {
         return of(RestServiceMock.notifications as any);
       case REST_PATH.USERS.GET:
         return of(RestServiceMock.userInfo as any);
+    }
+  }
+
+  private handleConfig(options) {
+    switch(options.templateParamsValues.key) {
+      case CONFIG.fb_link:
+        return of('http://www.facebook.pl');
+      case CONFIG.price_table:
+        return of(RestServiceMock.priceTable);
+      case CONFIG.skills:
+        return of(RestServiceMock.skills as any);
     }
   }
 }

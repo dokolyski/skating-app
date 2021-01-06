@@ -1,24 +1,31 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
+import { AuthService } from 'services/auth-service/Auth.service';
 
 /**
- * @description Activate if user account type is ```organizer```
+ * @description Activate if user has permission: ```organizer```
  */
 @Injectable({
     providedIn: 'root'
 })
 export class OrganizerGuard implements CanActivate {
-    constructor(private cookie: CookieService, private router: Router) {}
+    constructor(
+        private auth: AuthService,
+        private router: Router) { }
 
-    canActivate(): boolean {
-        const canNavigate = this.cookie.check('is-organizer') &&
-            this.cookie.get('is-organizer') as unknown as boolean === true;
+    canActivate(): Observable<boolean> {
+        return this.auth.sessionInfo$
+            .pipe(
+                first(),
+                map(s => {
+                    if (!s.isOrganizer) {
+                        this.router.navigate(['/']);
+                    }
 
-        if(!canNavigate) {
-            this.router.navigate(['/']);
-        }
-
-        return canNavigate;
+                    return s.isOrganizer;
+                })
+            );
     }
 }

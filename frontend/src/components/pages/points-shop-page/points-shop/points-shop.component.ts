@@ -7,6 +7,7 @@ import { RestError } from 'api/rest-error';
 import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { PaymentTable } from 'api/rest-models/config-models';
 import { PaymentsPoints } from 'api/rest-models/payments-points';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
 
 @Component({
   selector: 'app-points-shop',
@@ -28,7 +29,7 @@ export class PointsShopComponent implements OnInit {
     private lngErrorService: LanguageErrorService) { }
 
   ngOnInit() {
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'pointsTable' } })
+    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.price_table } })
     .subscribe({
       next: (data: PaymentTable) => this.table = data,
       error: (error: RestError) => this.handleErrors(error)

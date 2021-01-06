@@ -16,6 +16,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { NameComponent } from './name/name.component';
 import { ProfileSelectionComponent } from './profile-selection/profile-selection.component';
+import { PointsComponent } from './points/points.component';
+import { MoneyComponent } from './money/money.component';
 
 @NgModule({
   imports: [
@@ -38,7 +40,9 @@ import { ProfileSelectionComponent } from './profile-selection/profile-selection
     RepeatPasswordComponent,
     SkillLevelComponent,
     TelephoneComponent,
-    ProfileSelectionComponent
+    ProfileSelectionComponent,
+    PointsComponent,
+    MoneyComponent
   ],
   exports: [
       DateBirthComponent,
@@ -49,7 +53,9 @@ import { ProfileSelectionComponent } from './profile-selection/profile-selection
       RepeatPasswordComponent,
       SkillLevelComponent,
       TelephoneComponent,
-      ProfileSelectionComponent
+      ProfileSelectionComponent,
+      PointsComponent,
+      MoneyComponent
   ]
 })
 export class InputsModule { }
