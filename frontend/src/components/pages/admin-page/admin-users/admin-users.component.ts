@@ -34,7 +34,7 @@ export class AdminUsersComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private auth: AuthService,
-    private rest: RestService) { }
+    private rest: RestService) {}
 
   ngOnInit() {
     this.rest.do<USERS.ALL.OUTPUT>(REST_PATH.USERS.ALL)
@@ -46,7 +46,8 @@ export class AdminUsersComponent implements OnInit {
               firstname: v.firstname,
               lastname: v.lastname,
               isOrganizer: v.isOrganizer.toString(),
-              isAdmin: v.isAdmin.toString()
+              isAdmin: v.isAdmin.toString(),
+              isHAdmin: v.isHAdmin.toString()
             })
           );
 
@@ -144,6 +145,10 @@ export class AdminUsersComponent implements OnInit {
       {
         label: 'isAdmin',
         name: 'isAdmin'
+      },
+      {
+        label: 'isHAdmin',
+        name: 'isHAdmin'
       },
     ];
   }

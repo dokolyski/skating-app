@@ -1,19 +1,14 @@
 import { Component } from '@angular/core';
-import { isMobile } from 'common/mobile-check';
-import { redirectToMain } from 'common/page-redirect';
-import { LanguageService } from 'services/language-service/Language.service';
+import { isMobile } from 'common/functions/mobile-check';
+import { redirectToMain } from 'common/functions/page-redirect';
 
 @Component({
   selector: 'app-register-page',
-  templateUrl: './register-page.component.html',
-  styleUrls: ['./register-page.style.css']
+  templateUrl: './register-page.component.html'
 })
 export class RegisterPageComponent {
   redirectToMain = redirectToMain;
   isMobile = isMobile();
-
-  constructor(
-    public lngService: LanguageService) { }
 
   showError(e) {
     console.error(e);

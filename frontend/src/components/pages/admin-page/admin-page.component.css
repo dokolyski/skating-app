@@ -11,13 +11,6 @@ div {
     div {
         padding: 0;
     }
-
-    mat-card {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        padding: 0;
-    }
 }
 
 @media (min-width: 769px) {

@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RegisterPageComponent } from './register-page.component';
 import { RegistrationModule } from './registration/registration.module';
-import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
+import { MiddleColumnModule } from 'components/common/middle-column/middle-column.module';
 
 @NgModule({
   imports: [
     CommonModule,
     RegistrationModule,
-    MatCardModule,
-    RouterModule
+    RouterModule,
+    MiddleColumnModule
   ],
   declarations: [RegisterPageComponent],
   exports: [RegisterPageComponent]

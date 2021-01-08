@@ -1,0 +1,33 @@
+#form {
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: center;
+    align-items: center;
+}
+
+#form>* {
+    margin-bottom: 2.5%;
+}
+
+#form>*:last-child {
+    margin-bottom: 0%;
+}
+
+.mat-form-field {
+    width: 100% !important;
+}
+
+app-interactive-table, :host::ng-deep table {
+    width: 100% !important;
+}
+
+:host::ng-deep table {
+    border: 10px;
+}
+
+@media (max-width: 768px) {
+    #form {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+}

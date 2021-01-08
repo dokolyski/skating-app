@@ -6,7 +6,8 @@ export type Row = { [colName: string]: string };
 
 @Component({
   selector: 'app-interactive-table[pagination][rowsPerPage][columns][rows]',
-  templateUrl: './interactive-table.component.html'
+  templateUrl: './interactive-table.component.html',
+  styleUrls: ['./interactive-table.style.css']
 })
 export class InteractiveTableComponent implements OnInit {
   @Input()
@@ -19,6 +20,8 @@ export class InteractiveTableComponent implements OnInit {
   rows: Row[];
   @Input()
   addDisabled = false;
+  @Input()
+  checkboxOnBoolean = false;
 
   @Output()
   onAdd = new EventEmitter<void>();

@@ -1,0 +1,12 @@
+table {
+    width: 100% !important;
+    border: 1px solid rgba(0,0,0,.12) !important;
+}
+
+tr:nth-child(2n) {
+    background-color: #f5f5f5 !important;
+}
+
+th, td {
+    text-align: center !important;
+}

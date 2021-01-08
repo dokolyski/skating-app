@@ -34,6 +34,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { InputsModule } from 'components/common/inputs/inputs.module';
 import { AdminUsersDialogComponent } from 'components/pages/admin-page/admin-users/admin-users-dialog/admin-users-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   imports: [

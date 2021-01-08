@@ -1,18 +1,16 @@
 <ng-container>
-  <mat-form-field>
-    <mat-label>Facebook link</mat-label>
-    <input matInput type="text" [(ngModel)]="fbLink">
-  </mat-form-field>
+  <div id="form">
+    <mat-form-field>
+      <mat-label>Facebook link</mat-label>
+      <input matInput type="text" [(ngModel)]="fbLink">
+    </mat-form-field>
 
-  <app-interactive-table 
-  [columns]="cols" [rows]="rows" 
-  (onAdd)="onAdd()"
-  (onEdit)="onEdit($event)"
-  (onDelete)="onDelete($event)"
-  pagination rowsPerPage="10"></app-interactive-table>
+    <app-interactive-table [columns]="cols" [rows]="rows" (onAdd)="onAdd()" (onEdit)="onEdit($event)"
+      (onDelete)="onDelete($event)" pagination rowsPerPage="10"></app-interactive-table>
 
-  <div>
-    <button mat-raised-button (click)="saveData()" aria-label="Save">Save</button>
-    <button mat-raised-button (click)="cancelData()" aria-label="Cancel">Cancel</button>
+    <div>
+      <button mat-button (click)="saveData()" aria-label="Save">Save</button>
+      <button mat-button (click)="cancelData()" aria-label="Cancel">Cancel</button>
+    </div>
   </div>
 </ng-container>

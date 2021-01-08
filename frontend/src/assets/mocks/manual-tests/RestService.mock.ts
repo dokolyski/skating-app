@@ -68,6 +68,52 @@ export class RestServiceMock {
       points: 33
     }
   ];
+  static allUsers: USERS.ALL.OUTPUT = [
+    {
+      id: 0, password: 'password',
+      firstname: 'Jan',
+      lastname: 'Nowak',
+      birth_date: new Date(),
+      email: 'example@mail.com',
+      phone_number: '123456789',
+      isOrganizer: false,
+      isAdmin: false,
+      isHAdmin: false,
+    },
+    {
+      id: 1, password: 'password',
+      firstname: 'Jan1',
+      lastname: 'Nowak1',
+      birth_date: new Date(),
+      email: 'example@mail.com',
+      phone_number: '123456789',
+      isOrganizer: true,
+      isAdmin: false,
+      isHAdmin: false,
+    },
+    {
+      id: 2, password: 'password',
+      firstname: 'Jan2',
+      lastname: 'Nowak2',
+      birth_date: new Date(),
+      email: 'example@mail.com',
+      phone_number: '123456789',
+      isOrganizer: true,
+      isAdmin: true,
+      isHAdmin: false,
+    },
+    {
+      id: 3, password: 'password',
+      firstname: 'Jan3',
+      lastname: 'Nowak3',
+      birth_date: new Date(),
+      email: 'example@mail.com',
+      phone_number: '123456789',
+      isOrganizer: false,
+      isAdmin: true,
+      isHAdmin: true,
+    }
+  ];
 
   do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {
     switch (restPath) {
@@ -89,6 +135,8 @@ export class RestServiceMock {
         return of(RestServiceMock.notifications as any);
       case REST_PATH.USERS.GET:
         return of(RestServiceMock.userInfo as any);
+      case REST_PATH.USERS.ALL:
+        return of(RestServiceMock.allUsers as any);
     }
   }
 

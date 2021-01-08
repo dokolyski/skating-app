@@ -1,6 +1,6 @@
 <ng-container *ngIf="(lngService.dictionary$ | async) as $">
     <ng-container *ngIf="{errors: $.errors, form: $.pages.account.profile_settings.form} as $">
-        <div>
+        <div id="page">
             <div class="row-right">
                 <mat-slide-toggle [(ngModel)]="editMode">
                     {{ $.form.controls.EDIT }}

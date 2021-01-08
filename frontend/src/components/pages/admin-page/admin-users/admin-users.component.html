@@ -1,13 +1,12 @@
 <ng-container>
-  <app-interactive-table 
-  [columns]="cols" [rows]="rows" 
-  [addDisabled]="true"
-  (onEdit)="onEdit($event)"
-  (onDelete)="onDelete($event)"
-  pagination rowsPerPage="10"></app-interactive-table>
+  <div id="form">
+    <app-interactive-table id="users-table" [columns]="cols" [rows]="rows" (onEdit)="onEdit($event)"
+      (onDelete)="onDelete($event)" addDisabled="true" pagination="false" rowsPerPage="10" checkboxOnBoolean="true">
+    </app-interactive-table>
 
-  <div>
-    <button mat-raised-button (click)="saveData()" aria-label="Save">Save</button>
-    <button mat-raised-button (click)="cancelData()" aria-label="Cancel">Cancel</button>
+    <div>
+      <button mat-button (click)="saveData()" aria-label="Save">Save</button>
+      <button mat-button (click)="cancelData()" aria-label="Cancel">Cancel</button>
+    </div>
   </div>
 </ng-container>

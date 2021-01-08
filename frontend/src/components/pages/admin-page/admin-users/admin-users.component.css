@@ -1,0 +1,36 @@
+#form {
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: center;
+    align-items: center;
+}
+
+#form>* {
+    margin-bottom: 2.5%;
+}
+
+#form>*:last-child {
+    margin-bottom: 0%;
+}
+
+.mat-form-field {
+    width: 100% !important;
+}
+
+app-interactive-table, :host::ng-deep table {
+    width: 100% !important;
+}
+
+@media (max-width: 768px) {
+    app-interactive-table {
+        transform: scale(0.9);
+    }
+
+    :host::ng-deep app-interactive-table * {
+        font-size: 0.5rem;
+    }
+
+    :host::ng-deep app-interactive-table mat-icon {
+        font-size: 1rem;
+    }
+}

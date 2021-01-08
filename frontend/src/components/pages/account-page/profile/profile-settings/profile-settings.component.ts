@@ -72,11 +72,11 @@ export class ProfileSettingsComponent implements OnInit {
   onError = new EventEmitter<string>();
 
   constructor(
-    private auth: AuthService,
     private fb: FormBuilder,
     private rest: RestService,
     public lngService: LanguageService,
     private lngErrorService: LanguageErrorService) {
+
     this.onCancel.subscribe(() => {
       this.editMode = false;
       this.editMode = true;
@@ -95,10 +95,7 @@ export class ProfileSettingsComponent implements OnInit {
       )
       .subscribe({
         next: data => {
-          const indexOwner = data.findIndex(p => p.type === 'OWNER');
-          if (indexOwner) {
-            data.splice(indexOwner);
-          }
+          this.removeOwner(data);
           this.profiles = data;
           this.selectedProfile = data[0];
         },
@@ -115,6 +112,13 @@ export class ProfileSettingsComponent implements OnInit {
         complete: () => this.onSubmit.emit(),
         error: (e: RestError) => this.handleErrors(e, true)
       });
+  }
+
+  private removeOwner(data: Profile[]) {
+    const indexOwner = data.findIndex(p => p.type === 'OWNER');
+    if (indexOwner > -1) {
+      data.splice(indexOwner);
+    }
   }
 
   private prepareProfilePayload(): PROFILES.EDIT.INPUT {

@@ -1,20 +1,27 @@
-<ng-container *ngIf="(lngService.dictionary$ | async) as $">
-    <ng-container *ngIf="{menu: $.pages.account.menu} as $">
-        <div>
-            <mat-tab-group mat-align-tabs="center" dynamicHeight animationDuration="0ms">
-                <mat-tab [label]="$.menu.ACCOUNT_SETTINGS">
-                    <app-account-settings></app-account-settings>
-                </mat-tab>
-                <mat-tab [label]="$.menu.ACCOUNT_NOTIFICATIONS">
-                    <app-account-notifications></app-account-notifications>
-                </mat-tab>
-                <mat-tab [label]="$.menu.PROFILE_ADD">
-                    <app-profile-add></app-profile-add>
-                </mat-tab>
-                <mat-tab [label]="$.menu.PROFILE_SETTINGS">
-                    <app-profile-settings></app-profile-settings>
-                </mat-tab>
-            </mat-tab-group>
-        </div>
+<app-middle-column *ngIf="!(isMobile | async); else content">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</app-middle-column>
+
+<ng-template #content>
+    <ng-container *ngIf="(lngService.dictionary$ | async) as $">
+        <ng-container *ngIf="{menu: $.pages.account.menu} as $">
+            <div>
+                <mat-tab-group [tabIndex]="0" (selectedTabChange)="changeTab($event)"
+                mat-align-tabs="center" dynamicHeight animationDuration="0ms">
+                    <mat-tab [label]="$.menu.ACCOUNT_SETTINGS">
+                        <app-account-settings *ngIf="tabIndex == 0"></app-account-settings>
+                    </mat-tab>
+                    <mat-tab [label]="$.menu.ACCOUNT_NOTIFICATIONS">
+                        <app-account-notifications *ngIf="tabIndex == 1"></app-account-notifications>
+                    </mat-tab>
+                    <mat-tab [label]="$.menu.PROFILE_ADD">
+                        <app-profile-add *ngIf="tabIndex == 2"></app-profile-add>
+                    </mat-tab>
+                    <mat-tab [label]="$.menu.PROFILE_SETTINGS">
+                        <app-profile-settings *ngIf="tabIndex == 3"></app-profile-settings>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </ng-container>
     </ng-container>
-</ng-container>
+</ng-template>

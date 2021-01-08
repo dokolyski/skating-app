@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { LanguageService } from 'services/language-service/Language.service';
+import { isMobile } from 'common/functions/mobile-check';
 
 @Component({
   selector: 'app-shop-page',
-  templateUrl: './shop-page.component.html',
-  styleUrls: ['./shop-page.component.css']
+  templateUrl: './shop-page.component.html'
 })
 export class ShopPageComponent {
-  constructor(public lngService: LanguageService) { }
+  isMobile = isMobile();
 }

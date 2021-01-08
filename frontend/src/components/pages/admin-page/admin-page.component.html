@@ -1,10 +1,15 @@
-<div>
-    <mat-tab-group mat-align-tabs="center" dynamicHeight animationDuration="0ms">
+<app-middle-column *ngIf="!(isMobile | async); else content">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</app-middle-column>
+
+<ng-template #content>
+    <mat-tab-group [tabIndex]="0" (selectedTabChange)="changeTab($event)"
+    mat-align-tabs="center" dynamicHeight animationDuration="0ms">
         <mat-tab label="CONFIG">
-            <app-admin-config></app-admin-config>
+            <app-admin-config *ngIf="tabIndex == 0"></app-admin-config>
         </mat-tab>
         <mat-tab label="USERS">
-            <app-admin-users></app-admin-users>
+            <app-admin-users *ngIf="tabIndex == 1"></app-admin-users>
         </mat-tab>
     </mat-tab-group>
-</div>
+</ng-template>

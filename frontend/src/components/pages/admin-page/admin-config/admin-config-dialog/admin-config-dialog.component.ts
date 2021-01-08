@@ -6,7 +6,8 @@ import { PointsComponent } from 'components/common/inputs/points/points.componen
 
 @Component({
   selector: 'app-admin-config-dialog',
-  templateUrl: './admin-config-dialog.component.html'
+  templateUrl: './admin-config-dialog.component.html',
+  styleUrls: ['./admin-config-dialog.component.css']
 })
 export class AdminConfigDialogComponent implements OnInit {
   title: string;

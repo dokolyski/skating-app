@@ -6,6 +6,7 @@ import { ProfileAddModule } from './profile/profile-add/profile-add.module';
 import { ProfileSettingsModule } from './profile/profile-settings/profile-settings.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AccountNotificationsModule } from './account/account-notifications/account-notifications.module';
+import { MiddleColumnModule } from 'components/common/middle-column/middle-column.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { AccountNotificationsModule } from './account/account-notifications/acco
     ProfileAddModule,
     ProfileSettingsModule,
     AccountSettingsModule,
-    AccountNotificationsModule
+    AccountNotificationsModule,
+    MiddleColumnModule
   ],
   declarations: [AccountPageComponent],
   exports: [AccountPageComponent]

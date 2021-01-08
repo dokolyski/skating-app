@@ -1,0 +1,17 @@
+.grid {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+}
+
+.center {
+    padding-top: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    box-shadow: 0 0 10px;
+    background: var(--background);
+}
+
+.background {
+    background: var(--secondary-background);
+}

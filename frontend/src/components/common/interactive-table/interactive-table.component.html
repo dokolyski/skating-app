@@ -19,7 +19,14 @@
     <!-- dynamic columns -->
     <ng-container *ngFor="let c of columns" [matColumnDef]="c.name">
       <th mat-header-cell *matHeaderCellDef> {{ c.label }} </th>
-      <td mat-cell *matCellDef="let row"> {{ row[c.name]}} </td>
+      <td mat-cell *matCellDef="let row"> 
+        <div *ngIf="checkboxOnBoolean && (row[c.name] |trim|isBoolean); else not">
+          <mat-checkbox disabled [checked]="row[c.name] |trim|toBoolean"></mat-checkbox>
+        </div>
+        <ng-template #not>
+          {{ row[c.name] }}
+        </ng-template>
+      </td>
     </ng-container>
 
 

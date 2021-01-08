@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { getMinDate, getMaxDate } from 'common/date-constraints';
+import { getMinDate, getMaxDate } from 'common/functions/date-constraints';
 
 @Component({
   selector: 'app-date-birth[control][translation]',

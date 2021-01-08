@@ -4,9 +4,10 @@ import { RestService } from 'services/rest-service/Rest.service';
 import { CONFIG } from 'api/rest-types';
 import * as REST_PATH from 'api/rest-url.json';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
-import { Col, Row } from 'components/common/interactive-table/interactive-table.component';
+import { Col } from 'components/common/interactive-table/interactive-table.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AdminConfigDialogComponent } from './admin-config-dialog/admin-config-dialog.component';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-config',
@@ -49,7 +50,11 @@ export class AdminConfigComponent implements OnInit {
         data: {money: null, points: null}
       });
 
-      this.dialogRef.afterClosed().subscribe(({save, data}) => {
+      this.dialogRef.afterClosed()
+      .pipe(
+        tap(() => this.dialogRef = null),
+        filter(v => v)
+      ).subscribe(({save, data}) => {
         if(save) {
           this.rows.push(data);
         }
@@ -64,7 +69,11 @@ export class AdminConfigComponent implements OnInit {
         data: {money, points}
       });
 
-      this.dialogRef.afterClosed().subscribe(({save, data}) => {
+      this.dialogRef.afterClosed()
+      .pipe(
+        tap(() => this.dialogRef = null),
+        filter(v => v)
+      ).subscribe(({save, data}) => {
         if(save) {
           this.rows[rownum] = data;
         }
@@ -101,7 +110,7 @@ export class AdminConfigComponent implements OnInit {
       label: 'Points',
     },
     {
-      name: 'money',
+      name: 'required_money',
       label: 'Money',
     }
   ];

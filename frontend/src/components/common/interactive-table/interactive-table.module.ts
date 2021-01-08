@@ -6,7 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TrimPipe } from './trim.pipe';
+import { IsBooleanPipe } from './isBoolean.pipe';
+import { ToBooleanPipe } from './toBoolean.pipe';
 @NgModule({
   imports: [
     CommonModule,
@@ -14,9 +17,15 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
-    FormsModule
+    FormsModule,
+    MatCheckboxModule
   ],
-  declarations: [InteractiveTableComponent],
+  declarations: [			
+    InteractiveTableComponent,
+    TrimPipe,
+    IsBooleanPipe,
+    ToBooleanPipe
+   ],
   exports: [InteractiveTableComponent]
 })
 export class InteractiveTableModule { }

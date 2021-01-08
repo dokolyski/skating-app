@@ -1,16 +1,11 @@
-<div [id]="(isMobile | async) ? '' : 'page-content-wrapper'">
-    <div>
-        <mat-card>
-            <mat-card-header>
-                <mat-card-title>{{ (lngService.dictionary$ | async)?.pages.registration.CARD_TITLE }}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <app-registration
-                (onSubmit)="redirectToMain()"
-                (onCancel)="redirectToMain()"
-                (onError)="showError($event)">
-                </app-registration>
-            </mat-card-content>
-        </mat-card>
-    </div>
-</div>
+<app-middle-column *ngIf="!(isMobile | async); else content">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</app-middle-column>
+
+<ng-template #content>
+    <app-registration
+    (onSubmit)="redirectToMain()"
+    (onCancel)="redirectToMain()"
+    (onError)="showError($event)">
+    </app-registration>
+</ng-template>

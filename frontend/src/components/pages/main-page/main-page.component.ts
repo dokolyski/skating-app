@@ -9,10 +9,10 @@ import {MatTabChangeEvent} from '@angular/material/tabs';
   encapsulation: ViewEncapsulation.None
 })
 export class MainPageComponent {
-  constructor(
-    public lngService: LanguageService
-  ) {}
   tabIndex = 0;
+  
+  constructor(public lngService: LanguageService) {}
+
   changeTab(event: MatTabChangeEvent) {
     this.tabIndex = event.index;
   }
