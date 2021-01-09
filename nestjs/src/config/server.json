@@ -1,9 +1,0 @@
-{
-  "ip": "127.0.0.1",
-  "port": 80,
-  "saltRounds": 3,
-  "token": {
-    "expiresIn": 360,
-    "secret": "OG*&fK^F65fdK^&rO&T*"
-  }
-}

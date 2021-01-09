@@ -1,1 +1,0 @@
-W tym folderze umieszczamy pliki konfiguracyjne w formacie JSON.
