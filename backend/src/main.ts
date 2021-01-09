@@ -3,6 +3,7 @@ import {AppModule} from './app.module';
 import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger';
 import ValidationPipe from './validation-pipe'
 import cookieParser from 'cookie-parser';
+import * as server_config from './config/server.json';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -19,7 +20,7 @@ async function bootstrap() {
 
     app.use(cookieParser());
 
-    await app.listen(80);
+    await app.listen(server_config.port);
 }
 
 bootstrap();
