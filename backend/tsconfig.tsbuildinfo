@@ -726,7 +726,7 @@
         "signature": "dbbb0b93d1ef63f225d52a311a6418f806cca862bfa567d3ced5c8d93606f125",
         "affectsGlobalScope": false
       },
-      "./src/models/user.ts": {
+      "./src/models/user-request.ts": {
         "version": "1f5244c1bfd0118c7ca737021a538f4b435eb224b5f4eea9b4d4fe8f037676bd",
         "signature": "d9e44e7add29f875ac7716311d24a355b412641966c257557f24b374ac26bf6c",
         "affectsGlobalScope": false
@@ -766,7 +766,7 @@
         "signature": "c106970ee4b686b5ebf0964ea4e0d1b2af02bdecd2d5cfeecedeb7bb5b2f404b",
         "affectsGlobalScope": false
       },
-      "./src/controllers/user/user.ts": {
+      "./src/controllers/user/user-request.ts": {
         "version": "21eda649fe989275668f01c657c8dbad9d624c03d724bc7f0af229cfdf52389c",
         "signature": "c106970ee4b686b5ebf0964ea4e0d1b2af02bdecd2d5cfeecedeb7bb5b2f404b",
         "affectsGlobalScope": false
@@ -2290,7 +2290,7 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts",
         "./src/controllers/tournament/tournament.ts",
-        "./src/controllers/user/user.ts"
+        "./src/controllers/user/user-request.ts"
       ],
       "./src/controllers/tournament/contestants/contestants.ts": [
         "./node_modules/@types/express/index.d.ts",
@@ -2385,7 +2385,7 @@
         "./src/config/client.json",
         "./src/services/registration.ts"
       ],
-      "./src/controllers/user/user.ts": [
+      "./src/controllers/user/user-request.ts": [
         "./node_modules/@types/express/index.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -2427,10 +2427,10 @@
         "./node_modules/sequelize/types/index.d.ts",
         "./src/models/contestant.ts",
         "./src/models/logo.ts",
-        "./src/models/user.ts",
+        "./src/models/user-request.ts",
         "./src/static/database.ts"
       ],
-      "./src/models/user.ts": [
+      "./src/models/user-request.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts",
@@ -2447,7 +2447,7 @@
         "./node_modules/@types/node/util.d.ts",
         "./src/config/server.json",
         "./src/config/smtp.json",
-        "./src/models/user.ts",
+        "./src/models/user-request.ts",
         "./src/static/smtp.ts"
       ],
       "./src/services/registration.ts": [
@@ -2458,7 +2458,7 @@
         "./node_modules/@types/node/util.d.ts",
         "./src/config/server.json",
         "./src/config/smtp.json",
-        "./src/models/user.ts",
+        "./src/models/user-request.ts",
         "./src/static/smtp.ts"
       ],
       "./src/static/database.ts": [
@@ -3867,7 +3867,7 @@
       "./src/controllers/user/register/verify/verify.ts": [
         "./node_modules/@types/express-serve-static-core/index.d.ts"
       ],
-      "./src/controllers/user/user.ts": [
+      "./src/controllers/user/user-request.ts": [
         "./node_modules/@types/express-serve-static-core/index.d.ts"
       ],
       "./src/models/contestant.ts": [
@@ -3879,7 +3879,7 @@
       "./src/models/tournament.ts": [
         "./node_modules/sequelize/types/index.d.ts"
       ],
-      "./src/models/user.ts": [
+      "./src/models/user-request.ts": [
         "./node_modules/sequelize/types/index.d.ts"
       ],
       "./src/services/logging.ts": [
@@ -4062,12 +4062,12 @@
       "./src/controllers/user/login/reset/reset.ts",
       "./src/controllers/user/register/users.ts",
       "./src/controllers/user/register/verify/verify.ts",
-      "./src/controllers/user/user.ts",
+      "./src/controllers/user/user-request.ts",
       "./src/main.ts",
       "./src/models/contestant.ts",
       "./src/models/logo.ts",
       "./src/models/tournament.ts",
-      "./src/models/user.ts",
+      "./src/models/user-request.ts",
       "./src/services/logging.ts",
       "./src/services/registration.ts",
       "./src/static/database.ts",

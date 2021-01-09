@@ -3,7 +3,7 @@ import {RestOptions, RestPath} from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {Injectable} from '@angular/core';
 import {USERS} from 'api/rest-types';
-import {Profile} from 'api/rest-models/profile';
+import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 
 @Injectable()
 export class RestServiceMock {
@@ -38,14 +38,14 @@ export class RestServiceMock {
     }
   ];
   static sessions = [
-    {session_id: 1, name: 'Session1', start_date: new Date('01/01/1990')},
-    {session_id: 2, name: 'Session2', start_date: new Date('05/01/1990')},
+    {id: 1, name: 'Session1', start_date: new Date('01/01/1990')},
+    {id: 2, name: 'Session2', start_date: new Date('05/01/1990')},
   ];
   static notifications = [
-    {title: 'Title1', description: 'Description1', session_id: 1},
-    {title: 'Title2', description: 'Description2', session_id: 1},
-    {title: 'Title3', description: 'Description3', session_id: 2},
-    {title: 'Title4', description: 'Description4', session_id: 2},
+    {title: 'Title1', description: 'Description1', session_id: 1, expiration_date: new Date('01/01/1990')},
+    {title: 'Title2', description: 'Description2', session_id: 1, expiration_date: new Date('01/01/1991')},
+    {title: 'Title3', description: 'Description3', session_id: 2, expiration_date: new Date('01/01/1992')},
+    {title: 'Title4', description: 'Description4', session_id: 2, expiration_date: new Date('01/01/1993')},
   ];
   static userInfo: USERS.GET.OUTPUT = {
     id: 0, password: 'password',
@@ -57,8 +57,6 @@ export class RestServiceMock {
   };
 
   do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {
-    console.log(restPath, options);
-    console.log('profiles', RestServiceMock.profiles);
     switch (restPath) {
       case REST_PATH.CONFIG.GET:
         return of(RestServiceMock.skills as any);

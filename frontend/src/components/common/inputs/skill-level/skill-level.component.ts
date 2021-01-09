@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-skill-level[control][translation][values]',
+  selector: 'app-skill-level[control][values]',
   templateUrl: './skill-level.component.html'
 })
 export class SkillLevelComponent {
@@ -16,10 +16,9 @@ export class SkillLevelComponent {
    * @description ```required```
    */
   static controlSchemaRequired = ['', Validators.required];
+
   @Input()
   control: FormControl;
-  @Input()
-  translation: { errors, form };
   @Input()
   values: string[];
 }

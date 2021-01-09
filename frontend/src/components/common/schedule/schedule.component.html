@@ -1,0 +1,22 @@
+<ng-container cdkDropListGroup>
+  <div class="container-grid">
+    <div class="calendarHeader">
+      <div class="calendarWeekChoice">
+        <button class="changeWeekButton" mat-mini-fab color="primary" aria-label="Previous week"
+                (click)="changeWeek(-1)">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <div class="timeInterval">{{daysRangeFormatter()}}</div>
+        <button class="changeWeekButton" mat-mini-fab color="primary" aria-label="Next week"
+                (click)="changeWeek(1)">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="calendarContent">
+      <app-weekday *ngFor="let i of weekdayNumbers" [sessions]="sessions[i]" [date]="getWeekdayDate(i)"
+                   [profiles]="profiles" [adminView]="adminView"></app-weekday>
+    </div>
+    <app-profiles-viewport *ngIf="withProfilesDragging" [profiles]="profiles"></app-profiles-viewport>
+  </div>
+</ng-container>

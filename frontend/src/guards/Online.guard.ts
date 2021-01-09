@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
+import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 
 /**
  * @description Activate if user is online
@@ -8,7 +9,22 @@ import { CanActivate } from '@angular/router';
     providedIn: 'root'
 })
 export class OnlineGuard implements CanActivate {
+    constructor(private router: Router) {}
+
+    static isOnline(): Observable<boolean> {
+        const online = new BehaviorSubject<boolean>(navigator.onLine);
+        fromEvent(window, 'online').subscribe(() => online.next(true));
+        fromEvent(window, 'offline').subscribe(() => online.next(false));
+
+        return online;
+    }
+
     canActivate(): boolean {
-        return navigator.onLine;
+        const online = navigator.onLine;
+        if(!online) {
+            this.router.navigate(['/']);
+        }
+
+        return online;
     }
 }

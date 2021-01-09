@@ -1,16 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { LanguageService } from 'services/language-service/Language.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-account-page',
   templateUrl: './account-page.component.html',
   styleUrls: ['./account-page.component.css']
 })
-export class AccountPageComponent implements OnInit {
+export class AccountPageComponent {
 
-  constructor(public lngService: LanguageService) { }
-
-  ngOnInit() {
-  }
+  constructor() { }
 
 }

@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>
+  {{'choose-participant.header' | translate:{date: formatDateString(), name: data.session.name} }}
+</h2>
+<div>
+  <mat-selection-list #participants>
+    <mat-list-option *ngFor="let participant of data.profiles" [value]="participant" [disabled]="isAlreadyAdded(participant)">
+      <span *ngIf="isAlreadyAdded(participant)" style="text-decoration: line-through">{{participant.firstname}} {{participant.lastname}} ({{'choose-participant.added' | translate}})</span>
+      <span *ngIf="!isAlreadyAdded(participant)">{{participant.firstname}} {{participant.lastname}}</span>
+    </mat-list-option>
+  </mat-selection-list>
+  <p>
+    {{'choose-participant.selected-participants' | translate:{value: chosenParticipantsString(participants.selectedOptions)} }}
+  </p>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">{{'dialog-outcomes.cancel' | translate }}</button>
+  <button mat-button [mat-dialog-close]="getValues(participants.selectedOptions)">{{'dialog-outcomes.add-participants' | translate }}</button>
+</div>

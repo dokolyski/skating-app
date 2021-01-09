@@ -2,15 +2,15 @@ import {EMAIL_GROUP, LoginInfo, PROVIDER_GROUP} from './rest-models/login-info';
 import {Notification, ALL_GROUP, CREATE_GROUP} from './rest-models/notification';
 import {PaymentsSessions} from './rest-models/payments-sessions';
 import {ProfileRequest, ProfileIndexRequest} from './rest-models/profile-request';
-import {UserRequest} from './rest-models/user';
+import {UserRequest} from '../api/rest-models/user-request';
 import {SessionRequest, SessionIndexRequest} from './rest-models/session-request';
 
 import {SessionJoinRequest} from './rest-models/session-join-request';
 import {SessionsSelection} from './rest-models/session-selection';
 import {SessionStatus} from './rest-models/sessionStatus';
 import {Token} from './rest-models/token';
-import Profile from '../models/profiles'
-import Session from '../models/sessions'
+import {ProfileRequest as Profile} from './rest-models/profile-request';
+import {SessionRequest as Session} from './rest-models/session-request';
 import { PaymentsPoints } from './rest-models/payments-points';
 
 export namespace VERIFICATION {

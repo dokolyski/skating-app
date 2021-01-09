@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {EventService} from 'services/event-service/Event.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {SessionParticipant} from 'models/session-participant';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import * as moment from 'moment';
+import {ReservationsService} from 'services/reservations-service/reservations.service';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-waiting-reservations',
@@ -10,54 +11,29 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrls: ['./waiting-reservations.component.css']
 })
 export class WaitingReservationsComponent implements OnInit {
-  constructor(private eventService: EventService,
-              private snackBar: MatSnackBar) {
+  constructor(public reservationsService: ReservationsService,
+              private breakPointObserver: BreakpointObserver) {
   }
 
   dataSource: MatTableDataSource<SessionParticipant>;
-  displayedColumns: string[] = ['participantName', 'sessionDate', 'sessionName', 'sessionGroup', 'price', 'remove'];
-
-  addNewParticipants(newParticipant: SessionParticipant[]) {
-    this.dataSource.data = [...this.dataSource.data, ...newParticipant];
-    window.localStorage.setItem('sessionParticipants', JSON.stringify(this.dataSource.data));
-  }
-
-  deleteParticipant(sessionParticipant?: SessionParticipant[], index?: number) {
-    if (sessionParticipant != null && sessionParticipant.length > 0) {
-      const beforeNumber = this.dataSource.data.length;
-      this.dataSource.data = [...this.dataSource.data.filter(
-        value => {
-          let isFilter = true;
-          sessionParticipant.forEach(valueToDelete => {
-            if (value.session.id === valueToDelete.session.id && value.participant.id === valueToDelete.participant.id) {
-              isFilter = false;
-              return;
-            }
-          });
-          return isFilter;
-        })];
-      if (beforeNumber === this.dataSource.data.length) {
-        this.displaySnackMessage('No reservations have been canceled');
-      } else {
-        this.displaySnackMessage(`${beforeNumber - this.dataSource.data.length} reservations have been canceled`);
-      }
-    } else if (index != null && index < this.dataSource.data.length) {
-      this.dataSource.data.splice(index, 1);
-      this.dataSource.data = [...this.dataSource.data];
-      this.displaySnackMessage('Reservation have been canceled');
-    } else {
-      this.displaySnackMessage('No reservations have been canceled');
-    }
-    window.localStorage.setItem('sessionParticipants', JSON.stringify(this.dataSource.data));
-  }
+  displayedColumns: string[] = ['participantName', 'sessionDate', 'price', 'remove'];
+  xSmallScreen = true;
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<SessionParticipant>(JSON.parse(window.localStorage.getItem('sessionParticipants')) || []);
-    const that = this;
-    this.eventService.newSessionParticipantsEvent.subscribe(
-      participant => that.addNewParticipants(participant));
-    this.eventService.deleteSessionParticipantsEvent.subscribe(
-      participant => that.deleteParticipant(participant));
+    this.dataSource = new MatTableDataSource<SessionParticipant>(this.reservationsService.data);
+    this.reservationsService.reservationsChange.subscribe(data => {
+      this.dataSource.data = [...data];
+    });
+
+    this.breakPointObserver.observe('(max-width: 600px)').subscribe(next => {
+      if (next.matches.valueOf()) {
+        this.xSmallScreen = true;
+        this.displayedColumns = ['participantName', 'sessionDate', 'price', 'remove'];
+      } else {
+        this.xSmallScreen = false;
+        this.displayedColumns = ['participantName', 'sessionDate', 'sessionName', 'sessionGroup', 'price', 'remove'];
+      }
+    });
   }
 
   participantNameFormatter(element: SessionParticipant): string {
@@ -65,7 +41,7 @@ export class WaitingReservationsComponent implements OnInit {
   }
 
   sessionDateFormatter(element: SessionParticipant): string {
-    return new Date(element.session.start_date).toString();
+    return this.xSmallScreen ? `${moment(new Date(element.session.start_date)).format('lll')}` : `${moment(new Date(element.session.start_date)).format('MMMM Do YYYY, HH:mm')} - ${moment(new Date(element.session.end_date)).format('HH:mm')}`;
   }
 
   sessionNameFormatter(element: SessionParticipant): string {
@@ -82,11 +58,5 @@ export class WaitingReservationsComponent implements OnInit {
 
   getTotalCost() {
     return this.dataSource.data.map(t => t.session.price).reduce((acc, value) => acc + value, 0);
-  }
-
-  displaySnackMessage(message: string) {
-    this.snackBar.open(message, null, {
-      duration: 2000,
-    });
   }
 }

@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>
+  {{'create-session.header' | translate}}
+</h2>
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'create-session.session-name' | translate}}</mat-label>
+    <input matInput>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>  {{'create-session.start-date' | translate}}</mat-label>
+    <input matInput [matDatepicker]="startPicker">
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker touchUi #startPicker></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label>  {{'create-session.start-time' | translate}}</mat-label>
+    <input matInput type="time">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label>  {{'create-session.end-time' | translate}}</mat-label>
+    <input matInput type="time">
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'create-session.group' | translate}}</mat-label>
+    <mat-select>
+      <mat-option value="option">Brązowa+</mat-option>
+      <mat-option value="option">Srebrna</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'create-session.description' | translate}}</mat-label>
+    <textarea matInput></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">{{'dialog-outcomes.cancel' | translate }}</button>
+  <button mat-button [mat-dialog-close]="true">{{'dialog-outcomes.create-session' | translate }}</button>
+</div>

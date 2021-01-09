@@ -16,19 +16,21 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { NameComponent } from './name/name.component';
 import { ProfileSelectionComponent } from './profile-selection/profile-selection.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatNativeDateModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatIconModule
-  ],
+    imports: [
+        CommonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatIconModule,
+        TranslateModule
+    ],
   declarations: [
     DateBirthComponent,
     EmailComponent,

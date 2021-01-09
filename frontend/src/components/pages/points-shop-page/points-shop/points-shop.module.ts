@@ -4,14 +4,16 @@ import { PointsShopComponent } from './points-shop.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatButtonModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        TranslateModule
+    ],
   declarations: [PointsShopComponent],
   exports: [PointsShopComponent]
 })

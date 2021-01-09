@@ -1,5 +1,17 @@
+:host::ng-deep button {
+    min-width: fit-content !important;
+}
+
 @media (max-width: 768px) {
     #loginEmail {
+        width: 60%;
+    }
+
+    #loginGoogle {
+        width: 60%;
+    }
+
+    #loginFacebook {
         width: 60%;
     }
 }
@@ -8,16 +20,32 @@
     #loginEmail {
         width: 40%;
     }
+
+    #loginGoogle {
+        width: 40%;
+    }
+
+    #loginFacebook {
+        width: 40%;
+    }
 }
 
 #loginGoogle {
-    background-color: #ffffff;
+    background-color: orange;
+    color: white;
 }
 
 #loginFacebook {
     background-color: #3c5a9a;
+    color: white;
 }
 
 #divText {
     text-align: center;
+    margin-bottom: 5%;
+}
+
+.social-button {
+    top: 20%;
+    position: absolute;
 }

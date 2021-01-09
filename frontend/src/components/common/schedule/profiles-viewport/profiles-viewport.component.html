@@ -1,0 +1,32 @@
+<mat-expansion-panel class="expand-profiles">
+  <mat-expansion-panel-header class="expand-header">
+    <mat-panel-description>
+      <mat-icon class="expand-profiles-icon">account_circle</mat-icon>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div class="profiles-container">
+    <button [disabled]="firstItem <= 0" (click)="move(-1)" class="profile-change-button" mat-mini-fab color="primary"
+            aria-label="Example icon button with a menu icon">
+      <mat-icon>arrow_left</mat-icon>
+    </button>
+    <div class="profiles-gallery" [style.width.px]="profiles.slice(firstItem, firstItem + displayingItemsNumber).length * 110">
+      <div cdkDropList [cdkDropListEnterPredicate]="disableDrop"
+           *ngFor="let profile of profiles.slice(firstItem, firstItem + displayingItemsNumber); let index = index;">
+        <div class="profile-item" cdkDrag [cdkDragData]="profile">
+          <div>
+            <mat-icon class="profile-icon" aria-hidden="false" aria-label="profile-icon">face</mat-icon>
+          </div>
+          <div class="profile-name">
+            {{profile.firstname}}
+            <br>
+            {{profile.lastname}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <button [disabled]="firstItem >= profiles.length - displayingItemsNumber" (click)="move(1)" class="profile-change-button" mat-mini-fab color="primary"
+            aria-label="Example icon button with a menu icon">
+      <mat-icon>arrow_right</mat-icon>
+    </button>
+  </div>
+</mat-expansion-panel>

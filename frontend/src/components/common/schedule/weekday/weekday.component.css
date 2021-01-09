@@ -1,0 +1,45 @@
+.noSessionMessage {
+  padding: 5px;
+  text-align: center;
+}
+
+.weekdayHeader {
+  margin: 4px;
+  padding: 5px;
+  text-align: center;
+  background-color: #3f51b5;
+  color: white;
+  border-radius: 5px;
+  word-wrap: break-word;
+  font-size: large;
+  font-weight: 500;
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: #364399;
+}
+
+.calendarColumn {
+  border-radius: 5px;
+  background-color: azure;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #25257f;
+
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+
+  box-shadow: inset 0 0 5px 0 #25257f;
+}
+
+.add-new-session-button {
+  margin: 10px;
+  padding: 5px;
+  white-space: pre-wrap !important;
+  line-height: unset!important;
+}
+
+.mat-icon-add-session {
+  margin: 0 3px 0 3px;
+}

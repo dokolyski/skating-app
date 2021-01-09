@@ -1,9 +1,18 @@
 {
-  "name": "skating-app",
-  "short_name": "skating-app",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Figurowy Mińsk Mazowiecki",
+  "short_name": "FigurowyMM",
+  "lang": "PL",
+  "dir": "ltr",
+  "description": "Aplikacja umożliwiająca zapisywanie się na zajęcia łyżwiarskie.",
+  "start_url": "./",
   "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#fafafa",
   "scope": "./",
-  "start_url": "./"
+  "icons": [{
+    "src": "assets/icons/app-logo-512.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "any maskable"
+  }]
 }

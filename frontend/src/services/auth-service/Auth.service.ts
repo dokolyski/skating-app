@@ -19,7 +19,13 @@ export class AuthService {
   readonly uid$: Observable<number> = this.uidSubject.asObservable();
 
   constructor(
-    private rest: RestService) {}
+    private rest: RestService) {
+      this.sessionInfo = JSON.parse(localStorage.getItem('token'));
+      if(this.sessionInfo) {
+        this.tokenSubject.next(this.sessionInfo.token);
+        this.uidSubject.next(this.sessionInfo.uid);
+      }
+    }
 
  /**
   * @returns ```Observable```, emits ```next``` on fullfillment
@@ -56,6 +62,7 @@ export class AuthService {
       map(() => {
         this.sessionInfo = null;
         this.tokenSubject.next(null);
+        localStorage.removeItem('token');
       })
     );
   }
@@ -83,6 +90,7 @@ export class AuthService {
         this.sessionInfo = session;
         this.tokenSubject.next(session.token);
         this.uidSubject.next(session.uid);
+        localStorage.setItem('token', JSON.stringify(session));
       })
     );
   }

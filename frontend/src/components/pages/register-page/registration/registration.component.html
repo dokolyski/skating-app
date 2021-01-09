@@ -1,82 +1,78 @@
-<ng-container [formGroup]="form" *ngIf="(lngService.dictionary$ | async) as $">
+<div>
+  <mat-vertical-stepper linear>
 
-  <div>
-    <mat-vertical-stepper linear *ngIf="{errors: $.errors, form: $.pages.registration.form} as $">
+    <mat-step [label]="'pages.registration.form.steps.BASE' | translate " *ngIf="form.get('base') as base" [stepControl]="base">
+      <form [formGroup]="base">
+        <mat-grid-list cols="1" rowHeight="7rem">
+          <mat-grid-tile>
+            <app-email [control]="base.get('email')" [serverError]="serverInputsErrors?.email">
+            </app-email>
+          </mat-grid-tile>
 
-      <mat-step [label]="$.form.steps.BASE" *ngIf="form.get('base') as base" [stepControl]="base">
-        <form [formGroup]="base">
-          <mat-grid-list cols="1" rowHeight="7rem">
-            <mat-grid-tile>
-              <app-email [control]="base.get('email')" [translation]="$" [serverError]="serverInputsErrors?.email">
-              </app-email>
-            </mat-grid-tile>
+          <mat-grid-tile>
+            <app-password [control]="base.get('password')"
+                          [serverError]="serverInputsErrors?.password"></app-password>
+          </mat-grid-tile>
 
-            <mat-grid-tile>
-              <app-password [control]="base.get('password')" [translation]="$"
-                [serverError]="serverInputsErrors?.password"></app-password>
-            </mat-grid-tile>
+          <mat-grid-tile>
+            <app-repeat-password [control]="base.get('repeatPassword')"></app-repeat-password>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+      <div>
+        <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ 'pages.registration.form.controls.CANCEL' | translate }}</button>
+        <button mat-button matStepperNext class="nextButton">{{ 'pages.registration.form.controls.NEXT' | translate }}</button>
+      </div>
+    </mat-step>
 
-            <mat-grid-tile>
-              <app-repeat-password [control]="base.get('repeatPassword')" [translation]="$"></app-repeat-password>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </form>
-        <div>
-          <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ $.form.controls.CANCEL }}</button>
-          <button mat-button matStepperNext class="nextButton">{{ $.form.controls.NEXT }}</button>
-        </div>
-      </mat-step>
+    <mat-step [label]="'pages.registration.form.steps.PERSONAL' | translate" *ngIf="form.get('personal') as personal" [stepControl]="personal">
+      <form [formGroup]="personal">
+        <mat-grid-list cols="1" rowHeight="7rem">
+          <mat-grid-tile>
+            <app-name [control]="personal.get('name')" [serverError]="serverInputsErrors?.name">
+            </app-name>
+          </mat-grid-tile>
 
-      <mat-step [label]="$.form.steps.PERSONAL" *ngIf="form.get('personal') as personal" [stepControl]="personal">
-        <form [formGroup]="personal">
-          <mat-grid-list cols="1" rowHeight="7rem">
-            <mat-grid-tile>
-              <app-name [control]="personal.get('name')" [translation]="$" [serverError]="serverInputsErrors?.name">
-              </app-name>
-            </mat-grid-tile>
+          <mat-grid-tile>
+            <app-lastname [control]="personal.get('lastname')"
+                          [serverError]="serverInputsErrors?.lastname"></app-lastname>
+          </mat-grid-tile>
 
-            <mat-grid-tile>
-              <app-lastname [control]="personal.get('lastname')" [translation]="$"
-                [serverError]="serverInputsErrors?.lastname"></app-lastname>
-            </mat-grid-tile>
+          <mat-grid-tile>
+            <app-date-birth [control]="personal.get('dateBirth')"
+                            [serverError]="serverInputsErrors?.dateBirth"></app-date-birth>
+          </mat-grid-tile>
 
-            <mat-grid-tile>
-              <app-date-birth [control]="personal.get('dateBirth')" [translation]="$"
-                [serverError]="serverInputsErrors?.dateBirth"></app-date-birth>
-            </mat-grid-tile>
+          <mat-grid-tile>
+            <app-telephone [control]="personal.get('telephoneNumber')"
+                           [serverError]="serverInputsErrors?.telephoneNumber"></app-telephone>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+      <div>
+        <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ 'pages.registration.form.controls.CANCEL' | translate }}</button>
+        <button mat-button matStepperPrevious>{{ 'pages.registration.form.controls.BACK' | translate }}</button>
+        <button mat-button matStepperNext class="nextButton">{{ 'pages.registration.form.controls.NEXT' | translate }}</button>
+      </div>
+    </mat-step>
 
-            <mat-grid-tile>
-              <app-telephone [control]="personal.get('telephoneNumber')" [translation]="$"
-                [serverError]="serverInputsErrors?.telephoneNumber"></app-telephone>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </form>
-        <div>
-          <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ $.form.controls.CANCEL }}</button>
-          <button mat-button matStepperPrevious>{{ $.form.controls.BACK }}</button>
-          <button mat-button matStepperNext class="nextButton">{{ $.form.controls.NEXT }}</button>
-        </div>
-      </mat-step>
+    <mat-step [label]="'pages.registration.form.steps.ADDITIONAL' | translate" *ngIf="form.get('additional') as additional"
+              [stepControl]="additional">
+      <form [formGroup]="additional">
+        <mat-grid-list cols="1" rowHeight="7rem">
+          <mat-grid-tile>
+            <app-skill-level [control]="additional.get('skillLevel')"
+                             [values]="skillLevelPossibleValues"></app-skill-level>
+          </mat-grid-tile>
+        </mat-grid-list>
 
-      <mat-step [label]="$.form.steps.ADDITIONAL" *ngIf="form.get('additional') as additional"
-        [stepControl]="additional">
-        <form [formGroup]="additional">
-          <mat-grid-list cols="1" rowHeight="7rem">
-            <mat-grid-tile>
-              <app-skill-level [control]="additional.get('skillLevel')" [translation]="$"
-                [values]="skillLevelPossibleValues"></app-skill-level>
-            </mat-grid-tile>
-          </mat-grid-list>
+      </form>
+      <div>
+        <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ 'pages.registration.form.controls.CANCEL' | translate }}</button>
+        <button mat-button matStepperPrevious>{{ 'pages.registration.form.controls.BACK' | translate }}</button>
+        <button mat-button (click)="register()" id="registerButton">{{ 'pages.registration.form.controls.REGISTER' | translate }}</button>
+      </div>
+    </mat-step>
 
-        </form>
-        <div>
-          <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ $.form.controls.CANCEL }}</button>
-          <button mat-button matStepperPrevious>{{ $.form.controls.BACK }}</button>
-          <button mat-button (click)="register()" id="registerButton">{{ $.form.controls.REGISTER }}</button>
-        </div>
-      </mat-step>
-
-    </mat-vertical-stepper>
-  </div>
-
-</ng-container>
+  </mat-vertical-stepper>
+</div>

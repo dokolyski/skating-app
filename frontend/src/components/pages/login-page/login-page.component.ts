@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LanguageService } from 'services/language-service/Language.service';
+import { isMobile } from 'common/mobile-check';
 
 @Component({
   selector: 'app-login-page',
@@ -7,7 +7,7 @@ import { LanguageService } from 'services/language-service/Language.service';
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent {
+  isMobile = isMobile();
 
-  constructor(public lngService: LanguageService) { }
-
+  constructor() { }
 }

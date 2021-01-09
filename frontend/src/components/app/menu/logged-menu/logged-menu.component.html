@@ -1,12 +1,13 @@
-<ng-container *ngIf="(language.dictionary$ | async) as $">
-    <span class="spacer"></span>    
+<button [routerLink]="'/' + path.LOGGED.SCHEDULE" mat-icon-button aria-label="Schedule">
+  <mat-icon>today</mat-icon>
+</button>
 
-    <button [routerLink]="'/' + path.LOGGED.SCHEDULE" mat-icon-button aria-label="Schedule">
-        <mat-icon>today</mat-icon>
-    </button>
+<button [routerLink]="'/' + path.LOGGED.ACCOUNT" mat-icon-button aria-label="Profile">
+  <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true" matBadgePosition="above after"
+            matBadgeColor="var(--azure)">account_circle
+  </mat-icon>
+</button>
 
-    <button [routerLink]="'/' + path.LOGGED.ACCOUNT" mat-icon-button aria-label="Profile">
-        <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true" matBadgePosition="above after"
-            matBadgeColor="var(--azure)">account_circle</mat-icon>
-    </button>
-</ng-container>
+<button mat-icon-button aria-label="Logout" (click)="auth.logout()">
+  <mat-icon>exit_to_app</mat-icon>
+</button>

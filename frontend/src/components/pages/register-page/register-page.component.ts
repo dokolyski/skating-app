@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LanguageService } from 'services/language-service/Language.service';
+import { isMobile } from 'common/mobile-check';
 
 @Component({
   selector: 'app-register-page',
@@ -8,9 +8,10 @@ import { LanguageService } from 'services/language-service/Language.service';
   styleUrls: ['./register-page.style.css']
 })
 export class RegisterPageComponent {
+  isMobile = isMobile();
+
   constructor(
-    private router: Router,
-    public lngService: LanguageService) { }
+    private router: Router) { }
 
   // navigate to previous url on same origin, if not same origin then navigate to main page
   back() {

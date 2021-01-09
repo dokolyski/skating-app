@@ -1,26 +1,25 @@
-<ng-container *ngIf="(lngService.dictionary$ | async) as $">
 <div id="whiteboard">
   <header>
-    <img src="assets/img/large-logo.png" id="logo">
+    <img src="assets/img/large-logo.png" id="logo" alt="Logo">
   </header>
-  <mat-tab-group [tabIndex]="0" (selectedTabChange)="changeTab($event)" mat-align-tabs="center" animationDuration="0ms" dynamicHeight mat-stretch-tabs>
+  <mat-tab-group [tabIndex]="0" (selectedTabChange)="changeTab($event)" mat-align-tabs="center" animationDuration="0ms"
+                 dynamicHeight mat-stretch-tabs>
     <mat-tab>
       <ng-template mat-tab-label class="test">
         <mat-icon class="example-tab-icon">info</mat-icon>
-        {{ $.pages.main.ABOUT_US }}
+        {{ 'pages.main.ABOUT_US' | translate }}
       </ng-template>
 
-        <app-about-us-tab></app-about-us-tab>
-      </mat-tab>
+      <app-about-us-tab></app-about-us-tab>
+    </mat-tab>
 
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">announcement</mat-icon>
-          {{ $.pages.main.NEWS }}
-        </ng-template>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">announcement</mat-icon>
+        {{ 'pages.main.NEWS' | translate }}
+      </ng-template>
 
       <app-news-tab *ngIf="tabIndex == 1"></app-news-tab>
     </mat-tab>
   </mat-tab-group>
 </div>
-</ng-container>

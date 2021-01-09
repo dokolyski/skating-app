@@ -1,77 +1,75 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SwUpdate } from '@angular/service-worker';
-import { of, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { LanguageService } from 'services/language-service/Language.service';
+import { SwPush, SwUpdate } from '@angular/service-worker';
+import { Subscription } from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import * as moment from 'moment';
+import { pubKey } from 'assets/config/vapid.pub.json';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy, AfterViewInit {
-  private bodyElement: HTMLBodyElement = document.querySelector('body');
-  lngSubscription: Subscription;
+export class AppComponent implements OnDestroy {
+  subs: Subscription[] = [];
 
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private sw: SwUpdate,
-    private lngService: LanguageService,
-    private adapter: DateAdapter<any>) {
+    private swPush: SwPush,
+    private adapter: DateAdapter<any>,
+    private translate: TranslateService) {
 
-    this.bodyElement.style.visibility = 'hidden';
-
-    this.setBrowserLanguage();
-    this.setDatepickerLanguage();
+    this.setLanguage();
     this.loadIcons();
     this.handlePWA();
   }
 
-  ngAfterViewInit() {
-    of(null).pipe(delay(500)).subscribe(() => {
-      this.bodyElement.style.visibility = 'visible';
-    });
-  }
-
   ngOnDestroy() {
-    this.lngSubscription.unsubscribe();
+    this.subs.forEach(e => e.unsubscribe());
   }
 
-  private setBrowserLanguage() {
-    this.lngService.language = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
-  }
-
-  private setDatepickerLanguage() {
-    this.lngSubscription = this.lngService.dictionary$.subscribe(() => {
-      this.adapter.setLocale(this.lngService.language === 'polish' ? 'pl' : 'en');
+  private setLanguage() {
+    this.translate.use(localStorage.getItem('language') || this.translate.getDefaultLang());
+    this.translate.onLangChange.subscribe(newLanguage => {
+        localStorage.setItem('language', newLanguage.lang);
+        this.adapter.setLocale(newLanguage.lang);
+        console.log(newLanguage.lang);
     });
+    this.adapter.setLocale(this.translate.currentLang);
+    moment.locale(this.translate.currentLang);
   }
 
   private loadIcons() {
     this.matIconRegistry.addSvgIcon(
       'google',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/icons/google-icon.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/google-icon.svg')
     );
 
     this.matIconRegistry.addSvgIcon(
       'facebook',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/icons/facebook-icon.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/facebook-icon.svg')
     );
   }
 
   private handlePWA() {
     if (this.sw.isEnabled) {
-      this.sw.available.subscribe(() => { // pozniej to zmienimy na inne komponenty
-        if (confirm('There is a new version of application. Would you like to update?')) {
+      this.sw.available
+      .pipe(
+        mergeMap(() => this.translate.get('service_worker.UPDATE'))
+      )
+      .subscribe((label: string) => {
+        if (confirm(label)) {
           window.location.reload();
         }
       });
-    } else {
-      alert('Application cannot be used in offline mode');
+
+      this.swPush.requestSubscription({serverPublicKey: pubKey});
     }
   }
 }

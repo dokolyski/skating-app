@@ -3,8 +3,6 @@ import { FormBuilder } from '@angular/forms';
 import { RestError } from 'api/rest-error';
 import { USERS, PROFILES, CONFIG } from 'api/rest-types';
 import { mergeMap, takeUntil } from 'rxjs/operators';
-import { LanguageService } from 'services/language-service/Language.service';
-import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { AuthService } from 'services/auth-service/Auth.service';
@@ -14,10 +12,14 @@ import { LastnameComponent } from 'components/common/inputs/lastname/lastname.co
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { TelephoneComponent } from 'components/common/inputs/telephone/telephone.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
-import { Profile } from 'api/rest-models/profile';
-import { User } from 'api/rest-models/user';
+import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
+import { UserRequest as User } from 'api/rest-models/user-request';
 import { of, Subject } from 'rxjs';
 import { Skills } from 'api/rest-models/config-models';
+import {
+  ErrorMessageService,
+  TranslatedErrors
+} from 'services/error-message-service/error.message.service';
 
 /**
  * @description Show user settings and allow to change them, gather informations about
@@ -85,8 +87,12 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private fb: FormBuilder,
     private rest: RestService,
-    public lngService: LanguageService,
-    private lngErrorService: LanguageErrorService) { }
+    private errorMessageService: ErrorMessageService) {
+      this.onCancel.subscribe(() => {
+        this.editMode = false;
+        this.editMode = true;
+      });
+     }
 
   ngOnInit() {
     let user;
@@ -104,7 +110,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
         }),
         mergeMap(data => {
           user = data;
-          return this.rest.do<PROFILES.GET.OUTPUT>(REST_PATH.PROFILES.GET);
+          return this.rest.do<PROFILES.INDEX.OUTPUT>(REST_PATH.PROFILES.GET);
         })
       )
       .subscribe({
@@ -169,7 +175,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {
-    this.lngErrorService.getErrorsStrings(error)
+    this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
           this.onError.emit(translation.message);
