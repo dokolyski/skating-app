@@ -3,7 +3,7 @@
   "port": 80,
   "saltRounds": 3,
   "token": {
-    "expiresIn": 360,
+    "expiresIn": 31104000000,
     "secret": "OG*&fK^F65fdK^&rO&T*"
   },
   "vapidKeys": {

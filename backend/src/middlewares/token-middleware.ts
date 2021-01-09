@@ -1,13 +1,14 @@
-import {Request, Response} from 'express'
+import {Injectable, NestMiddleware, Req, Res, UnauthorizedException} from '@nestjs/common';
+import {Request, Response, NextFunction} from 'express';
 import * as jwt from 'jsonwebtoken'
 import server_config from '../config/server.json'
-import User from "../models/users";
-import UnauthorizedException from "../misc/unauthorized-exception";
-import AuthorizedUser from "../misc/authorized-user"
-import {notfound} from "../misc/helpers";
+import {User} from "../users/user.entity";
+import AuthorizedUser from "../helpers/authorized-user"
 
-export function TokenMiddleware() {
-    return async (req: Request, res: Response, next) => {
+@Injectable()
+export class TokenMiddleware implements NestMiddleware {
+
+    async use(@Req() req: Request, @Res() res: Response, next: NextFunction) {
 
         try {
             const token = req.cookies["secure-token"] as string
@@ -17,7 +18,7 @@ export function TokenMiddleware() {
 
             jwt.verify(token, server_config.token.secret, (err, decoded) => {
                 if (err) {
-                    throw new UnauthorizedException('Failed to authenticate token.');
+                    throw new UnauthorizedException("Failed to authenticate token. " + err.message);
                 }
             })
 
@@ -25,7 +26,9 @@ export function TokenMiddleware() {
                 where: {token: token}
             });
 
-            notfound(user);
+            if (user === null) {
+                throw new UnauthorizedException('User not found');
+            }
             AuthorizedUser.setUser(user);
             next();
         } catch (e) {
