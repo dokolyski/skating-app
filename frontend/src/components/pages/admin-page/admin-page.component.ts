@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { isMobile } from 'common/functions/mobile-check';
+import * as PATH from 'assets/config/url.json';
 
 @Component({
   selector: 'app-admin-page',
@@ -8,10 +8,6 @@ import { isMobile } from 'common/functions/mobile-check';
   styleUrls: ['./admin-page.component.css']
 })
 export class AdminPageComponent {
+  PATH = PATH['default'];
   isMobile = isMobile();
-  tabIndex = 0;
-  
-  changeTab(event: MatTabChangeEvent) {
-    this.tabIndex = event.index;
-  }
 }

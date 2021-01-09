@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from 'environments/environment';
 
-import { PagesModule } from 'components/pages/pages';
+import { PagesModule } from 'components/pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';

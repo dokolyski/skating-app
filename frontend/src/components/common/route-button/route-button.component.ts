@@ -13,18 +13,18 @@ export class RouteButtonComponent implements OnInit {
   routerLink: string;
   @Input()
   ariaLabel: string;
- 
+
   icon: boolean;
   activated: boolean;
 
   constructor(private router: Router) {
     router.events
     .pipe(
-      filter(event => event instanceof NavigationEnd) 
+      filter(event => event instanceof NavigationEnd)
     )
     .subscribe((event: NavigationEnd) => {
       this.checkActivation(event.url);
-    })
+    });
   }
 
   ngOnInit() {
@@ -32,6 +32,6 @@ export class RouteButtonComponent implements OnInit {
   }
 
   private checkActivation(url: string) {
-    this.activated = url === this.routerLink;
+    this.activated = url.match(`${this.routerLink}`)?.[0] as unknown as boolean ?? false;
   }
 }

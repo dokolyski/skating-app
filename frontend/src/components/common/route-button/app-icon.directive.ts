@@ -1,5 +1,5 @@
-import { Directive } from "@angular/core";
-import { RouteButtonComponent } from "./route-button.component";
+import { Directive } from '@angular/core';
+import { RouteButtonComponent } from './route-button.component';
 
 @Directive({
     selector: '[appIcon]'

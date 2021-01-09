@@ -3,13 +3,8 @@
 </app-middle-column>
 
 <ng-template #content>
-    <mat-tab-group [tabIndex]="0" (selectedTabChange)="changeTab($event)"
-    mat-align-tabs="center" dynamicHeight animationDuration="0ms">
-        <mat-tab label="CONFIG">
-            <app-admin-config *ngIf="tabIndex == 0"></app-admin-config>
-        </mat-tab>
-        <mat-tab label="USERS">
-            <app-admin-users *ngIf="tabIndex == 1"></app-admin-users>
-        </mat-tab>
-    </mat-tab-group>
+    <app-tab-router-outlet>
+        <ng-template appTabSubpage [url]="PATH.ADMIN.CONFIG" label="Config"></ng-template>
+        <ng-template appTabSubpage [url]="PATH.ADMIN.USERS" label="Users"></ng-template>
+    </app-tab-router-outlet>
 </ng-template>

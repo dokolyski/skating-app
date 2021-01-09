@@ -1,18 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminPageComponent } from './admin-page.component';
-import { MatTabsModule } from '@angular/material/tabs';
-import { AdminUsersModule } from './admin-users/admin-users.module';
-import { AdminConfigModule } from './admin-config/admin-config.module';
 import { MiddleColumnModule } from 'components/common/middle-column/middle-column.module';
+import { TabRouterOutletModule } from 'components/common/tab-router-outlet/tab-router-outlet.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    MatTabsModule,
-    AdminUsersModule,
-    AdminConfigModule,
-    MiddleColumnModule
+    MiddleColumnModule,
+    TabRouterOutletModule
   ],
   declarations: [AdminPageComponent],
   exports: [AdminPageComponent]

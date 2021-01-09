@@ -1,7 +1,7 @@
 <ng-container *ngIf="(lngService.dictionary$ | async) as $">
     <ng-container *ngIf="{table: $.pages.shop.table} as $">
         <div *ngIf="table">
-            <table mat-table [dataSource]="table">
+            <table mat-table [dataSource]="table" class="appTable">
                 <ng-container matColumnDef="points">
                     <th mat-header-cell *matHeaderCellDef> {{$.table.columns.POINTS}}</th>
                     <td mat-cell *matCellDef="let option" class="points"> {{option.points}} </td>

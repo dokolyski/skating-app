@@ -1,18 +1,18 @@
 <ng-container *ngIf="(language.dictionary$ | async) as $">
-    <app-route-button *appAccessOnline appIcon [routerLink]="'/' + path.LOGGED.SHOP" ariaLabel="Shop">
+    <app-route-button *appAccessOnline appIcon [routerLink]="path.LOGGED.SHOP" ariaLabel="Shop">
         <mat-icon>shop</mat-icon>
     </app-route-button>
 
-    <app-route-button appIcon [routerLink]="'/' + path.LOGGED.SCHEDULE" ariaLabel="Schedule">
+    <app-route-button appIcon [routerLink]="path.LOGGED.SCHEDULE" ariaLabel="Schedule">
         <mat-icon>today</mat-icon>
     </app-route-button>
 
-    <app-route-button appIcon [routerLink]="'/' + path.LOGGED.ACCOUNT" ariaLabel="Account">
+    <app-route-button appIcon [routerLink]="path.LOGGED.ACCOUNT" ariaLabel="Account">
         <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true" matBadgePosition="above after"
         matBadgeColor="var(--azure)">account_circle</mat-icon>
     </app-route-button>
 
-    <app-route-button *appAccessAdmin appIcon [routerLink]="'/' + path.ADMIN.DASHBOARD" ariaLabel="Admin dashboard">
+    <app-route-button *appAccessAdmin appIcon [routerLink]="path.ADMIN.DASHBOARD" ariaLabel="Admin dashboard">
         <mat-icon>security</mat-icon>
     </app-route-button>
 
