@@ -1,11 +1,17 @@
-import {Body, Controller, Delete, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
 import {UsersService} from "./users.service";
 import {UserRequest, UserEditRequest} from "../api/requests/user.dto";
+import {UserResponse} from "../api/responses/user.dto";
 
 @Controller('users')
 export class UsersController {
 
     constructor(private usersService: UsersService) {
+    }
+
+    @Get(':id')
+    async get(@Param('id') id: number): Promise<UserResponse> {
+        return await this.usersService.get(id);
     }
 
     @Post()

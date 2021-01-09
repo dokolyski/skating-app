@@ -4,14 +4,20 @@ import {SESSION_REPOSITORY} from '../constants'
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user";
 import {SessionRequest, SessionStatusRequest} from "../api/requests/session.dto";
+import SessionResponse from "../api/responses/session.dto";
+import {Profile} from "../profiles/profile.entity";
+import {User} from "../users/user.entity";
 
 @Injectable()
 export class SessionsService {
     constructor(@Inject(SESSION_REPOSITORY) private sessionsRepository: typeof Session) {
     }
 
-    async findAll(): Promise<Session[]> {
-        return this.sessionsRepository.findAll<Session>();
+    async findAll(): Promise<SessionResponse[]> {
+        const sessions = await this.sessionsRepository.findAll<Session>({
+            include: [User, Profile]
+        });
+        return sessions;
     }
 
     async create(request: SessionRequest) {
