@@ -12,6 +12,7 @@ import { RouteButtonModule } from 'components/common/route-button/route-button.m
 import { LoggedMenuComponent } from './logged-menu/logged-menu.component';
 import { MenuComponent } from './menu.component';
 import { UnloggedMenuComponent } from './unlogged-menu/unlogged-menu.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import { UnloggedMenuComponent } from './unlogged-menu/unlogged-menu.component';
         FlexLayoutModule,
         RouteButtonModule,
         MatBadgeModule,
-        AccessControlModule
+        AccessControlModule,
+        MatTooltipModule
     ],
     declarations: [
         MenuComponent,

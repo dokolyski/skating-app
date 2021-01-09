@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AppIconDirective } from './app-icon.directive';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { AppIconDirective } from './app-icon.directive';
     RouterModule,
     MatButtonModule,
     MatIconModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatTooltipModule
   ],
   declarations: [RouteButtonComponent, AppIconDirective],
   exports: [RouteButtonComponent, AppIconDirective]

@@ -1,6 +1,6 @@
 <ng-container *ngIf="(lngService.dictionary$ | async) as $">
     <ng-container *ngIf="{table: $.pages.shop.table} as $">
-        <div *ngIf="table">
+        <div *ngIf="table" id="form">
             <table mat-table [dataSource]="table" class="appTable">
                 <ng-container matColumnDef="points">
                     <th mat-header-cell *matHeaderCellDef> {{$.table.columns.POINTS}}</th>

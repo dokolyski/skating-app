@@ -13,6 +13,8 @@ export class RouteButtonComponent implements OnInit {
   routerLink: string;
   @Input()
   ariaLabel: string;
+  @Input()
+  tooltip: string;
 
   icon: boolean;
   activated: boolean;
