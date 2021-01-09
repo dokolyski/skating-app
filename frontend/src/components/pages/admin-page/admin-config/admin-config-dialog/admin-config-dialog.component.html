@@ -8,7 +8,7 @@
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <button mat-button (click)="onSave()">Save</button>
+    <button *appAccessOnline mat-button (click)="onSave()">Save</button>
     <button mat-button (click)="onCancel()">Cancel</button>
   </mat-dialog-actions>
 </ng-container>

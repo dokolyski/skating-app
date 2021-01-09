@@ -16,7 +16,7 @@
                 <ng-container matColumnDef="buy">
                     <th mat-header-cell *matHeaderCellDef> </th>
                     <td mat-cell *matCellDef="let index">
-                        <button mat-button color="secondary" (click)="buy(index)">
+                        <button appAccessOnlineButton mat-button color="secondary" (click)="buy(index)">
                             {{$.table.BUY_BUTTON}}
                         </button>
                     </td>

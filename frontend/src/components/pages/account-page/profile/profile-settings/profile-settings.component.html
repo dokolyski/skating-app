@@ -28,7 +28,7 @@
                 <div class="buttons">
                     <button mat-button (click)="onCancel.emit()" class="cancelButton" [disabled]="!editMode">{{
                         $.form.controls.CANCEL}}</button>
-                    <button mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">{{
+                    <button appAccessOnlineButton mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">{{
                         $.form.controls.SAVE}}</button>
                 </div>
             </form>

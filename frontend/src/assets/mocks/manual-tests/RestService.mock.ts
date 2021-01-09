@@ -122,7 +122,7 @@ export class RestServiceMock {
       case REST_PATH.VERIFICATION.REGISTER:
         return of(null);
       case REST_PATH.VERIFICATION.LOGIN:
-        return of({token: 'token', uid: 1, isOrganizer: false, isAdmin: true, isHAdmin: false} as any);
+        return of({token: 'token', uid: 1, isOrganizer: false, isAdmin: false, isHAdmin: false} as any);
       case REST_PATH.VERIFICATION.LOGOUT:
         return of(null);
       case REST_PATH.PROFILES.EDIT:

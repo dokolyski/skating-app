@@ -5,18 +5,16 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-route-button[routerLink][ariaLabel]',
   templateUrl: './route-button.component.html',
-  styleUrls: ['./route-button.component.css']
+  styleUrls: ['./route-button.component.css'],
+  viewProviders: [RouteButtonComponent]
 })
 export class RouteButtonComponent implements OnInit {
   @Input()
   routerLink: string;
   @Input()
   ariaLabel: string;
-  @Input()
-  iconName: string = '';
-  @Input()
-  isBadge: boolean = false;
  
+  icon: boolean;
   activated: boolean;
 
   constructor(private router: Router) {

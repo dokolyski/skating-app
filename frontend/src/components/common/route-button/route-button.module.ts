@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { AppIconDirective } from './app-icon.directive';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatIconModule,
     MatBadgeModule
   ],
-  declarations: [RouteButtonComponent],
-  exports: [RouteButtonComponent]
+  declarations: [RouteButtonComponent, AppIconDirective],
+  exports: [RouteButtonComponent, AppIconDirective]
 })
 export class RouteButtonModule { }

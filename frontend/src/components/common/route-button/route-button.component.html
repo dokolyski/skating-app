@@ -1,40 +1,22 @@
-<ng-container *ngIf="iconName; else elseIconName">
+<ng-container *ngIf="icon; else elseIcon">
   <ng-container *ngTemplateOutlet="buttonIcon"></ng-container>
 </ng-container>
-<ng-template #elseIconName>
+<ng-template #elseIcon>
   <ng-container *ngTemplateOutlet="button"></ng-container>
 </ng-template>
 
 <ng-template #buttonIcon>
-  <button 
-    [routerLink]="routerLink" 
-    mat-icon-button
-    [ngClass]="{activated: activated}"
-    [attr.aria-label]="ariaLabel">
-    
-      <ng-container *ngIf="isBadge; else elseIsBadge">
-        <ng-container *ngTemplateOutlet="badge"></ng-container>
-      </ng-container>
-      <ng-template #elseIsBadge>
-        <ng-container *ngTemplateOutlet="icon"></ng-container>
-      </ng-template>
-
-      <ng-template #badge>
-        <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true" matBadgePosition="above after"
-        matBadgeColor="var(--azure)">{{ iconName }}</mat-icon>
-      </ng-template>
-      <ng-template #icon>
-        <mat-icon>{{ iconName }}</mat-icon>
-      </ng-template>
+  <button [routerLink]="routerLink" mat-icon-button [ngClass]="{activated: activated}" [attr.aria-label]="ariaLabel">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
   </button>
 </ng-template>
 
 <ng-template #button>
-  <button 
-    [routerLink]="routerLink" 
-    mat-button
-    [ngClass]="{activated: activated}"
-    [attr.aria-label]="ariaLabel">
-      <ng-content></ng-content>
+  <button [routerLink]="routerLink" mat-button [ngClass]="{activated: activated}" [attr.aria-label]="ariaLabel">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
   </button>
+</ng-template>
+
+<ng-template #content>
+  <ng-content></ng-content>
 </ng-template>

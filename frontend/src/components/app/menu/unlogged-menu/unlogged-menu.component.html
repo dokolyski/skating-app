@@ -1,4 +1,4 @@
-<ng-container *ngIf="online | async">
+<ng-container *appAccessOnline>
     <ng-container *ngIf="(language.dictionary$ | async) as $">
         <app-route-button [routerLink]="'/' + path.EVERYONE.LOGIN" ariaLabel="Sign up">
             {{ $.navbar.buttons.SIGN_IN }}

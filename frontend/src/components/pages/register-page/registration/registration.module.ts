@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputsModule } from 'components/common/inputs/inputs.module';
+import { AccessControlModule } from 'directives/access-control/access-control.module';
 
 export const moduleInfo = {
   imports: [
@@ -22,7 +23,8 @@ export const moduleInfo = {
     MatGridListModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    InputsModule
+    InputsModule,
+    AccessControlModule
   ],
   declarations: [RegistrationComponent],
   exports: [RegistrationComponent]

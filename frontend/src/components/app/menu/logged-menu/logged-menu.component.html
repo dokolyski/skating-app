@@ -1,13 +1,22 @@
 <ng-container *ngIf="(language.dictionary$ | async) as $">
-    <app-route-button [routerLink]="'/' + path.LOGGED.SHOP" iconName="shop" ariaLabel="Shop"></app-route-button>
+    <app-route-button *appAccessOnline appIcon [routerLink]="'/' + path.LOGGED.SHOP" ariaLabel="Shop">
+        <mat-icon>shop</mat-icon>
+    </app-route-button>
 
-    <app-route-button [routerLink]="'/' + path.LOGGED.SCHEDULE" iconName="today" ariaLabel="Schedule"></app-route-button>
+    <app-route-button appIcon [routerLink]="'/' + path.LOGGED.SCHEDULE" ariaLabel="Schedule">
+        <mat-icon>today</mat-icon>
+    </app-route-button>
 
-    <app-route-button [routerLink]="'/' + path.LOGGED.ACCOUNT" iconName="account_circle" ariaLabel="Account" [isBadge]="true"></app-route-button>
+    <app-route-button appIcon [routerLink]="'/' + path.LOGGED.ACCOUNT" ariaLabel="Account">
+        <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true" matBadgePosition="above after"
+        matBadgeColor="var(--azure)">account_circle</mat-icon>
+    </app-route-button>
 
-    <app-route-button *ngIf="isAdmin" [routerLink]="'/' + path.ADMIN.DASHBOARD" iconName="security" ariaLabel="Admin dashboard"></app-route-button>
+    <app-route-button *appAccessAdmin appIcon [routerLink]="'/' + path.ADMIN.DASHBOARD" ariaLabel="Admin dashboard">
+        <mat-icon>security</mat-icon>
+    </app-route-button>
 
-    <button mat-icon-button aria-label="Logout" (click)="logout()" aria-label="Logout">
+    <button *appAccessOnline mat-icon-button aria-label="Logout" (click)="logout()" aria-label="Logout">
         <mat-icon>exit_to_app</mat-icon>
     </button>
 </ng-container>

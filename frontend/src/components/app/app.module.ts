@@ -24,9 +24,9 @@ import { LanguageService } from 'services/language-service/Language.service';
 import { LanguageErrorService } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import { RestServiceMock } from 'assets/mocks/manual-tests/RestService.mock';
-import {MatBadgeModule} from '@angular/material/badge';
-import {ReservationsService} from 'services/reservations-service/reservations.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatBadgeModule } from '@angular/material/badge';
+import { ReservationsService } from 'services/reservations-service/reservations.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NewsService } from 'services/news-service/News.service';
 import { MenuModule } from './menu/menu.module';
 import { AdminConfigDialogComponent } from 'components/pages/admin-page/admin-config/admin-config-dialog/admin-config-dialog.component';
@@ -34,7 +34,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { InputsModule } from 'components/common/inputs/inputs.module';
 import { AdminUsersDialogComponent } from 'components/pages/admin-page/admin-users/admin-users-dialog/admin-users-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   imports: [

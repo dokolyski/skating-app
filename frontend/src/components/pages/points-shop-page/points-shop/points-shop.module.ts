@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { AccessControlModule } from 'directives/access-control/access-control.module';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule,
     MatButtonModule,
     MatPaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AccessControlModule
   ],
   declarations: [PointsShopComponent],
   exports: [PointsShopComponent]

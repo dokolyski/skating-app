@@ -31,7 +31,7 @@ import { MoneyComponent } from './money/money.component';
     MatSelectModule,
     MatIconModule
   ],
-  declarations: [
+  declarations: [	
     DateBirthComponent,
     EmailComponent,
     NameComponent,
@@ -43,7 +43,7 @@ import { MoneyComponent } from './money/money.component';
     ProfileSelectionComponent,
     PointsComponent,
     MoneyComponent
-  ],
+   ],
   exports: [
       DateBirthComponent,
       EmailComponent,

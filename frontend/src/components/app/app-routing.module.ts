@@ -37,26 +37,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: PATH.LOGGED.SESSIONS,
-    component: Pages.SessionsPageComponent,
-    canActivate: [AuthGuard]
-  },
-  {
     path: PATH.LOGGED.SHOP,
     component: Pages.ShopPageComponent,
     canActivate: [OnlineGuard, AuthGuard]
   },
   /*ORGANIZER*/
-  {
-    path: PATH.ORGANIZER.MANAGE_SCHEDULE,
-    component: Pages.ManageSchedulePageComponent,
-    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
-  },
-  {
-    path: PATH.ORGANIZER.ADD_SESSION,
-    component: Pages.AddSessionPageComponent,
-    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
-  },
   /*ADMIN*/
   {
     path: PATH.ADMIN.DASHBOARD,
