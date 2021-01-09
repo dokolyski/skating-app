@@ -3,7 +3,7 @@ import {Session} from './session.entity';
 import {SESSION_REPOSITORY} from '../constants'
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user";
-import {SessionRequest} from "../api/requests/session.dto";
+import {SessionRequest, SessionStatusRequest} from "../api/requests/session.dto";
 
 @Injectable()
 export class SessionsService {
@@ -27,6 +27,15 @@ export class SessionsService {
         const session = await this.sessionsRepository.findByPk(id);
         notfound(session);
         AuthorizedUser.checkOwnership(session.id);
+
+        session.update(request);
+        await session.save();
+    }
+
+    async status(id: number, request: SessionStatusRequest) {
+        const session = await this.sessionsRepository.findByPk(id);
+        notfound(session);
+        AuthorizedUser.checkOwnership(session.owner_id);
 
         session.update(request);
         await session.save();

@@ -1,6 +1,6 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Put} from '@nestjs/common';
 import {SessionsService} from "./sessions.service";
-import {SessionEditRequest, SessionRequest} from "../api/requests/session.dto";
+import {SessionEditRequest, SessionRequest, SessionStatusRequest} from "../api/requests/session.dto";
 import {Session} from "./session.entity";
 
 @Controller('sessions')
@@ -21,6 +21,11 @@ export class SessionsController {
     @Put()
     async edit(@Param('id') id: number, @Body() request: SessionEditRequest) {
         return await this.sessionService.edit(id, request);
+    }
+
+    @Patch('status')
+    async status(@Param('id') id: number, @Body() request: SessionStatusRequest) {
+        return await this.sessionService.status(id, request);
     }
 
     @Delete

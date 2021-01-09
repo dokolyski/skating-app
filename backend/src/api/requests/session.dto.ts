@@ -58,3 +58,9 @@ export class SessionIndexRequest {
     date_to: Date | null;
 }
 
+export class SessionStatusRequest {
+    @IsNotEmpty()
+    @IsString()
+    @IsIn(['OPEN', 'CLOSED', 'CANCELLED'])
+    status: string;
+}
