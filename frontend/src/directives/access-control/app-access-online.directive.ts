@@ -1,11 +1,11 @@
-import { Directive, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { OnlineGuard } from 'guards/Online.guard';
 
 @Directive({
   selector: '[appAccessOnline]',
 
 })
-export class AppAccessOnlineDirective {
+export class AppAccessOnlineDirective implements OnDestroy {
   private subs = OnlineGuard.isOnline()
     .subscribe(ok => {
       if (ok) {

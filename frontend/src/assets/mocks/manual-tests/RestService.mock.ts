@@ -71,7 +71,7 @@ export class RestServiceMock {
       points: 10
     },
     {
-      required_money: 666,
+      required_money: 666.5,
       points: 33
     }
   ];
@@ -129,7 +129,7 @@ export class RestServiceMock {
       case REST_PATH.VERIFICATION.REGISTER:
         return of(null);
       case REST_PATH.VERIFICATION.LOGIN:
-        return of({token: 'token', uid: 1, isOrganizer: false, isAdmin: false, isHAdmin: false} as any);
+        return of({token: 'token', uid: 1, isOrganizer: false, isAdmin: true, isHAdmin: true} as any);
       case REST_PATH.VERIFICATION.LOGOUT:
         return of(null);
       case REST_PATH.PROFILES.EDIT:

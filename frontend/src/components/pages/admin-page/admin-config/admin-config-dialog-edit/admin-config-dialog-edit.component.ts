@@ -5,45 +5,45 @@ import { MoneyComponent } from 'components/common/inputs/money/money.component';
 import { PointsComponent } from 'components/common/inputs/points/points.component';
 
 @Component({
-  selector: 'app-admin-config-dialog',
-  templateUrl: './admin-config-dialog.component.html',
-  styleUrls: ['./admin-config-dialog.component.css']
+  selector: 'app-admin-config-dialog-edit',
+  templateUrl: './admin-config-dialog-edit.component.html',
+  styleUrls: ['./admin-config-dialog-edit.component.css']
 })
-export class AdminConfigDialogComponent implements OnInit {
+export class AdminConfigDialogEditComponent implements OnInit {
   title: string;
   form = this.fb.group({
     points: PointsComponent.controlSchema,
-    money: MoneyComponent.controlSchema
+    required_money: MoneyComponent.controlSchema
   });
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AdminConfigDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: {money: string, points: string}) {}
+    private dialogRef: MatDialogRef<AdminConfigDialogEditComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: {required_money: string, points: string}) {}
 
   ngOnInit() {
     if(this.data.points) {
       this.form.get('points').setValue(this.data.points);
     }
 
-    if(this.data.money) {
-      this.form.get('money').setValue(this.data.money);
+    if(this.data.required_money) {
+      this.form.get('required_money').setValue(this.data.required_money);
     }
 
-    this.title = this.data.points || this.data.money ? 'Edit' : 'Add';
+    this.title = this.data.points || this.data.required_money ? 'Edit' : 'Add';
   }
 
   onCancel() {
-    this.dialogRef.close({save: false, data: null});
+    this.dialogRef.close();
   }
 
   onSave() {
     if(this.form.valid) {
       const data = {
         points: this.form.get('points').value,
-        money: this.form.get('money').value
+        required_money: this.form.get('required_money').value
       };
-      this.dialogRef.close({save: true, data });
+      this.dialogRef.close(data);
     }
   }
 }

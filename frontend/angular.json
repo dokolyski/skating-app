@@ -97,7 +97,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
+              "src/assets/icons/small-logo-thick.svg",
               "src/assets",
               "src/manifest.webmanifest"
             ],

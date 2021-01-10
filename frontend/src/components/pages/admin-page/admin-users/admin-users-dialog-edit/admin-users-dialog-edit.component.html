@@ -1,0 +1,14 @@
+<ng-container>
+  <h2 mat-dialog-title>EDIT</h2>
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <mat-checkbox [formControl]="this.form.get('organizerSelected')">ORGANIZER</mat-checkbox>
+      <mat-checkbox [formControl]="this.form.get('adminSelected')" *ngIf="data.isAdmin !== undefined">ADMIN</mat-checkbox>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button appAccessOnlineButton mat-button (click)="onSave()">Save</button>
+    <button mat-button (click)="onCancel()">Cancel</button>
+  </mat-dialog-actions>
+</ng-container>

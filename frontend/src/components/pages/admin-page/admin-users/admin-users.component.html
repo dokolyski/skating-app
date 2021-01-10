@@ -1,7 +1,7 @@
 <ng-container>
   <div id="form">
-    <app-interactive-table id="users-table" [columns]="cols" [rows]="rows" (onEdit)="onEdit($event)"
-      (onDelete)="onDelete($event)" addDisabled="true" pagination="false" rowsPerPage="10" checkboxOnBoolean="true">
+    <app-interactive-table id="users-table" [columns]="cols" [rowsObservable]="rows.data$" (onEdit)="onEdit($event)"
+      (onDelete)="onDelete($event)" appAddDisabled checkboxOnBoolean="true">
     </app-interactive-table>
 
     <div>

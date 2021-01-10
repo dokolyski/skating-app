@@ -5,8 +5,9 @@
       <input matInput type="text" [(ngModel)]="fbLink">
     </mat-form-field>
 
-    <app-interactive-table [columns]="cols" [rows]="rows" (onAdd)="onAdd()" (onEdit)="onEdit($event)"
-      (onDelete)="onDelete($event)" pagination rowsPerPage="10"></app-interactive-table>
+    <h2 id="tableHeader">Points shop</h2>
+    <app-interactive-table [columns]="cols" [rowsObservable]="rows.data$" (onAdd)="onAdd()" (onEdit)="onEdit($event)"
+      (onDelete)="onDelete($event)"></app-interactive-table>
 
     <div>
       <button appAccessOnlineButton mat-button (click)="saveData()" aria-label="Save">Save</button>

@@ -1,3 +1,7 @@
+#tableHeader {
+    justify-self: left;
+}
+
 #form {
     display: grid;
     grid-template-columns: auto;

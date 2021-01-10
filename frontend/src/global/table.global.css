@@ -3,10 +3,10 @@ table.appTable {
     border: 1px solid rgba(0,0,0,.12) !important;
 }
 
-tr.appTable:nth-child(2n) {
+table.appTable tr:nth-child(2n) {
     background-color: #f5f5f5 !important;
 }
 
-tr.appTable th, tr.appTable td {
+table.appTable th, table.appTable td {
     text-align: center !important;
 }

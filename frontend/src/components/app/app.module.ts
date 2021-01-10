@@ -29,11 +29,12 @@ import { ReservationsService } from 'services/reservations-service/reservations.
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NewsService } from 'services/news-service/News.service';
 import { MenuModule } from './menu/menu.module';
-import { AdminConfigDialogComponent } from 'components/pages/admin-page/admin-config/admin-config-dialog/admin-config-dialog.component';
+import { AdminConfigDialogEditComponent } from 'components/pages/admin-page/admin-config/admin-config-dialog-edit/admin-config-dialog-edit.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { InputsModule } from 'components/common/inputs/inputs.module';
-import { AdminUsersDialogComponent } from 'components/pages/admin-page/admin-users/admin-users-dialog/admin-users-dialog.component';
+import { AdminUsersDialogEditComponent } from 'components/pages/admin-page/admin-users/admin-users-dialog-edit/admin-users-dialog-edit.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AccessControlModule } from 'directives/access-control/access-control.module';
 
 @NgModule({
   imports: [
@@ -56,12 +57,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ReactiveFormsModule,
     InputsModule,
     MatCheckboxModule,
-    FormsModule
+    FormsModule,
+    AccessControlModule
   ],
   declarations: [
     AppComponent,
-    AdminConfigDialogComponent,
-    AdminUsersDialogComponent
+    AdminConfigDialogEditComponent,
+    AdminUsersDialogEditComponent
   ],
   providers: [
     RestService,
@@ -81,8 +83,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
   ],
   entryComponents: [
-    AdminConfigDialogComponent,
-    AdminUsersDialogComponent
+    AdminConfigDialogEditComponent,
+    AdminUsersDialogEditComponent
   ],
   bootstrap: [AppComponent]
 })

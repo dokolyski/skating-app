@@ -1,23 +1,21 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { Observable, Subscription } from 'rxjs';
 
 export type Col = { name: string, label: string };
 export type Row = { [colName: string]: string };
 
 @Component({
-  selector: 'app-interactive-table[pagination][rowsPerPage][columns][rows]',
+  selector: 'app-interactive-table[columns][rowsObservable]',
   templateUrl: './interactive-table.component.html',
   styleUrls: ['./interactive-table.style.css']
 })
-export class InteractiveTableComponent implements OnInit {
-  @Input()
-  pagination: boolean;
-  @Input()
-  rowsPerPage: number;
+export class InteractiveTableComponent implements OnInit, OnDestroy {
   @Input()
   columns: Col[];
   @Input()
-  rows: Row[];
+  rowsObservable: Observable<Row[]>;
   @Input()
   addDisabled = false;
   @Input()
@@ -31,8 +29,15 @@ export class InteractiveTableComponent implements OnInit {
   onDelete = new EventEmitter<number>();
 
   displayedColumns: string[];
+  dataSource = new MatTableDataSource<Row>();
+  s: Subscription;
 
   ngOnInit() {
     this.displayedColumns = ['actions', ...this.columns.map(v => v.name)];
+    this.s = this.rowsObservable.subscribe(data => this.dataSource.data = data);
+  }
+
+  ngOnDestroy() {
+    this.s?.unsubscribe();
   }
 }

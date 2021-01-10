@@ -1,11 +1,11 @@
-import { Directive, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'services/auth-service/Auth.service';
 
 @Directive({
   selector: '[appAccessOrganizer]'
 })
-export class AppAccessOrganizerDirective {
+export class AppAccessOrganizerDirective implements OnDestroy {
   private subs = this.auth.sessionInfo$
     .pipe(
       map(v => v.isOrganizer)

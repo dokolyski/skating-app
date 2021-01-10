@@ -7,8 +7,11 @@ import * as REST_PATH from 'api/rest-url.json';
 import { UserRequest } from 'api/rest-models/user-request';
 import { AuthService } from 'services/auth-service/Auth.service';
 import { UserChmod } from 'api/rest-models/user-chmod';
-import { tap } from 'rxjs/operators';
-import { zip } from 'rxjs';
+import { first, map, mergeMap, tap } from 'rxjs/operators';
+import { from, zip } from 'rxjs';
+import { ArraySubject } from 'common/classes/array-subject';
+import { AdminUsersDialogEditComponent } from './admin-users-dialog-edit/admin-users-dialog-edit.component';
+import { ModalDialog } from 'common/classes/modal-dialog';
 
 type DataType = {
   id: string,
@@ -24,23 +27,24 @@ type DataType = {
   styleUrls: ['./admin-users.component.css']
 })
 export class AdminUsersComponent implements OnInit {
-  private dialogRef: MatDialogRef<AdminUsersComponent>;
+  private dialog = new ModalDialog(AdminUsersDialogEditComponent, this.matDialog);
   private originalData: DataType;
   private deletedUserId: Set<number> = new Set();
   private editedUserId: Set<number> = new Set();
+
   cols: Col[];
-  rows: DataType;
+  rows = new ArraySubject<any>();
 
   constructor(
-    private dialog: MatDialog,
+    private matDialog: MatDialog,
     private auth: AuthService,
-    private rest: RestService) {}
+    private rest: RestService) { }
 
   ngOnInit() {
     this.rest.do<USERS.ALL.OUTPUT>(REST_PATH.USERS.ALL)
       .subscribe({
         next: (data: UserRequest[]) => {
-          this.rows = this.originalData = data.map(
+          this.originalData = data.map(
             v => ({
               id: v.id.toString(),
               firstname: v.firstname,
@@ -51,6 +55,7 @@ export class AdminUsersComponent implements OnInit {
             })
           );
 
+          this.rows.setDataCopy(this.originalData);
           this.initCols();
         },
         // TODO: error: (error: RestError) => this.handleErrors(error)
@@ -59,69 +64,89 @@ export class AdminUsersComponent implements OnInit {
   }
 
   onEdit(rownum: number) {
-    if(!this.dialogRef) {
-      this.auth.sessionInfo$.subscribe(({ isHAdmin }) => {
-        const {isOrganizer, isAdmin} = this.rows[rownum];
-        const data = isHAdmin ? {isOrganizer, isAdmin} : {isOrganizer};
-        this.dialogRef = this.dialog.open(AdminUsersComponent, {data});
-
-        this.dialogRef.afterClosed().subscribe(({save, data: dialData}) => {
-          if(save) {
-            this.rows[rownum].isOrganizer = dialData.isOrganizer;
-            this.rows[rownum].isAdmin = dialData.isAdmin ?? this.rows[rownum].isAdmin;
-            this.editedUserId.add(rownum);
+    this.auth.sessionInfo$
+      .pipe(
+        first(),
+        map(({ isHAdmin: selfIsHAdmin }) => {
+          const row = this.rows.getIndexCopy(rownum);
+          const [isOrganizer, isAdmin, isHAdmin] = [
+            this.castBoolean(row.isOrganizer),
+            this.castBoolean(row.isAdmin),
+            this.castBoolean(row.isHAdmin)
+          ];
+          return selfIsHAdmin && !isHAdmin ? { isOrganizer, isAdmin } : { isOrganizer };
+        }),
+        mergeMap(data => this.dialog.open(data))
+      ).subscribe(dialData => {
+        if (dialData) {
+          const changeRow = this.rows.getIndexCopy(rownum);
+          changeRow.isOrganizer =this.castString(dialData.isOrganizer);
+          if(dialData.isAdmin) {
+            changeRow.isAdmin = this.castString(dialData.isAdmin);
           }
-        });
+          this.rows.setIndex(changeRow, rownum);
+          this.editedUserId.add(rownum);
+        }
       });
-    }
   }
 
   onDelete(rownum: number) {
-    if (this.rows[rownum].isAdmin) {
-      this.auth.sessionInfo$.subscribe(({ isHAdmin }) => {
-        if (isHAdmin) {
-          this.removeRow(rownum);
-        }
-      });
+    if (this.rows.getIndexCopy(rownum).isAdmin === 'true') {
+      this.auth.sessionInfo$
+        .pipe(
+          first()
+        ).subscribe(({ isHAdmin }) => {
+          if (isHAdmin) {
+            this.removeRow(rownum);
+          } else {
+            alert('Brak uprawnień');
+          }
+        });
     } else {
       this.removeRow(rownum);
     }
   }
 
   saveData() {
-    const $ = Object.entries(this.originalData).map(([index, oData]) => {
-      const rowid = Number.parseInt(index, 10);
-
-      if (this.deletedUserId.has(rowid)) {
-        return this.rest.do(REST_PATH.USERS.DELETE, { templateParamsValues: { id: oData.id } })
-          .pipe(
-            tap(() => this.deletedUserId.delete(rowid))
-          );
-      } else if (this.editedUserId.has(rowid)) {
-        const [admin, organizer] = [oData.isAdmin as unknown as boolean, oData.isOrganizer as unknown as boolean];
-        const body: UserChmod = { admin, organizer };
-        return this.rest.do(REST_PATH.USERS.CHMOD, { templateParamsValues: { id: oData.id }, body })
-          .pipe(
-            tap(() => this.editedUserId.delete(rowid))
-          );
-      }
-    });
-
-    zip($).subscribe({
-      next: () => this.rows = this.originalData
-    });
+    from(Object.entries(this.originalData))
+      .pipe(
+        mergeMap(([index, oData]) => {
+          const rowid = Number.parseInt(index, 10);
+          if (this.deletedUserId.has(rowid)) {
+            return this.rest.do(REST_PATH.USERS.DELETE, { templateParamsValues: { id: oData.id } })
+              .pipe(
+                tap(() => this.deletedUserId.delete(rowid))
+              );
+          } else if (this.editedUserId.has(rowid)) {
+            const [admin, organizer] = [oData.isAdmin as any, oData.isOrganizer as any];
+            const body: UserChmod = { admin, organizer };
+            return this.rest.do(REST_PATH.USERS.CHMOD, { templateParamsValues: { id: oData.id }, body })
+              .pipe(
+                tap(() => this.editedUserId.delete(rowid))
+              );
+          }
+        })
+      ).subscribe(() => this.rows.setDataCopy(this.originalData));
   }
 
   cancelData() {
-    this.rows = this.originalData;
+    this.rows.setDataCopy(this.originalData);
     this.deletedUserId.clear();
     this.editedUserId.clear();
   }
 
+  private castBoolean(v: string): boolean {
+    return v === 'true' ? true : v === 'false' ? false : null;
+  }
+
+  private castString(v: boolean): string {
+    return v === true ? 'true' : v === false ? 'false' : null;
+  }
+
   private removeRow(rownum: number) {
-    const id = Number.parseInt(this.rows[rownum].id, 10);
+    const id = Number.parseInt(this.rows.getIndexCopy(rownum).id, 10);
     this.deletedUserId.add(id);
-    this.rows.splice(rownum);
+    this.rows.deleteIndex(rownum);
   }
 
   private initCols() {

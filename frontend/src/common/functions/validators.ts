@@ -23,7 +23,7 @@ export namespace Validators {
    * @description Checks if input pass regular expression test.
    */
   export function precision(value: number) {
-    return AngularValidators.pattern(`^[+-]?(([1-9][0-9]+)|([0-9]))[\.,][0-9]{${value}}$`);
+    return AngularValidators.pattern(`^[+-]?(([1-9][0-9]+)|([0-9]))([\.,][0-9]{1,${value}})?$`);
   }
 
   /**
