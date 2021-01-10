@@ -13,8 +13,8 @@ import {User} from "../users/user.entity";
 import {Profile} from "../profiles/profile.entity";
 import {Sequelize} from "sequelize-typescript";
 import {
-    SessionParticipantDisjoinRequest,
-    SessionParticipantJoinRequest
+    DisjoinRequest,
+    JoinRequest
 } from "../api/requests/session-participant.dto";
 import {Session} from "../sessions/session.entity";
 import {SessionParticipant} from "./session-participant.entity";

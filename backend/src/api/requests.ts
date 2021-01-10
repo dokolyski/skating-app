@@ -10,7 +10,7 @@ import {
 import {NotificationResponse} from "./responses/notification.dto";
 import {LoginResponse} from "./responses/login.dto";
 import {LoginRequest} from "./requests/login.dto";
-import {SessionParticipantDisjoinRequest, SessionParticipantJoinRequest} from "./requests/session-participant.dto";
+import {DisjoinRequest, JoinRequest} from "./requests/session-participant.dto";
 import SessionResponse from "./responses/session.dto";
 
 
@@ -128,12 +128,12 @@ export namespace NOTIFICATIONS {
 export namespace PARTICIPANTS {
 
     export namespace JOIN {
-        export type REQUEST = SessionParticipantJoinRequest;
+        export type REQUEST = JoinRequest;
         export type RESPONSE = void;
     }
 
     export namespace DISJOIN {
-        export type REQUEST = SessionParticipantDisjoinRequest;
+        export type REQUEST = DisjoinRequest;
         export type RESPONSE = void;
     }
 }

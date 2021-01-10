@@ -4,6 +4,7 @@ import * as jwt from 'jsonwebtoken'
 import server_config from '../config/server.json'
 import {User} from "../users/user.entity";
 import AuthorizedUser from "../helpers/authorized-user"
+import {Profile} from "../profiles/profile.entity";
 
 @Injectable()
 export class TokenMiddleware implements NestMiddleware {
@@ -29,7 +30,16 @@ export class TokenMiddleware implements NestMiddleware {
             if (user === null) {
                 throw new UnauthorizedException('User not found');
             }
+
+            const profile = await Profile.findOne({
+                where: {
+                    user_id: user.id,
+                    is_owner: true
+                }
+            });
+
             AuthorizedUser.setUser(user);
+            AuthorizedUser.setProfile(profile);
             next();
         } catch (e) {
             next(e)
