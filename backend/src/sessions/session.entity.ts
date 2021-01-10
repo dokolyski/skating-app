@@ -1,4 +1,14 @@
-import {Table, Column, Model, DataType, ForeignKey, BelongsTo, BelongsToMany} from 'sequelize-typescript';
+import {
+    Table,
+    Column,
+    Model,
+    DataType,
+    ForeignKey,
+    BelongsTo,
+    BelongsToMany,
+    CreatedAt,
+    UpdatedAt
+} from 'sequelize-typescript';
 import {User} from "../users/user.entity";
 import {Profile} from "../profiles/profile.entity";
 import {SessionParticipant} from "../session_participants/session-participant.entity";
@@ -79,8 +89,9 @@ export class Session extends Model<Session> {
     })
     public status: string
 
-    // @Column()
-    // public readonly createdAt: Date
-    // @Column()
-    // public readonly updatedAt: Date
+    @Column
+    @CreatedAt
+    public readonly createdAt: Date
+    @UpdatedAt
+    public readonly updatedAt: Date
 }

@@ -2,6 +2,7 @@ import {Body, Controller, Delete, Get, Param, Patch, Post, Put} from '@nestjs/co
 import {SessionsService} from "./sessions.service";
 import {SessionEditRequest, SessionRequest, SessionStatusRequest} from "../api/requests/session.dto";
 import {Session} from "./session.entity";
+import SessionResponse from "../api/responses/session.dto";
 
 @Controller('sessions')
 export class SessionsController {
@@ -9,8 +10,8 @@ export class SessionsController {
     }
 
     @Get()
-    async index(): Promise<Session[]>  {
-        return await this.sessionService.findAll();
+    async index(): Promise<SessionResponse[]>  {
+        return await this.sessionService.index();
     }
 
     @Post()
