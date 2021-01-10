@@ -9,5 +9,8 @@
   "vapidKeys": {
     "publicKey": "BGQLgBtsGk9bUjKPsoACyUffc1dmhnlJxRAkjXDs1u9bRgHRdZIaK3JoKP7VmJUx4ZpKgSXAFT2rJ1jqSSgsnww",
     "privateKey": "Ahfi7hswaV0FtW2Q25w9xB7-WU9QyBp_FCIvdmbQJKo"
+  },
+  "session": {
+    "price": 1000
   }
 }
