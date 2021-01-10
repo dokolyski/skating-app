@@ -12,9 +12,17 @@ class AuthorizedUser {
         this.user = user;
     }
 
-    public checkOwnership(userId: number) {
-        if (this.user.id != userId)
-            throw new ForbiddenException()
+    public checkOwnership(userId: number): void {
+        if (this.user.id != userId) {
+            throw new ForbiddenException();
+
+        }
+    }
+
+    public checkIsAdmin(): void {
+        if (this.user.account_type != "ADMIN") {
+            throw new ForbiddenException();
+        }
     }
 }
 
