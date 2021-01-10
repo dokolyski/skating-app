@@ -18,10 +18,14 @@ import {TokenMiddleware} from "./middlewares/token-middleware";
 import {SessionParticipantsController} from "./session_participants/session-participants.controller";
 import {SessionParticipantService} from "./session_participants/session-participants.service";
 import {sessionParticipantProviders} from "./session_participants/session-participants.providers";
+import {ConfigController} from "./config/config.controller";
+import {ConfigService} from "./config/config.service";
+import {configProviders} from "./config/config.providers";
 
 @Module({
     imports: [],
     controllers: [
+        ConfigController,
         SessionsController,
         UsersController,
         ProfilesController,
@@ -30,6 +34,7 @@ import {sessionParticipantProviders} from "./session_participants/session-partic
         SessionParticipantsController
     ],
     providers: [
+        ConfigService,
         SessionsService,
         UsersService,
         ProfilesService,
@@ -37,6 +42,7 @@ import {sessionParticipantProviders} from "./session_participants/session-partic
         VerificationService,
         SessionParticipantService,
         ...databaseProviders,
+        ...configProviders,
         ...sessionsProviders,
         ...usersProviders,
         ...profilesProviders,
