@@ -1,25 +1,17 @@
 <mat-form-field>
-    <mat-label>MONEY</mat-label>
+    <mat-label>{{ 'inputs.MONEY' | translate }}</mat-label>
     <input id="money" type="number" matInput [formControl]="control" required>
 
     <mat-error *ngIf="control.hasError('required')">
-        REQUIRED
-        <!-- {{ translation.errors.inputs.general.REQUIRED }} -->
+        {{ 'errors.inputs.general.REQUIRED' | translate }}
     </mat-error>
     <mat-error *ngIf="control.hasError('min')">
-        MIN
-        <!-- {{ translation.errors.inputs.money.MIN }} -->
+        {{ 'errors.inputs.money.MIN' | translate }}
     </mat-error>
     <mat-error *ngIf="control.hasError('max')">
-        MAX
-        <!-- {{ translation.errors.inputs.money.MAX }} -->
+        {{ 'errors.inputs.money.MAX' | translate }}
     </mat-error>
     <mat-error *ngIf="control.hasError('pattern')">
-        PRECISION
-        <!-- {{ translation.errors.inputs.money.PRECISION }} -->
-    </mat-error>
-    <mat-error *ngIf="control.hasError('server-error')">
-        SERVER_ERROR
-        <!-- {{ serverError }} -->
+        {{ 'errors.inputs.money.PRECISION' | translate }}
     </mat-error>
 </mat-form-field>

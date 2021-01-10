@@ -1,21 +1,24 @@
-<app-route-button *appAccessOnline appIcon [routerLink]="path.LOGGED.SHOP" tooltip="Shop" ariaLabel="Shop">
+<app-route-button *appAccessOnline appIcon [routerLink]="path.LOGGED.SHOP" 
+[tooltip]="'navbar.tooltips.SHOP' | translate" ariaLabel="Shop">
     <mat-icon>shop</mat-icon>
 </app-route-button>
 
-<app-route-button appIcon [routerLink]="path.LOGGED.SCHEDULE" tooltip="Schedule" ariaLabel="Schedule">
+<app-route-button appIcon [routerLink]="path.LOGGED.SCHEDULE" 
+[tooltip]="'navbar.tooltips.SCHEDULE' | translate" ariaLabel="Schedule">
     <mat-icon>today</mat-icon>
 </app-route-button>
 
-<app-route-button appIcon [routerLink]="path.LOGGED.ACCOUNT" tooltip="Account" ariaLabel="Account">
-    <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true" matBadgePosition="above after"
-        matBadgeColor="var(--azure)">account_circle</mat-icon>
+<app-route-button appIcon [routerLink]="path.LOGGED.ACCOUNT" 
+[tooltip]="'navbar.tooltips.ACCOUNT' | translate" ariaLabel="Account">
+    <mat-icon>account_circle</mat-icon>
 </app-route-button>
 
-<app-route-button *appAccessAdmin appIcon [routerLink]="path.ADMIN.DASHBOARD" tooltip="Admin dashboard"
-    ariaLabel="Admin dashboard">
+<app-route-button *appAccessAdmin appIcon [routerLink]="path.ADMIN.DASHBOARD" 
+[tooltip]="'navbar.tooltips.ADMIN_DASHBOARD' | translate" ariaLabel="Admin dashboard">
     <mat-icon>security</mat-icon>
 </app-route-button>
 
-<button *appAccessOnline mat-icon-button (click)="logout()" matTooltip="Logout" aria-label="Logout">
+<button *appAccessOnline mat-icon-button (click)="logout()" 
+[matTooltip]="'navbar.tooltips.LOGOUT' | translate" aria-label="Logout">
     <mat-icon>exit_to_app</mat-icon>
 </button>

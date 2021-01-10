@@ -12,6 +12,7 @@ import { from, zip } from 'rxjs';
 import { ArraySubject } from 'common/classes/array-subject';
 import { AdminUsersDialogEditComponent } from './admin-users-dialog-edit/admin-users-dialog-edit.component';
 import { ModalDialog } from 'common/classes/modal-dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 type DataType = {
   id: string,
@@ -36,6 +37,7 @@ export class AdminUsersComponent implements OnInit {
   rows = new ArraySubject<any>();
 
   constructor(
+    private translate: TranslateService,
     private matDialog: MatDialog,
     private auth: AuthService,
     private rest: RestService) { }
@@ -150,31 +152,40 @@ export class AdminUsersComponent implements OnInit {
   }
 
   private initCols() {
-    this.cols = [
-      {
-        label: 'id',
-        name: 'id'
-      },
-      {
-        label: 'firstname',
-        name: 'firstname'
-      },
-      {
-        label: 'lastname',
-        name: 'lastname'
-      },
-      {
-        label: 'isOrganizer',
-        name: 'isOrganizer'
-      },
-      {
-        label: 'isAdmin',
-        name: 'isAdmin'
-      },
-      {
-        label: 'isHAdmin',
-        name: 'isHAdmin'
-      },
-    ];
+    zip(
+      this.translate.get('pages.admin.users.columns.ID'),
+      this.translate.get('pages.admin.users.columns.FIRSTNAME'),
+      this.translate.get('pages.admin.users.columns.LASTNAME'),
+      this.translate.get('pages.admin.users.columns.IS_ORGANIZER'),
+      this.translate.get('pages.admin.users.columns.IS_ADMIN'),
+      this.translate.get('pages.admin.users.columns.IS_HADMIN')
+    ).subscribe(t => {
+      this.cols = [
+        {
+          name: 'id',
+          label: t[0]
+        },
+        {
+          name: 'firstname',
+          label: t[1]
+        },
+        {
+          name: 'lastname',
+          label: t[2]
+        },
+        {
+          name: 'isOrganizer',
+          label: t[3]
+        },
+        {
+          name: 'isAdmin',
+          label: t[4]
+        },
+        {
+          name: 'isHAdmin',
+          label: t[5]
+        },
+      ];
+    });
   }
 }

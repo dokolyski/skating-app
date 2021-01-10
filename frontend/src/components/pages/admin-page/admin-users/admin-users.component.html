@@ -1,12 +1,17 @@
-<ng-container>
+<ng-container *ngIf="cols">
   <div id="form">
     <app-interactive-table id="users-table" [columns]="cols" [rowsObservable]="rows.data$" (onEdit)="onEdit($event)"
       (onDelete)="onDelete($event)" appAddDisabled checkboxOnBoolean="true">
     </app-interactive-table>
 
     <div>
-      <button appAccessOnlineButton mat-button (click)="saveData()" aria-label="Save">Save</button>
-      <button mat-button (click)="cancelData()" aria-label="Cancel">Cancel</button>
+      <button appAccessOnlineButton mat-button (click)="saveData()" aria-label="Save">
+        {{ 'pages.admin.users.controls.SAVE' | translate }}
+      </button>
+
+      <button mat-button (click)="cancelData()" aria-label="Cancel">
+        {{ 'pages.admin.users.controls.CANCEL' | translate }}
+      </button>
     </div>
   </div>
 </ng-container>

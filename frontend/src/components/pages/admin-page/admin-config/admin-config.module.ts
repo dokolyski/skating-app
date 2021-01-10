@@ -7,6 +7,7 @@ import { InteractiveTableModule } from 'components/common/interactive-table/inte
 import { InputsModule } from 'components/common/inputs/inputs.module';
 import { MatButtonModule } from '@angular/material/button';
 import { AccessControlModule } from 'directives/access-control/access-control.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { AccessControlModule } from 'directives/access-control/access-control.mo
     InputsModule,
     FormsModule,
     MatButtonModule,
-    AccessControlModule
+    AccessControlModule,
+    TranslateModule
   ],
   declarations: [
     AdminConfigComponent

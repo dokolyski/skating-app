@@ -14,8 +14,4 @@ export class PointsComponent {
   static controlSchema = ['', [Validators.required, Validators.min(0), Validators.max(1e6), VLD.Validators.integer]];
   @Input()
   control: FormControl;
-  // @Input()
-  // translation: { errors, form };
-  // @Input()
-  // serverError: string;
 }

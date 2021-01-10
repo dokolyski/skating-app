@@ -65,8 +65,8 @@ const routes: Routes = [
   {
     path: 'admin',
     component: Pages.AdminPageComponent,
-    canActivate: [OnlineGuard, AuthGuard, AdminGuard],
-    canActivateChild: [OnlineGuard, AuthGuard, AdminGuard],
+    canActivate: [AuthGuard, AdminGuard],
+    canActivateChild: [AuthGuard, AdminGuard],
     children: [
       {
         path: 'config',

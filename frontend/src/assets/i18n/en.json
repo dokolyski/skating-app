@@ -21,6 +21,16 @@
       "dateBirth": {
         "INVALID": "Invalid date."
       },
+      "money": {
+        "MIN": "Under minimum",
+        "MAX": "Over maximum",
+        "PRECISION": "Precision error"
+      },
+      "points": {
+        "MIN": "Under minimum",
+        "MAX": "Over maximum",
+        "INTEGER": "Only integers"
+      },
       "general": {
         "REQUIRED": "Input value is required."
       }
@@ -35,7 +45,9 @@
     "DATE_BIRTH": "Date of birth",
     "TELEPHONE_NUMBER": "Telephone No.",
     "SKILL_LEVEL": "Skating skills level",
-    "SELECTED_PROFILE": "Selected profile"
+    "SELECTED_PROFILE": "Selected profile",
+    "MONEY": "Price",
+    "POINTS": "Points"
   },
   "pages": {
     "registration": {
@@ -134,6 +146,55 @@
       "NEWS": "News"
     },
     "admin": {
+      "config": {
+        "dialog": {
+          "title": {
+            "ADD": "Add",
+            "EDIT": "Edit"
+          },
+          "controls": {
+            "SAVE": "Save",
+            "CANCEL": "Cancel"
+          }
+        },
+        "form": {
+          "FACEBOOK_LINK": "Facebook page link",
+          "POINTS_SHOP": "Points shop",
+          "columns": {
+            "POINTS": "Points",
+            "REQ_MONEY": "Price"
+          }
+        },
+        "controls": {
+          "SAVE": "Save",
+          "CANCEL": "Cancel"
+        }
+      },
+      "users": {
+        "dialog": {
+          "TITLE": "Edit",
+          "form": {
+            "ORGANIZER": "Organizer",
+            "ADMIN": "Admin"
+          },
+          "controls": {
+            "SAVE": "Save",
+            "CANCEL": "Cancel"
+          }
+        },
+        "columns": {
+          "ID": "ID",
+          "FIRSTNAME": "Firstname",
+          "LASTNAME": "Lastname",
+          "IS_ORGANIZER": "Organizer?",
+          "IS_ADMIN": "Admin?",
+          "IS_HADMIN": "Head admin?"
+        },
+        "controls": {
+          "SAVE": "Save",
+          "CANCEL": "Cancel"
+        }
+      },
       "menu": {
         "CONFIG": "Config",
         "USERS": "Users"
@@ -141,6 +202,14 @@
     }
   },
   "navbar": {
+    "tooltips": {
+      "SHOP": "Shop",
+      "SCHEDULE": "Schedule",
+      "ACCOUNT": "Account",
+      "ADMIN_DASHBOARD": "Admin dashboard",
+      "LOGOUT": "Logout",
+      "LANGUAGE": "Language"
+    },
     "buttons": {
       "SIGN_IN": "Sign In",
       "SIGN_UP": "Sign Up"

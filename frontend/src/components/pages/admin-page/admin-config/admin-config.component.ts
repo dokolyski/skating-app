@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AdminConfigDialogEditComponent } from './admin-config-dialog-edit/admin-config-dialog-edit.component';
 import { ArraySubject } from 'common/classes/array-subject';
 import { ModalDialog } from 'common/classes/modal-dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-admin-config',
@@ -25,6 +27,7 @@ export class AdminConfigComponent implements OnInit {
   rows = new ArraySubject<any>();
 
   constructor(
+    private translate: TranslateService,
     private matDialog: MatDialog,
     private rest: RestService) { }
 
@@ -46,26 +49,26 @@ export class AdminConfigComponent implements OnInit {
   }
 
   onAdd() {
-    this.dialog.open({required_money: null, points: null})
-    .subscribe(data => {
-      if(data) {
-        if(this.checkDuplicates(data)) {
-          alert('Duplikat');
-        } else {
-          this.rows.push(data);
+    this.dialog.open({ required_money: null, points: null })
+      .subscribe(data => {
+        if (data) {
+          if (this.checkDuplicates(data)) {
+            alert('Duplikat');
+          } else {
+            this.rows.push(data);
+          }
         }
-      }
-    });
+      });
   }
 
   onEdit(rownum: number) {
-    const {required_money, points} = this.rows.getIndexCopy(rownum);
-    this.dialog.open({required_money, points})
-    .subscribe(data => {
-      if(data) {
-        this.rows.setIndex(data, rownum);
-      }
-    });
+    const { required_money, points } = this.rows.getIndexCopy(rownum);
+    this.dialog.open({ required_money, points })
+      .subscribe(data => {
+        if (data) {
+          this.rows.setIndex(data, rownum);
+        }
+      });
   }
 
   onDelete(rownum: number) {
@@ -97,14 +100,19 @@ export class AdminConfigComponent implements OnInit {
   }
 
   private initCols() {
-    this.cols = [{
-      name: 'points',
-      label: 'Points',
-    },
-    {
-      name: 'required_money',
-      label: 'Money',
-    }
-  ];
+    zip(
+      this.translate.get('pages.admin.config.form.columns.POINTS'),
+      this.translate.get('pages.admin.config.form.columns.REQ_MONEY')
+    ).subscribe(t => {
+      this.cols = [{
+        name: 'points',
+        label: t[0]
+      },
+      {
+        name: 'required_money',
+        label: t[1]
+      }
+      ];
+    });
   }
 }

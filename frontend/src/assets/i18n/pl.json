@@ -21,6 +21,16 @@
       "dateBirth": {
         "INVALID": "Niepoprawna wartość daty."
       },
+      "money": {
+        "MIN": "Poniżej minimum",
+        "MAX": "Powyzej maksimum",
+        "PRECISION": "Błąd precyzji"
+      },
+      "points": {
+        "MIN": "Poniżej minimum",
+        "MAX": "Powyzej maksimum",
+        "INTEGER": "Tylko liczby całkowite"
+      },
       "general": {
         "REQUIRED": "Wymaga podania wartości."
       }
@@ -35,7 +45,9 @@
     "DATE_BIRTH": "Data urodzenia",
     "TELEPHONE_NUMBER": "Numer telefonu",
     "SKILL_LEVEL": "Poziom umiejętności łyżwiarskich",
-    "SELECTED_PROFILE": "Wybrany profil"
+    "SELECTED_PROFILE": "Wybrany profil",
+    "MONEY": "Cena",
+    "POINTS": "Punkty"
   },
   "pages": {
     "registration": {
@@ -134,6 +146,55 @@
       "NEWS": "Aktualności"
     },
     "admin": {
+      "config": {
+        "dialog": {
+          "title": {
+            "ADD": "Dodanie",
+            "EDIT": "Edycja"
+          },
+          "controls": {
+            "SAVE": "Zapisz",
+            "CANCEL": "Anuluj"
+          }
+        },
+        "form": {
+          "FACEBOOK_LINK": "Link do strony na Facebook'u",
+          "POINTS_SHOP": "Cennik",
+          "columns": {
+            "POINTS": "Punkty",
+            "REQ_MONEY": "Cena"
+          }
+        },
+        "controls": {
+          "SAVE": "Zapisz",
+          "CANCEL": "Anuluj"
+        }
+      },
+      "users": {
+        "dialog": {
+          "TITLE": "Edycja",
+          "form": {
+            "ORGANIZER": "Organizator",
+            "ADMIN": "Admin"
+          },
+          "controls": {
+            "SAVE": "Zapisz",
+            "CANCEL": "Anuluj"
+          }
+        },
+        "columns": {
+          "ID": "ID",
+          "FIRSTNAME": "Imie",
+          "LASTNAME": "Nazwisko",
+          "IS_ORGANIZER": "Organizator?",
+          "IS_ADMIN": "Admin?",
+          "IS_HADMIN": "Główny admin?"
+        },
+        "controls": {
+          "SAVE": "Zapisz",
+          "CANCEL": "Anuluj"
+        }
+      },
       "menu": {
         "CONFIG": "Konfiguracja",
         "USERS": "Użytkownicy"
@@ -141,6 +202,14 @@
     }
   },
   "navbar": {
+    "tooltips": {
+      "SHOP": "Sklep",
+      "SCHEDULE": "Grafik",
+      "ACCOUNT": "Konto",
+      "ADMIN_DASHBOARD": "Panel administratora",
+      "LOGOUT": "Wyloguj",
+      "LANGUAGE": "Język"
+    },
     "buttons": {
       "SIGN_IN": "Logowanie",
       "SIGN_UP": "Rejestracja"

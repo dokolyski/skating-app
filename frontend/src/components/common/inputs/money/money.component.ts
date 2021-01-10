@@ -14,8 +14,4 @@ export class MoneyComponent {
   static controlSchema = ['', [Validators.required, Validators.min(0.01), Validators.max(1e6), VLD.Validators.precision(2)]];
   @Input()
   control: FormControl;
-  // @Input()
-  // translation: { errors, form };
-  // @Input()
-  // serverError: string;
 }
