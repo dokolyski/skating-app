@@ -61,11 +61,6 @@ const routes: Routes = [
     canActivate: [OnlineGuard, AuthGuard]
   },
   /*ORGANIZER*/
-  {
-    path: PATH.ORGANIZER.MANAGE_SCHEDULE,
-    component: Pages.ManageSchedulePageComponent,
-    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
-  },
   /*ADMIN*/
   {
     path: 'admin',

@@ -1,27 +1,21 @@
-<ng-container *ngIf="(language.dictionary$ | async) as $">
-    <app-route-button *appAccessOnline appIcon [routerLink]="path.LOGGED.SHOP" 
-    tooltip="Shop" ariaLabel="Shop">
-        <mat-icon>shop</mat-icon>
-    </app-route-button>
+<app-route-button *appAccessOnline appIcon [routerLink]="path.LOGGED.SHOP" tooltip="Shop" ariaLabel="Shop">
+    <mat-icon>shop</mat-icon>
+</app-route-button>
 
-    <app-route-button appIcon [routerLink]="path.LOGGED.SCHEDULE" 
-    tooltip="Schedule" ariaLabel="Schedule">
-        <mat-icon>today</mat-icon>
-    </app-route-button>
+<app-route-button appIcon [routerLink]="path.LOGGED.SCHEDULE" tooltip="Schedule" ariaLabel="Schedule">
+    <mat-icon>today</mat-icon>
+</app-route-button>
 
-    <app-route-button appIcon [routerLink]="path.LOGGED.ACCOUNT" 
-    tooltip="Account" ariaLabel="Account">
-        <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true" matBadgePosition="above after"
+<app-route-button appIcon [routerLink]="path.LOGGED.ACCOUNT" tooltip="Account" ariaLabel="Account">
+    <mat-icon matBadge="3" matBadgeSize="small" [matBadgeOverlap]="true" matBadgePosition="above after"
         matBadgeColor="var(--azure)">account_circle</mat-icon>
-    </app-route-button>
+</app-route-button>
 
-    <app-route-button *appAccessAdmin appIcon [routerLink]="path.ADMIN.DASHBOARD" 
-    tooltip="Admin dashboard" ariaLabel="Admin dashboard">
-        <mat-icon>security</mat-icon>
-    </app-route-button>
+<app-route-button *appAccessAdmin appIcon [routerLink]="path.ADMIN.DASHBOARD" tooltip="Admin dashboard"
+    ariaLabel="Admin dashboard">
+    <mat-icon>security</mat-icon>
+</app-route-button>
 
-    <button *appAccessOnline mat-icon-button (click)="logout()" 
-    matTooltip="Logout" aria-label="Logout">
-        <mat-icon>exit_to_app</mat-icon>
-    </button>
-</ng-container>
+<button *appAccessOnline mat-icon-button (click)="logout()" matTooltip="Logout" aria-label="Logout">
+    <mat-icon>exit_to_app</mat-icon>
+</button>

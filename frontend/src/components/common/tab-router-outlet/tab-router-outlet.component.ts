@@ -1,9 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ContentChildren, OnDestroy, QueryList } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { NavigationEnd, Router } from '@angular/router';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { TabSubpageDirective } from './tab-subpage.directive';
-import { filter, skip, takeUntil, takeWhile } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tab-router-outlet',

@@ -1,9 +1,9 @@
-        <div id="page">
-            <div class="row-right">
-                <mat-slide-toggle [(ngModel)]="editMode">
-                    {{ 'profile_settings.form.controls.EDIT' | translate }}
-                </mat-slide-toggle>
-            </div>
+<div id="page">
+  <div class="row-right">
+    <mat-slide-toggle [(ngModel)]="editMode">
+      {{ 'pages.account.profile_settings.form.controls.EDIT' | translate }}
+    </mat-slide-toggle>
+  </div>
 
   <app-profile-selection [values]="profiles" [(selected)]="selectedProfile">
   </app-profile-selection>
@@ -13,23 +13,20 @@
       <app-name [control]="form.get('name')" [serverError]="serverInputsErrors?.name">
       </app-name>
 
-      <app-lastname [control]="form.get('lastname')"
-                    [serverError]="serverInputsErrors?.lastname"></app-lastname>
+      <app-lastname [control]="form.get('lastname')" [serverError]="serverInputsErrors?.lastname"></app-lastname>
     </div>
 
-    <app-date-birth [control]="form.get('dateBirth')"
-                    [serverError]="serverInputsErrors?.dateBirth"></app-date-birth>
+    <app-date-birth [control]="form.get('dateBirth')" [serverError]="serverInputsErrors?.dateBirth"></app-date-birth>
 
-    <app-skill-level [control]="form.get('skillLevel')"
-                     [values]="skillLevelPossibleValues"></app-skill-level>
+    <app-skill-level [control]="form.get('skillLevel')" [values]="skillLevelPossibleValues"></app-skill-level>
 
-                <div class="buttons">
-                    <button mat-button (click)="onCancel.emit()" class="cancelButton" [disabled]="!editMode">
-                      {{ 'profile_settings.form.controls.CANCEL' | translate }}
-                    </button>
-                    <button appAccessOnlineButton mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">
-                      {{ 'profile_settings.form.controls.SAVE' | translate }}
-                    </button>
-                </div>
-            </form>
-        </div>
+    <div class="buttons">
+      <button mat-button (click)="onCancel.emit()" class="cancelButton" [disabled]="!editMode">
+        {{ 'pages.account.profile_settings.form.controls.CANCEL' | translate }}
+      </button>
+      <button appAccessOnlineButton mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">
+        {{ 'pages.account.profile_settings.form.controls.SAVE' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

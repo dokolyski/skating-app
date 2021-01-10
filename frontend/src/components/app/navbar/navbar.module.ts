@@ -13,6 +13,7 @@ import { LoggedActionsComponent } from './logged-actions/logged-actions.componen
 import { NavbarComponent } from './navbar.component';
 import { UnloggedActionsComponent } from './unlogged-actions/unlogged-actions.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         RouteButtonModule,
         MatBadgeModule,
         AccessControlModule,
-        MatTooltipModule
+        MatTooltipModule,
+        TranslateModule
     ],
     declarations: [
         NavbarComponent,

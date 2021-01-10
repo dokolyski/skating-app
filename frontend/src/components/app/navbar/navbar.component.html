@@ -1,42 +1,25 @@
-<ng-container *ngIf="(language.dictionary$ | async) as $">
-  <mat-toolbar id="navbar">
-    <div class="nav-grid">
-      <div>
-        <span [routerLink]="'/' + path.EVERYONE.MAIN" id="logo_name_link">
-          <button [disableRipple]="true" mat-icon-button class="example-icon"
-            aria-label="Example icon-button with menu icon">
-            <mat-icon svgIcon="small-logo" class="main-logo"></mat-icon>
-          </button>
-          <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
-        </span>
-      </div>
-
-      <!-- buttons -->
-      <div class="buttons-flex">
-        <ng-container *ngIf="notLogged; else logged">
-          <app-unlogged-actions></app-unlogged-actions>
-        </ng-container>
-        <ng-template #logged>
-          <app-logged-actions></app-logged-actions>
-        </ng-template>
-
-        <button mat-icon-button [matMenuTriggerFor]="menu"
-        matTooltip="Language" aria-label="Select language">
-          <mat-icon>language</mat-icon>
+<mat-toolbar id="navbar">
+  <div class="nav-grid">
+    <div>
+      <span [routerLink]="'/' + path.EVERYONE.MAIN" id="logo_name_link">
+        <button [disableRipple]="true" mat-icon-button class="example-icon"
+          aria-label="Example icon-button with menu icon">
+          <mat-icon svgIcon="small-logo" class="main-logo"></mat-icon>
         </button>
         <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
+      </span>
     </div>
 
     <!-- buttons -->
     <div class="buttons-flex">
       <ng-container *ngIf="notLogged; else logged">
-        <app-menu-unlogged></app-menu-unlogged>
+        <app-unlogged-actions></app-unlogged-actions>
       </ng-container>
       <ng-template #logged>
-        <app-menu-logged></app-menu-logged>
+        <app-logged-actions></app-logged-actions>
       </ng-template>
 
-      <button mat-icon-button [matMenuTriggerFor]="menu">
+      <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Language" aria-label="Select language">
         <mat-icon>language</mat-icon>
       </button>
     </div>
