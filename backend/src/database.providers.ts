@@ -4,6 +4,7 @@ import {User} from "./users/user.entity";
 import {Session} from './sessions/session.entity';
 import {Notification} from "./notifications/notification.entity";
 import {SessionParticipant} from "./session_participants/session-participant.entity";
+import {Config} from "./config/config.entity";
 
 export const databaseProviders = [
     {
@@ -14,7 +15,7 @@ export const databaseProviders = [
                 storage: 'database_test.sqlite'
             });
 
-            sequelize.addModels([User, Profile, Session, Notification, SessionParticipant]);
+            sequelize.addModels([Config, User, Profile, Session, Notification, SessionParticipant]);
 
             await sequelize.sync({force: true});
             return sequelize;
