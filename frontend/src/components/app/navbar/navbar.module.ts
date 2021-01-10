@@ -9,9 +9,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { AccessControlModule } from 'directives/access-control/access-control.module';
 import { RouteButtonModule } from 'components/common/route-button/route-button.module';
-import { LoggedMenuComponent } from './logged-menu/logged-menu.component';
-import { MenuComponent } from './menu.component';
-import { UnloggedMenuComponent } from './unlogged-menu/unlogged-menu.component';
+import { LoggedActionsComponent } from './logged-actions/logged-actions.component';
+import { NavbarComponent } from './navbar.component';
+import { UnloggedActionsComponent } from './unlogged-actions/unlogged-actions.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
@@ -29,10 +29,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatTooltipModule
     ],
     declarations: [
-        MenuComponent,
-        LoggedMenuComponent,
-        UnloggedMenuComponent
+        NavbarComponent,
+        LoggedActionsComponent,
+        UnloggedActionsComponent
     ],
-    exports: [MenuComponent]
+    exports: [NavbarComponent]
 })
-export class MenuModule {}
+export class NavbarModule {}

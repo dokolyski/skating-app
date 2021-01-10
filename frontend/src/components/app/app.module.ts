@@ -28,7 +28,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { ReservationsService } from 'services/reservations-service/reservations.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NewsService } from 'services/news-service/News.service';
-import { MenuModule } from './menu/menu.module';
+import { NavbarModule } from './navbar/navbar.module';
 import { AdminConfigDialogEditComponent } from 'components/pages/admin-page/admin-config/admin-config-dialog-edit/admin-config-dialog-edit.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { InputsModule } from 'components/common/inputs/inputs.module';
@@ -51,7 +51,7 @@ import { AccessControlModule } from 'directives/access-control/access-control.mo
     FlexLayoutModule,
     RouterModule,
     MatDatepickerModule,
-    MenuModule,
+    NavbarModule,
     MatBadgeModule,
     MatDialogModule,
     ReactiveFormsModule,

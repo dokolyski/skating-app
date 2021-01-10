@@ -5,10 +5,10 @@ import { AuthService } from 'services/auth-service/Auth.service';
 import { redirectToMain } from 'common/functions/page-redirect';
 
 @Component({
-  selector: 'app-menu-logged',
-  templateUrl: './logged-menu.component.html'
+  selector: 'app-logged-actions',
+  templateUrl: './logged-actions.component.html'
 })
-export class LoggedMenuComponent {
+export class LoggedActionsComponent {
   path = PATH['default'];
 
   constructor(

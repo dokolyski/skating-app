@@ -14,10 +14,10 @@
       <!-- buttons -->
       <div class="buttons-flex">
         <ng-container *ngIf="notLogged; else logged">
-          <app-menu-unlogged></app-menu-unlogged>
+          <app-unlogged-actions></app-unlogged-actions>
         </ng-container>
         <ng-template #logged>
-          <app-menu-logged></app-menu-logged>
+          <app-logged-actions></app-logged-actions>
         </ng-template>
 
         <button mat-icon-button [matMenuTriggerFor]="menu" 

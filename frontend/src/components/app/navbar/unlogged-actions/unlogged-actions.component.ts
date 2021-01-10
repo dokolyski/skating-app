@@ -4,10 +4,10 @@ import * as PATH from 'assets/config/url.json';
 import { OnlineGuard } from 'guards/Online.guard';
 
 @Component({
-  selector: 'app-menu-unlogged',
-  templateUrl: './unlogged-menu.component.html'
+  selector: 'app-unlogged-actions',
+  templateUrl: './unlogged-actions.component.html'
 })
-export class UnloggedMenuComponent {
+export class UnloggedActionsComponent {
   online = OnlineGuard.isOnline();
   path = PATH['default'];
 

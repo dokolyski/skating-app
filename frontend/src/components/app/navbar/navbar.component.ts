@@ -7,11 +7,11 @@ import { AuthService } from 'services/auth-service/Auth.service';
 import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
 })
-export class MenuComponent implements OnInit {
+export class NavbarComponent implements OnInit {
   private bodyElement: HTMLBodyElement = document.querySelector('body');
   notLogged: boolean;
   path = PATH['default'];
@@ -38,12 +38,18 @@ export class MenuComponent implements OnInit {
   }
 
   changeLanguage(language: 'polish' | 'english') {
+    this.fadeOutPage();
+    this.language.language = language;
+    this.fadeInPage();
+  }
+
+  private fadeOutPage() {
     this.bodyElement.animate([
       { opacity: 1 }, { opacity: 0 }
     ], { duration: 300 });
+  }
 
-    this.language.language = language;
-
+  private fadeInPage() {
     this.bodyElement.animate([
       { opacity: 0 }, { opacity: 1 }
     ], { duration: 300 });
