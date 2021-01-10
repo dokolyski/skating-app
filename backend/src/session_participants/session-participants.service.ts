@@ -35,17 +35,28 @@ export class SessionParticipantService {
         const session = await this.getSession(request.session_id);
         const profiles = await this.getProfiles(request.profiles_ids, AuthorizedUser.getId());
 
+        notfound(session);
+
         const t = await this.sequelize.transaction();
 
         try {
             for (const profile of profiles) {
+
+                const sp = await this.sessionParticipantsRepository.findAndCountAll({
+                    where: {
+                        profile_id: profile.id,
+                        session_id: session.id
+                    }
+                });
+                if (sp.count > 0) {
+                    throw new UnprocessableEntityException("Already joined");
+                }
+
                 await this.sessionParticipantsRepository.create({
                     session_id: session.id,
                     profile_id: profile.id
                 }, {transaction: t})
             }
-
-            // session.$create('Profile', request, {transaction: t});
 
             await t.commit()
         } catch (err) {
