@@ -1,4 +1,4 @@
-import {Column, Table, DataType, Model, HasMany} from "sequelize-typescript";
+import {Column, Table, DataType, Model, HasMany, CreatedAt, UpdatedAt} from "sequelize-typescript";
 import {Profile} from "../profiles/profile.entity";
 import {Notification} from "../notifications/notification.entity";
 import bcrypt from 'bcrypt'
@@ -113,8 +113,13 @@ export class User extends Model<User> {
     @HasMany(() => Notification)
     notifications: Notification[];
 
-    // public readonly createdAt: Date;
-    // public readonly updatedAt: Date;
+    @Column
+    @CreatedAt
+    public readonly createdAt: Date;
+
+    @Column
+    @UpdatedAt
+    public readonly updatedAt: Date;
 
     static calculateEntrophy(password: string): number {
         const charsCounter = Array.from(password).reduce((p, c) => {

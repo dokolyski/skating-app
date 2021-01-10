@@ -6,6 +6,7 @@ import {Profile} from "../profiles/profile.entity";
 import {UserEditRequest, UserRequest} from "../api/requests/user.dto";
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user";
+import {UserResponse} from "../api/responses/user.dto";
 
 @Injectable()
 export class UsersService {
@@ -13,6 +14,14 @@ export class UsersService {
                 @Inject(PROFILE_REPOSITORY) private profilesRepository: typeof Profile,
                 @Inject(SEQUELIZE) private readonly sequelize: Sequelize
     ) {
+    }
+
+    async get(id: number): Promise<UserResponse> {
+        const user = await User.findByPk(id);
+        notfound(user);
+        AuthorizedUser.checkOwnership(user.id);
+
+        return user;
     }
 
     async create(userRequest: UserRequest) {
@@ -60,4 +69,6 @@ export class UsersService {
 
         await user.destroy();
     }
+
+
 }

@@ -4,7 +4,7 @@ import {Notification} from "./notification.entity";
 import {Session} from "../sessions/session.entity";
 import {Sequelize} from "sequelize-typescript";
 import {
-    NotificationEditStatusRequest,
+    NotificationStatusRequest,
     NotificationIndexRequest,
     NotificationRequest
 } from "../api/requests/notification.dto";
@@ -72,7 +72,7 @@ export class NotificationsService {
         }
     }
 
-    async editStatus(id: number, request: NotificationEditStatusRequest): Promise<void> {
+    async status(id: number, request: NotificationStatusRequest): Promise<void> {
 
         const notification = await this.notificationsRepository.findByPk(id);
         notfound(notification);

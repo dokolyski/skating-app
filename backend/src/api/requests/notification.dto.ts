@@ -37,7 +37,7 @@ export class NotificationIndexRequest {
     user_id: number;
 }
 
-export class NotificationEditStatusRequest
+export class NotificationStatusRequest
 {
     @IsNotEmpty()
     @IsString()
