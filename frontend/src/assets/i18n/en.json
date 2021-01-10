@@ -159,7 +159,7 @@
         },
         "form": {
           "FACEBOOK_LINK": "Facebook page link",
-          "POINTS_SHOP": "Points shop",
+          "POINTS_SHOP": "Price list",
           "columns": {
             "POINTS": "Points",
             "REQ_MONEY": "Price"
