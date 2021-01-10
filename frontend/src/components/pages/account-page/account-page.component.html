@@ -3,16 +3,19 @@
 </app-middle-column>
 
 <ng-template #content>
-    <ng-container *ngIf="(lngService.dictionary$ | async) as $">
-        <ng-container *ngIf="{menu: $.pages.account.menu} as $">
             <div>
                 <app-tab-router-outlet>
-                    <ng-template appTabSubpage [url]="PATH.LOGGED.NOTIFICATIONS" label="Notifications"></ng-template>
-                    <ng-template appTabSubpage [url]="PATH.LOGGED.SETTINGS" label="Settings"></ng-template>
-                    <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_ADD" label="Profile add"></ng-template>
-                    <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_SETTINGS" label="Profile settings"></ng-template>
+                    <ng-template appTabSubpage [url]="PATH.LOGGED.NOTIFICATIONS"
+                    [label]="'pages.account.menu.ACCOUNT_NOTIFICATIONS' | translate"></ng-template>
+
+                    <ng-template appTabSubpage [url]="PATH.LOGGED.SETTINGS"
+                    [label]="'pages.account.menu.ACCOUNT_SETTINGS' | translate"></ng-template>
+
+                    <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_ADD"
+                    [label]="'pages.account.menu.PROFILE_ADD' | translate"></ng-template>
+
+                    <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_SETTINGS"
+                    [label]="'pages.account.menu.PROFILE_SETTINGS' | translate"></ng-template>
                 </app-tab-router-outlet>
             </div>
-        </ng-container>
-    </ng-container>
 </ng-template>

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import * as VLD from 'common/functions/validators';
 
 @Component({
-  selector: 'app-repeat-password[control][translation]',
+  selector: 'app-repeat-password[control]',
   templateUrl: './repeat-password.component.html'
 })
 export class RepeatPasswordComponent {
@@ -19,6 +19,4 @@ export class RepeatPasswordComponent {
   static groupValidator = VLD.Validators.repeatPassword;
   @Input()
   control: FormControl;
-  @Input()
-  translation: { errors, form };
 }

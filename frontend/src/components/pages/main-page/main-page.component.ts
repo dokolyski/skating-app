@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LanguageService } from 'services/language-service/Language.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({

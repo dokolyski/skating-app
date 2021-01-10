@@ -2,8 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestError } from 'api/rest-error';
 import { CONFIG, PROFILES } from 'api/rest-types';
-import { LanguageService } from 'services/language-service/Language.service';
-import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { NameComponent } from 'components/common/inputs/name/name.component';
@@ -13,6 +11,7 @@ import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-
 import { Skills } from 'api/rest-models/config-models';
 import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
+import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 
 /**
  * @description Creates next user profile with limit per user, gather informations about
@@ -45,8 +44,7 @@ export class ProfileAddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private rest: RestService,
-    public lngService: LanguageService,
-    private lngErrorService: LanguageErrorService) {
+    private errorMessageService: ErrorMessageService) {
       this.onCancel.subscribe(() => this.clearForm());
      }
 
@@ -83,7 +81,7 @@ export class ProfileAddComponent implements OnInit {
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {
-    this.lngErrorService.getErrorsStrings(error)
+    this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
           this.onError.emit(translation.message);

@@ -1,9 +1,9 @@
 <mat-form-field>
-  <mat-label>{{ translation.form.inputs.LASTNAME }}</mat-label>
+  <mat-label>{{ 'inputs.LASTNAME' | translate }}</mat-label>
   <input id="lastname" type="text" matInput [formControl]="control" required>
 
   <mat-error *ngIf="control.hasError('required')">
-    {{ translation.errors.inputs.general.REQUIRED }}
+    {{ 'errors.inputs.general.REQUIRED' | translate }}
   </mat-error>
   <mat-error *ngIf="control.hasError('server-error')">
     {{ serverError }}

@@ -17,7 +17,6 @@ import { AddParticipantDialogComponent } from './session-card/add-participant-di
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import {EventService} from 'services/event-service/event.service';
 import { ChooseParticipantDialogComponent } from './session-card/choose-participant-dialog/choose-participant-dialog.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -27,6 +26,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -48,7 +48,8 @@ import {MatInputModule} from '@angular/material/input';
     MatFormFieldModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatInputModule
+    MatInputModule,
+    TranslateModule
   ],
   exports: [
     ScheduleComponent
@@ -63,8 +64,6 @@ import {MatInputModule} from '@angular/material/input';
     ChooseParticipantDialogComponent,
     NewSessionFormComponent,
   ],
-  providers: [
-    EventService
-  ]
+  providers: []
 })
 export class ScheduleModule { }

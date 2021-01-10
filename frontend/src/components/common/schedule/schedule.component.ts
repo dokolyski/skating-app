@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SessionRequest as Session} from 'api/rest-models/session-request'
+import {SessionRequest as Session} from 'api/rest-models/session-request';
 import {RestService} from 'services/rest-service/Rest.service';
 import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 import * as moment from 'moment';
@@ -7,7 +7,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.scss']
+  styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
   @Input() withProfilesDragging = false;

@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { AccessControlModule } from 'directives/access-control/access-control.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { AccessControlModule } from 'directives/access-control/access-control.mo
     MatTableModule,
     MatButtonModule,
     ReactiveFormsModule,
-    AccessControlModule
+    AccessControlModule,
+    TranslateModule
   ],
   declarations: [PointsShopComponent],
   exports: [PointsShopComponent]

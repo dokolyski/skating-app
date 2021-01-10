@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {RestService} from 'services/rest-service/Rest.service';
 
 @Component({
   selector: 'app-schedule-page',
@@ -8,7 +7,7 @@ import {RestService} from 'services/rest-service/Rest.service';
 })
 export class SchedulePageComponent implements OnInit {
 
-  constructor(private restService: RestService) {
+  constructor() {
   }
 
   ngOnInit() {

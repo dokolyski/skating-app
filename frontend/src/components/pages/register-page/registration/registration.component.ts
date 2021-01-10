@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { RestService } from 'services/rest-service/Rest.service';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {RestService} from 'services/rest-service/Rest.service';
 
 import * as REST_PATH from 'api/rest-url.json';
 import { RestError } from 'api/rest-error';
@@ -8,8 +8,7 @@ import { RestError } from 'api/rest-error';
 import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types';
 import { mergeMap } from 'rxjs/operators';
 
-import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
-import { LanguageService } from 'services/language-service/Language.service';
+import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 import { EmailComponent } from 'components/common/inputs/email/email.component';
 import { PasswordComponent } from 'components/common/inputs/password/password.component';
 import { RepeatPasswordComponent } from 'components/common/inputs/repeat-password/repeat-password.component';
@@ -67,8 +66,8 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private rest: RestService,
-    public lngService: LanguageService,
-    private lngErrorService: LanguageErrorService) { }
+    private errorMessageService: ErrorMessageService) {
+  }
 
   ngOnInit() {
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
@@ -82,7 +81,7 @@ export class RegistrationComponent implements OnInit {
     const registerBody = this.prepareRegisterPayload();
 
     // create account
-    this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
+    this.rest.do(REST_PATH.VERIFICATION.REGISTER, {body: registerBody})
       .pipe(
         mergeMap(() => {
           const skillLevel = this.form.get('additional.skillLevel').value;
@@ -90,16 +89,16 @@ export class RegistrationComponent implements OnInit {
           // when user selects one of the skill then create profile
           if (skillLevel.length && skillLevel !== ' ') {
             const editBody = this.prepareSelfProfilePayload();
-            return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody });
+            return this.rest.do(REST_PATH.PROFILES.EDIT, {body: editBody});
           }
 
           return of();
         })
       ).subscribe({
-        next: () => this.onSubmit.emit(),
-        complete: () => this.onSubmit.emit(),
-        error: (e: RestError) => this.handleErrors(e, true)
-      });
+      next: () => this.onSubmit.emit(),
+      complete: () => this.onSubmit.emit(),
+      error: (e: RestError) => this.handleErrors(e, true)
+    });
   }
 
   private prepareRegisterPayload(): VERIFICATION.REGISTER.INPUT {
@@ -127,7 +126,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {
-    this.lngErrorService.getErrorsStrings(error)
+    this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
           this.onError.emit(translation.message);
@@ -136,7 +135,7 @@ export class RegistrationComponent implements OnInit {
         if (showServerErrors && translation.inputs) {
           for (const input of Object.keys(translation.inputs)) {
             const fullName = this.getFormControlFullName(input);
-            this.form.get(fullName).setErrors({ 'server-error': true });
+            this.form.get(fullName).setErrors({'server-error': true});
           }
 
           this.serverInputsErrors = translation.inputs;
@@ -145,12 +144,17 @@ export class RegistrationComponent implements OnInit {
   }
 
   private getFormControlFullName(name: string): string {
-    switch(name) {
-      case 'email': return 'base.email';
-      case 'password': return 'base.password';
-      case 'firstname': return 'base.name';
-      case 'lastname': return 'base.lastname';
-      case 'phone_number': return 'base.telephoneNumber';
+    switch (name) {
+      case 'email':
+        return 'base.email';
+      case 'password':
+        return 'base.password';
+      case 'firstname':
+        return 'base.name';
+      case 'lastname':
+        return 'base.lastname';
+      case 'phone_number':
+        return 'base.telephoneNumber';
     }
   }
 }

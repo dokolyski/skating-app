@@ -1,37 +1,35 @@
-<ng-container *ngIf="(lngService.dictionary$ | async) as $">
-    <ng-container *ngIf="{errors: $.errors, form: $.pages.account.profile_settings.form} as $">
         <div id="page">
             <div class="row-right">
                 <mat-slide-toggle [(ngModel)]="editMode">
-                    {{ $.form.controls.EDIT }}
+                    {{ 'profile_settings.form.controls.EDIT' | translate }}
                 </mat-slide-toggle>
             </div>
 
-            <app-profile-selection [translation]="$" [values]="profiles" [(selected)]="selectedProfile">
-            </app-profile-selection>
+  <app-profile-selection [values]="profiles" [(selected)]="selectedProfile">
+  </app-profile-selection>
 
-            <form [formGroup]="form">
-                <div class="inline-flex">
-                    <app-name [control]="form.get('name')" [translation]="$" [serverError]="serverInputsErrors?.name">
-                    </app-name>
+  <form [formGroup]="form">
+    <div class="inline-flex">
+      <app-name [control]="form.get('name')" [serverError]="serverInputsErrors?.name">
+      </app-name>
 
-                    <app-lastname [control]="form.get('lastname')" [translation]="$"
-                        [serverError]="serverInputsErrors?.lastname"></app-lastname>
-                </div>
+      <app-lastname [control]="form.get('lastname')"
+                    [serverError]="serverInputsErrors?.lastname"></app-lastname>
+    </div>
 
-                <app-date-birth [control]="form.get('dateBirth')" [translation]="$"
+    <app-date-birth [control]="form.get('dateBirth')"
                     [serverError]="serverInputsErrors?.dateBirth"></app-date-birth>
 
-                <app-skill-level [control]="form.get('skillLevel')" [translation]="$"
-                    [values]="skillLevelPossibleValues"></app-skill-level>
+    <app-skill-level [control]="form.get('skillLevel')"
+                     [values]="skillLevelPossibleValues"></app-skill-level>
 
                 <div class="buttons">
-                    <button mat-button (click)="onCancel.emit()" class="cancelButton" [disabled]="!editMode">{{
-                        $.form.controls.CANCEL}}</button>
-                    <button appAccessOnlineButton mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">{{
-                        $.form.controls.SAVE}}</button>
+                    <button mat-button (click)="onCancel.emit()" class="cancelButton" [disabled]="!editMode">
+                      {{ 'profile_settings.form.controls.CANCEL' | translate }}
+                    </button>
+                    <button appAccessOnlineButton mat-button (click)="edit()" id="saveButton" [disabled]="!editMode">
+                      {{ 'profile_settings.form.controls.SAVE' | translate }}
+                    </button>
                 </div>
             </form>
         </div>
-    </ng-container>
-</ng-container>

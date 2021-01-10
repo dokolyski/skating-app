@@ -1,14 +1,14 @@
 <mat-form-field>
-    <mat-label>{{ translation.form.inputs.EMAIL }}</mat-label>
+    <mat-label>{{ 'inputs.EMAIL' | translate }}</mat-label>
     <input id="email" type="email" matInput [formControl]="control" required>
 
     <mat-icon>email</mat-icon>
 
     <mat-error *ngIf="control.hasError('required')">
-        {{ translation.errors.inputs.general.REQUIRED }}
+        {{ 'errors.inputs.general.REQUIRED' | translate }}
     </mat-error>
     <mat-error *ngIf="control.hasError('pattern')">
-        {{ translation.errors.inputs.email.INVALID }}
+        {{ 'errors.inputs.email.INVALID' | translate }}
     </mat-error>
     <mat-error *ngIf="control.hasError('server-error')">
         {{ serverError }}

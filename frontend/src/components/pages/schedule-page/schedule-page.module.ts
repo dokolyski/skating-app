@@ -7,6 +7,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
 import { FullSecondaryBackgroundModule } from 'components/common/full-secondary-background/full-secondary-background.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { FullSecondaryBackgroundModule } from 'components/common/full-secondary-
     MatIconModule,
     MatTableModule,
     MatButtonModule,
-    FullSecondaryBackgroundModule
+    FullSecondaryBackgroundModule,
+    TranslateModule
   ],
   exports: [
     SchedulePageComponent

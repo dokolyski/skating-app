@@ -8,6 +8,7 @@ import { InputsModule } from 'components/common/inputs/inputs.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { AccessControlModule } from 'directives/access-control/access-control.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 export const moduleInfo = {
   imports: [
@@ -26,7 +27,10 @@ export const moduleInfo = {
 };
 
 @NgModule({
-  imports: moduleInfo.imports,
+    imports: [
+        moduleInfo.imports,
+        TranslateModule
+    ],
   declarations: moduleInfo.declarations,
   exports: moduleInfo.exports
 })

@@ -1,10 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { LanguageService } from 'services/language-service/Language.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { CONFIG, PAYMENTS } from 'api/rest-types';
 import { RestError } from 'api/rest-error';
-import { LanguageErrorService, TranslatedErrors } from 'services/languageError-service/LanguageError.service';
+import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import { PaymentTable } from 'api/rest-models/config-models';
 import { PaymentsPoints } from 'api/rest-models/payments-points';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
@@ -24,9 +23,8 @@ export class PointsShopComponent implements OnInit {
   onError = new EventEmitter<string>();
 
   constructor(
-    public lngService: LanguageService,
     private rest: RestService,
-    private lngErrorService: LanguageErrorService) { }
+    private errorMessageService: ErrorMessageService) { }
 
   ngOnInit() {
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.price_table } })
@@ -52,7 +50,7 @@ export class PointsShopComponent implements OnInit {
   }
 
   private handleErrors(errors: RestError) {
-    this.lngErrorService.getErrorsStrings(errors)
+    this.errorMessageService.getErrorsStrings(errors)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
           this.onError.emit(translation.message);

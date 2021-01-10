@@ -18,6 +18,7 @@ import { NameComponent } from './name/name.component';
 import { ProfileSelectionComponent } from './profile-selection/profile-selection.component';
 import { PointsComponent } from './points/points.component';
 import { MoneyComponent } from './money/money.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -29,9 +30,10 @@ import { MoneyComponent } from './money/money.component';
     MatNativeDateModule,
     MatDatepickerModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    TranslateModule
   ],
-  declarations: [	
+  declarations: [
     DateBirthComponent,
     EmailComponent,
     NameComponent,

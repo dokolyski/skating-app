@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { getMinDate, getMaxDate } from 'common/functions/date-constraints';
 
 @Component({
-  selector: 'app-date-birth[control][translation]',
+  selector: 'app-date-birth[control]',
   templateUrl: './date-birth.component.html'
 })
 export class DateBirthComponent {
@@ -14,8 +14,6 @@ export class DateBirthComponent {
   static controlSchema = ['', Validators.required];
   @Input()
   control: FormControl;
-  @Input()
-  translation: { errors, form };
   @Input()
   minDate: Date = getMinDate();
   @Input()

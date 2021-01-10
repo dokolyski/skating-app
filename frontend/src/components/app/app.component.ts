@@ -4,7 +4,8 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { Subscription } from 'rxjs';
-import { LanguageService } from 'services/language-service/Language.service';
+import {TranslateService} from '@ngx-translate/core';
+import * as moment from 'moment';
 import { pubKey } from 'assets/config/vapid.pub.json';
 import { map, mergeMap } from 'rxjs/operators';
 
@@ -21,11 +22,10 @@ export class AppComponent implements OnDestroy {
     private domSanitizer: DomSanitizer,
     private sw: SwUpdate,
     private swPush: SwPush,
-    private lngService: LanguageService,
-    private adapter: DateAdapter<any>) {
+    private adapter: DateAdapter<any>,
+    private translate: TranslateService) {
 
-    this.setBrowserLanguage();
-    this.setDatepickerLanguage();
+    this.setLanguage();
     this.loadIcons();
     this.handlePWA();
   }
@@ -34,31 +34,26 @@ export class AppComponent implements OnDestroy {
     this.subs.forEach(e => e.unsubscribe());
   }
 
-  private setBrowserLanguage() {
-    let lng = localStorage.getItem('browser-lng');
-    if (lng === 'null' || lng === null) {
-      this.lngService.language = lng = (window.navigator.language === 'pl-PL') ? 'polish' : 'english';
-      localStorage.setItem('browser-lng', lng);
-    }
-  }
-
-  private setDatepickerLanguage() {
-    const lngSubscription = this.lngService.dictionary$.subscribe(() => {
-      this.adapter.setLocale(this.lngService.language === 'polish' ? 'pl' : 'en');
+  private setLanguage() {
+    this.translate.use(localStorage.getItem('language') || this.translate.getDefaultLang());
+    this.translate.onLangChange.subscribe(newLanguage => {
+        localStorage.setItem('language', newLanguage.lang);
+        this.adapter.setLocale(newLanguage.lang);
+        console.log(newLanguage.lang);
     });
-
-    this.subs.push(lngSubscription);
+    this.adapter.setLocale(this.translate.currentLang);
+    moment.locale(this.translate.currentLang);
   }
 
   private loadIcons() {
     this.matIconRegistry.addSvgIcon(
       'google',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/icons/google-icon.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/google-icon.svg')
     );
 
     this.matIconRegistry.addSvgIcon(
       'facebook',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/icons/facebook-icon.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/facebook-icon.svg')
     );
   }
 
@@ -66,8 +61,7 @@ export class AppComponent implements OnDestroy {
     if (this.sw.isEnabled) {
       this.sw.available
       .pipe(
-        mergeMap(() => this.lngService.dictionary$),
-        map(dict => dict.service_worker.UPDATE)
+        mergeMap(() => this.translate.get('service_worker.UPDATE'))
       )
       .subscribe((label: string) => {
         if (confirm(label)) {

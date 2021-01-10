@@ -4,6 +4,7 @@ import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
 import { NewSessionFormComponent } from '../session-card/new-session-form/new-session-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-weekday',
@@ -16,7 +17,8 @@ export class WeekdayComponent implements OnInit {
   @Input() profiles: Profile[];
   @Input() adminView: boolean;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+              public translateService: TranslateService) {}
 
   ngOnInit(): void {
   }

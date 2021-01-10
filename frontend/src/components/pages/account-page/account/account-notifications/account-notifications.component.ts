@@ -6,7 +6,8 @@ import { RestService } from 'services/rest-service/Rest.service';
 import { SessionRequest as Session } from 'api/rest-models/session-request';
 import { Notification } from 'api/rest-models/notification';
 import * as REST_PATH from 'api/rest-url.json';
-import { map, mergeMap } from 'rxjs/operators';
+import {map, mergeMap} from 'rxjs/operators';
+import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 
 type Combined = {
   session_info: Session,
@@ -29,7 +30,8 @@ export class AccountNotificationsComponent implements OnInit {
 
   constructor(
     private rest: RestService,
-    private lngErrorService: LanguageErrorService) { }
+    private errorMessageService: ErrorMessageService) {
+  }
 
   ngOnInit() {
     const body: SESSIONS.INDEX.INPUT = {
@@ -37,7 +39,7 @@ export class AccountNotificationsComponent implements OnInit {
       date_to: null
     };
 
-    this.rest.do<SESSIONS.INDEX.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, { body })
+    this.rest.do<SESSIONS.INDEX.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, {body})
       .pipe(
         mergeMap(s =>
           this.rest.do<NOTIFICATIONS.GET_NOTIFICATIONS.COMPILATION.OUTPUT>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)
@@ -63,13 +65,13 @@ export class AccountNotificationsComponent implements OnInit {
     return data.sort((a, b) => {
       const bExpDate = b.notification_info.expiration_date.getTime();
       const aExpDate = a.notification_info.expiration_date.getTime();
-      
+
       return bExpDate - aExpDate;
     });
   }
 
   private handleErrors(error: RestError) {
-    this.lngErrorService.getErrorsStrings(error)
+    this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
           this.onError.emit(translation.message);

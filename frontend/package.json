@@ -28,6 +28,8 @@
     "@angular/router": "^11.0.2",
     "@angular/service-worker": "^11.0.2",
     "@material-ui/icons": "^4.11.2",
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "acorn": "^8.0.4",
     "angularx-social-login": "^3.5.1",
     "class-validator": "^0.12.2",

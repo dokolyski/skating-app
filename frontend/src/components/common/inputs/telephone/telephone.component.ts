@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-telephone[control][translation]',
+  selector: 'app-telephone[control]',
   templateUrl: './telephone.component.html'
 })
 export class TelephoneComponent {
@@ -13,8 +13,6 @@ export class TelephoneComponent {
   static controlSchema = ['', Validators.required];
   @Input()
   control: FormControl;
-  @Input()
-  translation: { errors, form };
   @Input()
   serverError: string;
 }

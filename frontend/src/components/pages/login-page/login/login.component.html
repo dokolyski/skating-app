@@ -1,21 +1,18 @@
-<ng-container *ngIf="(lngService.dictionary$ | async) as $">
-  <ng-container *ngIf="{errors: $.errors, form: $.pages.login.form} as $">
     <div>
       <form [formGroup]="form">
         <mat-grid-list cols="1" rowHeight="7rem">
           <mat-grid-tile>
-            <app-email [control]="form.get('email')" [translation]="$" [serverError]="serverInputsErrors?.email">
+            <app-email [control]="form.get('email')" [serverError]="serverInputsErrors?.email">
             </app-email>
           </mat-grid-tile>
 
           <mat-grid-tile>
-            <app-password [control]="form.get('password')" [translation]="$"
-              [serverError]="serverInputsErrors?.password"></app-password>
+            <app-password [control]="form.get('password')" [serverError]="serverInputsErrors?.password"></app-password>
           </mat-grid-tile>
 
           <mat-grid-tile>
             <button appAccessOnlineButton mat-raised-button type="submit" color="primary" (click)="loginViaEmail()" id="loginEmail">
-              {{ $.form.buttons.LOGIN_EMAIL }}
+              {{ 'pages.login.form.buttons.LOGIN_EMAIL' | translate }}
             </button>
           </mat-grid-tile>
 
@@ -24,9 +21,8 @@
       </form>
     </div>
 
-    <div id="divText">{{ $.form.SIGN_IN_SOCIAL_MEDIA }}</div>
+    <div id="divText">{{ 'pages.login.form.SIGN_IN_SOCIAL_MEDIA' | translate }}</div>
 
-    <mat-grid-list cols="1" rowHeight="3rem">
       <mat-grid-tile>
         <button appAccessOnlineButton mat-raised-button (click)="loginViaGoogle()" id="loginGoogle">
           <div class="social-button">
@@ -44,7 +40,3 @@
           <span>Facebook</span>
         </button>
       </mat-grid-tile>
-    </mat-grid-list>
-
-  </ng-container>
-</ng-container>

@@ -1,13 +1,26 @@
-import config from './config/server.json'
-import models_init from './init/tables'
-import './init/date'
-import generateKeys from './init/generate-keys'
-import app from './app'
+import {NestFactory} from '@nestjs/core';
+import {AppModule} from './app.module';
+import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger';
+import ValidationPipe from './validation-pipe'
+import cookieParser from 'cookie-parser';
+import * as server_config from './config/server.json';
 
-function main() {
-    app.listen(config.port, () => {
-        console.log('starting server done')
-    })
+async function bootstrap() {
+    const app = await NestFactory.create(AppModule);
+    app.setGlobalPrefix('api')
+    app.useGlobalPipes(ValidationPipe)
+
+    const options = new DocumentBuilder()
+        .setTitle('Backend')
+        .setDescription('Backend description')
+        .setVersion('1.0.0')
+        .build();
+    const document = SwaggerModule.createDocument(app, options);
+    SwaggerModule.setup('swagger', app, document);
+
+    app.use(cookieParser());
+
+    await app.listen(server_config.port);
 }
 
-Promise.all([generateKeys(), models_init()]).then(main);
+bootstrap();
