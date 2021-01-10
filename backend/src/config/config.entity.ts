@@ -22,7 +22,7 @@ export class Config extends Model<Config> {
     public key: number;
 
     @Column({
-        type: DataType.STRING(45),
+        type: DataType.TEXT,
         allowNull: false
     })
     public value: string;
