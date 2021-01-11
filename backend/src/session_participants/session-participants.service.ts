@@ -13,13 +13,15 @@ import {User} from "../users/user.entity";
 import {Profile} from "../profiles/profile.entity";
 import {Sequelize} from "sequelize-typescript";
 import {
-    SessionParticipantDisjoinRequest,
-    SessionParticipantJoinRequest
+    DisjoinRequest,
+    JoinRequest
 } from "../api/requests/session-participant.dto";
 import {Session} from "../sessions/session.entity";
 import {SessionParticipant} from "./session-participant.entity";
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user"
+import {JoinResponse, OrderPosition} from "../api/responses/session-paricipant.dto";
+import * as server_config from "../config/server.json"
 
 @Injectable()
 export class SessionParticipantService {
@@ -31,43 +33,83 @@ export class SessionParticipantService {
     ) {
     }
 
-    async join(request: SessionParticipantJoinRequest) {
-        const session = await this.getSession(request.session_id);
-        const profiles = await this.getProfiles(request.profiles_ids, AuthorizedUser.getId());
+    async join(request: JoinRequest): Promise<JoinResponse> {
 
-        notfound(session);
+        let response = new JoinResponse();
+        response.firstname = AuthorizedUser.getFirstname();
+        response.lastname = AuthorizedUser.getLastname();
+        response.email = AuthorizedUser.getEmail();
 
-        const t = await this.sequelize.transaction();
+        response.amount = 0;
+        response.positions = [];
 
-        try {
-            for (const profile of profiles) {
+        for (const position of request.positions) {
 
-                const sp = await this.sessionParticipantsRepository.findAndCountAll({
-                    where: {
-                        profile_id: profile.id,
-                        session_id: session.id
-                    }
-                });
-                if (sp.count > 0) {
-                    throw new UnprocessableEntityException("Already joined");
-                }
+            const session = await this.sessionsRepository.findByPk(position.session_id);
+            const profile = await this.profilesRepository.findByPk(position.profile_id);
 
-                await this.sessionParticipantsRepository.create({
-                    session_id: session.id,
-                    profile_id: profile.id
-                }, {transaction: t})
-            }
+            notfound(session);
+            notfound(profile);
+            AuthorizedUser.checkOwnership(profile.user_id);
 
-            await t.commit()
-        } catch (err) {
-            await t.rollback();
-            throw err;
+            await this.checkIfAlreadyJoined(session.id, profile.id);
+
+            let resPosition = new OrderPosition()
+            resPosition.session_id = session.id;
+            resPosition.profile_id = profile.id;
+
+            resPosition.firstname = profile.firstname;
+            resPosition.lastname = profile.firstname;
+
+            resPosition.start_date = session.start_date;
+            resPosition.end_date = session.end_date;
+
+            resPosition.amount = server_config.session.price;
+            response.amount += resPosition.amount;
+
+            response.positions.push(resPosition);
         }
+
+        return response;
     }
 
-    public async disjoin(request: SessionParticipantDisjoinRequest) {
+    // async join(request: JoinRequest): Promise<JoinResponse> {
+    //     const session = await this.getSession(request.session_id);
+    //     const profiles = await this.getProfiles(request.profiles_ids, AuthorizedUser.getId());
+    //
+    //     notfound(session);
+    //
+    //     const t = await this.sequelize.transaction();
+    //
+    //     try {
+    //         for (const profile of profiles) {
+    //
+    //             const sp = await this.sessionParticipantsRepository.findAndCountAll({
+    //                 where: {
+    //                     profile_id: profile.id,
+    //                     session_id: session.id
+    //                 }
+    //             });
+    //             if (sp.count > 0) {
+    //                 throw new UnprocessableEntityException("Already joined");
+    //             }
+    //
+    //             await this.sessionParticipantsRepository.create({
+    //                 session_id: session.id,
+    //                 profile_id: profile.id
+    //             }, {transaction: t})
+    //         }
+    //
+    //         await t.commit()
+    //     } catch (err) {
+    //         await t.rollback();
+    //         throw err;
+    //     }
+    // }
 
-        const sp = await this.getSession(request.session_id);
+    public async disjoin(request: DisjoinRequest) {
+
+        const sp = await this.sessionsRepository.findByPk(request.session_id);
         notfound(sp)
 
         const t = await this.sequelize.transaction();
@@ -97,25 +139,15 @@ export class SessionParticipantService {
 
     }
 
-
-    private async getSession(id: number): Promise<Session> {
-        const session = await this.sessionsRepository.findByPk(id);
-        notfound(session);
-
-        return session;
-    }
-
-    private async getProfiles(profilesIds: number[], userId: number): Promise<Profile[]> {
-        const profiles = await this.profilesRepository.findAll({
+    protected async checkIfAlreadyJoined(sessionId: number, profileId: number): Promise<void> {
+        const sp = await this.sessionParticipantsRepository.findAndCountAll({
             where: {
-                id: profilesIds,
-                user_id: userId
+                session_id: sessionId,
+                profile_id: profileId,
             }
-        })
-
-        if (profiles.length != profilesIds.length)
-            throw new UnprocessableEntityException();
-
-        return profiles
+        });
+        if (sp.count > 0) {
+            throw new UnprocessableEntityException("Already joined");
+        }
     }
 }

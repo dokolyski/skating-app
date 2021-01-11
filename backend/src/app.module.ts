@@ -21,6 +21,9 @@ import {sessionParticipantProviders} from "./session_participants/session-partic
 import {ConfigController} from "./config/config.controller";
 import {ConfigService} from "./config/config.service";
 import {configProviders} from "./config/config.providers";
+import {PaymentsService} from "./payments/payments.service";
+import {PaymentsController} from "./payments/payments.controller";
+import {paymentsProviders} from "./payments/payments.providers";
 
 @Module({
     imports: [],
@@ -31,7 +34,8 @@ import {configProviders} from "./config/config.providers";
         ProfilesController,
         NotificationsController,
         VerificationController,
-        SessionParticipantsController
+        SessionParticipantsController,
+        PaymentsController
     ],
     providers: [
         ConfigService,
@@ -41,6 +45,7 @@ import {configProviders} from "./config/config.providers";
         NotificationsService,
         VerificationService,
         SessionParticipantService,
+        PaymentsService,
         ...databaseProviders,
         ...configProviders,
         ...sessionsProviders,
@@ -48,6 +53,8 @@ import {configProviders} from "./config/config.providers";
         ...profilesProviders,
         ...notificationsProviders,
         ...sessionParticipantProviders,
+        ...sessionParticipantProviders,
+        ...paymentsProviders
     ],
     exports: [...databaseProviders],
 })

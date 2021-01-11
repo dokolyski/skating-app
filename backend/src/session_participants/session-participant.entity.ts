@@ -10,6 +10,7 @@ import {
 } from 'sequelize-typescript';
 import {Profile} from "../profiles/profile.entity";
 import {Session} from "../sessions/session.entity";
+import {Payment} from "../payments/payment.entity";
 
 @Table({underscored: true})
 export class SessionParticipant extends Model<SessionParticipant> {
@@ -33,6 +34,13 @@ export class SessionParticipant extends Model<SessionParticipant> {
 
     @BelongsTo(() => Session)
     session: Session;
+
+    @Column
+    @ForeignKey(() => Payment)
+    public payment_id: number;
+
+    @BelongsTo(() => Payment)
+    payment: Payment;
 
     @Column
     @CreatedAt

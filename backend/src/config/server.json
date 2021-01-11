@@ -1,5 +1,6 @@
 {
   "ip": "127.0.0.1",
+  "domain": "http://localhost/",
   "port": 80,
   "saltRounds": 3,
   "token": {
@@ -9,5 +10,18 @@
   "vapidKeys": {
     "publicKey": "BGQLgBtsGk9bUjKPsoACyUffc1dmhnlJxRAkjXDs1u9bRgHRdZIaK3JoKP7VmJUx4ZpKgSXAFT2rJ1jqSSgsnww",
     "privateKey": "Ahfi7hswaV0FtW2Q25w9xB7-WU9QyBp_FCIvdmbQJKo"
+  },
+  "session": {
+    "price": 1000
+  },
+  "payments": {
+    "description": "Płatność za sesje na lodowisku.",
+    "client": {
+      "merchantId": 129869,
+      "posId": 129869,
+      "salt": "ca685ba4e5175f0c",
+      "testMode": true,
+      "sessionId": "72371e0d042a0733a3f6fbd291e35189"
+    }
   }
 }
