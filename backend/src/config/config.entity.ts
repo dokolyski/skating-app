@@ -19,7 +19,7 @@ export class Config extends Model<Config> {
         type: DataType.STRING(45),
         allowNull: false
     })
-    public key: number;
+    public key: string;
 
     @Column({
         type: DataType.TEXT,

@@ -1,6 +1,6 @@
 
 export class ConfigResponse {
     id: number;
-    key: number;
+    key: string;
     value: string;
 }
