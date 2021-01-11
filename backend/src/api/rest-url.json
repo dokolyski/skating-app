@@ -112,12 +112,12 @@
     }
   },
   "PAYMENTS": {
-    "BUY_POINTS": {
-      "URL": "api/transactions/points",
+    "CREATE": {
+      "URL": "api/payments",
       "METHOD": "POST"
     },
-    "BUY_SESSIONS": {
-      "URL": "api/transactions/sessions",
+    "VERYFI": {
+      "URL": "api/payments/veryfi",
       "METHOD": "POST"
     }
   },

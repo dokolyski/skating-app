@@ -12,6 +12,8 @@ import {LoginResponse} from "./responses/login.dto";
 import {LoginRequest} from "./requests/login.dto";
 import {DisjoinRequest, JoinRequest} from "./requests/session-participant.dto";
 import SessionResponse from "./responses/session.dto";
+import {PaymentResponse} from "./responses/payment.dto";
+import {PaymentVerifyRequest} from "./requests/payment.dto";
 
 
 export namespace VERIFICATION {
@@ -139,3 +141,14 @@ export namespace PARTICIPANTS {
 }
 
 
+export namespace PAYMENTS {
+    export namespace CREATE {
+        export type REQUEST = JoinRequest;
+        export type RESPONSE = PaymentResponse;
+    }
+
+    export namespace VERYFI {
+        export type REQUEST = PaymentVerifyRequest;
+        export type RESPONSE = void;
+    }
+}

@@ -35,12 +35,16 @@ class AuthorizedUser {
         }
     }
 
-    getFirstname(): string {
+    public getFirstname(): string {
         return this.profile.firstname;
     }
 
-    getLastname(): string {
+    public getLastname(): string {
         return this.profile.lastname;
+    }
+
+    public getEmail(): string {
+        return this.user.email;
     }
 }
 

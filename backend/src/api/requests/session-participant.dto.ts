@@ -20,7 +20,7 @@ export class JoinRequest {
     @IsNotEmpty()
     @IsString()
     @IsIn(['POINTS', 'CASH'])
-    format: string;
+    type: string;
 }
 
 export class DisjoinRequest {
