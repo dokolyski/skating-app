@@ -5,7 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { InputsModule } from 'components/common/inputs/inputs.module';
-import {TranslateModule} from '@ngx-translate/core';
+import { AccessControlModule } from 'directives/access-control/access-control.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 export const moduleInfo = {
   imports: [
@@ -13,7 +14,8 @@ export const moduleInfo = {
     MatButtonModule,
     MatGridListModule,
     ReactiveFormsModule,
-    InputsModule
+    InputsModule,
+    AccessControlModule
   ],
   declarations: [ProfileAddComponent],
   exports: [ProfileAddComponent]

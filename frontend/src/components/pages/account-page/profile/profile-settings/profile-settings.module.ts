@@ -7,7 +7,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { InputsModule } from 'components/common/inputs/inputs.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
-import {TranslateModule} from '@ngx-translate/core';
+import { AccessControlModule } from 'directives/access-control/access-control.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 export const moduleInfo = {
   imports: [
@@ -18,7 +19,8 @@ export const moduleInfo = {
     ReactiveFormsModule,
     FormsModule,
     MatSelectModule,
-    InputsModule
+    InputsModule,
+    AccessControlModule
   ],
   declarations: [ProfileSettingsComponent],
   exports: [ProfileSettingsComponent]

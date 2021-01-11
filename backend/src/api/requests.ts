@@ -1,17 +1,17 @@
-import {UserEditRequest, UserRequest} from "./requests/user.dto";
-import {SessionEditRequest, SessionIndexRequest, SessionRequest, SessionStatusRequest} from "./requests/session.dto";
-import {ProfileEditRequest, ProfileIndexRequest, ProfileRequest} from "./requests/profile.dto";
-import {ProfileResponse} from "./responses/profile.dto";
+import {UserEditRequest, UserRequest} from './requests/user.dto';
+import {SessionEditRequest, SessionIndexRequest, SessionRequest, SessionStatusRequest} from './requests/session.dto';
+import {ProfileEditRequest, ProfileIndexRequest, ProfileRequest} from './requests/profile.dto';
+import {ProfileResponse} from './responses/profile.dto';
 import {
     NotificationStatusRequest,
     NotificationIndexRequest,
     NotificationRequest
-} from "./requests/notification.dto";
-import {NotificationResponse} from "./responses/notification.dto";
-import {LoginResponse} from "./responses/login.dto";
-import {LoginRequest} from "./requests/login.dto";
-import {SessionParticipantDisjoinRequest, SessionParticipantJoinRequest} from "./requests/session-participant.dto";
-import SessionResponse from "./responses/session.dto";
+} from './requests/notification.dto';
+import {NotificationResponse} from './responses/notification.dto';
+import {LoginResponse} from './responses/login.dto';
+import {LoginRequest} from './requests/login.dto';
+import {SessionParticipantDisjoinRequest, SessionParticipantJoinRequest} from './requests/session-participant.dto';
+import SessionResponse from './responses/session.dto';
 
 
 export namespace VERIFICATION {
@@ -21,6 +21,10 @@ export namespace VERIFICATION {
         export type RESPONSE = LoginResponse;
     }
 
+    export namespace REGISTER {
+        export type REQUEST = UserRequest;    // TODO - modify (request with personal data to create profile)
+        export type RESPONSE = LoginResponse;   // TODO - modify
+    }
 }
 
 

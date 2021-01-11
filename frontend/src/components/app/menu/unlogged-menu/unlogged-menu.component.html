@@ -1,9 +1,0 @@
-<ng-container *ngIf="online | async">
-  <button [routerLink]="'/' + path.EVERYONE.LOGIN" mat-icon-button aria-label="Sign In">
-    {{ 'navbar.buttons.SIGN_IN' | translate }}
-  </button>
-
-  <button [routerLink]="'/' + path.EVERYONE.REGISTER" mat-icon-button aria-label="Sign In">
-    {{ 'navbar.buttons.SIGN_UP' | translate }}
-  </button>
-</ng-container>

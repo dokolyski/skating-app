@@ -1,0 +1,14 @@
+<ng-container *ngIf="render">
+    <app-middle-column *ngIf="!(isMobile | async); else content">
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+    </app-middle-column>
+</ng-container>
+
+<ng-template #content>
+    <app-tab-router-outlet>
+        <ng-template appTabSubpage [url]="PATH.ADMIN.CONFIG" [label]="'pages.admin.menu.CONFIG' | translate">
+        </ng-template>
+        <ng-template appTabSubpage [url]="PATH.ADMIN.USERS" [label]="'pages.admin.menu.USERS' | translate">
+        </ng-template>
+    </app-tab-router-outlet>
+</ng-template>

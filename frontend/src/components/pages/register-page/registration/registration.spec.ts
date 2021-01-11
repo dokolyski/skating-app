@@ -21,6 +21,7 @@ import {ErrorMessageService, TranslatedErrors} from 'services/error-message-serv
 import {TranslateServiceMock} from 'common/translation-mocks/translate-service-mock';
 import {TranslatePipeMock} from 'common/translation-mocks/translate-pipe-mock';
 import {TranslateService} from '@ngx-translate/core';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
 
 describe('registration.component', () => {
   let restMock: jasmine.SpyObj<RestService>;

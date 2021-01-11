@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { AuthService } from 'services/auth-service/Auth.service';
@@ -10,11 +10,11 @@ import { AuthService } from 'services/auth-service/Auth.service';
 @Injectable({
     providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanActivateChild {
     constructor(private auth: AuthService, private router: Router) {}
 
     canActivate(): Observable<boolean> {
-        return this.auth.token$.pipe(
+        return this.auth.sessionInfo$.pipe(
             first(),
             map(token => {
                 if (token) {
@@ -25,5 +25,9 @@ export class AuthGuard implements CanActivate {
                 }
             })
         );
+    }
+
+    canActivateChild(): Observable<boolean> {
+        return this.canActivate();
     }
 }

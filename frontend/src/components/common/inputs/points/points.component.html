@@ -1,0 +1,17 @@
+<mat-form-field>
+    <mat-label>{{ 'inputs.POINTS' | translate }}</mat-label>
+    <input id="points" type="number" matInput [formControl]="control" required>
+
+    <mat-error *ngIf="control.hasError('required')">
+        {{ 'errors.inputs.general.REQUIRED' | translate }}
+    </mat-error>
+    <mat-error *ngIf="control.hasError('min')">
+        {{ 'errors.inputs.points.MIN' | translate }}
+    </mat-error>
+    <mat-error *ngIf="control.hasError('max')">
+        {{ 'errors.inputs.points.MAX' | translate }}
+    </mat-error>
+    <mat-error *ngIf="control.hasError('pattern')">
+        {{ 'errors.inputs.points.INTEGER' | translate }}
+    </mat-error>
+</mat-form-field>

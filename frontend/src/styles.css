@@ -1,6 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~@angular/cdk/overlay-prebuilt.css';
+@import './global/table.global.css';
+
+:root {
+  --background: white;
+  --secondary-background: linear-gradient(to bottom, #91eae482, #86a8e785, #7f7fd585);
+  --very-dark-blue: #25257f;
+  --dark-blue: #3f51b5;
+  --azure-blue: #0087e8;
+  --malibu: #6cc8ff;
+  --malibu-light: #9cccfc;
+  --bluish-white: #e8eaf6;
+
+  --green-light: #a2fc9c;
+}
 
 html, body {
   --full: 100%;
@@ -29,19 +43,7 @@ h3 {
   font-size: large;
 }
 
-:root {
-  --background-compatibility-full: #7F7FD5;
-  --background-compatibility: -webkit-linear-gradient(to bottom, #91eae482, #86a8e785, #7f7fd585);
-  --background: linear-gradient(to bottom, #91eae482, #86a8e785, #7f7fd585);
-  --very-dark-blue: #25257f;
-  --dark-blue: #3f51b5;
-  --azure-blue: #0087e8;
-  --malibu: #6cc8ff;
-  --malibu-light: #9cccfc;
-  --bluish-white: #e8eaf6;
-}
-
-#page-content-wrapper {
+.page-content-wrapper {
   padding: 10px;
 }
 
@@ -51,4 +53,10 @@ mat-error + mat-error {
 
 div.mat-tab-label-content {
   color: black;
+}
+
+/* disables areas after click element */
+*:focus {
+  outline: none;
+  box-shadow: none;
 }

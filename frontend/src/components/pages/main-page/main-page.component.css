@@ -1,5 +1,4 @@
 #whiteboard {
-    background-color: #ffffff;
     border-top: none;
     border-bottom: none;
 }
@@ -13,12 +12,12 @@ header {
     align-items: center;
 }
 
-#whiteboard .mat-tab-header {
+:host::ng-deep #whiteboard .mat-tab-header {
     background-color: var(--bluish-white) !important;
     box-shadow: 0 0 8px 0 var(--dark-blue) !important;
 }
 
-#whiteboard .mat-tab-body {
+:host::ng-deep #whiteboard .mat-tab-body {
     background-color: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 

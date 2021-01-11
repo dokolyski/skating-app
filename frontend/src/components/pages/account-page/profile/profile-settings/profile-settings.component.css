@@ -31,7 +31,7 @@ app-email, app-name, app-lastname, app-date-birth, app-telephone, app-skill-leve
         flex-direction: column;
     }
 
-    form {
+    #page {
         padding-left: 10%;
         padding-right: 10%;
     }

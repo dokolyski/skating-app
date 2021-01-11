@@ -1,0 +1,19 @@
+<ng-container>
+  <h2 mat-dialog-title>{{ title }}</h2>
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <app-points [control]="form.get('points')"></app-points>
+      <app-money [control]="form.get('required_money')"></app-money>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button appAccessOnlineButton mat-button (click)="onSave()">
+      {{ 'pages.admin.config.dialog.controls.SAVE' | translate }}
+    </button>
+
+    <button mat-button (click)="onCancel()">
+      {{ 'pages.admin.config.dialog.controls.CANCEL' | translate }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

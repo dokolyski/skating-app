@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import * as PATH from 'assets/config/url.json';
 
-import { Pages } from 'components/pages/pages';
+import { Pages } from 'components/pages/pages.module';
 import { OrganizerGuard } from 'guards/Organizer.guard';
 import { OnlineGuard } from 'guards/Online.guard';
 import { NotLoggedGuard } from 'guards/NotLogged.guard';
 import { AuthGuard } from 'guards/Auth.guard';
+import { AdminGuard } from 'guards/Admin.guard';
 
 const routes: Routes = [
   /*EVERYONE*/
@@ -28,7 +29,26 @@ const routes: Routes = [
   {
     path: PATH.LOGGED.ACCOUNT,
     component: Pages.AccountPageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    children: [
+      {
+        path: 'notifications',
+        component: Pages.AccountNotificationsComponent
+      },
+      {
+        path: 'settings',
+        component: Pages.AccountSettingsComponent
+      },
+      {
+        path: 'profile-add',
+        component: Pages.ProfileAddComponent
+      },
+      {
+        path: 'profile-settings',
+        component: Pages.ProfileSettingsComponent
+      }
+    ]
   },
   {
     path: PATH.LOGGED.SCHEDULE,
@@ -44,7 +64,24 @@ const routes: Routes = [
   {
     path: PATH.ORGANIZER.MANAGE_SCHEDULE,
     component: Pages.ManageSchedulePageComponent,
-    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
+    // canActivate: [OnlineGuard, AuthGuard, OrganizerGuard] TODO: only for tests
+  },
+  /*ADMIN*/
+  {
+    path: 'admin',
+    component: Pages.AdminPageComponent,
+    canActivate: [AuthGuard, AdminGuard],
+    canActivateChild: [AuthGuard, AdminGuard],
+    children: [
+      {
+        path: 'config',
+        component: Pages.AdminConfigComponent
+      },
+      {
+        path: 'users',
+        component: Pages.AdminUsersComponent
+      }
+    ]
   },
   /*NOT FOUND*/
   {

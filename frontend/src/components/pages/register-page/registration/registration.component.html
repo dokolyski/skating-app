@@ -70,7 +70,7 @@
       <div>
         <button mat-button (click)="onCancel.emit()" class="cancelButton">{{ 'pages.registration.form.controls.CANCEL' | translate }}</button>
         <button mat-button matStepperPrevious>{{ 'pages.registration.form.controls.BACK' | translate }}</button>
-        <button mat-button (click)="register()" id="registerButton">{{ 'pages.registration.form.controls.REGISTER' | translate }}</button>
+        <button appAccessOnlineButton mat-button (click)="register()" id="registerButton">{{ 'pages.registration.form.controls.REGISTER' | translate }}</button>
       </div>
     </mat-step>
 

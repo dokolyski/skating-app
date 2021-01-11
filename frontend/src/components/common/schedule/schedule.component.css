@@ -16,23 +16,46 @@
 
 .timeInterval {
   background-color: azure;
-  display: inline-block;
+  display: grid;
+  align-items: center;
   padding: 5px;
   margin: 5px;
   width: 185px;
+  height: 30px;
   border-radius: 5px;
   box-shadow: inset 0 0 3px 0 black;
-
+  justify-self: center;
 }
 
 .calendarWeekChoice {
   box-shadow: inset 0 0 8px 0 var(--azure-blue);
   background-color: #6cc8ff;
   border-radius: 5px;
+  display: grid;
+  grid-auto-rows: minmax(auto, auto);
 }
 
 .changeWeekButton {
   margin: 5px;
+}
+
+/*xxsmall screen*/
+@media only screen and (max-width: 345px) {
+  .calendarWeekChoice {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, auto);
+  }
+
+  .changeWeekButton {
+    justify-self: center!important;
+  }
+}
+
+@media only screen and (min-width: 345px) {
+  .calendarWeekChoice {
+    grid-template-columns: auto 205px auto;
+    grid-template-rows: repeat(1, auto);
+  }
 }
 
 /*xsmall screen*/
@@ -51,8 +74,32 @@
   }
 }
 
+/*small-medium screen*/
+@media only screen and (min-width: 760px) and (max-width: 930px) {
+  .calendarContent {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, auto);
+  }
+}
+
+/*small-medium screen*/
+@media only screen and (min-width: 760px) and (max-width: 930px) {
+  .calendarContent {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, auto);
+  }
+}
+
+/*small-medium screen*/
+@media only screen and (min-width: 760px) and (max-width: 930px) {
+  .calendarContent {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, auto);
+  }
+}
+
 /*medium screen*/
-@media only screen and (min-width: 760px) and (max-width: 1150px) {
+@media only screen and (min-width: 930px) and (max-width: 1450px) {
   .calendarContent {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, auto);
@@ -60,7 +107,7 @@
 }
 
 /*large screen*/
-@media only screen and (min-width: 1150px) {
+@media only screen and (min-width: 1450px) {
   .calendarContent {
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(1, auto);

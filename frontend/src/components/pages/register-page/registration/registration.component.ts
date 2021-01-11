@@ -5,8 +5,7 @@ import {RestService} from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {RestError} from 'api/rest-error';
 
-import {CONFIG, PROFILES, VERIFICATION} from 'api/rest-types';
-import {mergeMap} from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 import {EmailComponent} from 'components/common/inputs/email/email.component';
@@ -19,8 +18,10 @@ import {TelephoneComponent} from 'components/common/inputs/telephone/telephone.c
 import {SkillLevelComponent} from 'components/common/inputs/skill-level/skill-level.component';
 import {of} from 'rxjs';
 import {Skills} from 'api/rest-models/config-models';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
-import {UserRequest as User} from 'api/rest-models/user-request';
+import {UserRequest} from 'api/requests/user.dto';
+import {ProfileRequest} from 'api/requests/profile.dto';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
+import {ConfigResponse} from 'api/responses/config.dto';
 
 /**
  * @description Gather, validate and send to the ```REST``` server required user informations like
@@ -69,9 +70,9 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: 'skillLevelPossibleValues'}})
+    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .subscribe({
-        next: (v: string[]) => this.skillLevelPossibleValues = [' ', ...v],
+        next: (v: ConfigResponse[]) => this.skillLevelPossibleValues = [' ', ...v.map(value => value.value)],
         error: (e: RestError) => this.handleErrors(e, false)
       });
   }
@@ -100,8 +101,8 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  private prepareRegisterPayload(): VERIFICATION.REGISTER.INPUT {
-    const payload: VERIFICATION.REGISTER.INPUT = new User();
+  private prepareRegisterPayload(): UserRequest {
+    const payload: UserRequest = new UserRequest();
 
     payload.firstname = this.form.get('personal.name').value;
     payload.lastname = this.form.get('personal.lastname').value;
@@ -113,8 +114,8 @@ export class RegistrationComponent implements OnInit {
     return payload;
   }
 
-  private prepareSelfProfilePayload(): PROFILES.CREATE.INPUT {
-    const payload: PROFILES.CREATE.INPUT = new Profile();
+  private prepareSelfProfilePayload(): ProfileRequest {
+    const payload: ProfileRequest = new ProfileRequest();
 
     payload.firstname = this.form.get('personal.name').value;
     payload.lastname = this.form.get('personal.lastname').value;

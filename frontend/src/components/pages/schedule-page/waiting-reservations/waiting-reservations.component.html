@@ -47,7 +47,7 @@
   <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
 </table>
 <div style="text-align: right;">
-  <button *ngIf="dataSource.data.length > 0" class="reserve-button" mat-raised-button>
+  <button *ngIf="dataSource.data.length > 0" class="reserve-button" mat-raised-button (click)="doReservation()">
     <mat-icon>done</mat-icon>
     {{'pending-reservations.reserve' | translate }}
   </button>

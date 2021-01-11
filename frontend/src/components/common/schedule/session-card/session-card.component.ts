@@ -1,13 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SessionRequest as Session} from 'api/rest-models/session-request';
 import {MatDialog} from '@angular/material/dialog';
 import {SessionInfoPaneComponent} from './session-info-pane/session-info-pane.component';
 import * as moment from 'moment';
 import {CdkDrag, CdkDragDrop, CdkDropList} from '@angular/cdk/drag-drop';
 import {AddParticipantDialogComponent} from './add-participant-dialog/add-participant-dialog.component';
 import {ChooseParticipantDialogComponent} from './choose-participant-dialog/choose-participant-dialog.component';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 import {ReservationsService} from 'services/reservations-service/reservations.service';
+import SessionResponse from 'api/responses/session.dto';
+import {ProfileResponse, ProfileSimplifiedResponse} from 'api/responses/profile.dto';
 
 @Component({
   selector: 'app-session-card',
@@ -15,11 +15,12 @@ import {ReservationsService} from 'services/reservations-service/reservations.se
   styleUrls: ['./session-card.component.css']
 })
 export class SessionCardComponent implements OnInit {
-  @Input() sessionData: Session;
-  @Input() profiles: Profile[];
+  @Input() sessionData: SessionResponse;
+  @Input() profiles: ProfileResponse[];
+  @Input() adminView: boolean;
   startTime: string;
   endTime: string;
-  participants: Profile[];
+  participants: ProfileResponse[];
   blockIfAlreadyReserved;
 
   constructor(public dialog: MatDialog,
@@ -48,7 +49,7 @@ export class SessionCardComponent implements OnInit {
     this.reservationsService.reservationsChange.subscribe(() => {
       this.participants = this.reservationsService.getReservationsForSession(this.sessionData.id);
     });
-    this.blockIfAlreadyReserved = (drag: CdkDrag<Profile>, drop: CdkDropList): boolean => {
+    this.blockIfAlreadyReserved = (drag: CdkDrag<ProfileResponse>, drop: CdkDropList): boolean => {
       return !this.reservationsService.isAlreadyReserved({participant: drag.data, session: this.sessionData});
     };
   }
@@ -87,7 +88,14 @@ export class SessionCardComponent implements OnInit {
     }
   }
 
-  formatParticipantsList(): string {
-    return this.participants.map(value => `${value.firstname} ${value.lastname}`).join('\n');
+  formatParticipantsList(participantsList: any[]): string {
+    return participantsList.map(value => `${value.firstname} ${value.lastname}`).join('\n');
+  }
+
+  profilesBadgeStyle(color: string, moveLeft: boolean = false) {
+    return {
+      backgroundColor: color,
+      right: moveLeft ? '17px' : '-10px'
+    };
   }
 }

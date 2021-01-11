@@ -1,11 +1,11 @@
 import {UserSimplifiedResponse} from "./user.dto";
-import {ProfileResponse} from "./profile.dto";
+import {ProfileSimplifiedResponse} from "./profile.dto";
 
 export default class SessionResponse {
 
     id: number
     owner: UserSimplifiedResponse;
-    profiles: ProfileResponse[];
+    profiles: ProfileSimplifiedResponse[];
     name: string
     start_date: Date
     end_date: Date

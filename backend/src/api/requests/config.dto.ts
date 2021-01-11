@@ -4,7 +4,7 @@ export class ConfigRequest {
 
     @IsNotEmpty()
     @IsString()
-    key: number;
+    key: string;
 
     @IsNotEmpty()
     @IsString()

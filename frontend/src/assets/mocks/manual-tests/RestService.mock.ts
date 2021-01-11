@@ -2,13 +2,15 @@ import {Observable, of} from 'rxjs';
 import {RestOptions, RestPath} from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {Injectable} from '@angular/core';
-import {USERS} from 'api/rest-types';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
+import {ProfileResponse} from 'api/responses/profile.dto';
+import {UserResponse} from 'api/responses/user.dto';
+import * as CONFIG from 'assets/config/config.rest.json';
+import SessionResponse from 'api/responses/session.dto';
 
 @Injectable()
 export class RestServiceMock {
   static readonly skills = ['skill_1', 'skill_2', 'skill_3'];
-  static readonly profiles: Profile[] = [
+  static readonly profiles: ProfileResponse[] = [
     {
       id: 0,
       user_id: 0,
@@ -16,7 +18,9 @@ export class RestServiceMock {
       lastname: 'Nowak1',
       birth_date: new Date(),
       skill_level: null,
-      type: 'PROFILE'
+      is_owner: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
     },
     {
       id: 1,
@@ -25,7 +29,9 @@ export class RestServiceMock {
       lastname: 'Nowak2',
       birth_date: new Date(),
       skill_level: RestServiceMock.skills[0],
-      type: 'PROFILE'
+      is_owner: false,
+      createdAt: new Date(),
+      updatedAt: new Date()
     },
     {
       id: 2,
@@ -34,12 +40,52 @@ export class RestServiceMock {
       lastname: 'Nowak3',
       birth_date: new Date(),
       skill_level: RestServiceMock.skills[0],
-      type: 'OWNER'
+      is_owner: true,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
   ];
-  static sessions = [
-    {id: 1, name: 'Session1', start_date: new Date('01/01/1990')},
-    {id: 2, name: 'Session2', start_date: new Date('05/01/1990')},
+  static sessions: SessionResponse[] = [
+    {
+      id: 0,
+      name: 'naemwer ew fwe ',
+      start_date: new Date(),
+      end_date: new Date(),
+      max_participants: 10,
+      difficulty: 'grupa srebrna',
+      price: 35,
+      description: 'oepwqeqwe weqo pewoq pewo peowqp ewq',
+      status: 'open',
+      owner: {} as any,
+      updatedAt: new Date(),
+      profiles: [],
+      createdAt: new Date()
+    },
+    {
+      id: 1,
+      name: 'naemdaw dwa daw dwda',
+      start_date: new Date(),
+      end_date: new Date(),
+      max_participants: 14,
+      difficulty: 'grupa brązowa+',
+      price: 35,
+      description: 'oepwqeqoq wqp ewq',
+      status: 'closed',
+      owner: {} as any,
+      updatedAt: new Date(),
+      profiles: [{
+        id: 0,
+        user_id: 0,
+        firstname: 'Dominik',
+        lastname: 'Kalinowski'
+      }, {
+        id: 1,
+        user_id: 0,
+        firstname: 'Anna',
+        lastname: 'Weidemann'
+      }],
+      createdAt: new Date()
+    }
   ];
   static notifications = [
     {title: 'Title1', description: 'Description1', session_id: 1, expiration_date: new Date('01/01/1990')},
@@ -47,20 +93,88 @@ export class RestServiceMock {
     {title: 'Title3', description: 'Description3', session_id: 2, expiration_date: new Date('01/01/1992')},
     {title: 'Title4', description: 'Description4', session_id: 2, expiration_date: new Date('01/01/1993')},
   ];
-  static userInfo: USERS.GET.OUTPUT = {
+  static userInfo: UserResponse = {
+    isAdmin: false, isHAdmin: false, isOrganizer: false,
     id: 0, password: 'password',
-    firstname: 'Jan1',
-    lastname: 'Nowak1',
     birth_date: new Date(),
     email: 'example@mail.com',
-    phone_number: '123456789'
+    phone_number: '123456789',
+    createdAt: new Date(),
+    verified: true, token: '',
+    password_reset_token: '',
+    password_reset_token_expiration_date: new Date(),
+    updatedAt: new Date()
   };
+  static priceTable = [
+    {
+      required_money: 123,
+      points: 10
+    },
+    {
+      required_money: 666.5,
+      points: 33
+    }
+  ];
+  static allUsers: UserResponse[] = [
+    {
+      id: 0, password: 'password',
+      birth_date: new Date(),
+      email: 'example@mail.com',
+      phone_number: '123456789',
+      isAdmin: false, isHAdmin: false, isOrganizer: false,
+      createdAt: new Date(),
+      verified: true, token: '',
+      password_reset_token: '',
+      password_reset_token_expiration_date: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      id: 0, password: 'password',
+      birth_date: new Date(),
+      email: 'example@mail.com',
+      phone_number: '123456789',
+      isAdmin: false, isHAdmin: false, isOrganizer: true,
+      createdAt: new Date(),
+      verified: true, token: '',
+      password_reset_token: '',
+      password_reset_token_expiration_date: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      id: 0, password: 'password',
+      birth_date: new Date(),
+      email: 'example@mail.com',
+      phone_number: '123456789',
+      isAdmin: true, isHAdmin: false, isOrganizer: true,
+      createdAt: new Date(),
+      verified: true, token: '',
+      password_reset_token: '',
+      password_reset_token_expiration_date: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      id: 0, password: 'password',
+      birth_date: new Date(),
+      email: 'example@mail.com',
+      phone_number: '123456789',
+      isAdmin: false, isHAdmin: true, isOrganizer: false,
+      createdAt: new Date(),
+      verified: true, token: '',
+      password_reset_token: '',
+      password_reset_token_expiration_date: new Date(),
+      updatedAt: new Date()
+    }
+  ];
 
   do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {
     switch (restPath) {
       case REST_PATH.CONFIG.GET:
-        return of(RestServiceMock.skills as any);
+        return this.handleConfig(options);
       case REST_PATH.VERIFICATION.REGISTER:
+        return of(null);
+      case REST_PATH.VERIFICATION.LOGIN:
+        return of({token: 'token', uid: 1, isOrganizer: false, isAdmin: true, isHAdmin: true} as any);
+      case REST_PATH.VERIFICATION.LOGOUT:
         return of(null);
       case REST_PATH.PROFILES.EDIT:
         return of(null);
@@ -72,6 +186,19 @@ export class RestServiceMock {
         return of(RestServiceMock.notifications as any);
       case REST_PATH.USERS.GET:
         return of(RestServiceMock.userInfo as any);
+      case REST_PATH.USERS.ALL:
+        return of(RestServiceMock.allUsers as any);
+    }
+  }
+
+  private handleConfig(options) {
+    switch (options.templateParamsValues.key) {
+      case CONFIG.fb_link:
+        return of('http://www.facebook.pl');
+      case CONFIG.price_table:
+        return of(RestServiceMock.priceTable);
+      case CONFIG.skills:
+        return of(RestServiceMock.skills as any);
     }
   }
 }

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestError } from 'api/rest-error';
-import { CONFIG, PROFILES } from 'api/rest-types';
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { NameComponent } from 'components/common/inputs/name/name.component';
@@ -9,11 +8,10 @@ import { LastnameComponent } from 'components/common/inputs/lastname/lastname.co
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { Skills } from 'api/rest-models/config-models';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
-import {
-  ErrorMessageService,
-  TranslatedErrors
-} from 'services/error-message-service/error.message.service';
+import {ProfileRequest} from 'api/requests/profile.dto';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
+import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
+import {ConfigResponse} from 'api/responses/config.dto';
 
 /**
  * @description Creates next user profile with limit per user, gather informations about
@@ -51,9 +49,9 @@ export class ProfileAddComponent implements OnInit {
      }
 
   ngOnInit() {
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'skillLevelPossibleValues' } })
+    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .subscribe({
-        next: (v: string[]) => this.skillLevelPossibleValues = [' ', ...v],
+        next: (v: ConfigResponse[]) => this.skillLevelPossibleValues = [' ', ...v.map(value =>  value.value)],
         error: (e: RestError) => this.handleErrors(e, false)
       });
   }
@@ -69,8 +67,8 @@ export class ProfileAddComponent implements OnInit {
       });
   }
 
-  private prepareProfilePayload(): PROFILES.EDIT.INPUT {
-    const body: PROFILES.EDIT.INPUT = new Profile();
+  private prepareProfilePayload(): ProfileRequest {
+    const body: ProfileRequest = new ProfileRequest();
 
     const skill = this.form.get('skillLevel').value;
 

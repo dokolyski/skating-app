@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, CanActivateChild, Router } from '@angular/router';
 import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 
 /**
@@ -8,7 +8,7 @@ import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class OnlineGuard implements CanActivate {
+export class OnlineGuard implements CanActivate, CanActivateChild {
     constructor(private router: Router) {}
 
     static isOnline(): Observable<boolean> {
@@ -26,5 +26,9 @@ export class OnlineGuard implements CanActivate {
         }
 
         return online;
+    }
+
+    canActivateChild(): boolean {
+        return this.canActivate();
     }
 }

@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SessionRequest as Session } from 'api/rest-models/session-request';
-import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
 import { NewSessionFormComponent } from '../session-card/new-session-form/new-session-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import {TranslateService} from '@ngx-translate/core';
+import {ProfileResponse} from 'api/responses/profile.dto';
+import SessionResponse from 'api/responses/session.dto';
 
 @Component({
   selector: 'app-weekday',
@@ -12,9 +12,9 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['./weekday.component.css']
 })
 export class WeekdayComponent implements OnInit {
-  @Input() sessions: Session[];
+  @Input() sessions: SessionResponse[];
   @Input() date: Date;
-  @Input() profiles: Profile[];
+  @Input() profiles: ProfileResponse[];
   @Input() adminView: boolean;
 
   constructor(public dialog: MatDialog,

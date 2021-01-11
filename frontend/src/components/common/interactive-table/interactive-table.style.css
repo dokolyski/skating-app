@@ -1,0 +1,3 @@
+:host::ng-deep .mat-paginator-range-label {
+    visibility: hidden;
+}

@@ -36,11 +36,12 @@ export class AppComponent implements OnDestroy {
 
   private setLanguage() {
     this.translate.use(localStorage.getItem('language') || this.translate.getDefaultLang());
-    this.translate.onLangChange.subscribe(newLanguage => {
+    const s = this.translate.onLangChange.subscribe(newLanguage => {
         localStorage.setItem('language', newLanguage.lang);
         this.adapter.setLocale(newLanguage.lang);
-        console.log(newLanguage.lang);
     });
+
+    this.subs.push(s);
     this.adapter.setLocale(this.translate.currentLang);
     moment.locale(this.translate.currentLang);
   }

@@ -6,17 +6,19 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
-import {TranslateModule} from '@ngx-translate/core';
+import { FullSecondaryBackgroundModule } from 'components/common/full-secondary-background/full-secondary-background.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-    imports: [
-        ScheduleModule,
-        MatIconModule,
-        MatTableModule,
-        MatButtonModule,
-        CommonModule,
-        TranslateModule,
-    ],
+  imports: [
+    CommonModule,
+    ScheduleModule,
+    MatIconModule,
+    MatTableModule,
+    MatButtonModule,
+    FullSecondaryBackgroundModule,
+    TranslateModule
+  ],
   exports: [
     SchedulePageComponent
   ],

@@ -16,21 +16,23 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { NameComponent } from './name/name.component';
 import { ProfileSelectionComponent } from './profile-selection/profile-selection.component';
-import {TranslateModule} from '@ngx-translate/core';
+import { PointsComponent } from './points/points.component';
+import { MoneyComponent } from './money/money.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatNativeDateModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatIconModule,
-        TranslateModule
-    ],
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatIconModule,
+    TranslateModule
+  ],
   declarations: [
     DateBirthComponent,
     EmailComponent,
@@ -40,8 +42,10 @@ import {TranslateModule} from '@ngx-translate/core';
     RepeatPasswordComponent,
     SkillLevelComponent,
     TelephoneComponent,
-    ProfileSelectionComponent
-  ],
+    ProfileSelectionComponent,
+    PointsComponent,
+    MoneyComponent
+   ],
   exports: [
       DateBirthComponent,
       EmailComponent,
@@ -51,7 +55,9 @@ import {TranslateModule} from '@ngx-translate/core';
       RepeatPasswordComponent,
       SkillLevelComponent,
       TelephoneComponent,
-      ProfileSelectionComponent
+      ProfileSelectionComponent,
+      PointsComponent,
+      MoneyComponent
   ]
 })
 export class InputsModule { }

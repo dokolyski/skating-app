@@ -1,11 +1,7 @@
-<div>
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>{{ 'pages.shop.CARD_TITLE' | translate }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <app-points-shop></app-points-shop>
+<app-middle-column *ngIf="!(isMobile | async); else content">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</app-middle-column>
 
-        </mat-card-content>
-    </mat-card>
-</div>
+<ng-template #content>
+    <app-points-shop></app-points-shop>
+</ng-template>

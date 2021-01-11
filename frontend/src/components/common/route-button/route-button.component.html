@@ -1,0 +1,41 @@
+<ng-container *ngIf="icon; else elseIcon">
+  <ng-container *ngTemplateOutlet="buttonIcon"></ng-container>
+</ng-container>
+<ng-template #elseIcon>
+  <ng-container *ngTemplateOutlet="button"></ng-container>
+</ng-template>
+
+<ng-template #buttonIcon>
+
+  <ng-container *ngIf="!tooltip; else buttonIconTooltip">
+    <button [routerLink]="routerLink" mat-icon-button [ngClass]="{activated: activated}"
+      [attr.aria-label]="ariaLabel">
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </button>
+  </ng-container>
+
+  <ng-template #buttonIconTooltip>
+    <button [matTooltip]="tooltip" [routerLink]="routerLink" mat-icon-button [ngClass]="{activated: activated}" [attr.aria-label]="ariaLabel">
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </button>
+  </ng-template>
+</ng-template>
+
+<ng-template #button>
+  <ng-container *ngIf="!tooltip; else buttonTooltip">
+    <button [routerLink]="routerLink" mat-button [ngClass]="{activated: activated}"
+      [attr.aria-label]="ariaLabel">
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </button>
+  </ng-container>
+
+  <ng-template #buttonTooltip>
+    <button [matTooltip]="tooltip" [routerLink]="routerLink" mat-button [ngClass]="{activated: activated}" [attr.aria-label]="ariaLabel">
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </button>
+  </ng-template>
+</ng-template>
+
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>

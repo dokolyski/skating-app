@@ -21,6 +21,16 @@
       "dateBirth": {
         "INVALID": "Invalid date."
       },
+      "money": {
+        "MIN": "Under minimum",
+        "MAX": "Over maximum",
+        "PRECISION": "Precision error"
+      },
+      "points": {
+        "MIN": "Under minimum",
+        "MAX": "Over maximum",
+        "INTEGER": "Only integers"
+      },
       "general": {
         "REQUIRED": "Input value is required."
       }
@@ -34,7 +44,10 @@
     "LASTNAME": "Lastname",
     "DATE_BIRTH": "Date of birth",
     "TELEPHONE_NUMBER": "Telephone No.",
-    "SKILL_LEVEL": "Skating skills level"
+    "SKILL_LEVEL": "Skating skills level",
+    "SELECTED_PROFILE": "Selected profile",
+    "MONEY": "Price",
+    "POINTS": "Points"
   },
   "pages": {
     "registration": {
@@ -131,23 +144,88 @@
     "main": {
       "ABOUT_US": "About us",
       "NEWS": "News"
+    },
+    "admin": {
+      "config": {
+        "dialog": {
+          "title": {
+            "ADD": "Add",
+            "EDIT": "Edit"
+          },
+          "controls": {
+            "SAVE": "Save",
+            "CANCEL": "Cancel"
+          }
+        },
+        "form": {
+          "FACEBOOK_LINK": "Facebook page link",
+          "POINTS_SHOP": "Price list",
+          "columns": {
+            "POINTS": "Points",
+            "REQ_MONEY": "Price"
+          }
+        },
+        "controls": {
+          "SAVE": "Save",
+          "CANCEL": "Cancel"
+        }
+      },
+      "users": {
+        "dialog": {
+          "TITLE": "Edit",
+          "form": {
+            "ORGANIZER": "Organizer",
+            "ADMIN": "Admin"
+          },
+          "controls": {
+            "SAVE": "Save",
+            "CANCEL": "Cancel"
+          }
+        },
+        "columns": {
+          "ID": "ID",
+          "FIRSTNAME": "Firstname",
+          "LASTNAME": "Lastname",
+          "IS_ORGANIZER": "Organizer?",
+          "IS_ADMIN": "Admin?",
+          "IS_HADMIN": "Head admin?"
+        },
+        "controls": {
+          "SAVE": "Save",
+          "CANCEL": "Cancel"
+        }
+      },
+      "menu": {
+        "CONFIG": "Config",
+        "USERS": "Users"
+      }
     }
   },
   "navbar": {
+    "tooltips": {
+      "SHOP": "Shop",
+      "SCHEDULE": "Schedule",
+      "ACCOUNT": "Account",
+      "ADMIN_DASHBOARD": "Admin dashboard",
+      "LOGOUT": "Logout",
+      "LANGUAGE": "Language"
+    },
     "buttons": {
       "SIGN_IN": "Sign In",
       "SIGN_UP": "Sign Up"
     },
     "languages": {
       "POLISH": "Polish language",
-      "ENGLISH": "English language"
+      "ENGLISH": "English language",
+      "label": "Languages"
     }
   },
   "schedule": {
     "add-participant": "Add participant",
     "create-new-session": "Create new session",
     "no-sessions": "No sessions",
-    "already-added-participants": "Added participants:\n{{value}}"
+    "already-added-participants": "Pending participants:\n{{value}}",
+    "already-reserved-participants": "Signed up:\n{{value}}"
   },
   "pending-reservations": {
     "columns": {
@@ -196,5 +274,11 @@
     "end-time": "End time",
     "group": "Group",
     "description": "Description"
+  },
+  "reservation-messages": {
+    "one-canceled": "Reservation has been canceled",
+    "many-canceled": "{{canceledNumber}} reservations have been canceled",
+    "one-added": "Reservation for participant {{participantName}} was added",
+    "many-added": "Reservations for {{n}} participants were added"
   }
 }

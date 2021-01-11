@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import * as VLD from 'common/validators';
+import * as VLD from 'common/functions/validators';
 
 @Component({
   selector: 'app-repeat-password[control]',

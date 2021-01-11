@@ -1,11 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { RestService } from 'services/rest-service/Rest.service';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {RestService} from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import { CONFIG, PAYMENTS } from 'api/rest-types';
 import { RestError } from 'api/rest-error';
 import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import { PaymentTable } from 'api/rest-models/config-models';
 import { PaymentsPoints } from 'api/rest-models/payments-points';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
+import {ConfigResponse} from 'api/responses/config.dto';
 
 @Component({
   selector: 'app-points-shop',
@@ -13,6 +14,11 @@ import { PaymentsPoints } from 'api/rest-models/payments-points';
   styleUrls: ['./points-shop.component.css']
 })
 export class PointsShopComponent implements OnInit {
+
+  constructor(
+    private rest: RestService,
+    private errorMessageService: ErrorMessageService) {
+  }
   readonly displayedColumns = ['points', 'money', 'buy'];
   table: PaymentTable;
 
@@ -21,31 +27,30 @@ export class PointsShopComponent implements OnInit {
   @Output()
   onError = new EventEmitter<string>();
 
-  constructor(
-    private rest: RestService,
-    private errorMessageService: ErrorMessageService) { }
+  private static preparePayload(option: number): PaymentsPoints {
+    const payload: PaymentsPoints = new PaymentsPoints();
+    payload.option_id = option;
+    return payload;
+  }
 
   ngOnInit() {
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: 'pointsTable' } })
-    .subscribe({
-      next: (data: PaymentTable) => this.table = data,
-      error: (error: RestError) => this.handleErrors(error)
-    });
+    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.price_table}})
+      .subscribe({
+        next: (data: ConfigResponse[]) => this.table = data.map(value => ({
+          required_money: parseInt(value.key, 0),
+          points: parseInt(value.value, 0)
+        })),
+        error: (error: RestError) => this.handleErrors(error)
+      });
   }
 
   buy(option: number) {
-    const body = this.preparePayload(option);
-    this.rest.do(REST_PATH.PAYMENTS.BUY_POINTS, { body })
-    .subscribe({
-      next: () => this.onSubmit.emit(),
-      error: (error: RestError) => this.handleErrors(error)
-    });
-  }
-
-  private preparePayload(option: number): PAYMENTS.BUY_POINTS.INPUT {
-    const payload: PAYMENTS.BUY_POINTS.INPUT = new PaymentsPoints();
-    payload.option_id = option;
-    return payload;
+    const body = PointsShopComponent.preparePayload(option);
+    this.rest.do(REST_PATH.PAYMENTS.BUY_POINTS, {body})
+      .subscribe({
+        next: () => this.onSubmit.emit(),
+        error: (error: RestError) => this.handleErrors(error)
+      });
   }
 
   private handleErrors(errors: RestError) {

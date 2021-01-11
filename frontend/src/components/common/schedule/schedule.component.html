@@ -2,12 +2,12 @@
   <div class="container-grid">
     <div class="calendarHeader">
       <div class="calendarWeekChoice">
-        <button class="changeWeekButton" mat-mini-fab color="primary" aria-label="Previous week"
+        <button class="changeWeekButton" mat-mini-fab color="primary" aria-label="Previous week" style="justify-self: end;"
                 (click)="changeWeek(-1)">
           <mat-icon>chevron_left</mat-icon>
         </button>
         <div class="timeInterval">{{daysRangeFormatter()}}</div>
-        <button class="changeWeekButton" mat-mini-fab color="primary" aria-label="Next week"
+        <button class="changeWeekButton" mat-mini-fab color="primary" aria-label="Next week" style="justify-self: start;"
                 (click)="changeWeek(1)">
           <mat-icon>chevron_right</mat-icon>
         </button>

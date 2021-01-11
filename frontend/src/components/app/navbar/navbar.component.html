@@ -1,0 +1,40 @@
+<mat-toolbar id="navbar">
+  <div class="nav-grid">
+    <div>
+      <span [routerLink]="'/' + path.EVERYONE.MAIN" id="logo_name_link">
+        <button [disableRipple]="true" mat-icon-button class="example-icon"
+          aria-label="Example icon-button with menu icon">
+          <mat-icon svgIcon="small-logo" class="main-logo"></mat-icon>
+        </button>
+        <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
+      </span>
+    </div>
+
+    <!-- buttons -->
+    <div class="buttons-flex">
+      <ng-container *ngIf="notLogged; else logged">
+        <app-unlogged-actions></app-unlogged-actions>
+      </ng-container>
+      <ng-template #logged>
+        <app-logged-actions></app-logged-actions>
+      </ng-template>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" [matTooltip]="'navbar.tooltips.LANGUAGE' | translate" aria-label="Select language">
+        <mat-icon>language</mat-icon>
+      </button>
+    </div>
+
+  </div>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu" yPosition="below">
+  <!--lazy loading-->
+  <ng-template matMenuContent>
+    <button mat-menu-item (click)="changeLanguage('pl')">
+      {{ 'navbar.languages.POLISH' | translate }}
+    </button>
+    <button mat-menu-item (click)="changeLanguage('en')">
+      {{ 'navbar.languages.ENGLISH' | translate }}
+    </button>
+  </ng-template>
+</mat-menu>

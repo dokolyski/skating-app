@@ -5,6 +5,8 @@
 		}
 	],
 	"settings": {
-		"tslint.jsEnable": true
+		"eslint.format.enable": true,
+		"eslint.lintTask.enable": true,
+		// "typescript.tsserver.experimental.enableProjectDiagnostics": true
 	}
 }

@@ -1,12 +1,17 @@
-import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {RestError} from 'api/rest-error';
-import {NOTIFICATIONS, SESSIONS} from 'api/rest-types';
-import {RestService} from 'services/rest-service/Rest.service';
-import {SessionRequest as Session} from 'api/rest-models/session-request';
-import {Notification} from 'api/rest-models/notification';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { RestError } from 'api/rest-error';
+import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {map, mergeMap} from 'rxjs/operators';
 import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
+import SessionResponse from 'api/responses/session.dto';
+import {SessionIndexRequest} from 'api/requests/session.dto';
+import {NotificationResponse} from 'api/responses/notification.dto';
+
+type Combined = {
+  session_info: SessionResponse,
+  notification_info: NotificationResponse
+};
 
 /**
  * @description Show notifications associated with account profiles
@@ -17,10 +22,7 @@ import {ErrorMessageService, TranslatedErrors} from 'services/error-message-serv
   styleUrls: ['./account-notifications.component.css']
 })
 export class AccountNotificationsComponent implements OnInit {
-  sessions: {
-    session_info: Session,
-    notification_info: Notification
-  }[];
+  sessions: Combined[];
 
   @Output()
   onError = new EventEmitter<string>();
@@ -31,32 +33,40 @@ export class AccountNotificationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    const body: SESSIONS.INDEX.INPUT = {
+    const body: SessionIndexRequest = {
       date_from: new Date(),
       date_to: null
     };
 
-    this.rest.do<SESSIONS.INDEX.OUTPUT>(REST_PATH.SESSIONS.GET_SESSIONS, {body})
+    this.rest.do<SessionResponse[]>(REST_PATH.SESSIONS.GET_SESSIONS, {body})
       .pipe(
         mergeMap(s =>
-          this.rest.do<NOTIFICATIONS.GET_NOTIFICATIONS.COMPILATION.OUTPUT>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)
+          this.rest.do<NotificationResponse[]>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)
             .pipe(
-              map(n =>
-                n.map(v => {
-                  const session_info = s.filter(({id: session_id}) => session_id === v.session_id)[0];
-                  return {session_info, notification_info: v};
-                })
-              )
+              map(n => this.combine(s, n))
             )
         )
       )
       .subscribe({
-        next: data => {
-          data = data.sort((a, b) => b.notification_info.expiration_date.getTime() - a.notification_info.expiration_date.getTime());
-          this.sessions = data;
-        },
+        next: data => this.sessions = this.sortByExpTimeDesc(data),
         error: (e: RestError) => this.handleErrors(e)
       });
+  }
+
+  private combine(s: SessionResponse[], n: NotificationResponse[]): Combined[] {
+    return n.map(v => {
+      const session_info = s.filter(({id: session_id}) => session_id === v.session_id)[0];
+      return { session_info, notification_info: v };
+    });
+  }
+
+  private sortByExpTimeDesc(data: Combined[]): Combined[] {
+    return data.sort((a, b) => {
+      const bExpDate = b.notification_info.expiration_date.getTime();
+      const aExpDate = a.notification_info.expiration_date.getTime();
+
+      return bExpDate - aExpDate;
+    });
   }
 
   private handleErrors(error: RestError) {

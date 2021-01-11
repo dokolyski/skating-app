@@ -2,6 +2,7 @@
 
 cert.pem
 key.pem
+/src/api/TMP
 
 # compiled output
 /dist
