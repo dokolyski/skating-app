@@ -1,7 +1,7 @@
-import {SessionRequest as Session} from 'api/rest-models/session-request'
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
+import {ProfileResponse} from 'api/responses/profile.dto';
+import SessionResponse from 'api/responses/session.dto';
 
 export class SessionParticipant {
-  session: Session;
-  participant: Profile;
+  session: SessionResponse;
+  participant: ProfileResponse;
 }

@@ -1,25 +1,27 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { RestError } from 'api/rest-error';
-import { USERS, PROFILES, CONFIG } from 'api/rest-types';
-import { mergeMap, takeUntil } from 'rxjs/operators';
-import { RestService } from 'services/rest-service/Rest.service';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {RestError} from 'api/rest-error';
+import {mergeMap, takeUntil} from 'rxjs/operators';
+import {RestService} from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import { AuthService } from 'services/auth-service/Auth.service';
-import { EmailComponent } from 'components/common/inputs/email/email.component';
-import { NameComponent } from 'components/common/inputs/name/name.component';
-import { LastnameComponent } from 'components/common/inputs/lastname/lastname.component';
-import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
-import { TelephoneComponent } from 'components/common/inputs/telephone/telephone.component';
-import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
-import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
-import { UserRequest as User } from 'api/rest-models/user-request';
-import { of, Subject } from 'rxjs';
-import { Skills } from 'api/rest-models/config-models';
-import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
+import {AuthService} from 'services/auth-service/Auth.service';
+import {EmailComponent} from 'components/common/inputs/email/email.component';
+import {NameComponent} from 'components/common/inputs/name/name.component';
+import {LastnameComponent} from 'components/common/inputs/lastname/lastname.component';
+import {DateBirthComponent} from 'components/common/inputs/date-birth/date-birth.component';
+import {TelephoneComponent} from 'components/common/inputs/telephone/telephone.component';
+import {SkillLevelComponent} from 'components/common/inputs/skill-level/skill-level.component';
+import {of, Subject} from 'rxjs';
+import {Skills} from 'api/rest-models/config-models';
+import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
+import {ProfileResponse} from 'api/responses/profile.dto';
+import {UserResponse} from 'api/responses/user.dto';
+import {UserRequest} from 'api/requests/user.dto';
+import {ProfileRequest} from 'api/requests/profile.dto';
+import {ConfigResponse} from 'api/responses/config.dto';
 
-/***
+/**
  * @description Show user settings and allow to change them, gather informations about
  * required ```email```, ```name```, ```lastname```, ```date of birth```, ```telephone number``` and optional ```skill level```
  */
@@ -43,7 +45,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   skillLevelPossibleValues: Skills;
   serverInputsErrors: { [input: string]: string };
 
-  private _uInfo: User & Omit<Profile, 'type'>;
+  private _uInfo: UserResponse & Omit<ProfileResponse, 'type'>;
   set userInfo(p) {
     this._uInfo = p;
 
@@ -95,25 +97,28 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let user;
 
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
+    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .pipe(
-        mergeMap((v: string[]) => {
-          this.skillLevelPossibleValues = [' ', ...v];
+        mergeMap((v: ConfigResponse[]) => {
+          // TODO - to modify
+          this.skillLevelPossibleValues = [' ', ...(v.filter(value => {
+            return value.key === 'difficulty';
+          }).map(value => value.value))];
           this.editMode = false;
           return this.auth.sessionInfo$;
         }),
         takeUntil(this.destroy),
         mergeMap(({uid}) => {
-          return this.rest.do<USERS.GET.OUTPUT>(REST_PATH.USERS.GET, { templateParamsValues: { id: uid.toString() } });
+          return this.rest.do<UserResponse>(REST_PATH.USERS.GET, { templateParamsValues: { id: uid.toString() } });
         }),
         mergeMap(data => {
           user = data;
-          return this.rest.do<PROFILES.INDEX.OUTPUT>(REST_PATH.PROFILES.GET);
+          return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.GET);
         })
       )
       .subscribe({
         next: data => {
-          const profile = data.find(el => el.type === 'OWNER');
+          const profile = data.find(el => el.is_owner);
           user.skill_level = profile?.skill_level ?? null;
           this.userInfo = user;
         },
@@ -148,8 +153,8 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private prepareUserInfoPayload(): USERS.EDIT.INPUT {
-    const body: USERS.EDIT.INPUT = new User();
+  private prepareUserInfoPayload(): UserRequest {
+    const body: UserRequest = new UserRequest();
 
     body.firstname = this.form.get('name').value;
     body.lastname = this.form.get('lastname').value;
@@ -160,8 +165,8 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     return body;
   }
 
-  private prepareSelfProfilePayload(): PROFILES.EDIT.INPUT {
-    const body: PROFILES.EDIT.INPUT = new Profile();
+  private prepareSelfProfilePayload(): ProfileRequest {
+    const body: ProfileRequest = new ProfileRequest();
 
     const skill = this.form.get('skillLevel').value;
     body.firstname = this.form.get('name').value,

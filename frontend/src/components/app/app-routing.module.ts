@@ -12,22 +12,22 @@ import { AdminGuard } from 'guards/Admin.guard';
 const routes: Routes = [
   /*EVERYONE*/
   {
-    path: '',
+    path: PATH.EVERYONE.MAIN,
     component: Pages.MainPageComponent
   },
   {
-    path: 'register',
+    path: PATH.EVERYONE.REGISTER,
     component: Pages.RegisterPageComponent,
     canActivate: [OnlineGuard, NotLoggedGuard]
   },
   {
-    path: 'login',
+    path: PATH.EVERYONE.LOGIN,
     component: Pages.LoginPageComponent,
     canActivate: [OnlineGuard, NotLoggedGuard]
   },
   /*LOGGED*/
   {
-    path: 'account',
+    path: PATH.LOGGED.ACCOUNT,
     component: Pages.AccountPageComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
@@ -51,16 +51,21 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'schedule',
+    path: PATH.LOGGED.SCHEDULE,
     component: Pages.SchedulePageComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard] TODO: only for tests
   },
   {
-    path: 'shop',
+    path: PATH.LOGGED.SHOP,
     component: Pages.ShopPageComponent,
     canActivate: [OnlineGuard, AuthGuard]
   },
   /*ORGANIZER*/
+  {
+    path: PATH.ORGANIZER.MANAGE_SCHEDULE,
+    component: Pages.ManageSchedulePageComponent,
+    // canActivate: [OnlineGuard, AuthGuard, OrganizerGuard] TODO: only for tests
+  },
   /*ADMIN*/
   {
     path: 'admin',

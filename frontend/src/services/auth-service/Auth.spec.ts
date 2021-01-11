@@ -3,8 +3,7 @@ import { AuthService } from './Auth.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { VERIFICATION } from 'api/rest-types';
-import { LoginInfo } from 'api/rest-models/login-info';
+import {LoginRequest} from 'api/requests/login.dto';
 
 describe('auth.service', () => {
     let restMock: jasmine.SpyObj<RestService>;
@@ -19,7 +18,7 @@ describe('auth.service', () => {
         const [email, password] = ['example@mail.com', 'password'];
         const info = { token: 'token', uid: 1 };
 
-        const body: VERIFICATION.LOGIN.INPUT = new LoginInfo();
+        const body: LoginRequest = new LoginRequest();
         body.email = email;
         body.password = password;
 
@@ -39,7 +38,7 @@ describe('auth.service', () => {
     it('login via google', (done: DoneFn) => {
         const info = { token: 'token', uid: 1 };
 
-        const body: VERIFICATION.LOGIN.INPUT = new LoginInfo();
+        const body: LoginRequest = new LoginRequest();
         body.provider = 'GOOGLE';
 
         restMock.do.withArgs(REST_PATH.VERIFICATION.LOGIN, { body }).and.returnValue(of(info));
@@ -58,7 +57,7 @@ describe('auth.service', () => {
     it('login via facebook', (done: DoneFn) => {
         const info = { token: 'token', uid: 1 };
 
-        const body: VERIFICATION.LOGIN.INPUT = new LoginInfo();
+        const body: LoginRequest = new LoginRequest();
         body.provider = 'FACEBOOK';
 
         restMock.do.withArgs(REST_PATH.VERIFICATION.LOGIN, { body }).and.returnValue(of(info));

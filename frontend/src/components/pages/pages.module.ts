@@ -11,6 +11,7 @@ import { ProfileAddComponent } from './account-page/profile/profile-add/profile-
 import { ProfileSettingsComponent } from './account-page/profile/profile-settings/profile-settings.component';
 import { AdminConfigComponent } from './admin-page/admin-config/admin-config.component';
 import { AdminUsersComponent } from './admin-page/admin-users/admin-users.component';
+import {ManageSchedulePageComponent} from 'components/pages/manage-schedule-page/manage-schedule-page.component';
 
 import { NgModule } from '@angular/core';
 import { AccountPageModule } from './account-page/account-page.module';
@@ -26,6 +27,7 @@ import { ProfileAddModule } from './account-page/profile/profile-add/profile-add
 import { ProfileSettingsModule } from './account-page/profile/profile-settings/profile-settings.module';
 import { AdminConfigModule } from './admin-page/admin-config/admin-config.module';
 import { AdminUsersModule } from './admin-page/admin-users/admin-users.module';
+import {ManageSchedulePageModule} from 'components/pages/manage-schedule-page/manage-schedule-page.module';
 
 export const Pages = {
     AccountPageComponent,
@@ -40,7 +42,8 @@ export const Pages = {
     ProfileAddComponent,
     ProfileSettingsComponent,
     AdminConfigComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    ManageSchedulePageComponent
 };
 
 @NgModule({
@@ -57,7 +60,8 @@ export const Pages = {
         ProfileAddModule,
         ProfileSettingsModule,
         AdminConfigModule,
-        AdminUsersModule
+        AdminUsersModule,
+        ManageSchedulePageModule
     ]
 })
 export class PagesModule {}

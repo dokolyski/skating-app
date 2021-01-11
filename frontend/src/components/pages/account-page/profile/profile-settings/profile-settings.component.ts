@@ -1,19 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { RestError } from 'api/rest-error';
-import { CONFIG, PROFILES } from 'api/rest-types';
-import { RestService } from 'services/rest-service/Rest.service';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {RestError} from 'api/rest-error';
+import {RestService} from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import { NameComponent } from 'components/common/inputs/name/name.component';
-import { LastnameComponent } from 'components/common/inputs/lastname/lastname.component';
-import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
-import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
-import { mergeMap } from 'rxjs/operators';
-import { AuthService } from 'services/auth-service/Auth.service';
-import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
-import { Skills } from 'api/rest-models/config-models';
+import {NameComponent} from 'components/common/inputs/name/name.component';
+import {LastnameComponent} from 'components/common/inputs/lastname/lastname.component';
+import {DateBirthComponent} from 'components/common/inputs/date-birth/date-birth.component';
+import {SkillLevelComponent} from 'components/common/inputs/skill-level/skill-level.component';
+import {mergeMap} from 'rxjs/operators';
+import {Skills} from 'api/rest-models/config-models';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
-import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
+import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
+import {ProfileResponse} from 'api/responses/profile.dto';
+import {ProfileRequest} from 'api/requests/profile.dto';
+import {ConfigResponse} from 'api/responses/config.dto';
 
 /**
  * @description Show profiles account settings and allow to change them, , gather informations about
@@ -32,8 +32,8 @@ export class ProfileSettingsComponent implements OnInit {
     skillLevel: SkillLevelComponent.controlSchemaRequired
   });
 
-  private _profile: Profile;
-  set selectedProfile(p: Profile) {
+  private _profile: ProfileResponse;
+  set selectedProfile(p: ProfileResponse) {
     this._profile = p;
 
     this.form.get('name').setValue(p.firstname);
@@ -45,7 +45,7 @@ export class ProfileSettingsComponent implements OnInit {
     return this._profile;
   }
 
-  profiles: Profile[];
+  profiles: ProfileResponse[];
   serverInputsErrors: { [input: string]: string };
   skillLevelPossibleValues: Skills;
 
@@ -83,11 +83,11 @@ export class ProfileSettingsComponent implements OnInit {
   ngOnInit() {
     this.editMode = false;
 
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
+    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .pipe(
-        mergeMap((v: string[]) => {
-          this.skillLevelPossibleValues = [' ', ...v];
-          return this.rest.do<PROFILES.INDEX.OUTPUT>(REST_PATH.PROFILES.GET);
+        mergeMap((v: ConfigResponse[]) => {
+          this.skillLevelPossibleValues = [' ', ...v.map(value => value.value)];
+          return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.GET);
         })
       )
       .subscribe({
@@ -111,15 +111,15 @@ export class ProfileSettingsComponent implements OnInit {
       });
   }
 
-  private removeOwner(data: Profile[]) {
-    const indexOwner = data.findIndex(p => p.type === 'OWNER');
+  private removeOwner(data: ProfileResponse[]) {
+    const indexOwner = data.findIndex(p => p.is_owner);
     if (indexOwner > -1) {
       data.splice(indexOwner);
     }
   }
 
-  private prepareProfilePayload(): PROFILES.EDIT.INPUT {
-    const body: PROFILES.EDIT.INPUT = new Profile();
+  private prepareProfilePayload(): ProfileRequest {
+    const body: ProfileRequest = new ProfileRequest();
 
     const skill = this.form.get('skillLevel').value;
 

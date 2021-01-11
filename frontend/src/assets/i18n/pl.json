@@ -216,14 +216,16 @@
     },
     "languages": {
       "POLISH": "Język polski",
-      "ENGLISH": "Język angielski"
+      "ENGLISH": "Język angielski",
+      "label": "Język"
     }
   },
   "schedule": {
     "add-participant": "Dodaj uczestnika",
     "create-new-session": "Utwórz nowe zajęcia",
     "no-sessions": "Brak treningów",
-    "already-added-participants": "Dodani uczestnicy:\n{{value}}"
+    "already-added-participants": "Oczekujący uczestnicy:\n{{value}}",
+    "already-reserved-participants": "Zapisani na zajęcia:\n{{value}}"
   },
   "pending-reservations": {
     "columns": {
@@ -272,5 +274,11 @@
     "end-time": "Godzina zakończenia",
     "group": "Grupa",
     "description": "Opis"
+  },
+  "reservation-messages": {
+    "one-canceled": "Oczekująca rezerwacja została usunięta",
+    "many-canceled": "{{canceledNumber}} oczekujących rezerwacji zostało usuniętych",
+    "one-added": "Dodano nową rezerwację dla uczestnika {{participantName}}",
+    "many-added": "Dodano nowe rezerwacje dla {{n}} uczestników"
   }
 }

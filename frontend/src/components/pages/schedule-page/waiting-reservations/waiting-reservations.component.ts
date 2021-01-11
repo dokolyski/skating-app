@@ -4,6 +4,9 @@ import {SessionParticipant} from 'models/session-participant';
 import * as moment from 'moment';
 import {ReservationsService} from 'services/reservations-service/reservations.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {RestService} from 'services/rest-service/Rest.service';
+import {SessionParticipantJoinRequest} from 'api/requests/session-participant.dto';
+import * as REST_PATH from 'api/rest-url.json';
 
 @Component({
   selector: 'app-waiting-reservations',
@@ -12,12 +15,14 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 })
 export class WaitingReservationsComponent implements OnInit {
   constructor(public reservationsService: ReservationsService,
-              private breakPointObserver: BreakpointObserver) {
+              private breakPointObserver: BreakpointObserver,
+              private restService: RestService) {
   }
 
   dataSource: MatTableDataSource<SessionParticipant>;
   displayedColumns: string[] = ['participantName', 'sessionDate', 'price', 'remove'];
   xSmallScreen = true;
+  private paymentFormat: string;
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<SessionParticipant>(this.reservationsService.data);
@@ -58,5 +63,10 @@ export class WaitingReservationsComponent implements OnInit {
 
   getTotalCost() {
     return this.dataSource.data.map(t => t.session.price).reduce((acc, value) => acc + value, 0);
+  }
+
+  doReservation(profilesIds: any[] = []) {
+    // TODO - to proper set after endpoint fix
+    this.restService.do(REST_PATH.SESSION_PARTICIPANTS.JOIN, {body: {session_id: 0, profiles_ids: profilesIds, format: this.paymentFormat} as SessionParticipantJoinRequest });
   }
 }

@@ -2,7 +2,7 @@
   <div class="weekdayHeader">
     {{dayFormatter()}}
   </div>
-  <app-session-card *ngFor="let session of sessions" [sessionData]="session" [profiles]="profiles"></app-session-card>
+  <app-session-card *ngFor="let session of sessions" [sessionData]="session" [profiles]="profiles" [adminView]="adminView"></app-session-card>
   <div *ngIf="sessions.length == 0" class="noSessionMessage">
     {{ 'schedule.no-sessions' | translate }}
   </div>

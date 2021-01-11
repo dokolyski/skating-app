@@ -1,7 +1,8 @@
 import {EventEmitter, Injectable} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 import {SessionParticipant} from 'models/session-participant';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
+import {ProfileResponse} from 'api/responses/profile.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -10,31 +11,35 @@ export class ReservationsService {
   data: SessionParticipant[];
   reservationsChange = new EventEmitter<SessionParticipant[]>();
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor(private snackBar: MatSnackBar,
+              private translate: TranslateService) {
     this.data = JSON.parse(window.localStorage.getItem('sessionParticipants')) || [];
     if (this.data.length > 0) {
       this.reservationsChange.emit(this.data);
     }
   }
 
-  getReservationsForSession(sessionId: number): Profile[] {
+  getReservationsForSession(sessionId: number): ProfileResponse[] {
     return this.data.filter(sessionParticipant => {
       return sessionParticipant.session.id === sessionId;
     }).map(value => value.participant);
   }
 
-  addNewParticipants(newParticipant: SessionParticipant[]) {
-    this.data = this.data.concat(newParticipant);
+  addNewParticipants(newParticipants: SessionParticipant[]) {
+    this.data = this.data.concat(newParticipants);
     window.localStorage.setItem('sessionParticipants', JSON.stringify(this.data));
     this.reservationsChange.emit(this.data);
+    if (newParticipants.length > 1) {
+      this.displaySnackMessage('reservation-messages.many-added', {n: newParticipants.length});
+    } else if (newParticipants.length === 1) {
+      this.displaySnackMessage('reservation-messages.one-added', {participantName: `${newParticipants[0].participant.firstname} ${newParticipants[0].participant.lastname}`});
+    }
   }
 
   isAlreadyReserved(sessionParticipant: SessionParticipant): boolean {
-    return this.data.some(value => {
-      if (value.session.id === sessionParticipant.session.id && value.participant.id === sessionParticipant.participant.id) {
-        return true;
-      }
-    });
+    return this.data.some(value =>
+      value.session.id === sessionParticipant.session.id && value.participant.id === sessionParticipant.participant.id)
+      || sessionParticipant.session.profiles.some(value => value.id === sessionParticipant.participant.id);
   }
 
   deleteParticipants(sessionParticipants: SessionParticipant[]) {
@@ -52,32 +57,24 @@ export class ReservationsService {
         this.reservationsChange.emit(this.data);
       }
       this.displayReservationsCanceledMessage(removedNumber);
-    } else {
-      this.displayNoReservationsCanceledMessage();
     }
     window.localStorage.setItem('sessionParticipants', JSON.stringify(this.data));
     return this.data;
   }
 
-  private displayNoReservationsCanceledMessage() {
-    this.displaySnackMessage('Reservation has been canceled');
-  }
-
   private displayReservationsCanceledMessage(canceledNumber: number) {
-    if (canceledNumber === 0) {
-      this.displayNoReservationsCanceledMessage();
-    } else if (canceledNumber === 1) {
-      this.displaySnackMessage(`Reservation has been canceled`);
+    if (canceledNumber === 1) {
+      this.displaySnackMessage('reservation-messages.one-canceled');
     } else if (canceledNumber > 1) {
-      this.displaySnackMessage(`${canceledNumber} reservations have been canceled`);
-    } else {
-      throw new Error('Number of canceling reservation was negative number.');
+      this.displaySnackMessage('reservation-messages.many-canceled', {canceledNumber});
     }
   }
 
-  private displaySnackMessage(message: string) {
-    this.snackBar.open(message, null, {
-      duration: 2000,
+  private displaySnackMessage(message: string, params?: any) {
+    this.translate.get(message, params).subscribe(next => {
+      this.snackBar.open(next, null, {
+        duration: 2000,
+      });
     });
   }
 }

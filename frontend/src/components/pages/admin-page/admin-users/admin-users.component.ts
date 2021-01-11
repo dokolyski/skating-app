@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { USERS } from 'api/rest-types';
 import { Col } from 'components/common/interactive-table/interactive-table.component';
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import { UserRequest } from 'api/rest-models/user-request';
 import { AuthService } from 'services/auth-service/Auth.service';
 import { UserChmod } from 'api/rest-models/user-chmod';
 import { first, map, mergeMap, tap } from 'rxjs/operators';
@@ -12,6 +10,7 @@ import { from, zip } from 'rxjs';
 import { ArraySubject } from 'common/classes/array-subject';
 import { AdminUsersDialogEditComponent } from './admin-users-dialog-edit/admin-users-dialog-edit.component';
 import { ModalDialog } from 'common/classes/modal-dialog';
+import {UserResponse} from 'api/responses/user.dto';
 import { TranslateService } from '@ngx-translate/core';
 
 type DataType = {
@@ -43,14 +42,14 @@ export class AdminUsersComponent implements OnInit {
     private rest: RestService) { }
 
   ngOnInit() {
-    this.rest.do<USERS.ALL.OUTPUT>(REST_PATH.USERS.ALL)
+    this.rest.do<UserResponse[]>(REST_PATH.USERS.ALL)
       .subscribe({
-        next: (data: UserRequest[]) => {
+        next: (data: UserResponse[]) => {
           this.originalData = data.map(
             v => ({
               id: v.id.toString(),
-              firstname: v.firstname,
-              lastname: v.lastname,
+              firstname: 'v.firstname', // TODO - load from main profile
+              lastname: 'v.lastname',
               isOrganizer: v.isOrganizer.toString(),
               isAdmin: v.isAdmin.toString(),
               isHAdmin: v.isHAdmin.toString()

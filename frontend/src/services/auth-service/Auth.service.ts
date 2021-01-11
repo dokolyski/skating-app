@@ -4,8 +4,7 @@ import { Injectable } from '@angular/core';
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { Token } from 'api/rest-models/token';
-import { VERIFICATION } from 'api/rest-types';
-import { LoginInfo } from 'api/rest-models/login-info';
+import {LoginRequest} from 'api/requests/login.dto';
 
 /**
  * @description Authorisation purpose proxy to the ```REST``` server
@@ -28,7 +27,7 @@ export class AuthService {
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   loginViaEmail(email: string, password: string): Observable<void> {
-    const body: VERIFICATION.LOGIN.INPUT = new LoginInfo();
+    const body: LoginRequest = new LoginRequest();
     body.email = email;
     body.password = password;
 
@@ -69,7 +68,7 @@ export class AuthService {
   * @returns ```Observable```, emits ```next``` on fullfillment
   */
   private loginViaSocialMedia(providerName: string): Observable<void> {
-    const body: VERIFICATION.LOGIN.INPUT = new LoginInfo();
+    const body: LoginRequest = new LoginRequest();
     body.provider = providerName;
 
     return this.login(body);

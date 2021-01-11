@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {ProfileResponse} from 'api/responses/profile.dto';
 
 @Component({
   selector: 'app-profiles-viewport',
@@ -10,7 +10,7 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 })
 export class ProfilesViewportComponent implements OnInit {
 
-  @Input() profiles: Profile[];
+  @Input() profiles: ProfileResponse[];
 
   displayingItemsNumber = 5;
 

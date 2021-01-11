@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
+import {ProfileResponse} from 'api/responses/profile.dto';
 
 @Component({
   selector: 'app-profile-selection[values]',
@@ -8,18 +8,18 @@ import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 export class ProfileSelectionComponent implements OnInit {
 
   @Input()
-  values: Profile[];
+  values: ProfileResponse[];
 
   @Input()
-  selected: Profile;
+  selected: ProfileResponse;
 
   /**
    * @description Selected another ```profile```
    */
   @Output()
-  selectedChange = new EventEmitter<Profile>();
+  selectedChange = new EventEmitter<ProfileResponse>();
 
-  set _selectedProfile(val: Profile) {
+  set _selectedProfile(val: ProfileResponse) {
     this.selectedChange.emit(val);
   }
 
@@ -33,7 +33,7 @@ export class ProfileSelectionComponent implements OnInit {
     }
   }
 
-  objectComparisonFunction(option: Profile, value: Profile): boolean {
+  objectComparisonFunction(option: ProfileResponse, value: ProfileResponse): boolean {
     return option.firstname === value.firstname && option.lastname === value.lastname;
   }
 }

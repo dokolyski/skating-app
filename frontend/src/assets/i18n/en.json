@@ -216,14 +216,16 @@
     },
     "languages": {
       "POLISH": "Polish language",
-      "ENGLISH": "English language"
+      "ENGLISH": "English language",
+      "label": "Languages"
     }
   },
   "schedule": {
     "add-participant": "Add participant",
     "create-new-session": "Create new session",
     "no-sessions": "No sessions",
-    "already-added-participants": "Added participants:\n{{value}}"
+    "already-added-participants": "Pending participants:\n{{value}}",
+    "already-reserved-participants": "Signed up:\n{{value}}"
   },
   "pending-reservations": {
     "columns": {
@@ -272,5 +274,11 @@
     "end-time": "End time",
     "group": "Group",
     "description": "Description"
+  },
+  "reservation-messages": {
+    "one-canceled": "Reservation has been canceled",
+    "many-canceled": "{{canceledNumber}} reservations have been canceled",
+    "one-added": "Reservation for participant {{participantName}} was added",
+    "many-added": "Reservations for {{n}} participants were added"
   }
 }

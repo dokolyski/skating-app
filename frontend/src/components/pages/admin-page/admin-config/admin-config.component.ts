@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PaymentTable } from 'api/rest-models/config-models';
 import { RestService } from 'services/rest-service/Rest.service';
-import { CONFIG } from 'api/rest-types';
 import * as REST_PATH from 'api/rest-url.json';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
 import { Col } from 'components/common/interactive-table/interactive-table.component';
@@ -9,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AdminConfigDialogEditComponent } from './admin-config-dialog-edit/admin-config-dialog-edit.component';
 import { ArraySubject } from 'common/classes/array-subject';
 import { ModalDialog } from 'common/classes/modal-dialog';
+import {ConfigResponse} from 'api/responses/config.dto';
 import { TranslateService } from '@ngx-translate/core';
 import { zip } from 'rxjs';
 
@@ -32,18 +32,19 @@ export class AdminConfigComponent implements OnInit {
     private rest: RestService) { }
 
   ngOnInit() {
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.price_table } })
+    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.price_table } })
       .subscribe({
-        next: (data: PaymentTable) => {
-          this.rows.setDataCopy(this.originalData = data);
+        next: (data: ConfigResponse[]) => {
+          this.rows.setDataCopy(this.originalData = data.map(value => ({required_money: parseInt(value.key, 0),
+            points: parseInt(value.value, 0)})));
           this.initCols();
         },
         // TODO: error: (error: RestError) => this.handleErrors(error)
       });
 
-    this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.fb_link } })
+    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.fb_link } })
       .subscribe({
-        next: (data: string) => this.fbLink = this.originalFbLink = data,
+        next: (data: ConfigResponse[]) => this.fbLink = this.originalFbLink = data[0].value,
         // TODO: error: (error: RestError) => this.handleErrors(error)
       });
   }
@@ -76,13 +77,13 @@ export class AdminConfigComponent implements OnInit {
   }
 
   saveData() {
-    this.rest.do<CONFIG.EDIT.INPUT>(REST_PATH.CONFIG.EDIT, { templateParamsValues: { key: REST_CONFIG.price_table }, body: this.rows })
+    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.EDIT, { templateParamsValues: { key: REST_CONFIG.price_table }, body: this.rows })
       .subscribe({
         next: () => this.originalData = this.rows.getDataCopy()
         // TODO: error: (error: RestError) => this.handleErrors(error)
       });
 
-    this.rest.do<CONFIG.EDIT.INPUT>(REST_PATH.CONFIG.EDIT, { templateParamsValues: { key: REST_CONFIG.fb_link }, body: this.fbLink })
+    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.EDIT, { templateParamsValues: { key: REST_CONFIG.fb_link }, body: this.fbLink })
       .subscribe({
         next: () => this.originalFbLink = this.fbLink
         // TODO: error: (error: RestError) => this.handleErrors(error)
@@ -96,7 +97,7 @@ export class AdminConfigComponent implements OnInit {
 
   private checkDuplicates(data): boolean {
     const index = this.rows.findIndex(v => v.required_money === data.required_money && v.points === data.points);
-    return index > -1 ? true : false;
+    return index > -1;
   }
 
   private initCols() {
