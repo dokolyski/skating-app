@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { USERS } from 'api/rest-types';
 import { Col } from 'components/common/interactive-table/interactive-table.component';
 import { RestService } from 'services/rest-service/Rest.service';
