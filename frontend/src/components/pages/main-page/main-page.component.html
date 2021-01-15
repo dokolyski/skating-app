@@ -1,15 +1,13 @@
 <div id="whiteboard">
   <header>
-    <img 
-    srcset="assets/img/background-logo-360px.webp 360w,
-            assets/img/background-logo-512px.webp 512w,
-            assets/img/background-logo-1280px.webp 1280w"
-    sizes="(max-width: 360px) 360px,
-           (max-width: 512px) 512px,
-           1280px"
-    src="assets/img/background-logo-1280px.webp" 
-    id="logo" alt="Logo" aria-label="Logo">
+    <picture>
+      <source srcset="assets/img/background-logo-360px.webp" media="(max-width: 360px)">
+      <source srcset="assets/img/background-logo-512px.webp" media="(max-width: 512px)">
+      <source srcset="assets/img/background-logo-1280px.webp" media="(max-width: 900px)">
+      <img src="assets/img/background-logo-9000px.webp" alt="Logo" aria-label="Logo" id="logo">
+    </picture>
   </header>
+
   <mat-tab-group [tabIndex]="0" (selectedTabChange)="changeTab($event)" mat-align-tabs="center" animationDuration="0ms"
     dynamicHeight mat-stretch-tabs>
     <mat-tab aria-label="About us">

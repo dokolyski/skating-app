@@ -110,12 +110,14 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
   }
 
   onDelete(rownum: number) {
-    if (this.rows.getIndexCopy(rownum).isAdmin === 'true') {
+    const { isAdmin: rA, isHAdmin: rHA } = this.rows.getIndexCopy(rownum);
+
+    if (rA === 'true') {
       this.auth.sessionInfo$
         .pipe(
           first()
         ).subscribe(({ isHAdmin }) => {
-          if (isHAdmin) {
+          if (isHAdmin && rHA === 'false') {
             this.removeRow(rownum);
           } else {
             this.translate.get('errors.messages.ACCESS_FORBIDDEN')
