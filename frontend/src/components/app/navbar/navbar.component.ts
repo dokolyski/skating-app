@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as PATH from 'assets/config/url.json';
-import { AuthService } from 'services/auth-service/Auth.service';
+import { AuthService } from 'services/auth-service/auth.service';
 import { first } from 'rxjs/operators';
-import {TranslateService} from '@ngx-translate/core';
+import * as PATH from 'assets/config/url.json';
 import * as moment from 'moment';
 
 @Component({

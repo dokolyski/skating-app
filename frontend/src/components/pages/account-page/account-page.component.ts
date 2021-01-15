@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { isMobile } from 'common/functions/mobile-check';
-import * as PATH from 'assets/config/url.json';
 import { delay, tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { of, Subscription } from 'rxjs';
+import * as PATH from 'assets/config/url.json';
 
 @Component({
   selector: 'app-account-page',

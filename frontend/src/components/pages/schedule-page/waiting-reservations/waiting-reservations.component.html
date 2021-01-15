@@ -21,8 +21,8 @@
   <ng-container matColumnDef="sessionGroup">
     <th mat-header-cell *matHeaderCellDef> {{ 'pending-reservations.columns.group' | translate }}</th>
     <td mat-cell *matCellDef="let element"> {{sessionGroupFormatter(element)}} </td>
-    <td mat-footer-cell *matFooterCellDef><span
-      *ngIf="!xSmallScreen">{{ 'pending-reservations.footer.totalPrice' | translate }}</span></td>
+    <td mat-footer-cell *matFooterCellDef><span *ngIf="!xSmallScreen">{{ 'pending-reservations.footer.totalPrice' |
+        translate }}</span></td>
   </ng-container>
 
   <ng-container matColumnDef="price">
@@ -35,7 +35,7 @@
     <th mat-header-cell *matHeaderCellDef> {{ 'pending-reservations.columns.remove' | translate }}</th>
     <td mat-cell *matCellDef="let element; let i = index">
       <button (click)="reservationsService.deleteParticipants([dataSource.data[i]])" mat-icon-button
-              aria-label="Example icon button with a vertical three dot icon">
+        aria-label="Example icon button with a vertical three dot icon">
         <mat-icon style="color: red">clear</mat-icon>
       </button>
     </td>

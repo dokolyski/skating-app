@@ -18,10 +18,7 @@ export class ScheduleComponent implements OnInit {
   @Input() adminView = false;
   weekdayNumbers = Array(7).fill(0).map((_, i) => i);
 
-  calendar: {
-    from: Date,
-    to: Date
-  };
+  calendar: { from: Date, to: Date };
 
   sessions: SessionResponse[][];
   profiles = [

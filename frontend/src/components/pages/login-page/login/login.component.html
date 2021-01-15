@@ -12,7 +12,7 @@
 
       <mat-grid-tile>
         <button appAccessOnlineButton mat-raised-button type="submit" color="primary" (click)="loginViaEmail()"
-          id="loginEmail">
+          id="loginEmail" aria-label="Login via email">
           {{ 'pages.login.form.buttons.LOGIN_EMAIL' | translate }}
         </button>
       </mat-grid-tile>
@@ -26,7 +26,7 @@
 
 <mat-grid-list cols="1" rowHeight="3rem">
   <mat-grid-tile>
-    <button appAccessOnlineButton mat-raised-button (click)="loginViaGoogle()" id="loginGoogle">
+    <button appAccessOnlineButton mat-raised-button (click)="loginViaGoogle()" id="loginGoogle" aria-label="Login via Google">
       <div class="social-button">
         <mat-icon svgIcon="google"></mat-icon>
       </div>
@@ -35,7 +35,7 @@
   </mat-grid-tile>
 
   <mat-grid-tile>
-    <button appAccessOnlineButton mat-raised-button (click)="loginViaFacebook()" id="loginFacebook">
+    <button appAccessOnlineButton mat-raised-button (click)="loginViaFacebook()" id="loginFacebook" aria-label="Login via Facebook">
       <div class="social-button">
         <mat-icon svgIcon="facebook"></mat-icon>
       </div>

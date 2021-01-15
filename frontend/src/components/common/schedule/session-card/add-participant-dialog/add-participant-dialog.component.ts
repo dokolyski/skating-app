@@ -1,6 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MatCheckboxChange} from '@angular/material/checkbox';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 
 @Component({
@@ -8,14 +8,9 @@ import * as moment from 'moment';
   templateUrl: './add-participant-dialog.component.html',
   styleUrls: ['./add-participant-dialog.component.css']
 })
-export class AddParticipantDialogComponent implements OnInit {
+export class AddParticipantDialogComponent {
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
-
-  ngOnInit(): void {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data) { }
 
   changeSetting($event: MatCheckboxChange) {
 

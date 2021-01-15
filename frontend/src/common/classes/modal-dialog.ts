@@ -1,21 +1,25 @@
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { of } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
-export class ModalDialog {
+/**
+ * @summary Dialog handler
+ * @description Handle MatDialog opening status, unsubscribe when dialog has been closed
+ */
+export class ModalDialog<T = any> {
     private dialogRef: MatDialogRef<any>;
 
     constructor(
-        private dialogType: any,
+        private dialogComponent: any,
         private matDialog: MatDialog) { }
 
-    open(data) {
+    open(data): Observable<T> {
         if (!this.dialogRef) {
-            this.dialogRef = this.matDialog.open(this.dialogType, { data });
+            this.dialogRef = this.matDialog.open(this.dialogComponent, { data });
             return this.dialogRef.afterClosed()
                 .pipe(
                     tap(() => this.dialogRef = null),
-                    filter(v => v),
+                    filter(v => v)
                 );
         }
 

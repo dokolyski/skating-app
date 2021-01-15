@@ -2,10 +2,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import { RestError } from 'api/rest-error';
-import { AuthService } from 'services/auth-service/Auth.service';
+import { AuthService } from 'services/auth-service/auth.service';
 import { Observable } from 'rxjs';
 import { EmailComponent } from 'components/common/inputs/email/email.component';
 import { PasswordComponent } from 'components/common/inputs/password/password.component';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
 
 /**
  * @description Allow user to sign in through ```email and password``` or ```social media``` like ```Google``` or ```Facebook```
@@ -25,14 +26,13 @@ export class LoginComponent {
 
   @Output()
   onSubmit = new EventEmitter<void>();
-  @Output()
-  onError = new EventEmitter<string>();
 
   labelsPath = 'pages.login';
 
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
+    private interceptor: ErrorInterceptorService,
     private errorMessageService: ErrorMessageService) {}
 
   loginViaEmail() {
@@ -63,7 +63,7 @@ export class LoginComponent {
     this.errorMessageService.getErrorsStrings(errors)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
 
         if (translation.inputs) {

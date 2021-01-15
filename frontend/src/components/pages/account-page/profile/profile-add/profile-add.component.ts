@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestError } from 'api/rest-error';
+import { CONFIG, PROFILES } from 'api/rest-types';
+import { RestService } from 'services/rest-service/rest.service';
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { NameComponent } from 'components/common/inputs/name/name.component';
@@ -10,6 +12,7 @@ import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-
 import { Skills } from 'api/rest-models/config-models';
 import {ProfileRequest} from 'api/requests/profile.dto';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
 import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import {ConfigResponse} from 'api/responses/config.dto';
 
@@ -38,15 +41,14 @@ export class ProfileAddComponent implements OnInit {
   onSubmit = new EventEmitter<void>();
   @Output()
   onCancel = new EventEmitter<void>();
-  @Output()
-  onError = new EventEmitter<string>();
 
   constructor(
     private fb: FormBuilder,
     private rest: RestService,
+    private interceptor: ErrorInterceptorService,
     private errorMessageService: ErrorMessageService) {
-      this.onCancel.subscribe(() => this.clearForm());
-     }
+    this.onCancel.subscribe(() => this.clearForm());
+  }
 
   ngOnInit() {
     this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
@@ -73,9 +75,9 @@ export class ProfileAddComponent implements OnInit {
     const skill = this.form.get('skillLevel').value;
 
     body.firstname = this.form.get('name').value,
-    body.lastname = this.form.get('lastname').value,
-    body.birth_date = this.form.get('dateBirth').value,
-    body.skill_level = skill.length && skill !== ' ' ? skill : null;
+      body.lastname = this.form.get('lastname').value,
+      body.birth_date = this.form.get('dateBirth').value,
+      body.skill_level = skill.length && skill !== ' ' ? skill : null;
 
     return body;
   }
@@ -84,7 +86,7 @@ export class ProfileAddComponent implements OnInit {
     this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
 
         if (showServerErrors && translation.inputs) {
@@ -104,8 +106,8 @@ export class ProfileAddComponent implements OnInit {
 
   private clearForm() {
     this.form.reset();
-    for(const c of Object.values(this.form.controls)) {
-      for(const k of Object.keys(c.errors)) {
+    for (const c of Object.values(this.form.controls)) {
+      for (const k of Object.keys(c.errors)) {
         c.errors[k] = null;
         // @ts-ignore
         c['status'] = 'VALID';

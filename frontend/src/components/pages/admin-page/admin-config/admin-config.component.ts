@@ -10,15 +10,28 @@ import { ArraySubject } from 'common/classes/array-subject';
 import { ModalDialog } from 'common/classes/modal-dialog';
 import {ConfigResponse} from 'api/responses/config.dto';
 import { TranslateService } from '@ngx-translate/core';
-import { zip } from 'rxjs';
+import { Subscription, zip } from 'rxjs';
+import { RestError } from 'api/rest-error';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
+import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
+import { first } from 'rxjs/operators';
 
+type DialogDataType = {
+  required_money: number,
+  points: number
+};
+
+/***
+ * @description Show configuration settings and allow to change ```Facebook``` page url, ```Price table```.
+ */
 @Component({
   selector: 'app-admin-config',
   templateUrl: './admin-config.component.html',
   styleUrls: ['./admin-config.component.css']
 })
-export class AdminConfigComponent implements OnInit {
-  private dialog = new ModalDialog(AdminConfigDialogEditComponent, this.matDialog);
+export class AdminConfigComponent implements OnInit, OnDestroy {
+  private s: Subscription;
+  private dialog = new ModalDialog<DialogDataType>(AdminConfigDialogEditComponent, this.matDialog);
   private originalFbLink: string;
   private originalData: PaymentTable;
 
@@ -29,6 +42,8 @@ export class AdminConfigComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     private matDialog: MatDialog,
+    private interceptor: ErrorInterceptorService,
+    private errorMessageService: ErrorMessageService,
     private rest: RestService) { }
 
   ngOnInit() {
@@ -39,13 +54,13 @@ export class AdminConfigComponent implements OnInit {
             points: parseInt(value.value, 0)})));
           this.initCols();
         },
-        // TODO: error: (error: RestError) => this.handleErrors(error)
+        error: (error: RestError) => this.handleErrors(error)
       });
 
     this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.fb_link } })
       .subscribe({
         next: (data: ConfigResponse[]) => this.fbLink = this.originalFbLink = data[0].value,
-        // TODO: error: (error: RestError) => this.handleErrors(error)
+        error: (error: RestError) => this.handleErrors(error)
       });
   }
 
@@ -54,7 +69,10 @@ export class AdminConfigComponent implements OnInit {
       .subscribe(data => {
         if (data) {
           if (this.checkDuplicates(data)) {
-            alert('Duplikat');
+            this.translate.get('errors.messages.DUPLICATE')
+            .pipe(
+              first()
+            ).subscribe(e => this.interceptor.error.emit(e))
           } else {
             this.rows.push(data);
           }
@@ -79,14 +97,14 @@ export class AdminConfigComponent implements OnInit {
   saveData() {
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.EDIT, { templateParamsValues: { key: REST_CONFIG.price_table }, body: this.rows })
       .subscribe({
-        next: () => this.originalData = this.rows.getDataCopy()
-        // TODO: error: (error: RestError) => this.handleErrors(error)
+        next: () => this.originalData = this.rows.getDataCopy(),
+        error: (error: RestError) => this.handleErrors(error)
       });
 
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.EDIT, { templateParamsValues: { key: REST_CONFIG.fb_link }, body: this.fbLink })
       .subscribe({
-        next: () => this.originalFbLink = this.fbLink
-        // TODO: error: (error: RestError) => this.handleErrors(error)
+        next: () => this.originalFbLink = this.fbLink,
+        error: (error: RestError) => this.handleErrors(error)
       });
   }
 
@@ -101,7 +119,7 @@ export class AdminConfigComponent implements OnInit {
   }
 
   private initCols() {
-    zip(
+    this.s = zip(
       this.translate.get('pages.admin.config.form.columns.POINTS'),
       this.translate.get('pages.admin.config.form.columns.REQ_MONEY')
     ).subscribe(t => {
@@ -115,5 +133,14 @@ export class AdminConfigComponent implements OnInit {
       }
       ];
     });
+  }
+
+  private handleErrors(error: RestError) {
+    this.errorMessageService.getErrorsStrings(error)
+      .subscribe((translation: TranslatedErrors) => {
+        if (translation.message) {
+          this.interceptor.error.emit(translation.message);
+        }
+      });
   }
 }

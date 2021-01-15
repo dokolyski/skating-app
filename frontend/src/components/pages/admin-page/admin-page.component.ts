@@ -17,7 +17,7 @@ export class AdminPageComponent implements OnDestroy {
   s: Subscription;
 
   constructor(private translate: TranslateService) { }
-  
+
   ngOnInit() {
     this.s = this.translate.onLangChange
       .pipe(
@@ -27,7 +27,7 @@ export class AdminPageComponent implements OnDestroy {
         this.render = true;
       });
 
-      of(null)
+    of(null)
       .pipe(
         delay(100)
       ).subscribe(() => {

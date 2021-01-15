@@ -1,5 +1,5 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 
 @Component({
@@ -7,14 +7,9 @@ import * as moment from 'moment';
   templateUrl: './session-info-pane.component.html',
   styleUrls: ['./session-info-pane.component.css']
 })
-export class SessionInfoPaneComponent implements OnInit {
+export class SessionInfoPaneComponent {
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
-
-  ngOnInit(): void {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data) { }
 
   formatDateString() {
     return `${moment(this.data.session.start_date).format('MMMM Do YYYY, HH:mm')} - ${moment(this.data.session.end_date).format('HH:mm')}`;

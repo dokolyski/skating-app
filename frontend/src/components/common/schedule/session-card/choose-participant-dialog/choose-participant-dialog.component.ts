@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatListOption} from '@angular/material/list';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -10,15 +10,9 @@ import {ProfileResponse} from 'api/responses/profile.dto';
   templateUrl: './choose-participant-dialog.component.html',
   styleUrls: ['./choose-participant-dialog.component.css']
 })
-export class ChooseParticipantDialogComponent implements OnInit {
+export class ChooseParticipantDialogComponent {
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-  }
-
-  ngOnInit(): void {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data) { }
 
   chosenParticipantsString(selectedOptions: SelectionModel<MatListOption>): string {
     return this.getValues(selectedOptions).map(value => `${value.firstname} ${value.lastname}`).join(', ');

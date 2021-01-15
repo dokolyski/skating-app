@@ -1,9 +1,11 @@
 import { Directive, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
-import { OnlineGuard } from 'guards/Online.guard';
+import { OnlineGuard } from 'guards/online.guard';
 
+/**
+ * @description Create HTMLElement when ```online```
+ */
 @Directive({
-  selector: '[appAccessOnline]',
-
+  selector: '[appAccessOnline]'
 })
 export class AppAccessOnlineDirective implements OnDestroy {
   private subs = OnlineGuard.isOnline()

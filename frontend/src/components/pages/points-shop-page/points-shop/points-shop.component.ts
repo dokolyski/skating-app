@@ -7,6 +7,7 @@ import { PaymentTable } from 'api/rest-models/config-models';
 import { PaymentsPoints } from 'api/rest-models/payments-points';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
 import {ConfigResponse} from 'api/responses/config.dto';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
 
 @Component({
   selector: 'app-points-shop',
@@ -14,24 +15,16 @@ import {ConfigResponse} from 'api/responses/config.dto';
   styleUrls: ['./points-shop.component.css']
 })
 export class PointsShopComponent implements OnInit {
-
-  constructor(
-    private rest: RestService,
-    private errorMessageService: ErrorMessageService) {
-  }
   readonly displayedColumns = ['points', 'money', 'buy'];
   table: PaymentTable;
 
   @Output()
   onSubmit = new EventEmitter<void>();
-  @Output()
-  onError = new EventEmitter<string>();
 
-  private static preparePayload(option: number): PaymentsPoints {
-    const payload: PaymentsPoints = new PaymentsPoints();
-    payload.option_id = option;
-    return payload;
-  }
+  constructor(
+    private rest: RestService,
+    private interceptor: ErrorInterceptorService,
+    private errorMessageService: ErrorMessageService) { }
 
   ngOnInit() {
     this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.price_table}})
@@ -58,7 +51,7 @@ export class PointsShopComponent implements OnInit {
     this.errorMessageService.getErrorsStrings(errors)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
       });
   }

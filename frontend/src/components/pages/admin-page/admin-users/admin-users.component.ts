@@ -3,15 +3,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { Col } from 'components/common/interactive-table/interactive-table.component';
 import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import { AuthService } from 'services/auth-service/Auth.service';
+import { UserRequest } from 'api/rest-models/user-request';
+import { AuthService } from 'services/auth-service/auth.service';
 import { UserChmod } from 'api/rest-models/user-chmod';
 import { first, map, mergeMap, tap } from 'rxjs/operators';
-import { from, zip } from 'rxjs';
+import { from, Subscription, zip } from 'rxjs';
 import { ArraySubject } from 'common/classes/array-subject';
 import { AdminUsersDialogEditComponent } from './admin-users-dialog-edit/admin-users-dialog-edit.component';
 import { ModalDialog } from 'common/classes/modal-dialog';
 import {UserResponse} from 'api/responses/user.dto';
 import { TranslateService } from '@ngx-translate/core';
+import { RestError } from 'api/rest-error';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
+import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 
 type DataType = {
   id: string,
@@ -21,13 +25,22 @@ type DataType = {
   isAdmin: string
 }[];
 
+type DialDataType = {
+  isOrganizer: boolean,
+  isAdmin: boolean
+};
+
+/**
+ * @description Show table with users and allow to ```delete user``` or ```change permissions```.
+ */
 @Component({
   selector: 'app-admin-users',
   templateUrl: './admin-users.component.html',
   styleUrls: ['./admin-users.component.css']
 })
-export class AdminUsersComponent implements OnInit {
-  private dialog = new ModalDialog(AdminUsersDialogEditComponent, this.matDialog);
+export class AdminUsersComponent implements OnInit, OnDestroy {
+  private s: Subscription;
+  private dialog = new ModalDialog<DialDataType>(AdminUsersDialogEditComponent, this.matDialog);
   private originalData: DataType;
   private deletedUserId: Set<number> = new Set();
   private editedUserId: Set<number> = new Set();
@@ -39,6 +52,8 @@ export class AdminUsersComponent implements OnInit {
     private translate: TranslateService,
     private matDialog: MatDialog,
     private auth: AuthService,
+    private interceptor: ErrorInterceptorService,
+    private errorMessageService: ErrorMessageService,
     private rest: RestService) { }
 
   ngOnInit() {
@@ -59,9 +74,12 @@ export class AdminUsersComponent implements OnInit {
           this.rows.setDataCopy(this.originalData);
           this.initCols();
         },
-        // TODO: error: (error: RestError) => this.handleErrors(error)
+        error: (error: RestError) => this.handleErrors(error)
       });
+  }
 
+  ngOnDestroy() {
+    this.s?.unsubscribe();
   }
 
   onEdit(rownum: number) {
@@ -81,8 +99,8 @@ export class AdminUsersComponent implements OnInit {
       ).subscribe(dialData => {
         if (dialData) {
           const changeRow = this.rows.getIndexCopy(rownum);
-          changeRow.isOrganizer =this.castString(dialData.isOrganizer);
-          if(dialData.isAdmin) {
+          changeRow.isOrganizer = this.castString(dialData.isOrganizer);
+          if (dialData.isAdmin) {
             changeRow.isAdmin = this.castString(dialData.isAdmin);
           }
           this.rows.setIndex(changeRow, rownum);
@@ -100,7 +118,10 @@ export class AdminUsersComponent implements OnInit {
           if (isHAdmin) {
             this.removeRow(rownum);
           } else {
-            alert('Brak uprawnień');
+            this.translate.get('errors.messages.ACCESS_FORBIDDEN')
+            .pipe(
+              first()
+            ).subscribe(e => this.interceptor.error.emit(e))
           }
         });
     } else {
@@ -114,11 +135,13 @@ export class AdminUsersComponent implements OnInit {
         mergeMap(([index, oData]) => {
           const rowid = Number.parseInt(index, 10);
           if (this.deletedUserId.has(rowid)) {
+
             return this.rest.do(REST_PATH.USERS.DELETE, { templateParamsValues: { id: oData.id } })
               .pipe(
-                tap(() => this.deletedUserId.delete(rowid))
+                tap(() => this.deletedUserId.delete(rowid)),
               );
           } else if (this.editedUserId.has(rowid)) {
+
             const [admin, organizer] = [oData.isAdmin as any, oData.isOrganizer as any];
             const body: UserChmod = { admin, organizer };
             return this.rest.do(REST_PATH.USERS.CHMOD, { templateParamsValues: { id: oData.id }, body })
@@ -127,7 +150,10 @@ export class AdminUsersComponent implements OnInit {
               );
           }
         })
-      ).subscribe(() => this.rows.setDataCopy(this.originalData));
+      ).subscribe({
+        next: () => this.rows.setDataCopy(this.originalData),
+        error: (error: RestError) => this.handleErrors(error)
+      });
   }
 
   cancelData() {
@@ -151,7 +177,7 @@ export class AdminUsersComponent implements OnInit {
   }
 
   private initCols() {
-    zip(
+    this.s = zip(
       this.translate.get('pages.admin.users.columns.ID'),
       this.translate.get('pages.admin.users.columns.FIRSTNAME'),
       this.translate.get('pages.admin.users.columns.LASTNAME'),
@@ -186,5 +212,14 @@ export class AdminUsersComponent implements OnInit {
         },
       ];
     });
+  }
+
+  private handleErrors(error: RestError) {
+    this.errorMessageService.getErrorsStrings(error)
+      .subscribe((translation: TranslatedErrors) => {
+        if (translation.message) {
+          this.interceptor.error.emit(translation.message);
+        }
+      });
   }
 }

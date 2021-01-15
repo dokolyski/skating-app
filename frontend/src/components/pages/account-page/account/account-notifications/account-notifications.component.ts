@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RestError } from 'api/rest-error';
-import { RestService } from 'services/rest-service/Rest.service';
+import { RestService } from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {map, mergeMap} from 'rxjs/operators';
-import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
+import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import SessionResponse from 'api/responses/session.dto';
 import {SessionIndexRequest} from 'api/requests/session.dto';
 import {NotificationResponse} from 'api/responses/notification.dto';
@@ -24,13 +24,10 @@ type Combined = {
 export class AccountNotificationsComponent implements OnInit {
   sessions: Combined[];
 
-  @Output()
-  onError = new EventEmitter<string>();
-
   constructor(
     private rest: RestService,
-    private errorMessageService: ErrorMessageService) {
-  }
+    private interceptor: ErrorInterceptorService,
+    private errorMessageService: ErrorMessageService) { }
 
   ngOnInit() {
     const body: SessionIndexRequest = {
@@ -73,7 +70,7 @@ export class AccountNotificationsComponent implements OnInit {
     this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
       });
   }

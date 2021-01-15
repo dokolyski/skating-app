@@ -13,16 +13,13 @@ export class ReservationsService {
 
   constructor(private snackBar: MatSnackBar,
               private translate: TranslateService) {
-    this.data = JSON.parse(window.localStorage.getItem('sessionParticipants')) || [];
-    if (this.data.length > 0) {
-      this.reservationsChange.emit(this.data);
-    }
+    this.restoreSessionParticipants();
   }
 
-  getReservationsForSession(sessionId: number): ProfileResponse[] {
-    return this.data.filter(sessionParticipant => {
-      return sessionParticipant.session.id === sessionId;
-    }).map(value => value.participant);
+  getReservationsForSession(sessionId: number): Profile[] {
+    return this.data
+    .filter(sessionParticipant => sessionParticipant.session.id === sessionId)
+    .map(value => value.participant);
   }
 
   addNewParticipants(newParticipants: SessionParticipant[]) {
@@ -52,14 +49,28 @@ export class ReservationsService {
           }
         });
       });
+
       const removedNumber = beforeNumber - this.data.length;
       if (removedNumber > 0) {
         this.reservationsChange.emit(this.data);
       }
+
       this.displayReservationsCanceledMessage(removedNumber);
     }
+
     window.localStorage.setItem('sessionParticipants', JSON.stringify(this.data));
     return this.data;
+  }
+
+  private restoreSessionParticipants() {
+    this.data = JSON.parse(window.localStorage.getItem('sessionParticipants')) ?? [];
+    if (this.data.length > 0) {
+      this.reservationsChange.emit(this.data);
+    }
+  }
+
+  private displayNoReservationsCanceledMessage() {
+    this.displaySnackMessage('Reservation has been canceled');
   }
 
   private displayReservationsCanceledMessage(canceledNumber: number) {

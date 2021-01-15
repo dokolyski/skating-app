@@ -1,13 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
-import { DateAdapter } from '@angular/material/core';
+import { TranslateService } from '@ngx-translate/core';
+import { SwPush, SwUpdate } from '@angular/service-worker';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SwPush, SwUpdate } from '@angular/service-worker';
-import { Subscription } from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import * as moment from 'moment';
+import { DateAdapter } from '@angular/material/core';
+import { mergeMap, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { pubKey } from 'assets/config/vapid.pub.json';
-import { map, mergeMap } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +15,7 @@ import { map, mergeMap } from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnDestroy {
-  subs: Subscription[] = [];
+  destroySubject = new Subject();
 
   constructor(
     private matIconRegistry: MatIconRegistry,
@@ -31,17 +31,20 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subs.forEach(e => e.unsubscribe());
+    this.destroySubject.next();
   }
 
   private setLanguage() {
     this.translate.use(localStorage.getItem('language') || this.translate.getDefaultLang());
-    const s = this.translate.onLangChange.subscribe(newLanguage => {
+    this.translate.onLangChange
+    .pipe(
+      takeUntil(this.destroySubject)
+    )
+    .subscribe(newLanguage => {
         localStorage.setItem('language', newLanguage.lang);
         this.adapter.setLocale(newLanguage.lang);
     });
 
-    this.subs.push(s);
     this.adapter.setLocale(this.translate.currentLang);
     moment.locale(this.translate.currentLang);
   }

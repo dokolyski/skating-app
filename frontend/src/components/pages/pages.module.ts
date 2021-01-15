@@ -68,4 +68,4 @@ export const Pages = {
         ReservationsModule
     ]
 })
-export class PagesModule {}
+export class PagesModule { }

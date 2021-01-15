@@ -1,19 +1,23 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {RestError} from 'api/rest-error';
-import {RestService} from 'services/rest-service/Rest.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { RestError } from 'api/rest-error';
+import { CONFIG, PROFILES } from 'api/rest-types';
+import { RestService } from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import {NameComponent} from 'components/common/inputs/name/name.component';
-import {LastnameComponent} from 'components/common/inputs/lastname/lastname.component';
-import {DateBirthComponent} from 'components/common/inputs/date-birth/date-birth.component';
-import {SkillLevelComponent} from 'components/common/inputs/skill-level/skill-level.component';
-import {mergeMap} from 'rxjs/operators';
-import {Skills} from 'api/rest-models/config-models';
+import { NameComponent } from 'components/common/inputs/name/name.component';
+import { LastnameComponent } from 'components/common/inputs/lastname/lastname.component';
+import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
+import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
+import { mergeMap } from 'rxjs/operators';
+import { AuthService } from 'services/auth-service/Auth.service';
+import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
+import { Skills } from 'api/rest-models/config-models';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
 import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 import {ProfileResponse} from 'api/responses/profile.dto';
 import {ProfileRequest} from 'api/requests/profile.dto';
 import {ConfigResponse} from 'api/responses/config.dto';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
 
 /**
  * @description Show profiles account settings and allow to change them, , gather informations about
@@ -67,13 +71,13 @@ export class ProfileSettingsComponent implements OnInit {
   onSubmit = new EventEmitter<void>();
   @Output()
   onCancel = new EventEmitter<void>();
-  @Output()
-  onError = new EventEmitter<string>();
 
   constructor(
     private fb: FormBuilder,
     private rest: RestService,
+    private interceptor: ErrorInterceptorService,
     private errorMessageService: ErrorMessageService) {
+
     this.onCancel.subscribe(() => {
       this.editMode = false;
       this.editMode = true;
@@ -135,7 +139,7 @@ export class ProfileSettingsComponent implements OnInit {
     this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
 
         if (showServerErrors && translation.inputs) {

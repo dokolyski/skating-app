@@ -3,15 +3,6 @@
     border-bottom: none;
 }
 
-header {
-    background-image: url('assets/img/background-logo.jpg');
-    background-size: 100% 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-}
-
 :host::ng-deep #whiteboard .mat-tab-header {
     background-color: var(--bluish-white) !important;
     box-shadow: 0 0 8px 0 var(--dark-blue) !important;
@@ -25,25 +16,6 @@ header {
     margin-right: 5px;
 }
 
-@media (min-width: 769px){
-    #logo {
-        width: 50%;
-        min-width: 800px;
-    }
-
-    header {
-        height: 100vh;
-        overflow: hidden;
-    }
+#logo {
+    width: 100%;
 }
-
-@media (max-width: 769px) {
-    #logo {
-        width: 75%;
-    }
-
-    header {
-        padding-top: 10vw;
-    }
-}
-

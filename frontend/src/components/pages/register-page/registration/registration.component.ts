@@ -22,6 +22,7 @@ import {UserRequest} from 'api/requests/user.dto';
 import {ProfileRequest} from 'api/requests/profile.dto';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
 import {ConfigResponse} from 'api/responses/config.dto';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
 
 /**
  * @description Gather, validate and send to the ```REST``` server required user informations like
@@ -59,15 +60,12 @@ export class RegistrationComponent implements OnInit {
   onSubmit = new EventEmitter<void>();
   @Output()
   onCancel = new EventEmitter<void>();
-  @Output()
-  onError = new EventEmitter<string>();
-
 
   constructor(
     private fb: FormBuilder,
     private rest: RestService,
-    private errorMessageService: ErrorMessageService) {
-  }
+    private interceptor: ErrorInterceptorService,
+    private errorMessageService: ErrorMessageService) { }
 
   ngOnInit() {
     this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
@@ -81,7 +79,7 @@ export class RegistrationComponent implements OnInit {
     const registerBody = this.prepareRegisterPayload();
 
     // create account
-    this.rest.do(REST_PATH.VERIFICATION.REGISTER, {body: registerBody})
+    this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
       .pipe(
         mergeMap(() => {
           const skillLevel = this.form.get('additional.skillLevel').value;
@@ -89,16 +87,16 @@ export class RegistrationComponent implements OnInit {
           // when user selects one of the skill then create profile
           if (skillLevel.length && skillLevel !== ' ') {
             const editBody = this.prepareSelfProfilePayload();
-            return this.rest.do(REST_PATH.PROFILES.EDIT, {body: editBody});
+            return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody });
           }
 
           return of();
         })
       ).subscribe({
-      next: () => this.onSubmit.emit(),
-      complete: () => this.onSubmit.emit(),
-      error: (e: RestError) => this.handleErrors(e, true)
-    });
+        next: () => this.onSubmit.emit(),
+        complete: () => this.onSubmit.emit(),
+        error: (e: RestError) => this.handleErrors(e, true)
+      });
   }
 
   private prepareRegisterPayload(): UserRequest {
@@ -129,13 +127,13 @@ export class RegistrationComponent implements OnInit {
     this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
 
         if (showServerErrors && translation.inputs) {
           for (const input of Object.keys(translation.inputs)) {
             const fullName = this.getFormControlFullName(input);
-            this.form.get(fullName).setErrors({'server-error': true});
+            this.form.get(fullName).setErrors({ 'server-error': true });
           }
 
           this.serverInputsErrors = translation.inputs;

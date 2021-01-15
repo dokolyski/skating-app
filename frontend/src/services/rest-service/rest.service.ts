@@ -1,11 +1,11 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {environment} from 'environments/environment.prod';
-import {mergeMap} from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'environments/environment.prod';
+import { mergeMap } from 'rxjs/operators';
 
 export type RestPath = { URL: string, METHOD: string, PARAMS?: string[] };
-export type RestOptions = { templateParamsValues?: { [key: string]: string }, body? };
+export type RestOptions = { templateParamsValues?: { [key: string]: string }, body?};
 
 /**
  * @summary General purpose proxy to the ```REST``` server
@@ -33,7 +33,7 @@ export class RestService {
           params = this.parseQueryParams(options.body);
         }
 
-        s.next(this.sendRequest(readyUrl, restPath.METHOD, {body: options.body, params}));
+        s.next(this.sendRequest(readyUrl, restPath.METHOD, { body: options.body, params }));
       } catch (err) {
         s.error(err);
       }
@@ -87,8 +87,9 @@ export class RestService {
    * @throws Error on unhandled HTTP method
    */
   private sendRequest(url: string, method: string,
-                      payload: { body?, params?: HttpParams }): Observable<any> | never {
-    const options: any = {withCredentials: true};
+    payload: { body?, params?: HttpParams }): Observable<any> | never {
+      
+    const options: any = { withCredentials: true };
     switch (method) {
       case 'GET':
         options.params = payload.params;

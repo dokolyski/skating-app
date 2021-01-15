@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NewSessionFormComponent } from '../session-card/new-session-form/new-session-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
@@ -11,20 +11,19 @@ import SessionResponse from 'api/responses/session.dto';
   templateUrl: './weekday.component.html',
   styleUrls: ['./weekday.component.css']
 })
-export class WeekdayComponent implements OnInit {
+export class WeekdayComponent {
   @Input() sessions: SessionResponse[];
   @Input() date: Date;
   @Input() profiles: ProfileResponse[];
   @Input() adminView: boolean;
 
-  constructor(public dialog: MatDialog,
-              public translateService: TranslateService) {}
-
-  ngOnInit(): void {
-  }
+  constructor(
+    public dialog: MatDialog,
+    public translateService: TranslateService) { }
 
   openNewSessionForm() {
-    this.dialog.open(NewSessionFormComponent, {data: {day: this.date}}).afterClosed().subscribe(() => {});
+    this.dialog.open(NewSessionFormComponent, { data: { day: this.date } })
+    .afterClosed().subscribe();
   }
 
   dayFormatter(): string {

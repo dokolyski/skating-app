@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {RestError} from 'api/rest-error';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {TranslateService} from '@ngx-translate/core';
+import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { Injectable } from '@angular/core';
+import { RestError } from 'api/rest-error';
+import { first, map } from 'rxjs/operators';
 
 export type TranslatedErrors = {
   message?: string,
@@ -24,28 +24,24 @@ export class ErrorMessageService {
    * @returns ```Observable```, emits ```next``` with ```TranslatedErrors```
    */
   getErrorsStrings(restError: RestError): Observable<TranslatedErrors> {
-    const subjectTranslation = new BehaviorSubject<TranslatedErrors>(null);
-    const end = new Subject();
-
-    this.translate.get('errors')
+    return this.translate.get('errors')
     .pipe(
-      takeUntil(end)
-    )
-    .subscribe(dict => {
-      const translations = {};
-      if (restError.messageToken) {
-        translations['message'] = dict.messages[restError.messageToken];
-      }
+      first(),
+      map(dict => this.createTransObj(restError, dict))
+    );
+  }
 
-      if (restError.inputsTokens) {
-        translations['inputs'] = Object.entries(restError.inputsTokens)
-          .reduce((p, [k, v]) => ({...p, [k]: dict.inputs[k][v]}), {});
-      }
+  private createTransObj(restError, dict) {
+    const translations = {};
+    if (restError.messageToken) {
+      translations['message'] = dict.messages[restError.messageToken];
+    }
 
-      subjectTranslation.next(translations);
-      end.next();
-    });
+    if (restError.inputsTokens) {
+      translations['inputs'] = Object.entries(restError.inputsTokens)
+        .reduce((p, [k, v]) => ({...p, [k]: dict.inputs[k][v as string]}), {});
+    }
 
-    return subjectTranslation.asObservable();
+    return translations;
   }
 }
