@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import * as PATH from 'assets/config/url.json';
 
+import { NotLoggedGuard } from 'guards/notLogged.guard';
+import { OrganizerGuard } from 'guards/organizer.guard';
+import { OnlineGuard } from 'guards/online.guard';
+import { AdminGuard } from 'guards/admin.guard';
+import { AuthGuard } from 'guards/auth.guard';
 import { Pages } from 'components/pages/pages.module';
-import { OrganizerGuard } from 'guards/Organizer.guard';
-import { OnlineGuard } from 'guards/Online.guard';
-import { NotLoggedGuard } from 'guards/NotLogged.guard';
-import { AuthGuard } from 'guards/Auth.guard';
-import { AdminGuard } from 'guards/Admin.guard';
 
 const routes: Routes = [
   /*EVERYONE*/

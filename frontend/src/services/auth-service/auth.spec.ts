@@ -1,10 +1,10 @@
-import { RestService } from 'services/rest-service/Rest.service';
-import { AuthService } from './Auth.service';
-import * as REST_PATH from 'api/rest-url.json';
+import { RestService } from 'services/rest-service/rest.service';
+import { AuthService } from './auth.service';
 import { of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { VERIFICATION } from 'api/rest-types';
 import { LoginInfo } from 'api/rest-models/login-info';
+import * as REST_PATH from 'api/rest-url.json';
 
 describe('auth.service', () => {
     let restMock: jasmine.SpyObj<RestService>;

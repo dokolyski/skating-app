@@ -3,9 +3,9 @@ import { FormBuilder } from '@angular/forms';
 import { RestError } from 'api/rest-error';
 import { USERS, PROFILES, CONFIG } from 'api/rest-types';
 import { mergeMap, takeUntil } from 'rxjs/operators';
-import { RestService } from 'services/rest-service/Rest.service';
+import { RestService } from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import { AuthService } from 'services/auth-service/Auth.service';
+import { AuthService } from 'services/auth-service/auth.service';
 import { EmailComponent } from 'components/common/inputs/email/email.component';
 import { NameComponent } from 'components/common/inputs/name/name.component';
 import { LastnameComponent } from 'components/common/inputs/lastname/lastname.component';
@@ -18,6 +18,7 @@ import { of, Subject } from 'rxjs';
 import { Skills } from 'api/rest-models/config-models';
 import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
 
 /***
  * @description Show user settings and allow to change them, gather informations about
@@ -72,20 +73,18 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     return this.form.enabled;
   }
 
-
   @Output()
   onSubmit = new EventEmitter<void>();
   @Output()
   onCancel = new EventEmitter<void>();
-  @Output()
-  onError = new EventEmitter<string>();
-
 
   constructor(
     private auth: AuthService,
     private fb: FormBuilder,
     private rest: RestService,
+    private interceptor: ErrorInterceptorService,
     private errorMessageService: ErrorMessageService) {
+
       this.onCancel.subscribe(() => {
         this.editMode = false;
         this.editMode = true;
@@ -176,7 +175,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
 
         if (showServerErrors && translation.inputs) {

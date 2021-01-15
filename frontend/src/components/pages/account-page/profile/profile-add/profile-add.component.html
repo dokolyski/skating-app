@@ -4,23 +4,20 @@
       <app-name [control]="form.get('name')" [serverError]="serverInputsErrors?.name">
       </app-name>
 
-      <app-lastname [control]="form.get('lastname')"
-                    [serverError]="serverInputsErrors?.lastname"></app-lastname>
+      <app-lastname [control]="form.get('lastname')" [serverError]="serverInputsErrors?.lastname"></app-lastname>
     </div>
 
-    <app-date-birth [control]="form.get('dateBirth')"
-                    [serverError]="serverInputsErrors?.dateBirth"></app-date-birth>
+    <app-date-birth [control]="form.get('dateBirth')" [serverError]="serverInputsErrors?.dateBirth"></app-date-birth>
 
-    <app-skill-level [control]="form.get('skillLevel')"
-                     [values]="skillLevelPossibleValues"></app-skill-level>
+    <app-skill-level [control]="form.get('skillLevel')" [values]="skillLevelPossibleValues"></app-skill-level>
 
-                <div class="buttons">
-                    <button mat-button (click)="onCancel.emit()" class="cancelButton">
-                      {{ 'pages.account.profile_add.form.controls.CANCEL' | translate }}
-                    </button>
-                    <button appAccessOnlineButton mat-button (click)="createProfile()" id="createButton">
-                      {{ 'pages.account.profile_add.form.controls.CREATE' | translate }}
-                    </button>
-                </div>
-            </form>
-        </div>
+    <div class="buttons">
+      <button mat-button (click)="onCancel.emit()" class="cancelButton">
+        {{ 'pages.account.profile_add.form.controls.CANCEL' | translate }}
+      </button>
+      <button appAccessOnlineButton mat-button (click)="createProfile()" id="createButton">
+        {{ 'pages.account.profile_add.form.controls.CREATE' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

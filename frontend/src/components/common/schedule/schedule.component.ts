@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SessionRequest as Session} from 'api/rest-models/session-request';
-import {RestService} from 'services/rest-service/Rest.service';
+import {RestService} from 'services/rest-service/rest.service';
 import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 import * as moment from 'moment';
 
@@ -14,10 +14,7 @@ export class ScheduleComponent implements OnInit {
   @Input() adminView = false;
   weekdayNumbers = Array(7).fill(0).map((_, i) => i);
 
-  calendar: {
-    from: Date,
-    to: Date
-  };
+  calendar: { from: Date, to: Date };
 
   sessions: Session[][];
   profiles = [
@@ -28,8 +25,7 @@ export class ScheduleComponent implements OnInit {
     {id: 4, firstname: 'Kasia', lastname: 'Gałęzowska'}
   ] as Profile[];
 
-  constructor(private restService: RestService) {
-  }
+  constructor(private restService: RestService) { }
 
   ngOnInit() {
     this.sessions = [

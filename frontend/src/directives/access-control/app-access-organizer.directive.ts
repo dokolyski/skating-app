@@ -1,7 +1,10 @@
 import { Directive, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
+import { AuthService } from 'services/auth-service/auth.service';
 import { map } from 'rxjs/operators';
-import { AuthService } from 'services/auth-service/Auth.service';
 
+/**
+ * @description Create HTMLElement when user has ```organizer`` privilege
+ */
 @Directive({
   selector: '[appAccessOrganizer]'
 })

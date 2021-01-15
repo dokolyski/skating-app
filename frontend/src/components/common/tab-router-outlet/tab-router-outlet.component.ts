@@ -1,10 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ContentChildren, OnDestroy, QueryList } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subject } from 'rxjs';
 import { TabSubpageDirective } from './tab-subpage.directive';
 import { filter, takeUntil } from 'rxjs/operators';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { Subject } from 'rxjs';
 
+/**
+ * @description Insert subpages into ```MatTab```, change tab to ```url``` related ```component```.
+ */
 @Component({
   selector: 'app-tab-router-outlet',
   templateUrl: './tab-router-outlet.component.html',

@@ -1,14 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
-import {RestService} from 'services/rest-service/Rest.service';
-
-import * as REST_PATH from 'api/rest-url.json';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { RestService } from 'services/rest-service/rest.service';
 import { RestError } from 'api/rest-error';
-
 import { VERIFICATION, PROFILES, CONFIG } from 'api/rest-types';
 import { mergeMap } from 'rxjs/operators';
-
-import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
+import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import { EmailComponent } from 'components/common/inputs/email/email.component';
 import { PasswordComponent } from 'components/common/inputs/password/password.component';
 import { RepeatPasswordComponent } from 'components/common/inputs/repeat-password/repeat-password.component';
@@ -21,7 +17,9 @@ import { of } from 'rxjs';
 import { Skills } from 'api/rest-models/config-models';
 import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
 import { UserRequest as User } from 'api/rest-models/user-request';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
+import * as REST_PATH from 'api/rest-url.json';
 
 /**
  * @description Gather, validate and send to the ```REST``` server required user informations like
@@ -59,15 +57,12 @@ export class RegistrationComponent implements OnInit {
   onSubmit = new EventEmitter<void>();
   @Output()
   onCancel = new EventEmitter<void>();
-  @Output()
-  onError = new EventEmitter<string>();
-
 
   constructor(
     private fb: FormBuilder,
     private rest: RestService,
-    private errorMessageService: ErrorMessageService) {
-  }
+    private interceptor: ErrorInterceptorService,
+    private errorMessageService: ErrorMessageService) { }
 
   ngOnInit() {
     this.rest.do<CONFIG.GET.OUTPUT>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
@@ -81,7 +76,7 @@ export class RegistrationComponent implements OnInit {
     const registerBody = this.prepareRegisterPayload();
 
     // create account
-    this.rest.do(REST_PATH.VERIFICATION.REGISTER, {body: registerBody})
+    this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
       .pipe(
         mergeMap(() => {
           const skillLevel = this.form.get('additional.skillLevel').value;
@@ -89,16 +84,16 @@ export class RegistrationComponent implements OnInit {
           // when user selects one of the skill then create profile
           if (skillLevel.length && skillLevel !== ' ') {
             const editBody = this.prepareSelfProfilePayload();
-            return this.rest.do(REST_PATH.PROFILES.EDIT, {body: editBody});
+            return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody });
           }
 
           return of();
         })
       ).subscribe({
-      next: () => this.onSubmit.emit(),
-      complete: () => this.onSubmit.emit(),
-      error: (e: RestError) => this.handleErrors(e, true)
-    });
+        next: () => this.onSubmit.emit(),
+        complete: () => this.onSubmit.emit(),
+        error: (e: RestError) => this.handleErrors(e, true)
+      });
   }
 
   private prepareRegisterPayload(): VERIFICATION.REGISTER.INPUT {
@@ -129,13 +124,13 @@ export class RegistrationComponent implements OnInit {
     this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
 
         if (showServerErrors && translation.inputs) {
           for (const input of Object.keys(translation.inputs)) {
             const fullName = this.getFormControlFullName(input);
-            this.form.get(fullName).setErrors({'server-error': true});
+            this.form.get(fullName).setErrors({ 'server-error': true });
           }
 
           this.serverInputsErrors = translation.inputs;

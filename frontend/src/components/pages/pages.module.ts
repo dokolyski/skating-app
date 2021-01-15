@@ -60,4 +60,4 @@ export const Pages = {
         AdminUsersModule
     ]
 })
-export class PagesModule {}
+export class PagesModule { }

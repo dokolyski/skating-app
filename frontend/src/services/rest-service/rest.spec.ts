@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { RestService } from './Rest.service';
+import { RestService } from './rest.service';
 import { environment } from 'environments/environment.prod';
 import { mergeMap, tap } from 'rxjs/operators';
 
@@ -24,12 +24,12 @@ describe('rest.service', () => {
             };
             const body = 'post';
             const returns = 'post';
-            mock.post.withArgs(`${environment.server_addr}/${url.URL}`, body, {withCredentials}).and.returnValue(of(returns));
+            mock.post.withArgs(`${environment.server_addr}/${url.URL}`, body, { withCredentials }).and.returnValue(of(returns));
 
-            return rest.do<typeof returns>(url, {body})
-            .pipe(
-                tap(v => expect(v).toEqual(returns))
-            );
+            return rest.do<typeof returns>(url, { body })
+                .pipe(
+                    tap(v => expect(v).toEqual(returns))
+                );
         }).pipe(
             mergeMap(() => {
                 const url = {
@@ -40,12 +40,12 @@ describe('rest.service', () => {
                 const returns = 'get';
                 const params = new HttpParams();
                 params.set(key, value);
-                mock.get.withArgs(`${environment.server_addr}/${url.URL}`, {withCredentials, params }).and.returnValue(of(returns));
+                mock.get.withArgs(`${environment.server_addr}/${url.URL}`, { withCredentials, params }).and.returnValue(of(returns));
 
-                return rest.do<typeof returns>(url, {body: {[key]: value}})
-                .pipe(
-                    tap(v => expect(v).toEqual(returns))
-                );
+                return rest.do<typeof returns>(url, { body: { [key]: value } })
+                    .pipe(
+                        tap(v => expect(v).toEqual(returns))
+                    );
             })
         ).subscribe(() => done());
     });
@@ -60,15 +60,15 @@ describe('rest.service', () => {
             };
             const body = 'put';
             const returns = 'put';
-            const templateParamsValues = {x: '1'};
+            const templateParamsValues = { x: '1' };
 
             const path = `${environment.server_addr}/${part}/${templateParamsValues.x}`;
-            mock.put.withArgs(path, body, {withCredentials}).and.returnValue(of(returns));
+            mock.put.withArgs(path, body, { withCredentials }).and.returnValue(of(returns));
 
-            return rest.do<typeof returns>(url, {body, templateParamsValues})
-            .pipe(
-                tap(v => expect(v).toEqual(returns))
-            );
+            return rest.do<typeof returns>(url, { body, templateParamsValues })
+                .pipe(
+                    tap(v => expect(v).toEqual(returns))
+                );
         }).pipe(
             mergeMap(() => {
                 const part = 'url/patch';
@@ -79,15 +79,15 @@ describe('rest.service', () => {
                 };
                 const body = 'patch';
                 const returns = 'patch';
-                const templateParamsValues = {x: '1'};
+                const templateParamsValues = { x: '1' };
 
                 const path = `${environment.server_addr}/${part}/${templateParamsValues.x}`;
-                mock.patch.withArgs(path, body, {withCredentials}).and.returnValue(of(returns));
+                mock.patch.withArgs(path, body, { withCredentials }).and.returnValue(of(returns));
 
-                return rest.do<typeof returns>(url, {body, templateParamsValues})
-                .pipe(
-                    tap(v => expect(v).toEqual(returns))
-                );
+                return rest.do<typeof returns>(url, { body, templateParamsValues })
+                    .pipe(
+                        tap(v => expect(v).toEqual(returns))
+                    );
             }),
             mergeMap(() => {
                 const part = 'url/delete';
@@ -100,15 +100,15 @@ describe('rest.service', () => {
                 const returns = 'delete';
                 const params = new HttpParams();
                 params.set(key, value);
-                const templateParamsValues = {x: '1'};
+                const templateParamsValues = { x: '1' };
 
                 const path = `${environment.server_addr}/${part}/${templateParamsValues.x}`;
-                mock.delete.withArgs(path, {withCredentials, params}).and.returnValue(of(returns));
+                mock.delete.withArgs(path, { withCredentials, params }).and.returnValue(of(returns));
 
-                return rest.do<typeof returns>(url, {body: {[key]: value}, templateParamsValues})
-                .pipe(
-                    tap(v => expect(v).toEqual(returns))
-                );
+                return rest.do<typeof returns>(url, { body: { [key]: value }, templateParamsValues })
+                    .pipe(
+                        tap(v => expect(v).toEqual(returns))
+                    );
             })
         ).subscribe(() => done());
     });
@@ -116,19 +116,21 @@ describe('rest.service', () => {
     it('throw error on invalid template params', (done: DoneFn) => {
         const expectedError = Error('invalid template params keys');
         of(() => new Observable(s => {
-                const url = {
-                    URL: `url/put/{x}`,
-                    METHOD: 'PUT',
-                    PARAMS: ['x']
-                };
-                const body = 'put';
-                const templateParamsValues = {y: '1'};
+            const url = {
+                URL: `url/put/{x}`,
+                METHOD: 'PUT',
+                PARAMS: ['x']
+            };
+            const body = 'put';
+            const templateParamsValues = { y: '1' };
 
-                rest.do(url, {body, templateParamsValues}).subscribe({error: e => {
+            rest.do(url, { body, templateParamsValues }).subscribe({
+                error: e => {
                     expect(e).toEqual(expectedError);
                     s.next();
-                }});
-            })
+                }
+            });
+        })
         ).pipe(
             mergeMap(() => new Observable(s => {
                 const url = {
@@ -137,12 +139,14 @@ describe('rest.service', () => {
                     PARAMS: ['x', 'y']
                 };
                 const body = 'patch';
-                const templateParamsValues = {x: '1'};
+                const templateParamsValues = { x: '1' };
 
-                rest.do(url, {body, templateParamsValues}).subscribe({error: e => {
-                    expect(e).toEqual(expectedError);
-                    s.next();
-                }});
+                rest.do(url, { body, templateParamsValues }).subscribe({
+                    error: e => {
+                        expect(e).toEqual(expectedError);
+                        s.next();
+                    }
+                });
             })),
             mergeMap(() => new Observable(s => {
                 const url = {
@@ -151,12 +155,14 @@ describe('rest.service', () => {
                     PARAMS: ['x']
                 };
                 const [key, value] = ['key', 'value'];
-                const templateParamsValues = {x: '1', y: '2'};
+                const templateParamsValues = { x: '1', y: '2' };
 
-                rest.do(url, {body: {[key]: value}, templateParamsValues}).subscribe({error: e => {
-                    expect(e).toEqual(expectedError);
-                    s.next();
-                }});
+                rest.do(url, { body: { [key]: value }, templateParamsValues }).subscribe({
+                    error: e => {
+                        expect(e).toEqual(expectedError);
+                        s.next();
+                    }
+                });
             }))
         ).subscribe(() => done());
     });

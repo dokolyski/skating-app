@@ -1,23 +1,18 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatListOption} from '@angular/material/list';
-import {SelectionModel} from '@angular/cdk/collections';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatListOption } from '@angular/material/list';
+import { SelectionModel } from '@angular/cdk/collections';
+import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
 import * as moment from 'moment';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
 
 @Component({
   selector: 'app-choose-participant-dialog',
   templateUrl: './choose-participant-dialog.component.html',
   styleUrls: ['./choose-participant-dialog.component.css']
 })
-export class ChooseParticipantDialogComponent implements OnInit {
+export class ChooseParticipantDialogComponent {
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
-
-  ngOnInit(): void {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data) { }
 
   chosenParticipantsString(selectedOptions: SelectionModel<MatListOption>): string {
     return this.getValues(selectedOptions).map(value => `${value.firstname} ${value.lastname}`).join(', ');

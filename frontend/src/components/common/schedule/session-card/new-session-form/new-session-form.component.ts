@@ -1,5 +1,5 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 
 @Component({
@@ -7,13 +7,7 @@ import * as moment from 'moment';
   templateUrl: './new-session-form.component.html',
   styleUrls: ['./new-session-form.component.css']
 })
-export class NewSessionFormComponent implements OnInit {
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
-
-  ngOnInit(): void {
-  }
+export class NewSessionFormComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data) { }
 }
 

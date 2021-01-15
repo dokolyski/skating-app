@@ -6,6 +6,9 @@ import { MoneyComponent } from 'components/common/inputs/money/money.component';
 import { PointsComponent } from 'components/common/inputs/points/points.component';
 import { Subscription } from 'rxjs';
 
+/**
+ * @description Show ```Edit``` or ```Add``` dialog, allow to change privileges.
+ */
 @Component({
   selector: 'app-admin-config-dialog-edit',
   templateUrl: './admin-config-dialog-edit.component.html',

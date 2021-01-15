@@ -1,7 +1,7 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {SessionParticipant} from 'models/session-participant';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {ProfileRequest as Profile} from 'api/rest-models/profile-request';
+import { EventEmitter, Injectable } from '@angular/core';
+import { SessionParticipant } from 'models/session-participant';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProfileRequest as Profile } from 'api/rest-models/profile-request';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +11,13 @@ export class ReservationsService {
   reservationsChange = new EventEmitter<SessionParticipant[]>();
 
   constructor(private snackBar: MatSnackBar) {
-    this.data = JSON.parse(window.localStorage.getItem('sessionParticipants')) || [];
-    if (this.data.length > 0) {
-      this.reservationsChange.emit(this.data);
-    }
+    this.restoreSessionParticipants();
   }
 
   getReservationsForSession(sessionId: number): Profile[] {
-    return this.data.filter(sessionParticipant => {
-      return sessionParticipant.session.id === sessionId;
-    }).map(value => value.participant);
+    return this.data
+    .filter(sessionParticipant => sessionParticipant.session.id === sessionId)
+    .map(value => value.participant);
   }
 
   addNewParticipants(newParticipant: SessionParticipant[]) {
@@ -47,16 +44,26 @@ export class ReservationsService {
           }
         });
       });
+
       const removedNumber = beforeNumber - this.data.length;
       if (removedNumber > 0) {
         this.reservationsChange.emit(this.data);
       }
+
       this.displayReservationsCanceledMessage(removedNumber);
     } else {
       this.displayNoReservationsCanceledMessage();
     }
+    
     window.localStorage.setItem('sessionParticipants', JSON.stringify(this.data));
     return this.data;
+  }
+
+  private restoreSessionParticipants() {
+    this.data = JSON.parse(window.localStorage.getItem('sessionParticipants')) ?? [];
+    if (this.data.length > 0) {
+      this.reservationsChange.emit(this.data);
+    }
   }
 
   private displayNoReservationsCanceledMessage() {

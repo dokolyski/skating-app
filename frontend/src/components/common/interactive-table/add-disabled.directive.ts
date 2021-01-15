@@ -1,5 +1,5 @@
-import { Directive } from '@angular/core';
 import { InteractiveTableComponent } from './interactive-table.component';
+import { Directive } from '@angular/core';
 
 @Directive({
   selector: '[appAddDisabled]'

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import { AuthService } from 'services/auth-service/Auth.service';
+import { AuthService } from 'services/auth-service/auth.service';
 
 /**
  * @description Activate if user has permission: ```admin```

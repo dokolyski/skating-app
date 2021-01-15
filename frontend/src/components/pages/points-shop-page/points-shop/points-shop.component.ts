@@ -1,13 +1,17 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { RestService } from 'services/rest-service/Rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import { RestService } from 'services/rest-service/rest.service';
 import { CONFIG, PAYMENTS } from 'api/rest-types';
 import { RestError } from 'api/rest-error';
 import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import { PaymentTable } from 'api/rest-models/config-models';
 import { PaymentsPoints } from 'api/rest-models/payments-points';
+import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
+import * as REST_PATH from 'api/rest-url.json';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
 
+/**
+ * @description Allow user to buy points, informations are represented inside table.
+ */
 @Component({
   selector: 'app-points-shop',
   templateUrl: './points-shop.component.html',
@@ -19,11 +23,10 @@ export class PointsShopComponent implements OnInit {
 
   @Output()
   onSubmit = new EventEmitter<void>();
-  @Output()
-  onError = new EventEmitter<string>();
 
   constructor(
     private rest: RestService,
+    private interceptor: ErrorInterceptorService,
     private errorMessageService: ErrorMessageService) { }
 
   ngOnInit() {
@@ -53,7 +56,7 @@ export class PointsShopComponent implements OnInit {
     this.errorMessageService.getErrorsStrings(errors)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
       });
   }

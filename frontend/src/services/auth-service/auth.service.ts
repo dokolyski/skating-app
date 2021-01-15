@@ -1,11 +1,11 @@
-import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { RestService } from 'services/rest-service/Rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import { RestService } from 'services/rest-service/rest.service';
 import { Token } from 'api/rest-models/token';
-import { VERIFICATION } from 'api/rest-types';
+import { map } from 'rxjs/operators';
 import { LoginInfo } from 'api/rest-models/login-info';
+import { VERIFICATION } from 'api/rest-types';
+import * as REST_PATH from 'api/rest-url.json';
 
 /**
  * @description Authorisation purpose proxy to the ```REST``` server
@@ -18,10 +18,7 @@ export class AuthService {
 
   constructor(
     private rest: RestService) {
-      this.sessionInfo = JSON.parse(localStorage.getItem('sessionInfo'));
-      if(this.sessionInfo) {
-        this.sessionInfoSubject.next(this.sessionInfo);
-      }
+      this.restoreSessionInfo();
     }
 
  /**
@@ -89,5 +86,15 @@ export class AuthService {
         localStorage.setItem('sessionInfo', JSON.stringify(session));
       })
     );
+  }
+
+  /**
+  * @description Loads session informations from local storage if exists
+  */
+  private restoreSessionInfo() {
+    this.sessionInfo = JSON.parse(localStorage.getItem('sessionInfo'));
+    if(this.sessionInfo) {
+      this.sessionInfoSubject.next(this.sessionInfo);
+    }
   }
 }

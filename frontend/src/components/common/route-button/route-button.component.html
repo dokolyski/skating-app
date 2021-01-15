@@ -1,12 +1,14 @@
+<!-- button with icon -->
 <ng-container *ngIf="icon; else elseIcon">
   <ng-container *ngTemplateOutlet="buttonIcon"></ng-container>
 </ng-container>
+<!-- button without icon -->
 <ng-template #elseIcon>
   <ng-container *ngTemplateOutlet="button"></ng-container>
 </ng-template>
 
 <ng-template #buttonIcon>
-
+  <!-- button with icon, tooltip disabled -->
   <ng-container *ngIf="!tooltip; else buttonIconTooltip">
     <button [routerLink]="routerLink" mat-icon-button [ngClass]="{activated: activated}"
       [attr.aria-label]="ariaLabel">
@@ -14,6 +16,7 @@
     </button>
   </ng-container>
 
+  <!-- button with icon, tooltip enabled -->
   <ng-template #buttonIconTooltip>
     <button [matTooltip]="tooltip" [routerLink]="routerLink" mat-icon-button [ngClass]="{activated: activated}" [attr.aria-label]="ariaLabel">
       <ng-container *ngTemplateOutlet="content"></ng-container>
@@ -22,6 +25,7 @@
 </ng-template>
 
 <ng-template #button>
+  <!-- button without icon, tooltip disabled -->
   <ng-container *ngIf="!tooltip; else buttonTooltip">
     <button [routerLink]="routerLink" mat-button [ngClass]="{activated: activated}"
       [attr.aria-label]="ariaLabel">
@@ -29,6 +33,7 @@
     </button>
   </ng-container>
 
+  <!-- button without icon, tooltip enabled -->
   <ng-template #buttonTooltip>
     <button [matTooltip]="tooltip" [routerLink]="routerLink" mat-button [ngClass]="{activated: activated}" [attr.aria-label]="ariaLabel">
       <ng-container *ngTemplateOutlet="content"></ng-container>
@@ -36,6 +41,7 @@
   </ng-template>
 </ng-template>
 
+<!-- access to the dynamic child -->
 <ng-template #content>
   <ng-content></ng-content>
 </ng-template>

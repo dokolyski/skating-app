@@ -2,7 +2,9 @@
   "errors": {
     "messages": {
       "UNAUTHORIZED": "Wymagane zalogowanie do wykonania operacji.",
-      "SERVER_ERROR": "Błąd wewnętrzny serwera."
+      "SERVER_ERROR": "Błąd wewnętrzny serwera.",
+      "ACCESS_FORBIDDEN": "Brak uprawnień.",
+      "DUPLICATE": "Duplikaty wpisów są niedozwolone."
     },
     "inputs": {
       "email": {
