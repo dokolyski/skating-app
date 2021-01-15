@@ -1,5 +1,5 @@
 <mat-tab-group [selectedIndex]="tabIndex" (selectedTabChange)="changeTab($event)" mat-align-tabs="center" dynamicHeight
-  animationDuration="0ms">
+  animationDuration="0ms" mat-stretch-tabs>
   <mat-tab *ngFor="let c of components; let i = index" [label]="c.label">
     <router-outlet *ngIf="tabIndex == i"></router-outlet>
   </mat-tab>
