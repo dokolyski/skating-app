@@ -56,7 +56,7 @@ export class TabRouterOutletComponent implements AfterViewInit, OnDestroy {
   }
 
   private setCorrectTab() {
-    const indx = this.components.findIndex(({ url }) => url === this.router.url);
+    const indx = this.components.findIndex(({ url }) => '/' + url === this.router.url);
     this.tabIndex = indx > -1 ? indx : 0;
   }
 }

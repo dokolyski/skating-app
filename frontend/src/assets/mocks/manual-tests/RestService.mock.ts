@@ -1,12 +1,12 @@
-import {Observable, of} from 'rxjs';
-import {RestOptions, RestPath} from 'services/rest-service/rest.service';
+import { Observable, of } from 'rxjs';
+import { RestOptions, RestPath } from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import {Injectable} from '@angular/core';
-import {ProfileResponse} from 'api/responses/profile.dto';
-import {UserResponse} from 'api/responses/user.dto';
+import { Injectable } from '@angular/core';
+import { ProfileResponse } from 'api/responses/profile.dto';
+import { UserResponse } from 'api/responses/user.dto';
 import * as CONFIG from 'assets/config/config.rest.json';
 import SessionResponse from 'api/responses/session.dto';
-import {NotificationResponse} from 'api/responses/notification.dto';
+import { NotificationResponse } from 'api/responses/notification.dto';
 
 @Injectable()
 export class RestServiceMock {
@@ -92,24 +92,24 @@ export class RestServiceMock {
     {
       id: 0,
       user_id: 0,
-      session_id: 1,
+      session_id: 0,
       show_date: new Date(),
       status: '',
       title: 'Title1',
       description: 'Description1',
       expiration_date: new Date('01/01/1990'),
-      owner: {firstname: '', lastname: '', email: ''}
+      owner: { firstname: '', lastname: '', email: '' }
     },
     {
       id: 1,
       user_id: 0,
-      session_id: 1,
+      session_id: 0,
       show_date: new Date(),
       status: '',
       title: 'Title1',
       description: 'Description1',
       expiration_date: new Date('01/01/1991'),
-      owner: {firstname: '', lastname: '', email: ''}
+      owner: { firstname: '', lastname: '', email: '' }
     },
     {
       id: 2,
@@ -120,7 +120,7 @@ export class RestServiceMock {
       title: 'Title1',
       description: 'Description1',
       expiration_date: new Date('01/01/1992'),
-      owner: {firstname: '', lastname: '', email: ''}
+      owner: { firstname: '', lastname: '', email: '' }
     }
   ];
   static userInfo: UserResponse = {
@@ -203,7 +203,7 @@ export class RestServiceMock {
       case REST_PATH.VERIFICATION.REGISTER:
         return of(null);
       case REST_PATH.VERIFICATION.LOGIN:
-        return of({token: 'token', uid: 1, isOrganizer: false, isAdmin: true, isHAdmin: true} as any);
+        return of({ token: 'token', uid: 1, isOrganizer: false, isAdmin: true, isHAdmin: true } as any);
       case REST_PATH.VERIFICATION.LOGOUT:
         return of(null);
       case REST_PATH.PROFILES.EDIT:

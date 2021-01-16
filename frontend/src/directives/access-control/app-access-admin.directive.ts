@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 export class AppAccessAdminDirective implements OnDestroy {
   private subs = this.auth.sessionInfo$
     .pipe(
-      map(v => v.isAdmin)
+      map(v => v?.isAdmin)
     ).subscribe(ok => {
       if (ok) {
         this.container.createEmbeddedView(this.el);
