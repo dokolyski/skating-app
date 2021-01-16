@@ -1,5 +1,5 @@
 import {IsNotEmpty, IsNumber, IsString, IsIn, ValidateNested} from 'class-validator';
-import {Type} from "class-transformer";
+import {Type} from 'class-transformer';
 
 export class JoinRequestPosition {
     @IsNotEmpty()
