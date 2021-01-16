@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import {ReservationsService} from 'services/reservations-service/reservations.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {RestService} from 'services/rest-service/Rest.service';
-import {SessionParticipantJoinRequest} from 'api/requests/session-participant.dto';
+import {JoinRequest, JoinRequestPosition} from 'api/requests/session-participant.dto';
 import * as REST_PATH from 'api/rest-url.json';
 
 @Component({
@@ -65,8 +65,14 @@ export class WaitingReservationsComponent implements OnInit {
     return this.dataSource.data.map(t => t.session.price).reduce((acc, value) => acc + value, 0);
   }
 
-  doReservation(profilesIds: any[] = []) {
-    // TODO - to proper set after endpoint fix
-    this.restService.do(REST_PATH.SESSION_PARTICIPANTS.JOIN, {body: {session_id: 0, profiles_ids: profilesIds, format: this.paymentFormat} as SessionParticipantJoinRequest });
+  doReservation() {
+    this.restService.do(REST_PATH.SESSION_PARTICIPANTS.JOIN, {
+      body: {
+        positions: this.dataSource.data.map(value => ({
+          session_id: value.session.id,
+          profile_id: value.participant.id
+        } as JoinRequestPosition)), type: this.paymentFormat
+      } as JoinRequest
+    });
   }
 }
