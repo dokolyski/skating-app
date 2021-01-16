@@ -30,7 +30,7 @@ class AuthorizedUser {
     }
 
     public checkIsAdmin(): void {
-        if (this.user.account_type != "ADMIN") {
+        if (this.user.isAdmin || this.user.isHAdmin) {
             throw new ForbiddenException();
         }
     }

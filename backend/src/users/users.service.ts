@@ -29,8 +29,6 @@ export class UsersService {
 
         try {
             const user = this.usersRepository.build(userRequest);
-            user.account_type = "USER";
-            user.account_type = "ADMIN";
             user.verified = true //TODO temporary
 
             await user.save({transaction: t});
