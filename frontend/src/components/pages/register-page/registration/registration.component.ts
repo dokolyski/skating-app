@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {RestService} from 'services/rest-service/Rest.service';
+import {RestService} from 'services/rest-service/rest.service';
 
 import * as REST_PATH from 'api/rest-url.json';
 import {RestError} from 'api/rest-error';

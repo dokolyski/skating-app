@@ -1,6 +1,6 @@
 import { Directive, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { AuthService } from 'services/auth-service/Auth.service';
+import { AuthService } from 'services/auth-service/auth.service';
 
 @Directive({
   selector: '[appAccessCommonUser]'

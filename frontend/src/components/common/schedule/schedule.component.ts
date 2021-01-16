@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SessionIndexRequest} from 'api/requests/session.dto';
-import {RestService} from 'services/rest-service/Rest.service';
+import {RestService} from 'services/rest-service/rest.service';
 import {ProfileIndexRequest} from 'api/requests/profile.dto';
 import {ProfileResponse} from 'api/responses/profile.dto';
 import * as moment from 'moment';
 import * as REST_PATH from 'api/rest-url.json';
-import {AuthService} from 'services/auth-service/Auth.service';
+import {AuthService} from 'services/auth-service/auth.service';
 import SessionResponse from 'api/responses/session.dto';
 
 @Component({

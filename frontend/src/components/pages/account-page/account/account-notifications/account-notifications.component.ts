@@ -1,12 +1,13 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { RestError } from 'api/rest-error';
-import { RestService } from 'services/rest-service/rest.service';
+import {Component, OnInit} from '@angular/core';
+import {RestError} from 'api/rest-error';
+import {RestService} from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {map, mergeMap} from 'rxjs/operators';
-import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
+import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 import SessionResponse from 'api/responses/session.dto';
 import {SessionIndexRequest} from 'api/requests/session.dto';
 import {NotificationResponse} from 'api/responses/notification.dto';
+import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
 
 type Combined = {
   session_info: SessionResponse,

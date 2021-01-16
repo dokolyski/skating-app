@@ -1,9 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestError } from 'api/rest-error';
-import { CONFIG, PROFILES } from 'api/rest-types';
 import { RestService } from 'services/rest-service/rest.service';
-import { RestService } from 'services/rest-service/Rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { NameComponent } from 'components/common/inputs/name/name.component';
 import { LastnameComponent } from 'components/common/inputs/lastname/lastname.component';

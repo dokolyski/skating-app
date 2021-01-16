@@ -1,4 +1,4 @@
-import { RestService } from 'services/rest-service/Rest.service';
+import { RestService } from 'services/rest-service/rest.service';
 import { AuthService } from './Auth.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { of } from 'rxjs';

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {SessionInfoPaneComponent} from './session-info-pane/session-info-pane.component';
 import * as moment from 'moment';
@@ -7,7 +7,8 @@ import {AddParticipantDialogComponent} from './add-participant-dialog/add-partic
 import {ChooseParticipantDialogComponent} from './choose-participant-dialog/choose-participant-dialog.component';
 import {ReservationsService} from 'services/reservations-service/reservations.service';
 import SessionResponse from 'api/responses/session.dto';
-import {ProfileResponse, ProfileSimplifiedResponse} from 'api/responses/profile.dto';
+import {ProfileResponse} from 'api/responses/profile.dto';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-session-card',
@@ -100,7 +101,7 @@ export class SessionCardComponent implements OnInit, OnDestroy {
       const newParticipants = selectedParticipants.map(value => ({
         participant: value,
         session: this.sessionData
-      }))
+      }));
 
       this.reservationsService.addNewParticipants(newParticipants);
     }

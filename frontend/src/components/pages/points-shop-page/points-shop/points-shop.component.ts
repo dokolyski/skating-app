@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {RestService} from 'services/rest-service/Rest.service';
+import {RestService} from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { RestError } from 'api/rest-error';
 import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
@@ -38,7 +38,7 @@ export class PointsShopComponent implements OnInit {
   }
 
   buy(option: number) {
-    const body = PointsShopComponent.preparePayload(option);
+    const body = this.preparePayload(option);
     //  TODO - potwierdzenie transakcji i przejście do płatności
     this.rest.do(REST_PATH.PAYMENTS.CREATE, {body})
       .subscribe({
@@ -54,5 +54,11 @@ export class PointsShopComponent implements OnInit {
           this.interceptor.error.emit(translation.message);
         }
       });
+  }
+
+  private preparePayload(option: number): PaymentsPoints {
+    const payload: PaymentsPoints = new PaymentsPoints();
+    payload.option_id = option;
+    return payload;
   }
 }

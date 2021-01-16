@@ -1,21 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Col } from 'components/common/interactive-table/interactive-table.component';
-import { RestService } from 'services/rest-service/Rest.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {Col} from 'components/common/interactive-table/interactive-table.component';
+import {RestService} from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import { UserRequest } from 'api/rest-models/user-request';
-import { AuthService } from 'services/auth-service/auth.service';
-import { UserChmod } from 'api/rest-models/user-chmod';
-import { first, map, mergeMap, tap } from 'rxjs/operators';
-import { from, Subscription, zip } from 'rxjs';
-import { ArraySubject } from 'common/classes/array-subject';
-import { AdminUsersDialogEditComponent } from './admin-users-dialog-edit/admin-users-dialog-edit.component';
-import { ModalDialog } from 'common/classes/modal-dialog';
+import {AuthService} from 'services/auth-service/auth.service';
+import {UserChmod} from 'api/rest-models/user-chmod';
+import {first, map, mergeMap, tap} from 'rxjs/operators';
+import {from, Subscription, zip} from 'rxjs';
+import {ArraySubject} from 'common/classes/array-subject';
+import {AdminUsersDialogEditComponent} from './admin-users-dialog-edit/admin-users-dialog-edit.component';
+import {ModalDialog} from 'common/classes/modal-dialog';
 import {UserResponse} from 'api/responses/user.dto';
-import { TranslateService } from '@ngx-translate/core';
-import { RestError } from 'api/rest-error';
-import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
-import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
+import {TranslateService} from '@ngx-translate/core';
+import {RestError} from 'api/rest-error';
+import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
+import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 
 type DataType = {
   id: string,
@@ -40,7 +39,7 @@ type DialDataType = {
 })
 export class AdminUsersComponent implements OnInit, OnDestroy {
   private s: Subscription;
-  private dialog = new ModalDialog<DialDataType>(AdminUsersDialogEditComponent, this.matDialog);
+  private dialog = new ModalDialog(AdminUsersDialogEditComponent, this.matDialog);
   private originalData: DataType;
   private deletedUserId: Set<number> = new Set();
   private editedUserId: Set<number> = new Set();

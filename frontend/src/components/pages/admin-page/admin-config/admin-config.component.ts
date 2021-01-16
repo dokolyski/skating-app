@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { PaymentTable } from 'api/rest-models/config-models';
-import { RestService } from 'services/rest-service/Rest.service';
+import { RestService } from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
 import { Col } from 'components/common/interactive-table/interactive-table.component';
@@ -31,7 +31,7 @@ type DialogDataType = {
 })
 export class AdminConfigComponent implements OnInit, OnDestroy {
   private s: Subscription;
-  private dialog = new ModalDialog<DialogDataType>(AdminConfigDialogEditComponent, this.matDialog);
+  private dialog = new ModalDialog(AdminConfigDialogEditComponent, this.matDialog);
   private originalFbLink: string;
   private originalData: PaymentTable;
 
@@ -72,7 +72,7 @@ export class AdminConfigComponent implements OnInit, OnDestroy {
             this.translate.get('errors.messages.DUPLICATE')
             .pipe(
               first()
-            ).subscribe(e => this.interceptor.error.emit(e))
+            ).subscribe(e => this.interceptor.error.emit(e));
           } else {
             this.rows.push(data);
           }
@@ -142,5 +142,8 @@ export class AdminConfigComponent implements OnInit, OnDestroy {
           this.interceptor.error.emit(translation.message);
         }
       });
+  }
+
+  ngOnDestroy(): void {
   }
 }

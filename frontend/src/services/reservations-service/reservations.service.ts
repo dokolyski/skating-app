@@ -16,7 +16,7 @@ export class ReservationsService {
     this.restoreSessionParticipants();
   }
 
-  getReservationsForSession(sessionId: number): Profile[] {
+  getReservationsForSession(sessionId: number): ProfileResponse[] {
     return this.data
     .filter(sessionParticipant => sessionParticipant.session.id === sessionId)
     .map(value => value.participant);

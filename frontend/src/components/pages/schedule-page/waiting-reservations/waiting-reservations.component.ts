@@ -4,7 +4,7 @@ import {SessionParticipant} from 'models/session-participant';
 import * as moment from 'moment';
 import {ReservationsService} from 'services/reservations-service/reservations.service';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
-import {RestService} from 'services/rest-service/Rest.service';
+import {RestService} from 'services/rest-service/rest.service';
 import {JoinRequest, JoinRequestPosition} from 'api/requests/session-participant.dto';
 import * as REST_PATH from 'api/rest-url.json';
 import { Subject } from 'rxjs';
