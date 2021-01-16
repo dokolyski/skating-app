@@ -46,7 +46,8 @@ export class PointsShopComponent implements OnInit {
 
   buy(option: number) {
     const body = PointsShopComponent.preparePayload(option);
-    this.rest.do(REST_PATH.PAYMENTS.BUY_POINTS, {body})
+    //  TODO - potwierdzenie transakcji i przejście do płatności
+    this.rest.do(REST_PATH.PAYMENTS.CREATE, {body})
       .subscribe({
         next: () => this.onSubmit.emit(),
         error: (error: RestError) => this.handleErrors(error)
