@@ -138,7 +138,8 @@
         "ACCOUNT_SETTINGS": "Settings",
         "ACCOUNT_NOTIFICATIONS": "Notifications",
         "PROFILE_ADD": "Profile creation",
-        "PROFILE_SETTINGS": "Profile settings"
+        "PROFILE_SETTINGS": "Profile settings",
+        "RESERVATIONS": "Reservations"
       }
     },
     "main": {
@@ -208,7 +209,8 @@
       "ACCOUNT": "Account",
       "ADMIN_DASHBOARD": "Admin dashboard",
       "LOGOUT": "Logout",
-      "LANGUAGE": "Language"
+      "LANGUAGE": "Language",
+      "PARTICIPANTS_LIST": "Lista uczestników"
     },
     "buttons": {
       "SIGN_IN": "Sign In",

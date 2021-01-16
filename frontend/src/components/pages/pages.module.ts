@@ -28,6 +28,8 @@ import { ProfileSettingsModule } from './account-page/profile/profile-settings/p
 import { AdminConfigModule } from './admin-page/admin-config/admin-config.module';
 import { AdminUsersModule } from './admin-page/admin-users/admin-users.module';
 import {ManageSchedulePageModule} from 'components/pages/manage-schedule-page/manage-schedule-page.module';
+import {ReservationsComponent} from 'components/pages/account-page/account/reservations/reservations.component';
+import {ReservationsModule} from 'components/pages/account-page/account/reservations/reservations.module';
 
 export const Pages = {
     AccountPageComponent,
@@ -43,7 +45,8 @@ export const Pages = {
     ProfileSettingsComponent,
     AdminConfigComponent,
     AdminUsersComponent,
-    ManageSchedulePageComponent
+    ManageSchedulePageComponent,
+    ReservationsComponent
 };
 
 @NgModule({
@@ -61,7 +64,8 @@ export const Pages = {
         ProfileSettingsModule,
         AdminConfigModule,
         AdminUsersModule,
-        ManageSchedulePageModule
+        ManageSchedulePageModule,
+        ReservationsModule
     ]
 })
 export class PagesModule {}

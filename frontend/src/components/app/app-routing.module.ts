@@ -25,6 +25,10 @@ const routes: Routes = [
     component: Pages.LoginPageComponent,
     canActivate: [OnlineGuard, NotLoggedGuard]
   },
+  {
+    path: PATH.EVERYONE.SCHEDULE,
+    component: Pages.SchedulePageComponent
+  },
   /*LOGGED*/
   {
     path: PATH.LOGGED.ACCOUNT,
@@ -35,6 +39,10 @@ const routes: Routes = [
       {
         path: 'notifications',
         component: Pages.AccountNotificationsComponent
+      },
+      {
+        path: 'reservations',
+        component: Pages.ReservationsComponent
       },
       {
         path: 'settings',
@@ -51,24 +59,24 @@ const routes: Routes = [
     ]
   },
   {
-    path: PATH.LOGGED.SCHEDULE,
-    component: Pages.SchedulePageComponent,
-    // canActivate: [AuthGuard] TODO: only for tests
-  },
-  {
     path: PATH.LOGGED.SHOP,
     component: Pages.ShopPageComponent,
     canActivate: [OnlineGuard, AuthGuard]
   },
   /*ORGANIZER*/
   {
+    path: PATH.ORGANIZER.PARTICIPANTS,
+    component: Pages.ManageSchedulePageComponent,
+    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
+  },
+  {
     path: PATH.ORGANIZER.MANAGE_SCHEDULE,
     component: Pages.ManageSchedulePageComponent,
-    // canActivate: [OnlineGuard, AuthGuard, OrganizerGuard] TODO: only for tests
+    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
   /*ADMIN*/
   {
-    path: 'admin',
+    path: PATH.ADMIN.DASHBOARD,
     component: Pages.AdminPageComponent,
     canActivate: [AuthGuard, AdminGuard],
     canActivateChild: [AuthGuard, AdminGuard],
