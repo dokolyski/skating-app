@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 export class AppAccessOrganizerDirective implements OnDestroy {
   private subs = this.auth.sessionInfo$
     .pipe(
-      map(v => v.isOrganizer)
+      map(v => v?.isOrganizer)
     ).subscribe(ok => {
       if (ok) {
         this.container.createEmbeddedView(this.el);

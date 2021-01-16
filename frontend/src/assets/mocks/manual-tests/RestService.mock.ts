@@ -88,10 +88,10 @@ export class RestServiceMock {
     }
   ];
   static notifications = [
-    {title: 'Title1', description: 'Description1', session_id: 1, expiration_date: new Date('01/01/1990')},
-    {title: 'Title2', description: 'Description2', session_id: 1, expiration_date: new Date('01/01/1991')},
-    {title: 'Title3', description: 'Description3', session_id: 2, expiration_date: new Date('01/01/1992')},
-    {title: 'Title4', description: 'Description4', session_id: 2, expiration_date: new Date('01/01/1993')},
+    {title: 'Title1', description: 'Description1', session_id: 0, expiration_date: new Date('01/01/1990')},
+    {title: 'Title2', description: 'Description2', session_id: 0, expiration_date: new Date('01/01/1991')},
+    {title: 'Title3', description: 'Description3', session_id: 1, expiration_date: new Date('01/01/1992')},
+    {title: 'Title4', description: 'Description4', session_id: 1, expiration_date: new Date('01/01/1993')},
   ];
   static userInfo: UserResponse = {
     isAdmin: false, isHAdmin: false, isOrganizer: false,

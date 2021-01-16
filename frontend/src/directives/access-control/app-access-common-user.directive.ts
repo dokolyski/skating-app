@@ -8,7 +8,7 @@ import { AuthService } from 'services/auth-service/auth.service';
 export class AppAccessCommonUserDirective implements OnDestroy {
   private subs = this.auth.sessionInfo$
     .pipe(
-      map(v => !v.isAdmin && !v.isHAdmin && !v.isOrganizer)
+      map(v => v && !v?.isAdmin && !v?.isHAdmin && !v?.isOrganizer)
     ).subscribe(ok => {
       if (ok) {
         this.container.createEmbeddedView(this.el);
