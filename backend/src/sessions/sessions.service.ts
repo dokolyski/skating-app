@@ -33,20 +33,17 @@ export class SessionsService {
             owner: {
                 id: session.owner.id,
                 email: session.owner.email,
-                account_type: session.owner.account_type,
                 birth_date: session.owner.birth_date,
-                phone_number: session.owner.phone_number
+                phone_number: session.owner.phone_number,
+                isOrganizer: session.owner.isOrganizer,
+                isAdmin: session.owner.isAdmin,
+                isHAdmin: session.owner.isHAdmin
             },
             profiles: session.profiles.map(profile => ({
                 id: profile.id,
                 user_id: profile.user_id,
-                is_owner: profile.is_owner,
                 firstname: profile.firstname,
-                lastname: profile.lastname,
-                birth_date: profile.birth_date,
-                skill_level: profile.skill_level,
-                createdAt: profile.createdAt,
-                updatedAt: profile.updatedAt
+                lastname: profile.lastname
             }))
         }));
     }
