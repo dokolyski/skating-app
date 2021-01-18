@@ -91,7 +91,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSnackBar,
     NewsService,
     ErrorInterceptorService,
-    { provide: RestService, useClass: RestServiceMock },
+    { provide: RestService, useClass: RestService },
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
     { provide: 'path-languages', useValue: 'languages' },

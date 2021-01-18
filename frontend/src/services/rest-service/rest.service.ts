@@ -26,7 +26,7 @@ export class RestService {
     return new Observable(s => {
       try {
         let readyUrl = restPath.PARAMS ? this.parseTemplateUrl(restPath.URL, restPath.PARAMS, options.templateParamsValues) : restPath.URL;
-        readyUrl = `${environment.server_addr}/${readyUrl}`;
+        readyUrl = `/${readyUrl}`;
 
         let params: HttpParams;
         if (restPath.METHOD === 'GET' || restPath.METHOD === 'DELETE') {
@@ -88,7 +88,7 @@ export class RestService {
    */
   private sendRequest(url: string, method: string,
     payload: { body?, params?: HttpParams }): Observable<any> | never {
-      
+
     const options: any = { withCredentials: true };
     switch (method) {
       case 'GET':
