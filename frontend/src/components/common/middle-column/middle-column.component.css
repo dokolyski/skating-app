@@ -1,5 +1,5 @@
 .grid {
-    height: 100%;
+    height: calc(100% - 64px);
     display: grid;
     grid-template-columns: 10% 80% 10%;
 }
