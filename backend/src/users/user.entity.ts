@@ -61,19 +61,19 @@ export class User extends Model<User> {
 
     @Column({
         type: DataType.BOOLEAN,
-        allowNull: false
+        defaultValue: false,
     })
     public isOrganizer: boolean;
 
     @Column({
         type: DataType.BOOLEAN,
-        allowNull: false
+        defaultValue: false,
     })
     public isAdmin: boolean;
 
     @Column({
         type: DataType.BOOLEAN,
-        allowNull: false
+        defaultValue: false,
     })
     public isHAdmin: boolean;
 

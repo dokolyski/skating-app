@@ -1,11 +1,11 @@
 {
   "VERIFICATION": {
     "LOGIN": {
-      "URL": "api/tokens",
+      "URL": "api/verification",
       "METHOD": "POST"
     },
     "LOGOUT": {
-      "URL": "api/tokens/{token}",
+      "URL": "api/verification/{token}",
       "PARAMS": ["token"],
       "METHOD": "DELETE"
     },

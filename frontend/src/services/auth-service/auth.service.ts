@@ -27,6 +27,7 @@ export class AuthService {
     const body: LoginRequest = new LoginRequest();
     body.email = email;
     body.password = password;
+    body.provider = 'EMAIL';
 
     return this.login(body);
   }
