@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>
+  {{'pages.participant-list.header' | translate:{date: formatterService.fullDateTimeString(data.session.start_date), name: data.session.name} }}
+</h2>
+<mat-selection-list style="margin-bottom: 5px" #Participants_list>
+  <mat-list-option [selected]="participant.present" [value]="participant.id" (click)="participantPresenceChange(participant)" *ngFor="let participant of data.session.profiles">
+    {{participant.firstname}} {{participant.lastname}}, {{getAge(participant.birth_date)}}
+  </mat-list-option>
+</mat-selection-list>
+<div style="text-align: center">
+  <ng-container *ngIf="data.session.profiles.length > 0">
+    {{'pages.participant-list.remains' | translate: { n: data.session.profiles.length - Participants_list.selectedOptions.selected.length } }}
+  </ng-container>
+  <ng-container *ngIf="data.session.profiles.length === 0">
+    {{'pages.participant-list.no-participants' | translate}}
+  </ng-container>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">{{'dialog-outcomes.go-back' | translate }}</button>
+</div>
+

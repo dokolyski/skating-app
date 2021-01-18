@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
+import {FormatterService} from 'services/formatter-service/formatter.service';
 
 @Component({
   selector: 'app-session-info-pane',
@@ -9,9 +10,6 @@ import * as moment from 'moment';
 })
 export class SessionInfoPaneComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data) { }
-
-  formatDateString() {
-    return `${moment(this.data.session.start_date).format('MMMM Do YYYY, HH:mm')} - ${moment(this.data.session.end_date).format('HH:mm')}`;
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data,
+              public formatterService: FormatterService) { }
 }

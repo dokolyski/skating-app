@@ -43,7 +43,9 @@ export class SessionsService {
                 id: profile.id,
                 user_id: profile.user_id,
                 firstname: profile.firstname,
-                lastname: profile.lastname
+                lastname: profile.lastname,
+                present: false,
+                birth_date: profile.birth_date
             }))
         }));
     }
@@ -60,7 +62,7 @@ export class SessionsService {
 
         const session = await this.sessionsRepository.findByPk(id);
         notfound(session);
-        AuthorizedUser.checkOwnership(session.id);
+        AuthorizedUser.checkIsOrganizer();
 
         session.update(request);
         await session.save();
@@ -69,7 +71,7 @@ export class SessionsService {
     async status(id: number, request: SessionStatusRequest) {
         const session = await this.sessionsRepository.findByPk(id);
         notfound(session);
-        AuthorizedUser.checkOwnership(session.owner_id);
+        AuthorizedUser.checkIsOrganizer();
 
         session.update(request);
         await session.save();
@@ -79,7 +81,7 @@ export class SessionsService {
 
         const session = await this.sessionsRepository.findByPk(id);
         notfound(session);
-        AuthorizedUser.checkOwnership(session.id);
+        AuthorizedUser.checkIsOrganizer();
 
         await session.destroy();
     }

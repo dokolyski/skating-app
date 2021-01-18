@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>
+  {{(data.mode === 'create' ? 'pages.create-session.header' : 'pages.edit-session.header') | translate}}
+</h2>
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'pages.create-session.session-name' | translate}}</mat-label>
+    <input [(ngModel)]="session.name" matInput>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>  {{'pages.create-session.start-date' | translate}}</mat-label>
+    <input [(ngModel)]="session.start_date" matInput [matDatepicker]="startPicker">
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker touchUi #startPicker></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label> {{'create-session.start-time' | translate}}</mat-label>
+    <input [(ngModel)]="startTime" matInput type="time">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label>  {{'pages.create-session.end-time' | translate}}</mat-label>
+    <input [(ngModel)]="endTime" matInput type="time">
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'pages.create-session.group' | translate}}</mat-label>
+    <mat-select [(value)]="session.difficulty">
+      <!--      TODO - load difficulty options from config-->
+      <mat-option value="option">Brązowa+</mat-option>
+      <mat-option value="option">Srebrna</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'pages.create-session.description' | translate}}</mat-label>
+    <textarea [(ngModel)]="session.description" matInput></textarea>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'pages.create-session.max-participants' | translate}}</mat-label>
+    <input [(ngModel)]="session.max_participants" matInput type="number">
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>{{'pages.create-session.price' | translate}}</mat-label>
+    <input [(ngModel)]="session.price" matInput type="number">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">{{'dialog-outcomes.cancel' | translate }}</button>
+  <button (click)="createSessionRequest()" mat-button [mat-dialog-close]="sessionRequest">
+    {{(data.mode === 'create' ? 'dialog-outcomes.create-session' : 'dialog-outcomes.edit-session') | translate}}
+  </button>
+</div>

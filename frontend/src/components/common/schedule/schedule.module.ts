@@ -21,36 +21,39 @@ import { ChooseParticipantDialogComponent } from './session-card/choose-particip
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ScheduleComponent } from './schedule.component';
-import { NewSessionFormComponent } from './session-card/new-session-form/new-session-form.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import {TranslateModule} from '@ngx-translate/core';
+import {FormsModule} from '@angular/forms';
+import {AccessControlModule} from 'directives/access-control/access-control.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatGridListModule,
-    MatIconModule,
-    MatDividerModule,
-    MatListModule,
-    MatDialogModule,
-    ScrollingModule,
-    DragDropModule,
-    MatCheckboxModule,
-    MatExpansionModule,
-    MatSidenavModule,
-    MatBadgeModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatInputModule,
-    TranslateModule
-  ],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatButtonModule,
+        MatGridListModule,
+        MatIconModule,
+        MatDividerModule,
+        MatListModule,
+        MatDialogModule,
+        ScrollingModule,
+        DragDropModule,
+        MatCheckboxModule,
+        MatExpansionModule,
+        MatSidenavModule,
+        MatBadgeModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatInputModule,
+        TranslateModule,
+        FormsModule,
+        AccessControlModule
+    ],
   exports: [
     ScheduleComponent
   ],
@@ -61,8 +64,7 @@ import {TranslateModule} from '@ngx-translate/core';
     SessionInfoPaneComponent,
     ProfilesViewportComponent,
     AddParticipantDialogComponent,
-    ChooseParticipantDialogComponent,
-    NewSessionFormComponent,
+    ChooseParticipantDialogComponent
   ],
   providers: []
 })

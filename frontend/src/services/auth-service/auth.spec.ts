@@ -1,5 +1,5 @@
 import { RestService } from 'services/rest-service/rest.service';
-import { AuthService } from './Auth.service';
+import { AuthService } from './auth.service';
 import * as REST_PATH from 'api/rest-url.json';
 import { of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';

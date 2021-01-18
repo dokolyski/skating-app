@@ -202,6 +202,49 @@
         "CONFIG": "Config",
         "USERS": "Users"
       }
+    },
+    "session-list": {
+      "cancel-session": {
+        "header": "Are you sure, you want to cancel \"{{name}}\" session at {{date}}"
+      },
+      "date-range": "Enter a date range",
+      "actions": {
+        "cancel": "Cancel session",
+        "edit": "Edit session",
+        "show": "Show participant list"
+      }
+    },
+    "reservation-list": {
+      "cancel-reservations": {
+        "header": "Are you sure, you want to cancel selected reservations for session \"{{name}}\" at {{date}}"
+      },
+      "select-list": {
+        "header": "Cancel reservation for selected participants",
+        "no-reservations": "No reservations"
+      },
+      "date-range": "Enter a date range",
+      "actions": {
+        "cancel": "Cancel reservations"
+      }
+    },
+    "participant-list": {
+      "header": "Participant list for the session \"{{name}}\" at {{date}}",
+      "remains": "Remain {{n}} participants to enter",
+      "no-participants": "No participants yet"
+    },
+    "create-session": {
+      "header": "Create new session",
+      "session-name": "Session name",
+      "start-date": "Start date",
+      "start-time": "Start time",
+      "end-time": "End time",
+      "group": "Group",
+      "description": "Description",
+      "max-participants": "Max participants number",
+      "price": "Price"
+    },
+    "edit-session": {
+      "header": "Edit session"
     }
   },
   "navbar": {
@@ -212,7 +255,7 @@
       "ADMIN_DASHBOARD": "Admin dashboard",
       "LOGOUT": "Logout",
       "LANGUAGE": "Language",
-      "PARTICIPANTS_LIST": "Lista uczestników"
+      "SESSION_LIST": "Manage sessions"
     },
     "buttons": {
       "SIGN_IN": "Sign In",
@@ -258,7 +301,9 @@
     "cancel": "Cancel",
     "add-participants": "Add participants",
     "go-back": "Go back",
-    "create-session": "Create session"
+    "create-session": "Create session",
+    "edit-session": "Update session data",
+    "confirm": "Confirm"
   },
   "session-details": {
     "number-of-reserved-places": "Reserved places: {{reserved}} / {{max}}",
@@ -269,15 +314,6 @@
     "header": "Choose participants for the session \"{{name}}\" at {{date}}",
     "added": "added",
     "selected-participants": "Selected participants: {{value}}"
-  },
-  "create-session": {
-    "header": "Create new session",
-    "session-name": "Session name",
-    "start-date": "Start date",
-    "start-time": "Start time",
-    "end-time": "End time",
-    "group": "Group",
-    "description": "Description"
   },
   "reservation-messages": {
     "one-canceled": "Reservation has been canceled",

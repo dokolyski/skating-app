@@ -2,7 +2,7 @@
   {{'add-participant.header' | translate:{
   data: {
     participantName: data.participant.firstname + ' ' + data.participant.lastname,
-    session: {name: data.session.name, date: formatSessionDate()}
+    session: {name: data.session.name, date: formatterService.fullDateTimeString(data.session.start_date)}
   }
 }
   }}

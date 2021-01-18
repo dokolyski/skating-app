@@ -53,7 +53,7 @@ export class WaitingReservationsComponent implements OnInit, OnDestroy {
 
   sessionDateFormatter(element: SessionParticipant): string {
     if (this.xSmallScreen) {
-      return `${moment(new Date(element.session.start_date)).format('lll')}`;
+      return moment(new Date(element.session.start_date)).format('lll');
     }
 
     const a = moment(new Date(element.session.start_date)).format('MMMM Do YYYY, HH:mm');

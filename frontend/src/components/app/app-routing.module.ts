@@ -42,7 +42,7 @@ const routes: Routes = [
       },
       {
         path: 'reservations',
-        component: Pages.ReservationsComponent
+        component: Pages.ReservationListComponent
       },
       {
         path: 'settings',
@@ -65,8 +65,8 @@ const routes: Routes = [
   },
   /*ORGANIZER*/
   {
-    path: PATH.ORGANIZER.PARTICIPANTS,
-    component: Pages.ManageSchedulePageComponent,
+    path: PATH.ORGANIZER.SESSIONS,
+    component: Pages.SessionListComponent,
     canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
   {

@@ -3,7 +3,7 @@
   <mat-icon>today</mat-icon>
 </app-route-button>
 
-<app-route-button *appAccessOrganizer appIcon [routerLink]="path.ORGANIZER.SCHEDULE"
+<app-route-button *appAccessOrganizer appIcon [routerLink]="path.ORGANIZER.MANAGE_SCHEDULE"
   [tooltip]="'navbar.tooltips.SCHEDULE' | translate" ariaLabel="Schedule">
   <mat-icon>today</mat-icon>
 </app-route-button>
@@ -25,8 +25,8 @@
   <mat-icon>security</mat-icon>
 </app-route-button>
 
-<app-route-button *appAccessOrganizer appIcon [routerLink]="path.ORGANIZER.PARTICIPANTS"
-  [tooltip]="'navbar.tooltips.ORGANIZER_DASHBOARD.PARTICIPANTS_LIST' | translate" ariaLabel="Admin dashboard">
+<app-route-button *appAccessOrganizer appIcon [routerLink]="path.ORGANIZER.SESSIONS"
+  [tooltip]="'navbar.tooltips.SESSION_LIST' | translate" ariaLabel="Admin dashboard">
   <mat-icon>history_edu</mat-icon>
 </app-route-button>
 

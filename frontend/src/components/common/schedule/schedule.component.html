@@ -6,7 +6,7 @@
                 (click)="changeWeek(-1)">
           <mat-icon>chevron_left</mat-icon>
         </button>
-        <div class="timeInterval">{{daysRangeFormatter()}}</div>
+        <div class="timeInterval">{{formatterService.daysRangeFormatter(calendar.from, calendar.to)}}</div>
         <button class="changeWeekButton" mat-mini-fab color="primary" aria-label="Next week" style="justify-self: start;"
                 (click)="changeWeek(1)">
           <mat-icon>chevron_right</mat-icon>
@@ -15,8 +15,10 @@
     </div>
     <div class="calendarContent">
       <app-weekday *ngFor="let i of weekdayNumbers" [sessions]="sessions[i]" [date]="getWeekdayDate(i)"
-                   [profiles]="profiles" [adminView]="adminView"></app-weekday>
+                   [profiles]="profiles"></app-weekday>
     </div>
-    <app-profiles-viewport *ngIf="withProfilesDragging" [profiles]="profiles"></app-profiles-viewport>
+    <ng-container *appAccessCommonUser>
+      <app-profiles-viewport [profiles]="profiles"></app-profiles-viewport>
+    </ng-container>
   </div>
 </ng-container>

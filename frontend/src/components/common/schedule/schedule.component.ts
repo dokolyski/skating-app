@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import * as REST_PATH from 'api/rest-url.json';
 import {AuthService} from 'services/auth-service/auth.service';
 import SessionResponse from 'api/responses/session.dto';
+import {FormatterService} from 'services/formatter-service/formatter.service';
 
 @Component({
   selector: 'app-schedule',
@@ -14,8 +15,6 @@ import SessionResponse from 'api/responses/session.dto';
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
-  @Input() withProfilesDragging = false;
-  @Input() adminView = false;
   weekdayNumbers = Array(7).fill(0).map((_, i) => i);
 
   calendar: { from: Date, to: Date };
@@ -30,7 +29,8 @@ export class ScheduleComponent implements OnInit {
   ] as ProfileResponse[]; // []; TODO - to replace after profiles loading will be working
 
   constructor(private restService: RestService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              public formatterService: FormatterService) {
   }
 
   ngOnInit() {
@@ -80,9 +80,5 @@ export class ScheduleComponent implements OnInit {
     sessions.forEach(value => {
       this.sessions[value.start_date.getDay()].push(value);
     });
-  }
-
-  daysRangeFormatter(): string {
-    return `${moment(this.calendar.from).format('L')} - ${moment(this.calendar.to).format('L')}`;
   }
 }

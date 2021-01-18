@@ -2,7 +2,7 @@
   <div class="header-name">{{data.session.name}}</div>
   <div class="header-date">
     <mat-icon aria-hidden="false" aria-label="Example home icon">today</mat-icon>
-    {{formatDateString()}}
+    {{formatterService.dateWithTimeRange(data.session.start_date, data.session.end_date)}}
   </div>
 </div>
 
@@ -19,5 +19,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>{{'dialog-outcomes.go-back' | translate}}</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'dialog-outcomes.add-participants' | translate}}</button>
+  <button *appAccessCommonUser mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'dialog-outcomes.add-participants' | translate}}</button>
 </mat-dialog-actions>

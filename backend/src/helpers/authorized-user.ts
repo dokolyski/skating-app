@@ -30,7 +30,13 @@ class AuthorizedUser {
     }
 
     public checkIsAdmin(): void {
-        if (this.user.isAdmin || this.user.isHAdmin) {
+        if (!this.user.isAdmin && !this.user.isHAdmin) {
+            throw new ForbiddenException();
+        }
+    }
+
+    public checkIsOrganizer(): void {
+        if (!this.user.isOrganizer) {
             throw new ForbiddenException();
         }
     }

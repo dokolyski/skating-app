@@ -1,12 +1,12 @@
 <div class="calendarColumn">
   <div class="weekdayHeader">
-    {{dayFormatter()}}
+    {{formatterService.dayFormatter(date)}}
   </div>
-  <app-session-card *ngFor="let session of sessions" [sessionData]="session" [profiles]="profiles" [adminView]="adminView"></app-session-card>
+  <app-session-card *ngFor="let session of sessions" [sessionData]="session" [profiles]="profiles"></app-session-card>
   <div *ngIf="sessions.length == 0" class="noSessionMessage">
     {{ 'schedule.no-sessions' | translate }}
   </div>
-  <button mat-raised-button color="primary" class="add-new-session-button" (click)="openNewSessionForm()" *ngIf="adminView">
+  <button mat-raised-button color="primary" class="add-new-session-button" (click)="openNewSessionForm()" *appAccessOrganizer>
     <mat-icon class="mat-icon-add-session" aria-hidden="true">add</mat-icon>
     <span> {{ 'schedule.create-new-session' | translate }}</span>
   </button>

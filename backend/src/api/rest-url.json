@@ -94,6 +94,11 @@
       "URL": "api/session_paricipant/{id}",
       "PARAMS": ["id"],
       "METHOD": "DELETE"
+    },
+    "EDIT_PRESENCE": {
+      "URL": "api/session_paricipant/{id}/present",
+      "PARAMS": ["id"],
+      "METHOD": "PATCH"
     }
   },
   "NOTIFICATIONS": {

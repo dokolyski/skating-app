@@ -61,9 +61,9 @@ export class Session extends Model<Session> {
 
     @Column({
         type: DataType.STRING,
-        validate: {
-            isIn: [['LOW', 'MEDIUM', 'HIGH']]
-        }
+        // validate: {
+        //     isIn: [['LOW', 'MEDIUM', 'HIGH']] // TODO - albo dowolny string albo w wartościach wczytanych z configa, do poprawy
+        // }
     })
     public difficulty: string
     @Column({

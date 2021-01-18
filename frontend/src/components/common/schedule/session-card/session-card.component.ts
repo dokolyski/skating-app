@@ -20,7 +20,6 @@ export class SessionCardComponent implements OnInit, OnDestroy {
 
   @Input() sessionData: SessionResponse;
   @Input() profiles: ProfileResponse[];
-  @Input() adminView: boolean;
 
   startTime: string;
   endTime: string;
@@ -46,10 +45,8 @@ export class SessionCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.startTime = moment(this.sessionData.start_date).format('HH:mm');
-    const endTime = new Date();
-    endTime.setMinutes(this.sessionData.start_date.getMinutes() + 20);
-    this.endTime = moment(endTime).format('HH:mm');
+    this.startTime = moment(this.sessionData.start_date).format('LT');
+    this.endTime = moment(this.sessionData.end_date).format('LT');
 
     this.participants = this.reservationsService.getReservationsForSession(this.sessionData.id);
 

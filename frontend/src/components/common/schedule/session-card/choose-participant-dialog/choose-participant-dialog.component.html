@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>
-  {{'choose-participant.header' | translate:{date: formatDateString(), name: data.session.name} }}
+  {{'choose-participant.header' | translate:{date: formatterService.fullDateTimeString(data.session.start_date), name: data.session.name} }}
 </h2>
 <div>
   <mat-selection-list #participants>

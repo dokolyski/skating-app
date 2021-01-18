@@ -1,0 +1,37 @@
+<div style="padding: 5px; text-align: center">
+  <mat-form-field appearance="fill">
+    <mat-label>{{'pages.reservation-list.date-range' | translate}}</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input [(ngModel)]="date_from" matStartDate placeholder="Start date">
+      <input [(ngModel)]="date_to" matEndDate placeholder="End date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let session of sessions">
+      <mat-expansion-panel-header [collapsedHeight]="'80px'" [expandedHeight]="'80px'">
+        <mat-panel-title [style]="{fontWeight: session.profiles.length > 0 ? 600 : undefined}">
+          {{formatterService.shortenName(session.name, 20)}} ({{session.difficulty}})
+        </mat-panel-title>
+        <mat-panel-description>
+          <div
+            style="text-align: end; width: 100%">{{formatterService.shortenDateTimeString(session.start_date)}}</div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ng-container *ngIf="session.profiles.length > 0">
+        <h4>
+          {{'pages.reservation-list.select-list.header' | translate:{value: { name: session.name, date: session.start_date} } }}
+        </h4>
+        <mat-selection-list style="margin-bottom: 5px" #Participants_list>
+          <mat-list-option [value]="participant.id" *ngFor="let participant of session.profiles">
+            {{participant.firstname}} {{participant.lastname}}
+          </mat-list-option>
+        </mat-selection-list>
+        <button (click)="cancelReservations(session, Participants_list.selectedOptions.selected)" [disabled]="Participants_list.selectedOptions.selected.length === 0" mat-raised-button color="warn">{{'pages.reservation-list.actions.cancel' | translate}}</button>
+      </ng-container>
+      <div *ngIf="session.profiles.length === 0">{{'pages.reservation-list.select-list.no-reservations' | translate}}</div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

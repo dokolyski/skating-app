@@ -1,0 +1,7 @@
+<h2 mat-dialog-title>
+  {{'pages.session-list.cancel-session.header' | translate:{date: formatterService.fullDateTimeString(data.session.start_date), name: data.session.name} }}
+</h2>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">{{'dialog-outcomes.no' | translate }}</button>
+  <button mat-button [mat-dialog-close]="true">{{'dialog-outcomes.yes' | translate }}</button>
+</div>
