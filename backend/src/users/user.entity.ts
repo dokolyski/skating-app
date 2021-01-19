@@ -60,13 +60,22 @@ export class User extends Model<User> {
     public password: string;
 
     @Column({
-        type: DataType.STRING(45),
-        allowNull: false,
-        validate: {
-            isIn: [['USER', 'ORGANIZER', 'ADMIN']]
-        }
+        type: DataType.BOOLEAN,
+        defaultValue: false,
     })
-    public account_type: 'USER' | 'ORGANIZER' | 'ADMIN';
+    public isOrganizer: boolean;
+
+    @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false,
+    })
+    public isAdmin: boolean;
+
+    @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false,
+    })
+    public isHAdmin: boolean;
 
     @Column({
         type: DataType.DATEONLY,

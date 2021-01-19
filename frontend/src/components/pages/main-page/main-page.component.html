@@ -1,25 +1,31 @@
 <div id="whiteboard">
-    <header>
-      <img src="assets/img/large-logo.png" id="logo" alt="Logo">
-    </header>
-    <mat-tab-group [tabIndex]="0" (selectedTabChange)="changeTab($event)" mat-align-tabs="center"
-      animationDuration="0ms" dynamicHeight mat-stretch-tabs>
-      <mat-tab>
-        <ng-template mat-tab-label class="test">
-          <mat-icon class="example-tab-icon">info</mat-icon>
-          {{ 'pages.main.ABOUT_US' | translate }}
-        </ng-template>
+  <header>
+    <picture>
+      <source srcset="assets/img/background-logo-360px.webp" media="(max-width: 360px)">
+      <source srcset="assets/img/background-logo-512px.webp" media="(max-width: 512px)">
+      <source srcset="assets/img/background-logo-1280px.webp" media="(max-width: 820px)">
+      <img src="assets/img/background-logo-9000px.webp" alt="Logo" aria-label="Logo" id="logo">
+    </picture>
+  </header>
+
+  <mat-tab-group [tabIndex]="0" (selectedTabChange)="changeTab($event)" mat-align-tabs="center" animationDuration="0ms"
+    dynamicHeight mat-stretch-tabs>
+    <mat-tab aria-label="About us">
+      <ng-template mat-tab-label class="test">
+        <mat-icon class="example-tab-icon">info</mat-icon>
+        {{ 'pages.main.ABOUT_US' | translate }}
+      </ng-template>
 
       <app-about-us-tab></app-about-us-tab>
     </mat-tab>
 
-    <mat-tab>
+    <mat-tab aria-label="News">
       <ng-template mat-tab-label>
         <mat-icon class="example-tab-icon">announcement</mat-icon>
         {{ 'pages.main.NEWS' | translate }}
       </ng-template>
 
-        <app-news-tab *ngIf="tabIndex == 1"></app-news-tab>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+      <app-news-tab *ngIf="tabIndex == 1"></app-news-tab>
+    </mat-tab>
+  </mat-tab-group>
+</div>

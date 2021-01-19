@@ -1,14 +1,17 @@
 import { Directive, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
+import { AuthService } from 'services/auth-service/auth.service';
 import { map } from 'rxjs/operators';
-import { AuthService } from 'services/auth-service/Auth.service';
 
+/**
+ * @description Create HTMLElement when user has ```admin`` privilege
+ */
 @Directive({
   selector: '[appAccessAdmin]'
 })
 export class AppAccessAdminDirective implements OnDestroy {
   private subs = this.auth.sessionInfo$
     .pipe(
-      map(v => v.isAdmin)
+      map(v => v?.isAdmin)
     ).subscribe(ok => {
       if (ok) {
         this.container.createEmbeddedView(this.el);

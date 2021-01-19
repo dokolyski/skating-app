@@ -5,7 +5,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { AboutUsTabModule } from './about-us-tab/about-us-tab.module';
 import { NewsTabModule } from './news-tab/news-tab.module';
-import {TranslateModule} from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { TabRouterOutletModule } from 'components/common/tab-router-outlet/tab-router-outlet.module';
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import {TranslateModule} from '@ngx-translate/core';
         MatIconModule,
         AboutUsTabModule,
         NewsTabModule,
-        TranslateModule
+        TranslateModule,
+        TabRouterOutletModule
     ],
   declarations: [
     MainPageComponent

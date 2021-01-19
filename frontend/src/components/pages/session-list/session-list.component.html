@@ -1,0 +1,42 @@
+<app-middle-column *ngIf="!(isMobile | async); else content">
+  <ng-container style="padding: 0" *ngTemplateOutlet="content"></ng-container>
+</app-middle-column>
+
+<ng-template #content>
+  <div style="padding-top: 5%;
+       padding-left: 5%;
+       padding-right: 5%; text-align: center">
+    <mat-form-field appearance="fill">
+      <mat-label>{{'pages.session-list.date-range' | translate}}</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input [(ngModel)]="date_from" matStartDate placeholder="Start date">
+        <input [(ngModel)]="date_to" matEndDate placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let session of sessions">
+        <mat-expansion-panel-header [collapsedHeight]="'80px'" [expandedHeight]="'80px'">
+          <mat-panel-title>
+            {{formatterService.shortenName(session.name, 20)}} ({{session.difficulty}})
+          </mat-panel-title>
+          <mat-panel-description>
+            <span style="margin-right: 5px">{{session.profiles.length}}/{{session.max_participants}}</span>
+            <div
+              style="text-align: end; width: 100%">{{formatterService.shortenDateTimeString(session.start_date)}}</div>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="example-button-row">
+          <button (click)="showParticipantList(session)" mat-raised-button color="primary">{{'pages.session-list.actions.show' | translate}}
+          </button>
+          <button (click)="cancelSession(session)" mat-raised-button color="warn">{{'pages.session-list.actions.cancel' | translate}}</button>
+          <button (click)="editSession(session)" mat-raised-button color="basic">{{'pages.session-list.actions.edit' | translate}}</button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</ng-template>
+
+

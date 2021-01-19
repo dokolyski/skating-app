@@ -6,7 +6,7 @@
           aria-label="Example icon-button with menu icon">
           <mat-icon svgIcon="small-logo" class="main-logo"></mat-icon>
         </button>
-        <span [fxHide.xs]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
+        <span [fxHide.lt-md]="true" class="app-name">Figurowy Mińsk Mazowiecki</span>
       </span>
     </div>
 
@@ -19,7 +19,8 @@
         <app-logged-actions></app-logged-actions>
       </ng-template>
 
-      <button mat-icon-button [matMenuTriggerFor]="menu" [matTooltip]="'navbar.tooltips.LANGUAGE' | translate" aria-label="Select language">
+      <button mat-icon-button [matMenuTriggerFor]="menu"
+       [matTooltip]="'navbar.tooltips.LANGUAGE' | translate" aria-label="Select language">
         <mat-icon>language</mat-icon>
       </button>
     </div>

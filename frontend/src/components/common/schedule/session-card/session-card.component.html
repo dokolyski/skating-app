@@ -6,16 +6,18 @@
   <div class="cardTitle">{{sessionData.name}}</div>
   <mat-divider></mat-divider>
   <div class="groupLevel">{{sessionData.difficulty}}</div>
-  <div *ngIf="!adminView" (click)="addParticipantsButtonClicked($event)" class="addParticipantButton"
-       aria-label="Add participant">
-    {{ 'schedule.add-participant' | translate }}
-  </div>
-  <mat-icon *ngIf="participants.length > 0" matTooltipClass="participants-tooltip" [style]="profilesBadgeStyle('var(--malibu-light)', sessionData.profiles.length > 0)"
-            [matTooltip]="'schedule.already-added-participants' | translate:{value: formatParticipantsList(participants)}"
-            class="profiles-badge">account_circle
-  </mat-icon>
-  <mat-icon *ngIf="sessionData.profiles.length > 0" matTooltipClass="participants-tooltip" [style]="profilesBadgeStyle('var(--green-light)')"
-            [matTooltip]="'schedule.already-reserved-participants' | translate:{value: formatParticipantsList(sessionData.profiles)}"
-            class="profiles-badge">account_circle
-  </mat-icon>
+  <ng-container *appAccessCommonUser>
+    <div (click)="addParticipantsButtonClicked($event)" class="addParticipantButton"
+         aria-label="Add participant">
+      {{ 'schedule.add-participant' | translate }}
+    </div>
+    <mat-icon *ngIf="participants.length > 0" matTooltipClass="participants-tooltip" [style]="profilesBadgeStyle('var(--malibu-light)', sessionData.profiles.length > 0)"
+              [matTooltip]="'schedule.already-added-participants' | translate:{value: formatParticipantsList(participants)}"
+              class="profiles-badge">account_circle
+    </mat-icon>
+    <mat-icon *ngIf="sessionData.profiles.length > 0" matTooltipClass="participants-tooltip" [style]="profilesBadgeStyle('var(--green-light)')"
+              [matTooltip]="'schedule.already-reserved-participants' | translate:{value: formatParticipantsList(sessionData.profiles)}"
+              class="profiles-badge">account_circle
+    </mat-icon>
+  </ng-container>
 </div>

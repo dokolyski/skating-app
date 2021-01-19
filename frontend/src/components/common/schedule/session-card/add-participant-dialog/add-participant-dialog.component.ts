@@ -1,27 +1,19 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MatCheckboxChange} from '@angular/material/checkbox';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
+import {FormatterService} from 'services/formatter-service/formatter.service';
 
 @Component({
   selector: 'app-add-participant-dialog',
   templateUrl: './add-participant-dialog.component.html',
   styleUrls: ['./add-participant-dialog.component.css']
 })
-export class AddParticipantDialogComponent implements OnInit {
+export class AddParticipantDialogComponent {
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data,
+              public formatterService: FormatterService) { }
 
-  ngOnInit(): void {
-  }
-
-  changeSetting($event: MatCheckboxChange) {
-
-  }
-
-  formatSessionDate(): string {
-    return moment(this.data.session.start_date).format('LLLL');
+  changeSetting(event: MatCheckboxChange) {
   }
 }

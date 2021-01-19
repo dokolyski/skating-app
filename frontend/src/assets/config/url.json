@@ -2,19 +2,21 @@
 	"EVERYONE": {
 		"MAIN": "",
 		"LOGIN": "login",
-		"REGISTER": "register"
-	},
+		"REGISTER": "register",
+    "SCHEDULE": "schedule"
+  },
 	"LOGGED": {
 		"ACCOUNT": "account",
 		"NOTIFICATIONS": "account/notifications",
 		"SETTINGS": "account/settings",
 		"PROFILE_ADD": "account/profile-add",
 		"PROFILE_SETTINGS": "account/profile-settings",
-		"SCHEDULE": "schedule",
+    "RESERVATIONS": "account/reservations",
 		"SHOP": "shop"
 	},
 	"ORGANIZER": {
-		"MANAGE_SCHEDULE": "schedule/manage"
+    "MANAGE_SCHEDULE": "schedule/manage",
+		"SESSIONS": "session-list"
 	},
 	"ADMIN": {
 		"DASHBOARD": "admin",

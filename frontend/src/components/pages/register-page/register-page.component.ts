@@ -9,8 +9,4 @@ import { redirectToMain } from 'common/functions/page-redirect';
 export class RegisterPageComponent {
   redirectToMain = redirectToMain;
   isMobile = isMobile();
-
-  showError(e) {
-    console.error(e);
-  }
 }

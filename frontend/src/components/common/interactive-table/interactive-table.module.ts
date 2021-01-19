@@ -10,6 +10,7 @@ import { TrimPipe } from './trim.pipe';
 import { IsBooleanPipe } from './isBoolean.pipe';
 import { ToBooleanPipe } from './toBoolean.pipe';
 import { AddDisabledDirective } from './add-disabled.directive';
+
 @NgModule({
   imports: [
     CommonModule,

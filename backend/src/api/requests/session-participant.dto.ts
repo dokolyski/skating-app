@@ -1,5 +1,5 @@
-import {IsNotEmpty, IsNumber, IsString, IsIn, ValidateNested} from 'class-validator';
-import {Type} from "class-transformer";
+import {IsNotEmpty, IsNumber, IsString, IsIn, ValidateNested, IsBoolean} from 'class-validator';
+import {Type} from 'class-transformer';
 
 export class JoinRequestPosition {
     @IsNotEmpty()
@@ -34,4 +34,15 @@ export class DisjoinRequest {
     })
     profiles_ids: number[];
 }
+
+export class EditPresenceRequest {
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    present: boolean;
+}
+
 

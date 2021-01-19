@@ -1,7 +1,7 @@
 {
   "ip": "127.0.0.1",
   "domain": "http://localhost/",
-  "port": 80,
+  "port": 8080,
   "saltRounds": 3,
   "token": {
     "expiresIn": 31104000000,

@@ -49,4 +49,11 @@ export class SessionParticipant extends Model<SessionParticipant> {
     @Column
     @UpdatedAt
     public readonly updatedAt: Date
+
+    @Column({
+        type: DataType.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    })
+    public present: boolean;
 }

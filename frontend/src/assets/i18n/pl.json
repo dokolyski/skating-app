@@ -2,7 +2,9 @@
   "errors": {
     "messages": {
       "UNAUTHORIZED": "Wymagane zalogowanie do wykonania operacji.",
-      "SERVER_ERROR": "Błąd wewnętrzny serwera."
+      "SERVER_ERROR": "Błąd wewnętrzny serwera.",
+      "ACCESS_FORBIDDEN": "Brak uprawnień.",
+      "DUPLICATE": "Duplikaty wpisów są niedozwolone."
     },
     "inputs": {
       "email": {
@@ -138,7 +140,8 @@
         "ACCOUNT_SETTINGS": "Ustawienia",
         "ACCOUNT_NOTIFICATIONS": "Powiadomienia",
         "PROFILE_ADD": "Tworzenie profilu",
-        "PROFILE_SETTINGS": "Ustawienia profilu"
+        "PROFILE_SETTINGS": "Ustawienia profilu",
+        "RESERVATIONS": "Rezerwacje"
       }
     },
     "main": {
@@ -199,6 +202,49 @@
         "CONFIG": "Konfiguracja",
         "USERS": "Użytkownicy"
       }
+    },
+    "session-list": {
+      "cancel-session": {
+        "header": "Czy jesteś pewien, że chcesz anulowa zajęcia o nazwie \"{{name}}\" zaplanowane na {{date}}"
+      },
+      "date-range": "Wprowadź zakres dat",
+      "actions": {
+        "cancel": "Anuluj zajęcia",
+        "edit": "Edytuj zajęcia",
+        "show": "Pokaż listę uczestników"
+      }
+    },
+    "reservation-list": {
+      "cancel-reservations": {
+        "header": "Czy jesteś pewien, że chcesz anulować wybrane rezerwacje dla zajęć \"{{name}}\" zaplanowanych na {{date}}"
+      },
+      "select-list": {
+        "header": "Anuluj rezerwacje dla wybranych uczestników",
+        "no-reservations": "Brak dodanych uczestników"
+      },
+      "date-range": "Wprowadź zakres dat",
+      "actions": {
+        "cancel": "Anuluj rezerwacje"
+      }
+    },
+    "participant-list": {
+      "header": "Lista uczestników zajęć \"{{name}}\" odbywających się w {{date}}",
+      "remains": "Pozostało {{n}} uczestników do wejścia",
+      "no-participants": "Brak zapisanych uczestników"
+    },
+    "create-session": {
+      "header": "Utwórz nowe zajęcia",
+      "session-name": "Nazwa zajęć",
+      "start-date": "Data rozpoczęcia",
+      "start-time": "Godzina rozpoczęcia",
+      "end-time": "Godzina zakończenia",
+      "group": "Grupa",
+      "description": "Opis",
+      "max-participants": "Maksymalna liczba uczestników",
+      "price": "Cena"
+    },
+    "edit-session": {
+      "header": "Edycja zajęć"
     }
   },
   "navbar": {
@@ -208,7 +254,8 @@
       "ACCOUNT": "Konto",
       "ADMIN_DASHBOARD": "Panel administratora",
       "LOGOUT": "Wyloguj",
-      "LANGUAGE": "Język"
+      "LANGUAGE": "Język",
+      "SESSION_LIST": "Zarządzaj zajęciami"
     },
     "buttons": {
       "SIGN_IN": "Logowanie",
@@ -254,7 +301,9 @@
     "cancel": "Anuluj",
     "add-participants": "Dodaj uczestników",
     "go-back": "Powrót",
-    "create-session": "Utwórz zajęcia"
+    "create-session": "Utwórz zajęcia",
+    "edit-session": "Zmień dane zajęć",
+    "confirm": "Potwierdź"
   },
   "session-details": {
     "number-of-reserved-places": "Zarezerwowane miejsca: {{reserved}} / {{max}}",
@@ -265,15 +314,6 @@
     "header": "Wybierz uczestników zajęć \"{{name}}\" w terminie {{date}}",
     "added": "dodano",
     "selected-participants": "Wybrani uczestnicy: {{value}}"
-  },
-  "create-session": {
-    "header": "Utwórz nowe zajęcia",
-    "session-name": "Nazwa zajęć",
-    "start-date": "Data rozpoczęcia",
-    "start-time": "Godzina rozpoczęcia",
-    "end-time": "Godzina zakończenia",
-    "group": "Grupa",
-    "description": "Opis"
   },
   "reservation-messages": {
     "one-canceled": "Oczekująca rezerwacja została usunięta",

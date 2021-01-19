@@ -1,7 +1,10 @@
-import { Component, Directive, EmbeddedViewRef, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
+import { OnlineGuard } from 'guards/online.guard';
 import { MatButton } from '@angular/material/button';
-import { OnlineGuard } from 'guards/Online.guard';
 
+/**
+ * @description Set ```disabled``` on ```MatButton`` when ```offline``
+ */
 @Directive({
   selector: '[appAccessOnlineButton]'
 })

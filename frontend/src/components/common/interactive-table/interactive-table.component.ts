@@ -6,6 +6,10 @@ import { Observable, Subscription } from 'rxjs';
 export type Col = { name: string, label: string };
 export type Row = { [colName: string]: string };
 
+/**
+ * @summary Presents ```Row[]``` and allow to perform actions on selected or all rows.
+ * @description Actions: ```Add``` on whole entries, ```Edit``` on row, ```Delete``` on row.
+ */
 @Component({
   selector: 'app-interactive-table[columns][rowsObservable]',
   templateUrl: './interactive-table.component.html',

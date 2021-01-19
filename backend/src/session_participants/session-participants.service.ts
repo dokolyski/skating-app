@@ -13,6 +13,7 @@ import {User} from "../users/user.entity";
 import {Profile} from "../profiles/profile.entity";
 import {Sequelize} from "sequelize-typescript";
 import {
+    EditPresenceRequest,
     DisjoinRequest,
     JoinRequest
 } from "../api/requests/session-participant.dto";
@@ -137,6 +138,16 @@ export class SessionParticipantService {
             throw err;
         }
 
+    }
+
+    public async edit_presence(request: EditPresenceRequest): Promise<boolean> {
+        const sp = await this.sessionParticipantsRepository.findByPk(request.id);
+        notfound(sp)
+        AuthorizedUser.checkIsOrganizer();
+        sp.present = request.present;
+        sp.update(request);
+        await sp.save();
+        return request.present;
     }
 
     protected async checkIfAlreadyJoined(sessionId: number, profileId: number): Promise<void> {

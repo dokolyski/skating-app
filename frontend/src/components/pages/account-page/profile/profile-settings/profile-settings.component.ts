@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {RestError} from 'api/rest-error';
-import {RestService} from 'services/rest-service/Rest.service';
+import {RestService} from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {NameComponent} from 'components/common/inputs/name/name.component';
 import {LastnameComponent} from 'components/common/inputs/lastname/lastname.component';
@@ -14,6 +14,7 @@ import {ErrorMessageService, TranslatedErrors} from 'services/error-message-serv
 import {ProfileResponse} from 'api/responses/profile.dto';
 import {ProfileRequest} from 'api/requests/profile.dto';
 import {ConfigResponse} from 'api/responses/config.dto';
+import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
 
 /**
  * @description Show profiles account settings and allow to change them, , gather informations about
@@ -67,13 +68,13 @@ export class ProfileSettingsComponent implements OnInit {
   onSubmit = new EventEmitter<void>();
   @Output()
   onCancel = new EventEmitter<void>();
-  @Output()
-  onError = new EventEmitter<string>();
 
   constructor(
     private fb: FormBuilder,
     private rest: RestService,
+    private interceptor: ErrorInterceptorService,
     private errorMessageService: ErrorMessageService) {
+
     this.onCancel.subscribe(() => {
       this.editMode = false;
       this.editMode = true;
@@ -135,7 +136,7 @@ export class ProfileSettingsComponent implements OnInit {
     this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.onError.emit(translation.message);
+          this.interceptor.error.emit(translation.message);
         }
 
         if (showServerErrors && translation.inputs) {

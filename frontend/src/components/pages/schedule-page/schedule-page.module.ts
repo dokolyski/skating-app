@@ -1,13 +1,14 @@
-import {NgModule} from '@angular/core';
-import {SchedulePageComponent} from './schedule-page.component';
-import {ScheduleModule} from '../../common/schedule/schedule.module';
-import {WaitingReservationsComponent} from './waiting-reservations/waiting-reservations.component';
-import {MatIconModule} from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
-import {MatButtonModule} from '@angular/material/button';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { SchedulePageComponent } from './schedule-page.component';
+import { ScheduleModule } from '../../common/schedule/schedule.module';
+import { WaitingReservationsComponent } from './waiting-reservations/waiting-reservations.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 import { FullSecondaryBackgroundModule } from 'components/common/full-secondary-background/full-secondary-background.module';
 import { TranslateModule } from '@ngx-translate/core';
+import {AccessControlModule} from 'directives/access-control/access-control.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatTableModule,
     MatButtonModule,
     FullSecondaryBackgroundModule,
-    TranslateModule
+    TranslateModule,
+    AccessControlModule
   ],
   exports: [
     SchedulePageComponent
@@ -28,5 +30,4 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   providers: []
 })
-export class SchedulePageModule {
-}
+export class SchedulePageModule { }

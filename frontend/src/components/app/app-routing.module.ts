@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import * as PATH from 'assets/config/url.json';
 
+import { NotLoggedGuard } from 'guards/notLogged.guard';
+import { OrganizerGuard } from 'guards/organizer.guard';
+import { OnlineGuard } from 'guards/online.guard';
+import { AdminGuard } from 'guards/admin.guard';
+import { AuthGuard } from 'guards/auth.guard';
 import { Pages } from 'components/pages/pages.module';
-import { OrganizerGuard } from 'guards/Organizer.guard';
-import { OnlineGuard } from 'guards/Online.guard';
-import { NotLoggedGuard } from 'guards/NotLogged.guard';
-import { AuthGuard } from 'guards/Auth.guard';
-import { AdminGuard } from 'guards/Admin.guard';
 
 const routes: Routes = [
   /*EVERYONE*/
@@ -25,6 +25,10 @@ const routes: Routes = [
     component: Pages.LoginPageComponent,
     canActivate: [OnlineGuard, NotLoggedGuard]
   },
+  {
+    path: PATH.EVERYONE.SCHEDULE,
+    component: Pages.SchedulePageComponent
+  },
   /*LOGGED*/
   {
     path: PATH.LOGGED.ACCOUNT,
@@ -35,6 +39,10 @@ const routes: Routes = [
       {
         path: 'notifications',
         component: Pages.AccountNotificationsComponent
+      },
+      {
+        path: 'reservations',
+        component: Pages.ReservationListComponent
       },
       {
         path: 'settings',
@@ -51,24 +59,24 @@ const routes: Routes = [
     ]
   },
   {
-    path: PATH.LOGGED.SCHEDULE,
-    component: Pages.SchedulePageComponent,
-    // canActivate: [AuthGuard] TODO: only for tests
-  },
-  {
     path: PATH.LOGGED.SHOP,
     component: Pages.ShopPageComponent,
     canActivate: [OnlineGuard, AuthGuard]
   },
   /*ORGANIZER*/
   {
+    path: PATH.ORGANIZER.SESSIONS,
+    component: Pages.SessionListComponent,
+    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
+  },
+  {
     path: PATH.ORGANIZER.MANAGE_SCHEDULE,
     component: Pages.ManageSchedulePageComponent,
-    // canActivate: [OnlineGuard, AuthGuard, OrganizerGuard] TODO: only for tests
+    canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
   /*ADMIN*/
   {
-    path: 'admin',
+    path: PATH.ADMIN.DASHBOARD,
     component: Pages.AdminPageComponent,
     canActivate: [AuthGuard, AdminGuard],
     canActivateChild: [AuthGuard, AdminGuard],

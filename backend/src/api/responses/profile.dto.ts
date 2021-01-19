@@ -15,4 +15,6 @@ export class ProfileSimplifiedResponse {
     user_id: number;
     firstname: string;
     lastname: string;
+    birth_date: Date;
+    present: boolean;
 }

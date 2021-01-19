@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
 import * as VLD from 'common/functions/validators';
 
 @Component({

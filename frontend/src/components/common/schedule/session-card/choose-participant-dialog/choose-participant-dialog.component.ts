@@ -1,24 +1,19 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatListOption} from '@angular/material/list';
 import {SelectionModel} from '@angular/cdk/collections';
-import * as moment from 'moment';
 import {ProfileResponse} from 'api/responses/profile.dto';
+import {FormatterService} from 'services/formatter-service/formatter.service';
 
 @Component({
   selector: 'app-choose-participant-dialog',
   templateUrl: './choose-participant-dialog.component.html',
   styleUrls: ['./choose-participant-dialog.component.css']
 })
-export class ChooseParticipantDialogComponent implements OnInit {
+export class ChooseParticipantDialogComponent {
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-  }
-
-  ngOnInit(): void {
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data,
+              public formatterService: FormatterService) { }
 
   chosenParticipantsString(selectedOptions: SelectionModel<MatListOption>): string {
     return this.getValues(selectedOptions).map(value => `${value.firstname} ${value.lastname}`).join(', ');
@@ -26,10 +21,6 @@ export class ChooseParticipantDialogComponent implements OnInit {
 
   getValues(selectedOptions): any[] {
     return selectedOptions.selected.map(value => value.value);
-  }
-
-  formatDateString() {
-    return moment(this.data.session.start_date).format('LLLL');
   }
 
   isAlreadyAdded(profile: ProfileResponse) {
