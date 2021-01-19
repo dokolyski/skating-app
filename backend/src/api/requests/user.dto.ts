@@ -21,7 +21,7 @@ export class UserRequest {
 
     @IsNotEmpty()
     @IsString()
-    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i)
+    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z\-]+)$/i)
     lastname: string;
 
     @IsNotEmpty()
