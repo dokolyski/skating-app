@@ -14,7 +14,7 @@ export class PaymentsController {
         return await this.paymentsService.create(request);
     }
 
-    @Post('/veryfi')
+    @Post('/verify')
     async verify(@Body() request: PaymentVerifyRequest): Promise<void> {
         return await this.paymentsService.verify(request);
     }

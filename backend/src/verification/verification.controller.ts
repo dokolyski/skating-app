@@ -6,14 +6,14 @@ import {Response} from "express";
 
 @Controller('verification')
 export class VerificationController {
-    constructor(private veryficationService: VerificationService) {
+    constructor(private verificationService: VerificationService) {
 
     }
 
     @Post()
     async login(@Body() loginRequest: LoginRequest, @Res({ passthrough: true }) res: Response): Promise<LoginResponse> {
 
-        const response = await this.veryficationService.login(loginRequest);
+        const response = await this.verificationService.login(loginRequest);
 
         let options = {
             maxAge: 1000 * 60 * 60 * 24 * 365,

@@ -121,8 +121,8 @@
       "URL": "api/payments",
       "METHOD": "POST"
     },
-    "VERYFI": {
-      "URL": "api/payments/veryfi",
+    "VERIFY": {
+      "URL": "api/payments/verify",
       "METHOD": "POST"
     }
   },
