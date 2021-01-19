@@ -14,6 +14,7 @@ import {LoginResponse} from "../api/responses/login.dto";
 import * as jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import * as server_config from '../config/server.json'
+import AuthorizedUser from "../helpers/authorized-user"
 
 @Injectable()
 export class VerificationService {
@@ -46,5 +47,11 @@ export class VerificationService {
         let response = new LoginResponse()
         response.token = token;
         return response;
+    }
+
+    async logout() {
+        let user = AuthorizedUser.getUser();
+        user.token = null;
+        await user.save();
     }
 }
