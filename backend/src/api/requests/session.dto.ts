@@ -1,66 +1,66 @@
 import {IsNotEmpty, IsNumber, IsString, IsDate, ValidateIf, IsIn, IsDateString, IsOptional} from 'class-validator';
 
 export class SessionRequest {
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     owner_id: number;
 
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsString({message: "MUST_BE_STRING"})
     name: string;
 
-    @IsNotEmpty()
-    @IsDateString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsDateString({message:"MUST_BE_DATE_STRING"})
     start_date: Date;
 
-    @IsNotEmpty()
-    @IsDateString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsDateString({message:"MUST_BE_DATE_STRING"})
     end_date: Date;
 
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     max_participants: number;
 
     @ValidateIf(o => o.difficulty != null)
-    @IsString()
+    @IsString({message: "MUST_BE_STRING"})
     @IsIn(['LOW', 'MEDIUM', 'HIGH'])
     difficulty: string | null;
 
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     price: number;
 
     @ValidateIf(o => o.description != null)
-    @IsString()
+    @IsString({message: "MUST_BE_STRING"})
     description: string | null;
 
     @IsOptional()
-    @IsString()
+    @IsString({message: "MUST_BE_STRING"})
     @IsIn(['OPEN', 'CLOSED', 'CANCELLED'])
     status: string;
 }
 
 export class SessionEditRequest extends SessionRequest {
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     id: number;
 }
 
 export class SessionIndexRequest {
     @ValidateIf(o => o.date_from != null)
-    @IsNotEmpty()
+    @IsNotEmpty({message: "REQUIRED"})
     @IsDate()
     date_from: Date | null;
 
     @ValidateIf(o => o.date_to != null)
-    @IsNotEmpty()
+    @IsNotEmpty({message: "REQUIRED"})
     @IsDate()
     date_to: Date | null;
 }
 
 export class SessionStatusRequest {
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsString({message: "MUST_BE_STRING"})
     @IsIn(['OPEN', 'CLOSED', 'CANCELLED'])
     status: string;
 }
