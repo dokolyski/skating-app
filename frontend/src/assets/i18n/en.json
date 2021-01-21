@@ -4,6 +4,7 @@
       "UNAUTHORIZED": "Login required to execute operation.",
       "SERVER_ERROR": "Internal server error.",
       "ACCESS_FORBIDDEN": "No permissions.",
+      "UNPROCESSABLE_ENTITY": "Unprocessable data.",
       "DUPLICATE": "Duplicate entries not allowed."
     },
     "inputs": {

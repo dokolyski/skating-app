@@ -4,6 +4,7 @@
       "UNAUTHORIZED": "Wymagane zalogowanie do wykonania operacji.",
       "SERVER_ERROR": "Błąd wewnętrzny serwera.",
       "ACCESS_FORBIDDEN": "Brak uprawnień.",
+      "UNPROCESSABLE_ENTITY": "Błąd danych.",
       "DUPLICATE": "Duplikaty wpisów są niedozwolone."
     },
     "inputs": {

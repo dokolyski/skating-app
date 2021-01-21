@@ -24,20 +24,20 @@ class AuthorizedUser {
 
     public checkOwnership(userId: number): void {
         if (this.user.id != userId) {
-            throw new ForbiddenException();
+            throw new ForbiddenException("ACCESS_FORBIDDEN");
 
         }
     }
 
     public checkIsAdmin(): void {
         if (!this.user.isAdmin && !this.user.isHAdmin) {
-            throw new ForbiddenException();
+            throw new ForbiddenException("ACCESS_FORBIDDEN");
         }
     }
 
     public checkIsOrganizer(): void {
         if (!this.user.isOrganizer) {
-            throw new ForbiddenException();
+            throw new ForbiddenException("ACCESS_FORBIDDEN");
         }
     }
 
