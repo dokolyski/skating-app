@@ -1,4 +1,4 @@
-import {Body, Controller, Post, Res} from '@nestjs/common';
+import {Body, Controller, Delete, Post, Res} from '@nestjs/common';
 import {VerificationService} from "./verification.service";
 import {LoginRequest} from "../api/requests/login.dto";
 import {LoginResponse} from "../api/responses/login.dto";
@@ -11,17 +11,28 @@ export class VerificationController {
     }
 
     @Post()
-    async login(@Body() loginRequest: LoginRequest, @Res({ passthrough: true }) res: Response): Promise<LoginResponse> {
+    async login(@Body() loginRequest: LoginRequest, @Res({passthrough: true}) res: Response): Promise<LoginResponse> {
 
         const response = await this.verificationService.login(loginRequest);
 
-        let options = {
-            maxAge: 1000 * 60 * 60 * 24 * 365,
-            httpOnly: true
-        }
 
-        res.cookie('secure-token', response.token, options);
+        res.cookie('secure-token', response.token, this.getCookieOptions());
         return Promise.resolve(response);
     }
 
+    @Delete()
+    async logout(@Res({passthrough: true}) res: Response): Promise<void> {
+        const response = await this.veryficationService.logout();
+
+        res.clearCookie('secure-token', this.getCookieOptions())
+
+        return response
+    }
+
+    getCookieOptions() {
+        return {
+            maxAge: 1000 * 60 * 60 * 24 * 365,
+            httpOnly: true
+        }
+    }
 }

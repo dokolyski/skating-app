@@ -5,7 +5,7 @@
       "METHOD": "POST"
     },
     "LOGOUT": {
-      "URL": "api/verification/{token}",
+      "URL": "api/verification",
       "PARAMS": ["token"],
       "METHOD": "DELETE"
     },

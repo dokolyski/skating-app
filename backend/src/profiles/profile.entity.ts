@@ -51,7 +51,7 @@ export class Profile extends Model<Profile> {
         type: DataType.STRING(45),
         allowNull: false,
         validate: {
-            is: /^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i
+            is: /^([\p{Lu}A-Z][\p{Ll}a-z\-]+)$/i
         }
     })
     public lastname: string;
