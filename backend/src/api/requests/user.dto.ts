@@ -31,7 +31,7 @@ export class UserRequest {
 
     @IsNotEmpty({message: "REQUIRED"})
     @IsString({message: "MUST_BE_STRING"})
-    @Length(8, 16)
+    @Length(8, 16, {message: "LENGTH"})
     @PasswordPassRegexes()
     @PasswordPassEntrophyTest()
     password: string;

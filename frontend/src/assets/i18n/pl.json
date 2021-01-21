@@ -12,8 +12,7 @@
         "INVALID": "Nieprawidłowy format adresu email."
       },
       "password": {
-        "MIN_LENGTH": "Hasło musi być co najmniej 8 znaków długości.",
-        "MAX_LENGTH": "Hasło musi być co najwyżej 16 znaków długości.",
+        "LENGTH": "Długość hasła musi wynosić 8 do 16 znaków długości.",
         "REGEX_SECURITY": "Hasło musi zawierać cyfry, znaki specjalne, duże i małe litery.",
         "TOO_EASY": "Hasło zbyt proste."
       },
