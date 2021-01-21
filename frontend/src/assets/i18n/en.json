@@ -34,7 +34,10 @@
         "INTEGER": "Only integers"
       },
       "general": {
-        "REQUIRED": "Input value is required."
+        "REQUIRED": "Input value is required.",
+        "MUST_BE_STRING": "Input value must be string.",
+        "MUST_BE_DATE_STRING": "Input value must be date string.",
+        "MUST_BE_NUMBER": "Input value must be number."
       }
     }
   },

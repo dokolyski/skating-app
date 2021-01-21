@@ -1,46 +1,46 @@
-import {IsNotEmpty, IsNumber, IsDate, IsString, IsIn, ValidateIf, IsDateString} from 'class-validator';
+import {IsNotEmpty, IsNumber, IsString, IsIn, ValidateIf, IsDateString} from 'class-validator';
 
 export class NotificationRequest {
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     session_id: number;
 
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     owner_id: number;
 
-    @IsNotEmpty()
-    @IsDateString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsDateString({message:"MUST_BE_DATE_STRING"})
     show_date: Date;
 
-    @IsNotEmpty()
-    @IsDateString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsDateString({message:"MUST_BE_DATE_STRING"})
     expiration_date: Date;
 
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsString({message: "MUST_BE_STRING"})
     @IsIn(['DISABLED', 'ENABLED'])
     status: string;
 
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsString({message: "MUST_BE_STRING"})
     title: string;
 
     @ValidateIf(o => o.description != null)
-    @IsString()
+    @IsString({message: "MUST_BE_STRING"})
     description: string | null;
 }
 
 export class NotificationIndexRequest {
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     user_id: number;
 }
 
 export class NotificationStatusRequest
 {
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsString({message: "MUST_BE_STRING"})
     @IsIn(['READ', 'NONE'])
     status: string;
 }
