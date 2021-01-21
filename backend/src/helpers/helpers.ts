@@ -6,17 +6,10 @@ import {
 
 export function serverError(object): void {
     if (object === null)
-        throw new InternalServerErrorException()
+        throw new InternalServerErrorException("SERVER_ERROR")
 }
 
 export function notfound(object): void {
     if (object === null)
-        throw new UnprocessableEntityException()
-}
-
-export function toNumber(value: string): number {
-    const v = parseInt(value);
-    if (isNaN(v))
-        throw new BadRequestException()
-    return v
+        throw new UnprocessableEntityException("UNPROCESSABLE_ENTITY")
 }
