@@ -3,7 +3,7 @@ import {CONFIG_REPOSITORY} from "../constants";
 import {Config} from "./config.entity";
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user"
-import {ConfigEditRequest, ConfigRequest} from "../api/requests/config.dto";
+import {ConfigRequest} from "../api/requests/config.dto";
 import {ConfigResponse} from "../api/responses/config.dto";
 
 @Injectable()
@@ -19,10 +19,8 @@ export class ConfigService {
         return this.configRepository.findAll();
     }
 
-    public async get(id: number): Promise<ConfigResponse> {
-
-        AuthorizedUser.checkIsAdmin();
-        const config = await this.configRepository.findByPk(id);
+    public async get(key: string): Promise<ConfigResponse> {
+        const config = await this.configRepository.findByPk(key);
         notfound(config);
 
         return config;
@@ -32,10 +30,17 @@ export class ConfigService {
 
         AuthorizedUser.checkIsAdmin();
 
-        await this.configRepository.create(request);
+        const config = await this.configRepository.findByPk(request.key);
+
+        if (config === null) {
+            await this.configRepository.create(request);
+        } else {
+            config.update(request);
+            await config.save();
+        }
     }
 
-    public async edit(id: number, request: ConfigEditRequest): Promise<void> {
+    public async edit(id: number, request: ConfigRequest): Promise<void> {
         AuthorizedUser.checkIsAdmin();
 
         const config = await this.configRepository.findByPk(id);
@@ -45,10 +50,10 @@ export class ConfigService {
         await config.save();
     }
 
-    public async delete(id: number): Promise<void> {
+    public async delete(key: string): Promise<void> {
         AuthorizedUser.checkIsAdmin();
 
-        const config = await this.configRepository.findByPk(id);
+        const config = await this.configRepository.findByPk(key);
         notfound(config);
 
         await config.destroy();

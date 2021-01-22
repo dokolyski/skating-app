@@ -11,10 +11,3 @@ export class ConfigRequest {
     value: string;
 }
 
-export class ConfigEditRequest extends ConfigRequest {
-
-    @IsNotEmpty({message: "REQUIRED"})
-    @IsNumber({}, {message:"MUST_BE_NUMBER"})
-    id: number;
-}
-
