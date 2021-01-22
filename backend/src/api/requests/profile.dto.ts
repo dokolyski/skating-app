@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumber, IsString, Matches, IsDate, ValidateIf, IsIn} from 'class-validator';
+import {IsNotEmpty, IsNumber, IsString, Matches, IsDate, ValidateIf, IsIn, IsDateString} from 'class-validator';
 
 export class ProfileRequest {
 
@@ -17,7 +17,7 @@ export class ProfileRequest {
     lastname: string;
 
     @IsNotEmpty({message: "REQUIRED"})
-    @IsDate()
+    @IsDateString()
     birth_date: Date;
 
     @ValidateIf(o => o.skill_level != null)
@@ -35,10 +35,4 @@ export class ProfileEditRequest extends ProfileRequest {
     @IsNotEmpty({message: "REQUIRED"})
     @IsNumber({}, {message:"MUST_BE_NUMBER"})
     id: number;
-}
-
-export class ProfileIndexRequest {
-    @IsNotEmpty({message: "REQUIRED"})
-    @IsNumber({}, {message:"MUST_BE_NUMBER"})
-    user_id: number;
 }
