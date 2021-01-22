@@ -10,8 +10,7 @@
                     "INVALID": ""
                 },
                 "password": {
-                    "MIN_LENGTH": "",
-                    "MAX_LENGTH": "",
+                    "LENGTH": "",
                     "REGEX_SECURITY": "",
                     "TOO_EASY": ""
                 },
@@ -22,7 +21,10 @@
                     "INVALID": ""
                 },
                 "general": {
-                    "REQUIRED": ""
+                    "REQUIRED": "",
+                    "MUST_BE_STRING": "",
+                    "MUST_BE_DATE_STRING": "",
+                    "MUST_BE_NUMBER":  ""
                 }
             }
         },
@@ -59,7 +61,7 @@
     "registerBody": {
         "fistname": "Name",
         "lastname": "Lastname",
-        "email": "example@mail.com", 
+        "email": "example@mail.com",
         "password": "P@ssw0rd1234",
         "birth_date": "1/1/1990",
         "phone_number": "123456789"

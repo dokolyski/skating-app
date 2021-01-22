@@ -3,7 +3,7 @@ import { IsBoolean, IsNotEmpty } from 'class-validator';
 export const HEAD_ADMIN_GROUP = 'HA';
 
 export class UserChmod {
-    @IsNotEmpty()
+    @IsNotEmpty({message: "REQUIRED"})
     @IsBoolean()
     organizer: boolean;
 

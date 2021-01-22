@@ -2,12 +2,12 @@ import {IsNotEmpty, IsNumber, IsString, IsIn, ValidateNested, IsBoolean} from 'c
 import {Type} from 'class-transformer';
 
 export class JoinRequestPosition {
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     session_id: number;
 
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     profile_id: number;
 }
 
@@ -17,18 +17,18 @@ export class JoinRequest {
     @Type(() => JoinRequestPosition)
     positions: JoinRequestPosition[]
 
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsString({message: "MUST_BE_STRING"})
     @IsIn(['POINTS', 'CASH'])
     type: string;
 }
 
 export class DisjoinRequest {
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     session_id: number;
 
-    @IsNotEmpty()
+    @IsNotEmpty({message: "REQUIRED"})
     @IsNumber({}, {
         each: true
     })
@@ -36,11 +36,11 @@ export class DisjoinRequest {
 }
 
 export class EditPresenceRequest {
-    @IsNotEmpty()
-    @IsNumber()
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsNumber({}, {message:"MUST_BE_NUMBER"})
     id: number;
 
-    @IsNotEmpty()
+    @IsNotEmpty({message: "REQUIRED"})
     @IsBoolean()
     present: boolean;
 }
