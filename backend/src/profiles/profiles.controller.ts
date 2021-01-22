@@ -1,6 +1,6 @@
 import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
 import {ProfilesService} from "../profiles/profiles.service";
-import {ProfileEditRequest, ProfileIndexRequest, ProfileRequest} from "../api/requests/profile.dto";
+import {ProfileEditRequest, ProfileRequest} from "../api/requests/profile.dto";
 import {ProfileResponse} from "../api/responses/profile.dto";
 
 @Controller('profiles')
@@ -9,8 +9,8 @@ export class ProfilesController {
     }
 
     @Get()
-    async index(@Body() request: ProfileIndexRequest): Promise<ProfileResponse[]> {
-        return await this.profilesService.index(request);
+    async index(): Promise<ProfileResponse[]> {
+        return await this.profilesService.index();
     }
 
 
