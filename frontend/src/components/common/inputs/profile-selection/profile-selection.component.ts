@@ -28,7 +28,7 @@ export class ProfileSelectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.selected && this.values.length) {
+    if (!this.selected && this.values != null && this.values.length) {
       this.selected = this.values[0];
     }
   }

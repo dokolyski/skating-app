@@ -112,7 +112,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
         }),
         mergeMap(data => {
           user = data;
-          return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.GET);
+          return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.INDEX);
         })
       )
       .subscribe({
@@ -154,9 +154,6 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
 
   private prepareUserInfoPayload(): UserRequest {
     const body: UserRequest = new UserRequest();
-
-    body.firstname = this.form.get('name').value;
-    body.lastname = this.form.get('lastname').value;
     body.email = this.form.get('email').value;
     body.birth_date = this.form.get('dateBirth').value;
     body.phone_number = this.form.get('telephoneNumber').value;
