@@ -5,7 +5,6 @@ import {Session} from "../sessions/session.entity";
 import {Sequelize} from "sequelize-typescript";
 import {
     NotificationStatusRequest,
-    NotificationIndexRequest,
     NotificationRequest
 } from "../api/requests/notification.dto";
 import {NotificationResponse} from "../api/responses/notification.dto";
@@ -22,10 +21,10 @@ export class NotificationsService {
     ) {
     }
 
-    async index(request: NotificationIndexRequest): Promise<NotificationResponse[]> {
+    async index(): Promise<NotificationResponse[]> {
         const notifications = await this.notificationsRepository.findAll({
             where: {
-                user_id: request.user_id
+                user_id: AuthorizedUser.getId()
             }
         });
         notfound(notifications);
