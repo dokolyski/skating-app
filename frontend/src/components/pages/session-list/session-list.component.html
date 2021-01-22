@@ -1,8 +1,4 @@
-<app-middle-column *ngIf="!(isMobile | async); else content">
-  <ng-container style="padding: 0" *ngTemplateOutlet="content"></ng-container>
-</app-middle-column>
-
-<ng-template #content>
+<app-middle-column>
   <div style="padding-top: 5%;
        padding-left: 5%;
        padding-right: 5%; text-align: center">
@@ -29,14 +25,17 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="example-button-row">
-          <button (click)="showParticipantList(session)" mat-raised-button color="primary">{{'pages.session-list.actions.show' | translate}}
+          <button (click)="showParticipantList(session)" mat-raised-button
+                  color="primary">{{'pages.session-list.actions.show' | translate}}
           </button>
-          <button (click)="cancelSession(session)" mat-raised-button color="warn">{{'pages.session-list.actions.cancel' | translate}}</button>
-          <button (click)="editSession(session)" mat-raised-button color="basic">{{'pages.session-list.actions.edit' | translate}}</button>
+          <button (click)="cancelSession(session)" mat-raised-button
+                  color="warn">{{'pages.session-list.actions.cancel' | translate}}</button>
+          <button (click)="editSession(session)" mat-raised-button
+                  color="basic">{{'pages.session-list.actions.edit' | translate}}</button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-</ng-template>
+</app-middle-column>
 
 

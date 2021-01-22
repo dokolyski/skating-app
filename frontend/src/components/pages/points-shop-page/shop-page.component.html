@@ -1,7 +1,3 @@
-<app-middle-column *ngIf="!(isMobile | async); else content">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+<app-middle-column>
+  <app-points-shop></app-points-shop>
 </app-middle-column>
-
-<ng-template #content>
-    <app-points-shop></app-points-shop>
-</ng-template>

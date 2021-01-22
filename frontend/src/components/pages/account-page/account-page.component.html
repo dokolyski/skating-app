@@ -1,26 +1,24 @@
 <ng-container *ngIf="render">
-    <app-middle-column *ngIf="!(isMobile | async); else content">
-        <ng-container *ngTemplateOutlet="content"></ng-container>
-    </app-middle-column>
+  <app-middle-column>
+      <div>
+        <app-tab-router-outlet>
+          <ng-template appTabSubpage [url]="PATH.LOGGED.NOTIFICATIONS"
+                       [label]="'pages.account.menu.ACCOUNT_NOTIFICATIONS' | translate"></ng-template>
+
+          <ng-template appTabSubpage [url]="PATH.LOGGED.RESERVATIONS" *appAccessCommonUser
+                       [label]="'pages.account.menu.RESERVATIONS' | translate"></ng-template>
+
+          <ng-template appTabSubpage [url]="PATH.LOGGED.SETTINGS"
+                       [label]="'pages.account.menu.ACCOUNT_SETTINGS' | translate"></ng-template>
+
+          <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_ADD"
+                       [label]="'pages.account.menu.PROFILE_ADD' | translate"></ng-template>
+
+          <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_SETTINGS"
+                       [label]="'pages.account.menu.PROFILE_SETTINGS' | translate"></ng-template>
+        </app-tab-router-outlet>
+      </div>
+  </app-middle-column>
 </ng-container>
 
-<ng-template #content>
-    <div>
-        <app-tab-router-outlet>
-            <ng-template appTabSubpage [url]="PATH.LOGGED.NOTIFICATIONS"
-                [label]="'pages.account.menu.ACCOUNT_NOTIFICATIONS' | translate"></ng-template>
 
-            <ng-template  appTabSubpage [url]="PATH.LOGGED.RESERVATIONS" *appAccessCommonUser
-                [label]="'pages.account.menu.RESERVATIONS' | translate"></ng-template>
-
-            <ng-template appTabSubpage [url]="PATH.LOGGED.SETTINGS"
-                [label]="'pages.account.menu.ACCOUNT_SETTINGS' | translate"></ng-template>
-
-            <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_ADD"
-                [label]="'pages.account.menu.PROFILE_ADD' | translate"></ng-template>
-
-            <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_SETTINGS"
-                [label]="'pages.account.menu.PROFILE_SETTINGS' | translate"></ng-template>
-        </app-tab-router-outlet>
-    </div>
-</ng-template>

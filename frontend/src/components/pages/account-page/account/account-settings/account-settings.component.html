@@ -8,24 +8,8 @@
   <app-email [control]="form.get('email')" [serverError]="serverInputsErrors?.email">
   </app-email>
 
-  <div class="inline-flex">
-    <app-name [control]="form.get('name')" [serverError]="serverInputsErrors?.name">
-    </app-name>
-
-    <app-lastname [control]="form.get('lastname')" [serverError]="serverInputsErrors?.lastname">
-    </app-lastname>
-  </div>
-
-  <div class="inline-flex">
-    <app-date-birth [control]="form.get('dateBirth')" [serverError]="serverInputsErrors?.dateBirth">
-    </app-date-birth>
-
-    <app-telephone [control]="form.get('telephoneNumber')" [serverError]="serverInputsErrors?.telephoneNumber">
-    </app-telephone>
-  </div>
-
-  <app-skill-level [control]="form.get('skillLevel')" [values]="skillLevelPossibleValues">
-  </app-skill-level>
+  <app-telephone [control]="form.get('telephoneNumber')" [serverError]="serverInputsErrors?.telephoneNumber">
+  </app-telephone>
 
   <div class="buttons">
     <button mat-button (click)="onCancel.emit()" class="cancelButton" [disabled]="!editMode">
