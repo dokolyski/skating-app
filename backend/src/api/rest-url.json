@@ -41,8 +41,12 @@
     }
   },
   "PROFILES": {
-    "GET": {
+    "INDEX": {
       "URL": "api/profiles",
+      "METHOD": "GET"
+    },
+    "GET": {
+      "URL": "api/profiles/{id}",
       "METHOD": "GET"
     },
     "CREATE": {
@@ -132,10 +136,9 @@
       "PARAMS": ["key"],
       "METHOD": "GET"
     },
-    "EDIT": {
-      "URL": "api/config/{key}",
-      "PARAMS": ["key"],
-      "METHOD": "PUT"
+    "CREATE": {
+      "URL": "api/config",
+      "METHOD": "POST"
     }
   }
 }

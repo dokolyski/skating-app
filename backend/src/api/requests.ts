@@ -1,10 +1,9 @@
 import {UserEditRequest, UserRequest} from './requests/user.dto';
 import {SessionEditRequest, SessionIndexRequest, SessionRequest, SessionStatusRequest} from './requests/session.dto';
-import {ProfileEditRequest, ProfileIndexRequest, ProfileRequest} from './requests/profile.dto';
+import {ProfileEditRequest, ProfileRequest} from './requests/profile.dto';
 import {ProfileResponse} from './responses/profile.dto';
 import {
     NotificationStatusRequest,
-    NotificationIndexRequest,
     NotificationRequest
 } from './requests/notification.dto';
 import {NotificationResponse} from "./responses/notification.dto";
@@ -57,8 +56,13 @@ export namespace USERS {
 export namespace PROFILES {
 
     export namespace INDEX {
-        export type REQUEST = ProfileIndexRequest;
+        export type REQUEST = void;
         export type RESPONSE = ProfileResponse[];
+    }
+
+    export namespace GET {
+        export type REQUEST = ProfileRequest;
+        export type RESPONSE = ProfileResponse;
     }
 
     export namespace CREATE {
@@ -110,8 +114,13 @@ export namespace SESSIONS {
 export namespace NOTIFICATIONS {
 
     export namespace INDEX {
-        export type REQUEST = NotificationIndexRequest;
+        export type REQUEST = void;
         export type RESPONSE = NotificationResponse[];
+    }
+
+    export namespace GET {
+        export type REQUEST = NotificationRequest;
+        export type RESPONSE = NotificationResponse;
     }
 
     export namespace CREATE {
