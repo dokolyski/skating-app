@@ -22,7 +22,7 @@ export class VerificationController {
 
     @Delete()
     async logout(@Res({passthrough: true}) res: Response): Promise<void> {
-        const response = await this.veryficationService.logout();
+        const response = await this.verificationService.logout();
 
         res.clearCookie('secure-token', this.getCookieOptions())
 
