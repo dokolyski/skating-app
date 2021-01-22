@@ -1,11 +1,11 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {RestService} from 'services/rest-service/rest.service';
 
 import * as REST_PATH from 'api/rest-url.json';
 import {RestError} from 'api/rest-error';
 
-import { mergeMap } from 'rxjs/operators';
+import {mergeMap} from 'rxjs/operators';
 
 import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 import {EmailComponent} from 'components/common/inputs/email/email.component';
@@ -22,7 +22,9 @@ import {UserRequest} from 'api/requests/user.dto';
 import {ProfileRequest} from 'api/requests/profile.dto';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
 import {ConfigResponse} from 'api/responses/config.dto';
-import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
+import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
+import {MatVerticalStepper} from '@angular/material/stepper';
+import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * @description Gather, validate and send to the ```REST``` server required user informations like
@@ -55,6 +57,11 @@ export class RegistrationComponent implements OnInit {
 
   skillLevelPossibleValues: Skills;
   serverInputsErrors: { [input: string]: string };
+  stepInputs: string[][] = [
+    ['email', 'password'],
+    ['firstname', 'lastname', 'birth_date', 'phone_number'],
+    ['skill_level']
+  ];
 
   @Output()
   onSubmit = new EventEmitter<void>();
@@ -65,38 +72,29 @@ export class RegistrationComponent implements OnInit {
     private fb: FormBuilder,
     private rest: RestService,
     private interceptor: ErrorInterceptorService,
-    private errorMessageService: ErrorMessageService) { }
+    private errorMessageService: ErrorMessageService) {
+  }
 
   ngOnInit() {
-    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
+    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
       .subscribe({
         next: (v: ConfigResponse[]) => this.skillLevelPossibleValues = [' ', ...v.map(value => value.value)],
         error: (e: RestError) => this.handleErrors(e, false)
       });
   }
 
-  register() {
+  register(stepper: MatVerticalStepper) {
     const registerBody = this.prepareRegisterPayload();
 
     // create account
-    this.rest.do(REST_PATH.VERIFICATION.REGISTER, { body: registerBody })
-      .pipe(
-        mergeMap(() => {
-          const skillLevel = this.form.get('additional.skillLevel').value;
-
-          // when user selects one of the skill then create profile
-          if (skillLevel.length && skillLevel !== ' ') {
-            const editBody = this.prepareSelfProfilePayload();
-            return this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody });
-          }
-
-          return of();
-        })
-      ).subscribe({
-        next: () => this.onSubmit.emit(),
-        complete: () => this.onSubmit.emit(),
-        error: (e: RestError) => this.handleErrors(e, true)
-      });
+    this.rest.do(REST_PATH.VERIFICATION.REGISTER, {body: registerBody}).subscribe({
+      next: () => this.onSubmit.emit(),
+      complete: () => this.onSubmit.emit(),
+      error: (e: HttpErrorResponse) => {
+        stepper.selectedIndex = this.getContainingStep(Object.keys(e.error.inputsTokens));
+        this.handleErrors(e.error, true);
+      }
+    });
   }
 
   private prepareRegisterPayload(): UserRequest {
@@ -112,17 +110,6 @@ export class RegistrationComponent implements OnInit {
     return payload;
   }
 
-  private prepareSelfProfilePayload(): ProfileRequest {
-    const payload: ProfileRequest = new ProfileRequest();
-
-    payload.firstname = this.form.get('personal.name').value;
-    payload.lastname = this.form.get('personal.lastname').value;
-    payload.birth_date = this.form.get('personal.dateBirth').value;
-    payload.skill_level = this.form.get('additional.skillLevel').value;
-
-    return payload;
-  }
-
   private handleErrors(error: RestError, showServerErrors: boolean) {
     this.errorMessageService.getErrorsStrings(error)
       .subscribe((translation: TranslatedErrors) => {
@@ -133,7 +120,7 @@ export class RegistrationComponent implements OnInit {
         if (showServerErrors && translation.inputs) {
           for (const input of Object.keys(translation.inputs)) {
             const fullName = this.getFormControlFullName(input);
-            this.form.get(fullName).setErrors({ 'server-error': true });
+            this.form.get(fullName).setErrors({'server-error': true});
           }
 
           this.serverInputsErrors = translation.inputs;
@@ -154,5 +141,10 @@ export class RegistrationComponent implements OnInit {
       case 'phone_number':
         return 'base.telephoneNumber';
     }
+  }
+
+  private getContainingStep(inputNames: string[]): number {
+    return Math.min(...(inputNames.map(input => this.stepInputs.findIndex(value => value.includes(input)))
+      .filter(value => value >= 0 && value < this.stepInputs.length)));
   }
 }
