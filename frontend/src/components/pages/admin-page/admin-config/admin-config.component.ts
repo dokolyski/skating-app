@@ -49,6 +49,7 @@ export class AdminConfigComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initCols();
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.price_table}})
       .subscribe({
         next: (data: ConfigResponse) => {
@@ -56,7 +57,6 @@ export class AdminConfigComponent implements OnInit, OnDestroy {
             required_money: parseInt(value.required_money, 0),
             points: parseInt(value.points, 0)
           })));
-          this.initCols();
         },
         error: (error: HttpErrorResponse) => this.handleErrors(error.error)
       });
@@ -100,7 +100,7 @@ export class AdminConfigComponent implements OnInit, OnDestroy {
 
   saveData() {
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.CREATE, {
-      body: {key: REST_CONFIG.price_table, value: this.rows}
+      body: {key: REST_CONFIG.price_table, value: JSON.stringify(this.rows.getDataCopy())}
     })
       .subscribe({
         next: () => this.originalData = this.rows.getDataCopy(),
