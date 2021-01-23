@@ -7,6 +7,7 @@ import SessionResponse from 'api/responses/session.dto';
 import {FormatterService} from 'services/formatter-service/formatter.service';
 import {RestService} from 'services/rest-service/rest.service';
 import {EditSessionComponent} from 'components/pages/edit-session/edit-session.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-weekday',
@@ -28,8 +29,12 @@ export class WeekdayComponent {
     this.dialog.open(EditSessionComponent, { data: {session: {start_date: this.date}, mode: 'create' } })
     .afterClosed().subscribe(next => {
       if (next != null) {
-        this.rest.do(REST_PATH.SESSIONS.CREATE, {body: next});
+        this.rest.do(REST_PATH.SESSIONS.CREATE, {body: next}).subscribe(next => {});
       }
     });
+  }
+
+  isFuture(): boolean {
+    return moment(this.date).isSameOrAfter(Date.now(), 'day');
   }
 }
