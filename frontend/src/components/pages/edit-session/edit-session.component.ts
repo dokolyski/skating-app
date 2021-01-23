@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {AuthService} from 'services/auth-service/auth.service';
 import {SessionRequest} from 'api/requests/session.dto';
 import * as moment from 'moment';
@@ -16,7 +16,6 @@ export class EditSessionComponent implements OnInit {
   uid: number;
   startTime: string;
   endTime: string;
-  sessionRequest: SessionRequest;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { session: SessionResponse, mode: 'edit' | 'create' },
               private authService: AuthService) {
@@ -46,7 +45,7 @@ export class EditSessionComponent implements OnInit {
     if (this.session.end_date < this.session.start_date) {
       this.session.end_date = moment(this.session.end_date).add(1, 'days').toDate();
     }
-    this.sessionRequest = {
+    return {
       ...this.session,
       status: 'OPEN',
       owner_id: this.uid

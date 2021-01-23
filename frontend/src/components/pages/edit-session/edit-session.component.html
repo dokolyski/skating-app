@@ -28,8 +28,8 @@
     <mat-label>{{'pages.create-session.group' | translate}}</mat-label>
     <mat-select [(value)]="session.difficulty">
       <!--      TODO - load difficulty options from config-->
-      <mat-option value="option">Brązowa+</mat-option>
-      <mat-option value="option">Srebrna</mat-option>
+      <mat-option value="Brązowa+">Brązowa+</mat-option>
+      <mat-option value="Srebrna">Srebrna</mat-option>
     </mat-select>
   </mat-form-field>
   <br>
@@ -50,7 +50,7 @@
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="null">{{'dialog-outcomes.cancel' | translate }}</button>
-  <button (click)="createSessionRequest()" mat-button [mat-dialog-close]="sessionRequest">
+  <button mat-button [mat-dialog-close]="createSessionRequest()">
     {{(data.mode === 'create' ? 'dialog-outcomes.create-session' : 'dialog-outcomes.edit-session') | translate}}
   </button>
 </div>
