@@ -1,7 +1,6 @@
 import {Body, Controller, Delete, Get, Param, Patch, Post, Put} from '@nestjs/common';
 import {NotificationsService} from "./notifications.service";
 import {
-    NotificationIndexRequest,
     NotificationRequest,
     NotificationStatusRequest
 } from "../api/requests/notification.dto";
@@ -14,8 +13,8 @@ export class NotificationsController {
     }
 
     @Get()
-    async index(@Body() request: NotificationIndexRequest): Promise<NotificationResponse[]> {
-        return await this.notificationsService.index(request);
+    async index(): Promise<NotificationResponse[]> {
+        return await this.notificationsService.index();
     }
 
     @Post()

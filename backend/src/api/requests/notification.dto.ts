@@ -31,12 +31,6 @@ export class NotificationRequest {
     description: string | null;
 }
 
-export class NotificationIndexRequest {
-    @IsNotEmpty({message: "REQUIRED"})
-    @IsNumber({}, {message:"MUST_BE_NUMBER"})
-    user_id: number;
-}
-
 export class NotificationStatusRequest
 {
     @IsNotEmpty({message: "REQUIRED"})

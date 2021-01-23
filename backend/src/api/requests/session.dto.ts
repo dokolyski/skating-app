@@ -49,12 +49,12 @@ export class SessionEditRequest extends SessionRequest {
 export class SessionIndexRequest {
     @ValidateIf(o => o.date_from != null)
     @IsNotEmpty({message: "REQUIRED"})
-    @IsDate()
+    @IsDateString()
     date_from: Date | null;
 
     @ValidateIf(o => o.date_to != null)
     @IsNotEmpty({message: "REQUIRED"})
-    @IsDate()
+    @IsDateString()
     date_to: Date | null;
 }
 

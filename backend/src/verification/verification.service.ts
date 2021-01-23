@@ -43,10 +43,7 @@ export class VerificationService {
 
         user.token = token;
         await user.save();
-
-        let response = new LoginResponse()
-        response.token = token;
-        return response;
+        return { token, isAdmin: user.isAdmin, isHAdmin: user.isHAdmin, isOrganizer: user.isOrganizer, uid: user.id };
     }
 
     async logout() {

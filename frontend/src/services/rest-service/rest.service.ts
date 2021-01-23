@@ -74,8 +74,10 @@ export class RestService {
    */
   private parseQueryParams(body): HttpParams {
     const params = new HttpParams();
-    for (const [k, v] of Object.entries(body)) {
-      params.set(k, v as string);
+    if (body != null) {
+      for (const [k, v] of Object.entries(body)) {
+        params.set(k, v as string);
+      }
     }
     return params;
   }
@@ -87,7 +89,7 @@ export class RestService {
    * @throws Error on unhandled HTTP method
    */
   private sendRequest(url: string, method: string,
-    payload: { body?, params?: HttpParams }): Observable<any> | never {
+                      payload: { body?, params?: HttpParams }): Observable<any> | never {
 
     const options: any = { withCredentials: true };
     switch (method) {

@@ -12,9 +12,9 @@ import {Skills} from 'api/rest-models/config-models';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
 import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 import {ProfileResponse} from 'api/responses/profile.dto';
-import {ProfileRequest} from 'api/requests/profile.dto';
 import {ConfigResponse} from 'api/responses/config.dto';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
+import {AuthService} from 'services/auth-service/auth.service';
 
 /**
  * @description Show profiles account settings and allow to change them, , gather informations about
@@ -34,6 +34,7 @@ export class ProfileSettingsComponent implements OnInit {
   });
 
   private _profile: ProfileResponse;
+
   set selectedProfile(p: ProfileResponse) {
     this._profile = p;
 
@@ -42,6 +43,7 @@ export class ProfileSettingsComponent implements OnInit {
     this.form.get('dateBirth').setValue(p.birth_date);
     this.form.get('skillLevel').setValue(p.skill_level == null ? ' ' : p.skill_level);
   }
+
   get selectedProfile() {
     return this._profile;
   }
@@ -60,6 +62,7 @@ export class ProfileSettingsComponent implements OnInit {
       }
     }
   }
+
   get editMode() {
     return this.form.enabled;
   }
@@ -73,7 +76,8 @@ export class ProfileSettingsComponent implements OnInit {
     private fb: FormBuilder,
     private rest: RestService,
     private interceptor: ErrorInterceptorService,
-    private errorMessageService: ErrorMessageService) {
+    private errorMessageService: ErrorMessageService,
+    private authService: AuthService) {
 
     this.onCancel.subscribe(() => {
       this.editMode = false;
@@ -84,27 +88,30 @@ export class ProfileSettingsComponent implements OnInit {
   ngOnInit() {
     this.editMode = false;
 
-    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
+    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
       .pipe(
         mergeMap((v: ConfigResponse[]) => {
           this.skillLevelPossibleValues = [' ', ...v.map(value => value.value)];
-          return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.GET);
+          return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.INDEX);
         })
       )
       .subscribe({
-        next: data => {
-          this.removeOwner(data);
-          this.profiles = data;
-          this.selectedProfile = data[0];
-        },
-        error: (e: RestError) => this.handleErrors(e, false)
-      });
+          next: data => {
+            this.profiles = data;
+            this.selectedProfile = data[0];
+          },
+          error: (e: RestError) => this.handleErrors(e, false)
+        }
+      );
   }
 
   edit() {
     const editBody = this.prepareProfilePayload();
 
-    this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
+    this.rest.do(REST_PATH.PROFILES.EDIT, {
+      templateParamsValues: {id: this.selectedProfile.id.toString()},
+      body: editBody
+    })
       .subscribe({
         next: () => this.onSubmit.emit(),
         complete: () => this.onSubmit.emit(),
@@ -112,24 +119,15 @@ export class ProfileSettingsComponent implements OnInit {
       });
   }
 
-  private removeOwner(data: ProfileResponse[]) {
-    const indexOwner = data.findIndex(p => p.is_owner);
-    if (indexOwner > -1) {
-      data.splice(indexOwner);
-    }
-  }
-
-  private prepareProfilePayload(): ProfileRequest {
-    const body: ProfileRequest = new ProfileRequest();
-
+  private prepareProfilePayload() {
     const skill = this.form.get('skillLevel').value;
-
-    body.firstname = this.form.get('name').value;
-    body.lastname = this.form.get('lastname').value;
-    body.birth_date = this.form.get('dateBirth').value;
-    body.skill_level = skill.length && skill !== ' ' ? skill : null;
-
-    return body;
+    return {
+      ...this.selectedProfile, firstname: this.form.get('name').value,
+      type: this.selectedProfile.is_owner ? 'OWNER' : 'PROFILE',
+      lastname: this.form.get('lastname').value,
+      birth_date: new Date(this.form.get('dateBirth').value),
+      skill_level: skill.length && skill !== ' ' ? skill : null
+    };
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {
@@ -144,7 +142,7 @@ export class ProfileSettingsComponent implements OnInit {
             for (const c of Object.values(this.form.controls)) {
               const subfm = c as FormGroup;
               if (subfm.contains(input)) {
-                subfm.get(input).setErrors({ 'server-error': true });
+                subfm.get(input).setErrors({'server-error': true});
               }
             }
           }

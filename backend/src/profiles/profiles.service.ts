@@ -1,9 +1,9 @@
 import {Inject, Injectable} from '@nestjs/common';
-import {PROFILE_REPOSITORY, SEQUELIZE} from "../constants";
+import {PROFILE_REPOSITORY} from "../constants";
 import {Profile} from "./profile.entity";
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user"
-import {ProfileEditRequest, ProfileIndexRequest, ProfileRequest} from "../api/requests/profile.dto";
+import {ProfileEditRequest, ProfileRequest} from "../api/requests/profile.dto";
 import {ProfileResponse} from "../api/responses/profile.dto";
 
 @Injectable()
@@ -12,13 +12,10 @@ export class ProfilesService {
     ) {
     }
 
-    public async index(data: ProfileIndexRequest): Promise<ProfileResponse[]> {
-
-        AuthorizedUser.checkOwnership(data.user_id);
-
+    public async index(): Promise<ProfileResponse[]> {
         return this.profilesRepository.findAll({
             where: {
-                user_id: data.user_id
+                user_id: AuthorizedUser.getId()
             }
         });
     }

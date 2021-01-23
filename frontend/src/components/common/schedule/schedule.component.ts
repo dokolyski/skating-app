@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {SessionIndexRequest} from 'api/requests/session.dto';
 import {RestService} from 'services/rest-service/rest.service';
-import {ProfileIndexRequest} from 'api/requests/profile.dto';
 import {ProfileResponse} from 'api/responses/profile.dto';
 import * as moment from 'moment';
 import * as REST_PATH from 'api/rest-url.json';
@@ -34,12 +33,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.sessionInfo$.subscribe(sessionInfo => {
-      if (sessionInfo != null) {
-        this.restService.do<ProfileResponse[]>(REST_PATH.PROFILES.GET, {body: {user_id: sessionInfo.uid} as ProfileIndexRequest})
-          .subscribe(next => this.profiles = next );
-      }
-    });
+    this.restService.do<ProfileResponse[]>(REST_PATH.PROFILES.INDEX)
+      .subscribe(next => this.profiles = next);
     this.initializeCalendarSettings();
   }
 
@@ -67,10 +62,10 @@ export class ScheduleComponent implements OnInit {
   private updateSessions() {
     this.sessions = Array.from(Array(7), () => []);
     this.restService.do<SessionResponse[]>(REST_PATH.SESSIONS.GET_SESSIONS, {
-        body: {
-          date_from: this.calendar.from,
-          date_to: this.calendar.to
-        } as SessionIndexRequest
+      body: {
+        date_from: this.calendar.from,
+        date_to: this.calendar.to
+      } as SessionIndexRequest
     }).subscribe(next => {
       this.putSessionsToWeekdays(next);
     });

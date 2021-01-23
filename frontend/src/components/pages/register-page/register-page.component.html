@@ -1,10 +1,6 @@
-<app-middle-column *ngIf="!(isMobile | async); else content">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
-</app-middle-column>
-
-<ng-template #content>
-    <app-registration
+<app-middle-column>
+  <app-registration
     (onSubmit)="redirectToMain()"
     (onCancel)="redirectToMain()">
-    </app-registration>
-</ng-template>
+  </app-registration>
+</app-middle-column>

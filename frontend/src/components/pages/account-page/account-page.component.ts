@@ -12,8 +12,7 @@ import * as PATH from 'assets/config/url.json';
 })
 export class AccountPageComponent implements OnInit, OnDestroy {
   PATH = PATH['default'];
-  isMobile = isMobile();
-  render: boolean = false;
+  render = false;
   s: Subscription;
 
   constructor(private translate: TranslateService) { }

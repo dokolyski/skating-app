@@ -13,6 +13,9 @@ import * as REST_CONFIG from 'assets/config/config.rest.json';
 import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
 import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import {ConfigResponse} from 'api/responses/config.dto';
+import {Observable, of} from 'rxjs';
+import {AuthService} from 'services/auth-service/auth.service';
+import {mergeMap} from 'rxjs/operators';
 
 /**
  * @description Creates next user profile with limit per user, gather informations about
@@ -44,11 +47,13 @@ export class ProfileAddComponent implements OnInit {
     private fb: FormBuilder,
     private rest: RestService,
     private interceptor: ErrorInterceptorService,
-    private errorMessageService: ErrorMessageService) {
+    private errorMessageService: ErrorMessageService,
+    private authService: AuthService) {
     this.onCancel.subscribe(() => this.clearForm());
   }
 
   ngOnInit() {
+
     this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .subscribe({
         next: (v: ConfigResponse[]) => this.skillLevelPossibleValues = [' ', ...v.map(value =>  value.value)],
@@ -57,27 +62,26 @@ export class ProfileAddComponent implements OnInit {
   }
 
   createProfile() {
-    const editBody = this.prepareProfilePayload();
-
-    this.rest.do(REST_PATH.PROFILES.EDIT, { body: editBody })
-      .subscribe({
-        next: () => this.onSubmit.emit(),
-        complete: () => this.onSubmit.emit(),
-        error: (e: RestError) => this.handleErrors(e, true)
-      });
+    this.prepareProfilePayload().subscribe(body => {
+      this.rest.do(REST_PATH.PROFILES.CREATE, { body })
+        .subscribe({
+          next: () => this.onSubmit.emit(),
+          complete: () => this.onSubmit.emit(),
+          error: (e: RestError) => this.handleErrors(e, true)
+        });
+    });
   }
 
-  private prepareProfilePayload(): ProfileRequest {
-    const body: ProfileRequest = new ProfileRequest();
-
+  private prepareProfilePayload(): Observable<ProfileRequest> {
     const skill = this.form.get('skillLevel').value;
-
-    body.firstname = this.form.get('name').value,
-      body.lastname = this.form.get('lastname').value,
-      body.birth_date = this.form.get('dateBirth').value,
-      body.skill_level = skill.length && skill !== ' ' ? skill : null;
-
-    return body;
+    return this.authService.sessionInfo$.pipe(mergeMap( sessionInfo => of({
+      user_id: sessionInfo.uid,
+      firstname: this.form.get('name').value,
+      lastname: this.form.get('lastname').value,
+      birth_date: this.form.get('dateBirth').value,
+      skill_level: skill.length && skill !== ' ' ? skill : null,
+      type: 'PROFILE'
+    })));
   }
 
   private handleErrors(error: RestError, showServerErrors: boolean) {

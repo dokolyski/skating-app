@@ -6,14 +6,14 @@ import {Response} from "express";
 
 @Controller('verification')
 export class VerificationController {
-    constructor(private veryficationService: VerificationService) {
+    constructor(private verificationService: VerificationService) {
 
     }
 
     @Post()
     async login(@Body() loginRequest: LoginRequest, @Res({passthrough: true}) res: Response): Promise<LoginResponse> {
 
-        const response = await this.veryficationService.login(loginRequest);
+        const response = await this.verificationService.login(loginRequest);
 
 
         res.cookie('secure-token', response.token, this.getCookieOptions());
@@ -22,7 +22,7 @@ export class VerificationController {
 
     @Delete()
     async logout(@Res({passthrough: true}) res: Response): Promise<void> {
-        const response = await this.veryficationService.logout();
+        const response = await this.verificationService.logout();
 
         res.clearCookie('secure-token', this.getCookieOptions())
 
