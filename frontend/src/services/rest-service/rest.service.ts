@@ -1,8 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'environments/environment.prod';
-import { mergeMap } from 'rxjs/operators';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {mergeMap} from 'rxjs/operators';
 
 export type RestPath = { URL: string, METHOD: string, PARAMS?: string[] };
 export type RestOptions = { templateParamsValues?: { [key: string]: string }, body?};
@@ -73,10 +72,10 @@ export class RestService {
    * @param body ```JSON``` payload
    */
   private parseQueryParams(body): HttpParams {
-    const params = new HttpParams();
+    let params = new HttpParams();
     if (body != null) {
       for (const [k, v] of Object.entries(body)) {
-        params.set(k, v as string);
+        params = params.set(k, JSON.stringify(v));
       }
     }
     return params;
