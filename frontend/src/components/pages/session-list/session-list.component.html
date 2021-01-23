@@ -5,8 +5,8 @@
     <mat-form-field appearance="fill">
       <mat-label>{{'pages.session-list.date-range' | translate}}</mat-label>
       <mat-date-range-input [rangePicker]="picker">
-        <input [(ngModel)]="date_from" matStartDate placeholder="Start date">
-        <input [(ngModel)]="date_to" matEndDate placeholder="End date">
+        <input (dateChange)="loadSessionsFromDateRange()" [(ngModel)]="date_from" matStartDate placeholder="Start date">
+        <input (dateChange)="loadSessionsFromDateRange()" [(ngModel)]="date_to" matEndDate placeholder="End date">
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker touchUi #picker></mat-date-range-picker>

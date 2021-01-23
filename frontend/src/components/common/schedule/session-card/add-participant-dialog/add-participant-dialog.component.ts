@@ -1,7 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as moment from 'moment';
+import {Component, Inject} from '@angular/core';
+import {MatCheckboxChange} from '@angular/material/checkbox';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {FormatterService} from 'services/formatter-service/formatter.service';
 
 @Component({

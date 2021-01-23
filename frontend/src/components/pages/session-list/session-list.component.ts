@@ -6,11 +6,10 @@ import * as REST_PATH from 'api/rest-url.json';
 import {MatDialog} from '@angular/material/dialog';
 import {ParticipantListComponent} from 'components/pages/participant-list/participant-list.component';
 import {FormatterService} from 'services/formatter-service/formatter.service';
-import * as moment from 'moment';
 import {CancelSessionDialogComponent} from 'components/pages/session-list/cancel-session-dialog/cancel-session-dialog.component';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
 import {EditSessionComponent} from 'components/pages/edit-session/edit-session.component';
-import { isMobile } from 'common/functions/mobile-check';
+import {TimeService} from 'services/time-service/time.service';
 
 @Component({
   selector: 'app-session-list',
@@ -21,28 +20,20 @@ export class SessionListComponent implements OnInit {
   sessions: SessionResponse[] = [];
   date_from: Date;
   date_to: Date;
-  isMobile = isMobile();
   render = false;
 
   constructor(private rest: RestService,
               public dialog: MatDialog,
               public formatterService: FormatterService,
-              private errorInterceptorService: ErrorInterceptorService) {
+              private errorInterceptorService: ErrorInterceptorService,
+              private timeService: TimeService) {
   }
 
   ngOnInit(): void {
-    const weekContainsDate: Date = new Date(Date.now());
-    this.date_from = moment(weekContainsDate).subtract(weekContainsDate.getDay() - 1, 'days').toDate();
-    this.date_to = moment(this.date_from).add(6, 'days').toDate();
-
-    this.rest.do<SessionResponse[]>(REST_PATH.SESSIONS.GET_SESSIONS, {
-      body: {
-        date_from: this.date_from,
-        date_to: this.date_to
-      } as SessionIndexRequest
-    }).subscribe(sessions => {
-      this.sessions = sessions;
-    });
+    const timeRange = this.timeService.initializeDateRangeForCurrentWeek();
+    this.date_from = timeRange.date_from;
+    this.date_to = timeRange.date_to;
+    this.loadSessionsFromDateRange();
   }
 
   showParticipantList(session: SessionResponse) {
@@ -68,8 +59,20 @@ export class SessionListComponent implements OnInit {
     this.dialog.open(EditSessionComponent, { data: {session, mode: 'edit'} })
       .afterClosed().subscribe(next => {
       if (next != null) {
-        this.rest.do(REST_PATH.SESSIONS.EDIT_STATUS, {body: next});
+        this.rest.do(REST_PATH.SESSIONS.EDIT, {templateParamsValues: {id: session.id.toString()}, body: next}).subscribe(next => {});
       }
+    });
+  }
+
+  loadSessionsFromDateRange() {
+    const timeRange = this.timeService.getFullBorderDates(this.date_from, this.date_to);
+    this.rest.do<SessionResponse[]>(REST_PATH.SESSIONS.GET_SESSIONS, {
+      body: {
+        date_from: timeRange.date_from,
+        date_to: timeRange.date_to
+      } as SessionIndexRequest
+    }).subscribe(sessions => {
+      this.sessions = this.timeService.deserializeSessionDates(sessions);
     });
   }
 }
