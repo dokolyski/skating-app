@@ -7,6 +7,7 @@ import {SessionRequest, SessionStatusRequest} from "../api/requests/session.dto"
 import SessionResponse from "../api/responses/session.dto";
 import {Profile} from "../profiles/profile.entity";
 import {User} from "../users/user.entity";
+const { Op } = require("sequelize");
 
 @Injectable()
 export class SessionsService {
@@ -16,6 +17,66 @@ export class SessionsService {
     async index(): Promise<SessionResponse[]> {
         const sessions = await this.sessionsRepository.findAll<Session>({
             include: [User, Profile]
+        });
+
+        return sessions.map(session => ({
+            id: session.id,
+            name: session.name,
+            start_date: session.start_date,
+            end_date: session.end_date,
+            max_participants: session.max_participants,
+            difficulty: session.difficulty,
+            price: session.price,
+            description: session.description,
+            status: session.status,
+            createdAt: session.createdAt,
+            updatedAt: session.updatedAt,
+            owner: {
+                id: session.owner.id,
+                email: session.owner.email,
+                birth_date: session.owner.birth_date,
+                phone_number: session.owner.phone_number,
+                isOrganizer: session.owner.isOrganizer,
+                isAdmin: session.owner.isAdmin,
+                isHAdmin: session.owner.isHAdmin
+            },
+            profiles: session.profiles.map(profile => ({
+                id: profile.id,
+                user_id: profile.user_id,
+                firstname: profile.firstname,
+                lastname: profile.lastname,
+                present: false,
+                birth_date: profile.birth_date
+            }))
+        }));
+    }
+
+    async getAllFromDateRange(date_from: Date | null, date_to: Date | null): Promise<SessionResponse[]> {
+        let whereClause;
+        if (date_to == null && date_from == null) {
+            whereClause = null;
+        } else if (date_from == null) {
+            whereClause = {
+                start_date: {
+                    [Op.lte]: date_to
+                }
+            }
+        } else if(date_to == null) {
+            whereClause = {
+                start_date: {
+                    [Op.gte]: date_from
+                }
+            }
+        } else {
+            whereClause = {
+                start_date: {
+                    [Op.between]: [date_from, date_to]
+                }
+            }
+        }
+
+        const sessions = await this.sessionsRepository.findAll<Session>({
+            include: [User, Profile], where: whereClause
         });
 
         return sessions.map(session => ({

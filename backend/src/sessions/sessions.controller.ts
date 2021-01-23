@@ -1,7 +1,6 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Put, Query} from '@nestjs/common';
 import {SessionsService} from "./sessions.service";
 import {SessionEditRequest, SessionRequest, SessionStatusRequest} from "../api/requests/session.dto";
-import {Session} from "./session.entity";
 import SessionResponse from "../api/responses/session.dto";
 
 @Controller('sessions')
@@ -10,8 +9,8 @@ export class SessionsController {
     }
 
     @Get()
-    async index(): Promise<SessionResponse[]>  {
-        return await this.sessionService.index();
+    async get(@Query('date_from') date_from: string | null, @Query('date_to') date_to: string | null): Promise<SessionResponse[]>  {
+        return await this.sessionService.getAllFromDateRange(JSON.parse(date_from), JSON.parse(date_to));
     }
 
     @Post()
