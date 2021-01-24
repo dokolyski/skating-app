@@ -18,7 +18,7 @@ export class SessionsController {
         return await this.sessionService.create(request);
     }
 
-    @Put()
+    @Put(':id')
     async edit(@Param('id') id: number, @Body() request: SessionEditRequest) {
         return await this.sessionService.edit(id, request);
     }
