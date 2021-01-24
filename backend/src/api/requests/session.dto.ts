@@ -23,7 +23,6 @@ export class SessionRequest {
 
     @ValidateIf(o => o.difficulty != null)
     @IsString({message: "MUST_BE_STRING"})
-    @IsIn(['LOW', 'MEDIUM', 'HIGH'])
     difficulty: string | null;
 
     @IsNotEmpty({message: "REQUIRED"})

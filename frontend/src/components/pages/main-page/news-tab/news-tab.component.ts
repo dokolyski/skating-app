@@ -12,16 +12,13 @@ import * as REST_PATH from 'api/rest-url.json';
 })
 export class NewsTabComponent implements AfterViewInit {
 
-  fbPageAddress: string;
-
   constructor(private news: NewsService,
               private restService: RestService) {
-    this.news.fetchNews();
   }
 
   ngAfterViewInit() {
     this.restService.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.fb_link}}).subscribe(next => {
-      this.fbPageAddress = next.value;
+      document.querySelector('fb-page').attributes['href'].value = next.value;
       this.news.fetchNews();
     });
   }

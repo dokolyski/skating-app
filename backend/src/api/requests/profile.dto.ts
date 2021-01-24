@@ -22,7 +22,6 @@ export class ProfileRequest {
 
     @ValidateIf(o => o.skill_level != null)
     @IsString({message: "MUST_BE_STRING"})
-    @IsIn(['LOW', 'MEDIUM', 'HIGH'])
     skill_level: string | null;
 
     @IsNotEmpty({message: "REQUIRED"})

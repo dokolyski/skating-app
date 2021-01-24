@@ -6,8 +6,10 @@
   <div *ngIf="sessions.length == 0" class="noSessionMessage">
     {{ 'schedule.no-sessions' | translate }}
   </div>
-  <button mat-raised-button color="primary" class="add-new-session-button" (click)="openNewSessionForm()" *appAccessOrganizer>
-    <mat-icon class="mat-icon-add-session" aria-hidden="true">add</mat-icon>
-    <span> {{ 'schedule.create-new-session' | translate }}</span>
-  </button>
+  <ng-container *ngIf="isFuture()">
+    <button mat-raised-button color="primary" class="add-new-session-button" (click)="openNewSessionForm()" *appAccessOrganizer>
+      <mat-icon class="mat-icon-add-session" aria-hidden="true">add</mat-icon>
+      <span> {{ 'schedule.create-new-session' | translate }}</span>
+    </button>
+  </ng-container>
 </div>

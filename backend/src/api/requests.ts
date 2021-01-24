@@ -1,5 +1,5 @@
 import {UserEditRequest, UserRequest} from './requests/user.dto';
-import {SessionEditRequest, SessionIndexRequest, SessionRequest, SessionStatusRequest} from './requests/session.dto';
+import {SessionEditRequest, SessionRequest, SessionStatusRequest} from './requests/session.dto';
 import {ProfileEditRequest, ProfileRequest} from './requests/profile.dto';
 import {ProfileResponse} from './responses/profile.dto';
 import {
@@ -85,7 +85,7 @@ export namespace PROFILES {
 export namespace SESSIONS {
 
     export namespace INDEX {
-        export type REQUEST = SessionIndexRequest;
+        export type REQUEST = void;
         export type RESPONSE = SessionResponse[];
     }
 

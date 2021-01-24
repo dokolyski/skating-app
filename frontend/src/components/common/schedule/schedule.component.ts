@@ -7,6 +7,7 @@ import * as REST_PATH from 'api/rest-url.json';
 import {AuthService} from 'services/auth-service/auth.service';
 import SessionResponse from 'api/responses/session.dto';
 import {FormatterService} from 'services/formatter-service/formatter.service';
+import {TimeService} from 'services/time-service/time.service';
 
 @Component({
   selector: 'app-schedule',
@@ -19,17 +20,12 @@ export class ScheduleComponent implements OnInit {
   calendar: { from: Date, to: Date };
 
   sessions: SessionResponse[][];
-  profiles = [
-    {id: 0, firstname: 'Dominik', lastname: 'Kalinowski'},
-    {id: 1, firstname: 'Anna', lastname: 'Weidemann'},
-    {id: 2, firstname: 'Arek', lastname: 'Nowacki'},
-    {id: 3, firstname: 'Andrzej', lastname: 'Rawecki'},
-    {id: 4, firstname: 'Kasia', lastname: 'Gałęzowska'}
-  ] as ProfileResponse[]; // []; TODO - to replace after profiles loading will be working
+  profiles = [];
 
   constructor(private restService: RestService,
               private authService: AuthService,
-              public formatterService: FormatterService) {
+              public formatterService: FormatterService,
+              private timeService: TimeService) {
   }
 
   ngOnInit() {
@@ -39,19 +35,17 @@ export class ScheduleComponent implements OnInit {
   }
 
   private initializeCalendarSettings() {
-    const weekContainsDate: Date = new Date(Date.now());
-    const weekFrom = moment(weekContainsDate).subtract(weekContainsDate.getDay() - 1, 'days').toDate();
-    const weekTo = moment(weekFrom).add(6, 'days').toDate();
+    const timeRange = this.timeService.initializeDateRangeForCurrentWeek();
     this.calendar = {
-      from: weekFrom,
-      to: weekTo
+      from: timeRange.date_from,
+      to: timeRange.date_to
     };
     this.updateSessions();
   }
 
   changeWeek(change: number) {
     this.calendar.from = moment(this.calendar.from).add(7 * change, 'days').toDate();
-    this.calendar.to = moment(this.calendar.from).add(6, 'days').toDate();
+    this.calendar.to = moment(this.calendar.from).add(7, 'days').toDate();
     this.updateSessions();
   }
 
@@ -72,8 +66,9 @@ export class ScheduleComponent implements OnInit {
   }
 
   private putSessionsToWeekdays(sessions: SessionResponse[]) {
+    sessions = this.timeService.deserializeSessionDates(sessions);
     sessions.forEach(value => {
-      this.sessions[value.start_date.getDay()].push(value);
+      this.sessions[(value.start_date.getDay() + 6) % 7].push(value);
     });
   }
 }
