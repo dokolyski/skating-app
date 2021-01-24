@@ -5,7 +5,6 @@ export class UserResponse {
     public isOrganizer: boolean;
     public isAdmin: boolean;
     public isHAdmin: boolean;
-    public birth_date: Date;
     public phone_number: string;
     public verified: boolean;
     public token: string;
@@ -13,6 +12,11 @@ export class UserResponse {
     public password_reset_token_expiration_date: Date;
     public readonly createdAt: Date;
     public readonly updatedAt: Date;
+}
+
+export class UserResponseWithName extends UserResponse {
+    public firstname: string;
+    public lastname: string;
 }
 
 export class UserSimplifiedResponse {

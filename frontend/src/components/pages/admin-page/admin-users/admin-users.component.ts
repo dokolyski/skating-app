@@ -10,7 +10,7 @@ import {from, Subscription, zip} from 'rxjs';
 import {ArraySubject} from 'common/classes/array-subject';
 import {AdminUsersDialogEditComponent} from './admin-users-dialog-edit/admin-users-dialog-edit.component';
 import {ModalDialog} from 'common/classes/modal-dialog';
-import {UserResponse} from 'api/responses/user.dto';
+import {UserResponseWithName} from 'api/responses/user.dto';
 import {TranslateService} from '@ngx-translate/core';
 import {RestError} from 'api/rest-error';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
@@ -56,14 +56,14 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
     private rest: RestService) { }
 
   ngOnInit() {
-    this.rest.do<UserResponse[]>(REST_PATH.USERS.ALL)
+    this.rest.do<UserResponseWithName[]>(REST_PATH.USERS.ALL)
       .subscribe({
-        next: (data: UserResponse[]) => {
+        next: data => {
           this.originalData = data.map(
             v => ({
               id: v.id.toString(),
-              firstname: 'v.firstname', // TODO - load from main profile
-              lastname: 'v.lastname',
+              firstname: v.firstname,
+              lastname: v.lastname,
               isOrganizer: v.isOrganizer.toString(),
               isAdmin: v.isAdmin.toString(),
               isHAdmin: v.isHAdmin.toString()
@@ -122,7 +122,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
             this.translate.get('errors.messages.ACCESS_FORBIDDEN')
             .pipe(
               first()
-            ).subscribe(e => this.interceptor.error.emit(e))
+            ).subscribe(e => this.interceptor.error.emit(e));
           }
         });
     } else {

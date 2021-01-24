@@ -9,6 +9,11 @@ export class UsersController {
     constructor(private usersService: UsersService) {
     }
 
+    @Get()
+    async index(): Promise<UserResponse[]> {
+        return await this.usersService.index();
+    }
+
     @Get(':id')
     async get(@Param('id') id: number): Promise<UserResponse> {
         return await this.usersService.get(id);

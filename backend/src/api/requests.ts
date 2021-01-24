@@ -13,6 +13,7 @@ import {DisjoinRequest, JoinRequest} from "./requests/session-participant.dto";
 import SessionResponse from "./responses/session.dto";
 import {PaymentResponse} from "./responses/payment.dto";
 import {PaymentVerifyRequest} from "./requests/payment.dto";
+import {UserResponse, UserResponseWithName} from './responses/user.dto';
 
 
 export namespace VERIFICATION {
@@ -23,17 +24,22 @@ export namespace VERIFICATION {
     }
 
     export namespace REGISTER {
-        export type REQUEST = UserRequest;    // TODO - modify (request with personal data to create profile)
-        export type RESPONSE = LoginResponse;   // TODO - modify
+        export type REQUEST = UserRequest;
+        export type RESPONSE = void;
     }
 }
 
 
 export namespace USERS {
 
+    export namespace INDEX {
+        export type REQUEST = void;
+        export type RESPONSE = UserResponseWithName[];
+    }
+
     export namespace GET {
         export type REQUEST = UserRequest;
-        export type RESPONSE = void;
+        export type RESPONSE = UserResponse;
     }
 
     export namespace CREATE {

@@ -130,7 +130,6 @@ export class RestServiceMock {
   static userInfo: UserResponse = {
     isAdmin: false, isHAdmin: false, isOrganizer: false,
     id: 0, password: 'password',
-    birth_date: new Date(),
     email: 'example@mail.com',
     phone_number: '123456789',
     createdAt: new Date(),
@@ -152,7 +151,6 @@ export class RestServiceMock {
   static allUsers: UserResponse[] = [
     {
       id: 0, password: 'password',
-      birth_date: new Date(),
       email: 'example@mail.com',
       phone_number: '123456789',
       isAdmin: false, isHAdmin: false, isOrganizer: false,
@@ -164,7 +162,6 @@ export class RestServiceMock {
     },
     {
       id: 0, password: 'password',
-      birth_date: new Date(),
       email: 'example@mail.com',
       phone_number: '123456789',
       isAdmin: false, isHAdmin: false, isOrganizer: true,
@@ -176,7 +173,6 @@ export class RestServiceMock {
     },
     {
       id: 0, password: 'password',
-      birth_date: new Date(),
       email: 'example@mail.com',
       phone_number: '123456789',
       isAdmin: true, isHAdmin: false, isOrganizer: true,
@@ -188,7 +184,6 @@ export class RestServiceMock {
     },
     {
       id: 0, password: 'password',
-      birth_date: new Date(),
       email: 'example@mail.com',
       phone_number: '123456789',
       isAdmin: false, isHAdmin: true, isOrganizer: false,
