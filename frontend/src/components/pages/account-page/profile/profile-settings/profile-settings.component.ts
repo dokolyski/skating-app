@@ -88,21 +88,18 @@ export class ProfileSettingsComponent implements OnInit {
   ngOnInit() {
     this.editMode = false;
 
-    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
-      .pipe(
-        mergeMap((v: ConfigResponse[]) => {
-          this.skillLevelPossibleValues = [' ', ...v.map(value => value.value)];
-          return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.INDEX);
-        })
-      )
-      .subscribe({
-          next: data => {
-            this.profiles = data;
-            this.selectedProfile = data[0];
-          },
-          error: (e: RestError) => this.handleErrors(e, false)
-        }
-      );
+    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}}).subscribe(next => {
+      this.skillLevelPossibleValues = [' ', ...JSON.parse(next.value)];
+    });
+
+    return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.INDEX).subscribe({
+        next: data => {
+          this.profiles = data;
+          this.selectedProfile = data[0];
+        },
+        error: (e: RestError) => this.handleErrors(e, false)
+      }
+    );
   }
 
   edit() {
