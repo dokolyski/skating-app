@@ -4,7 +4,7 @@ import {Col} from 'components/common/interactive-table/interactive-table.compone
 import {RestService} from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {AuthService} from 'services/auth-service/auth.service';
-import {UserChmod} from 'api/rest-models/user-chmod';
+import {UserChmod} from 'api/requests/user-chmod';
 import {first, map, mergeMap, tap} from 'rxjs/operators';
 import {from, Subscription, zip} from 'rxjs';
 import {ArraySubject} from 'common/classes/array-subject';
