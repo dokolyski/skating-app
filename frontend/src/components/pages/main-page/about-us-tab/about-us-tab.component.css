@@ -3,9 +3,23 @@ section {
     align-items: center;
 }
 
+h1 {
+  font-family: Lobster, cursive;
+  font-style: normal;
+  color: var(--very-dark-blue)
+}
+
+p {
+  text-align: justify;
+}
+
 section > .feature-img {
     box-shadow: 0 3px 30px -5px rgba(0,0,0, 0.75);
     display: flex;
+}
+
+section:hover {
+  cursor: pointer;
 }
 
 section > .feature-img img {

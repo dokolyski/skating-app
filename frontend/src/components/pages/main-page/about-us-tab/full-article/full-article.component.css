@@ -1,0 +1,21 @@
+h1 {
+  font-family: Lobster, cursive;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--very-dark-blue);
+  font-size: xx-large;
+}
+
+p {
+  text-align: justify;
+}
+
+img {
+  box-shadow: 0 0 10px 0 rgba(0,0,0, 0.75);
+  width: 95%;
+}
+
+.text {
+  padding: 2%;
+}
+
