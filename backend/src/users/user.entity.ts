@@ -8,7 +8,7 @@ import server_config from '../config/server.json'
     underscored: true,
     hooks: {
         beforeCreate: async (user: User) => {
-            if (user.password.length < 50) {
+            if (user.password !== null && user.password.length < 50) {
                 user.password = bcrypt.hashSync(user.password, server_config.saltRounds);
             }
         }
@@ -34,10 +34,13 @@ export class User extends Model<User> {
 
     @Column({
         type: DataType.STRING(45),
-        allowNull: false,
+        allowNull: true,
         validate: {
             len: [8, 16],
             passRegularExpressions(password: string) {
+                if( password === null )
+                    return;
+
                 const containsDigits = /\d+/i;
                 const containsUppercase = /[A-Z]+/i;
                 const containsLowercase = /[a-z]+/i;
@@ -48,6 +51,9 @@ export class User extends Model<User> {
                 }
             },
             passEntrophyTest(password: string) {
+                if( password === null )
+                    return
+
                 const entrophy = User.calculateEntrophy(password);
                 const partEntrophy = User.calculatePartMaxEntrophy(0.3, password);
 
@@ -79,7 +85,7 @@ export class User extends Model<User> {
 
     @Column({
         type: DataType.DATEONLY,
-        allowNull: false
+        allowNull: true
     })
     public birth_date: Date;
 

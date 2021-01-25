@@ -1,8 +1,9 @@
-import {Body, Controller, Delete, Post, Res} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Post, Req, Res, UseGuards} from '@nestjs/common';
 import {VerificationService} from "./verification.service";
 import {LoginRequest} from "../api/requests/login.dto";
 import {LoginResponse} from "../api/responses/login.dto";
 import {Response} from "express";
+import {AuthGuard} from "@nestjs/passport";
 
 @Controller('verification')
 export class VerificationController {
@@ -27,6 +28,17 @@ export class VerificationController {
         res.clearCookie('secure-token', this.getCookieOptions())
 
         return response
+    }
+
+    @Get('google')
+    @UseGuards(AuthGuard('google'))
+    async googleAuth(@Req() req) {
+    }
+
+    @Get('google/redirect')
+    @UseGuards(AuthGuard('google'))
+    async googleAuthRedirect(@Req() req) {
+        return this.verificationService.googleLogin(req)
     }
 
     getCookieOptions() {

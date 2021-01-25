@@ -1,6 +1,6 @@
 {
   "ip": "127.0.0.1",
-  "domain": "http://localhost/",
+  "domain": "http://localhost",
   "port": 8080,
   "saltRounds": 3,
   "token": {
@@ -23,6 +23,13 @@
       "testMode": true,
       "sessionId": "72371e0d042a0733a3f6fbd291e35189"
     }
+  },
+  "providers": {
+    "google": {
+      "clientID": "179845899788-igjq1nbfl4vi2hlb7m2i5pm93rbidv3l.apps.googleusercontent.com",
+      "clientSecret": "4c-vlaQtRGV5EMzLpfs2zt32"
+    }
+  },
   "regex":{
     "firstname": "^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+$",
     "lastname": "^[A-ZĄĆĘŁŃÓŚŹŻ][A-ZĄĆĘŁŃÓŚŹŻa-ząćęłńóśźż\\-]+$"

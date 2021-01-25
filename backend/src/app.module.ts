@@ -24,6 +24,7 @@ import {configProviders} from "./config/config.providers";
 import {PaymentsService} from "./payments/payments.service";
 import {PaymentsController} from "./payments/payments.controller";
 import {paymentsProviders} from "./payments/payments.providers";
+import {GoogleStrategy} from "./strategies/google.strategy";
 
 @Module({
     imports: [],
@@ -46,6 +47,7 @@ import {paymentsProviders} from "./payments/payments.providers";
         VerificationService,
         SessionParticipantService,
         PaymentsService,
+        GoogleStrategy,
         ...databaseProviders,
         ...configProviders,
         ...sessionsProviders,
@@ -62,9 +64,11 @@ export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(TokenMiddleware)
-            .exclude({path: 'api/verification', method: RequestMethod.POST}, {
-                path: 'api/users',
-                method: RequestMethod.POST
+            .exclude(
+                {path: 'api/verification', method: RequestMethod.POST},
+                {path: 'api/verification/google', method: RequestMethod.GET},
+                {path: 'api/verification/google/redirect', method: RequestMethod.GET},
+                {path: 'api/users', method: RequestMethod.POST
             })
             .forRoutes('*')
     }
