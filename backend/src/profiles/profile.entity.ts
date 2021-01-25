@@ -11,7 +11,6 @@ import {
 import {User} from "../users/user.entity";
 import {SessionParticipant} from "../session_participants/session-participant.entity";
 import {Session} from "../sessions/session.entity";
-import * as server_config from "../config/server.json"
 
 @Table({underscored: true})
 export class Profile extends Model<Profile> {
@@ -41,19 +40,13 @@ export class Profile extends Model<Profile> {
 
     @Column({
         type: DataType.STRING(45),
-        allowNull: false,
-        validate: {
-            is: server_config.regex.firstname
-        }
+        allowNull: false
     })
     public firstname: string;
 
     @Column({
         type: DataType.STRING(45),
-        allowNull: false,
-        validate: {
-            is: server_config.regex.lastname
-        }
+        allowNull: false
     })
     public lastname: string;
 
