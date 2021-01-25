@@ -70,5 +70,6 @@ export class ScheduleComponent implements OnInit {
     sessions.forEach(value => {
       this.sessions[(value.start_date.getDay() + 6) % 7].push(value);
     });
+    this.sessions = this.sessions.map(value => value.sort((a, b) => a.start_date.valueOf() - b.start_date.valueOf()));
   }
 }
