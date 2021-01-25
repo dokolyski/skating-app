@@ -35,9 +35,8 @@ export class VerificationController {
     async googleAuth(@Req() req) {
     }
 
-    @Get('google/redirect')
-    @UseGuards(AuthGuard('google'))
-    async googleAuthRedirect(@Req() req) {
+    @Post('google/redirect')
+    async googleAuthRedirect(@Body() req) {
         return this.verificationService.googleLogin(req)
     }
 
