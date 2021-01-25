@@ -22,9 +22,11 @@
             "PASSWORD": ""
           },
           "buttons": {
-            "LOGIN_EMAIL": ""
+            "LOGIN_EMAIL": "",
+            "REGISTER_EMAIL": ""
           },
-          "SIGN_IN_SOCIAL_MEDIA": ""
+          "SIGN_IN_SOCIAL_MEDIA": "",
+          "REGISTER_VIA_EMAIL": ""
         }
       }
     }
