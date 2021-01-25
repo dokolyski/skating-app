@@ -41,7 +41,11 @@ export class VerificationController {
     async googleAuthRedirect(@Req() req, @Res({passthrough: true}) res: Response) {
         const response = await this.verificationService.googleLogin(req);
         res.cookie('secure-token', response.token, this.getCookieOptions());
-        res.redirect(client_config.domain + ":" + client_config.port, 301);
+        res.redirect(this.getRedirectUrl(response.token), 301);
+    }
+
+    private getRedirectUrl(token: string) {
+        return client_config.domain + ":" + client_config.port + "/login_callback?token=" + token;
     }
 
     getCookieOptions() {
