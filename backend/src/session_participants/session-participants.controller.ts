@@ -3,7 +3,7 @@ import {SessionParticipantService} from "./session-participants.service";
 import {JoinRequest, DisjoinRequest, EditPresenceRequest} from "../api/requests/session-participant.dto";
 import {JoinResponse} from "../api/responses/session-paricipant.dto";
 
-@Controller('session-participants')
+@Controller('session_participants')
 export class SessionParticipantsController {
     constructor(private service: SessionParticipantService) {
 
