@@ -23,13 +23,12 @@ export class SessionsController {
         return await this.sessionService.edit(id, request);
     }
 
-    @Patch('status')
+    @Patch(':id/status')
     async status(@Param('id') id: number, @Body() request: SessionStatusRequest) {
         return await this.sessionService.status(id, request);
     }
 
-    @Delete
-    ()
+    @Delete()
     async delete(@Param('id') id: number) {
         return await this.sessionService.delete(id);
     }

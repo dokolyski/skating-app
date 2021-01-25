@@ -6,7 +6,7 @@ import {Profile} from "../profiles/profile.entity";
 import {UserEditRequest, UserRequest} from "../api/requests/user.dto";
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user";
-import {UserResponse} from "../api/responses/user.dto";
+import {UserResponse, UserResponseWithName} from "../api/responses/user.dto";
 
 @Injectable()
 export class UsersService {
@@ -15,6 +15,37 @@ export class UsersService {
                 @Inject(SEQUELIZE) private readonly sequelize: Sequelize
     ) {
     }
+
+    async index(): Promise<UserResponseWithName[]> {
+        AuthorizedUser.checkIsAdmin();
+        const users = await User.findAll();
+        return Promise.all(users.map(async value => {
+            const mainProfile = await this.profilesRepository.findOne({
+                where: {
+                    user_id: value.id,
+                    is_owner: true
+                }
+            })
+            return {
+                id: value.id,
+                email: value.email,
+                password: value.password,
+                isOrganizer: value.isOrganizer,
+                isAdmin: value.isAdmin,
+                isHAdmin: value.isHAdmin,
+                phone_number: value.phone_number,
+                verified: value.verified,
+                token: value.token,
+                password_reset_token: value.password_reset_token,
+                password_reset_token_expiration_date: value.password_reset_token_expiration_date,
+                createdAt: value.createdAt,
+                updatedAt: value.updatedAt,
+                firstname: mainProfile.firstname,
+                lastname: mainProfile.lastname
+            }
+        }));
+    }
+
 
     async get(id: number): Promise<UserResponse> {
         const user = await User.findByPk(id);

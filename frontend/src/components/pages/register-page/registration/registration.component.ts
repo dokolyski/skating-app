@@ -91,7 +91,9 @@ export class RegistrationComponent implements OnInit {
       next: () => this.onSubmit.emit(),
       complete: () => this.onSubmit.emit(),
       error: (e: HttpErrorResponse) => {
-        stepper.selectedIndex = this.getContainingStep(Object.keys(e.error.inputsTokens));
+        if (e?.error?.inputsTokens != null) {
+          stepper.selectedIndex = this.getContainingStep(Object.keys(e.error.inputsTokens));
+        }
         this.handleErrors(e.error, true);
       }
     });

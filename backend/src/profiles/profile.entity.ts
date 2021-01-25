@@ -11,6 +11,7 @@ import {
 import {User} from "../users/user.entity";
 import {SessionParticipant} from "../session_participants/session-participant.entity";
 import {Session} from "../sessions/session.entity";
+import * as server_config from "../config/server.json"
 
 @Table({underscored: true})
 export class Profile extends Model<Profile> {
@@ -42,7 +43,7 @@ export class Profile extends Model<Profile> {
         type: DataType.STRING(45),
         allowNull: false,
         validate: {
-            is: /^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i
+            is: server_config.regex.firstname
         }
     })
     public firstname: string;
@@ -51,7 +52,7 @@ export class Profile extends Model<Profile> {
         type: DataType.STRING(45),
         allowNull: false,
         validate: {
-            is: /^([\p{Lu}A-Z][\p{Ll}a-z\-]+)$/i
+            is: server_config.regex.lastname
         }
     })
     public lastname: string;

@@ -145,11 +145,11 @@ export class PaymentsService {
     }
 
     protected prepareReturnUrl(order: string): string {
-        return server_config.domain + "payments/" + order;
+        return server_config.domain + "/payments/" + order;
     }
 
     protected prepareStatusUrl(): string {
-        return server_config.domain + "api/payments/status";
+        return server_config.domain + "/api/payments/status";
     }
 
     protected async checkIfAlreadyJoined(sessionId: number, profileId: number): Promise<void> {

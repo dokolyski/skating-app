@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@nestjs/common';
+import {ForbiddenException, Inject, Injectable} from '@nestjs/common';
 import {PROFILE_REPOSITORY} from "../constants";
 import {Profile} from "./profile.entity";
 import {notfound} from "../helpers/helpers";
@@ -33,6 +33,10 @@ export class ProfilesService {
 
         AuthorizedUser.checkOwnership(request.user_id);
 
+        const profiles = await this.index();
+        if (profiles.length >= 500) {
+             throw new ForbiddenException("PROFILES_LIMIT_EXCEEDED");
+        }
         await this.profilesRepository.create(request);
     }
 
