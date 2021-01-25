@@ -75,9 +75,11 @@
     "login": {
       "form": {
         "buttons": {
-          "LOGIN_EMAIL": "Zaloguj"
+          "LOGIN_EMAIL": "Zaloguj się",
+          "REGISTER_EMAIL": "Zarejestruj się"
         },
-        "SIGN_IN_SOCIAL_MEDIA": "lub zaloguj się przy pomocy"
+        "SIGN_IN_SOCIAL_MEDIA": "lub zaloguj się przy pomocy",
+        "REGISTER_VIA_EMAIL": "lub zarejestruj się poprzez adres email"
       },
       "CARD_TITLE": "Logowanie"
     },

@@ -3,29 +3,13 @@
 }
 
 @media (max-width: 768px) {
-    #loginEmail {
-        width: 60%;
-    }
-
-    #loginGoogle {
-        width: 60%;
-    }
-
-    #loginFacebook {
-        width: 60%;
-    }
+  .loginButton {
+    width: 60%;
+  }
 }
 
 @media (min-width: 769px) {
-    #loginEmail {
-        width: 40%;
-    }
-
-    #loginGoogle {
-        width: 40%;
-    }
-
-    #loginFacebook {
+    .loginButton {
         width: 40%;
     }
 }
@@ -40,9 +24,8 @@
     color: white;
 }
 
-#divText {
+.divText {
     text-align: center;
-    margin-bottom: 5%;
 }
 
 .social-button {

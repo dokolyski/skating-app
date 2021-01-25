@@ -4,6 +4,10 @@
       "URL": "api/verification",
       "METHOD": "POST"
     },
+    "GOOGLE": {
+      "URL": "api/verification/google/redirect",
+      "METHOD": "POST"
+    },
     "LOGOUT": {
       "URL": "api/verification",
       "PARAMS": ["token"],
@@ -91,16 +95,16 @@
   },
   "SESSION_PARTICIPANTS": {
     "JOIN": {
-      "URL": "api/session_paricipant",
+      "URL": "api/session_participants",
       "METHOD": "POST"
     },
     "LEAVE": {
-      "URL": "api/session_paricipant/{id}",
+      "URL": "api/session_participants/{id}",
       "PARAMS": ["id"],
       "METHOD": "DELETE"
     },
     "EDIT_PRESENCE": {
-      "URL": "api/session_paricipant/{id}/present",
+      "URL": "api/session_participants/{id}/present",
       "PARAMS": ["id"],
       "METHOD": "PATCH"
     }

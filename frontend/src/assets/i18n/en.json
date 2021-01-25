@@ -75,9 +75,11 @@
     "login": {
       "form": {
         "buttons": {
-          "LOGIN_EMAIL": "Sign In"
+          "LOGIN_EMAIL": "Sign In",
+          "REGISTER_EMAIL": "Sign Up"
         },
-        "SIGN_IN_SOCIAL_MEDIA": "Or Sign In with"
+        "SIGN_IN_SOCIAL_MEDIA": "or sign in with",
+        "REGISTER_VIA_EMAIL": "or sign up with your email address"
       },
       "CARD_TITLE": "Sign In"
     },

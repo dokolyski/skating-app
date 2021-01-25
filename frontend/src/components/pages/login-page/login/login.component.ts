@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { EmailComponent } from 'components/common/inputs/email/email.component';
 import { PasswordComponent } from 'components/common/inputs/password/password.component';
 import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * @description Allow user to sign in through ```email and password``` or ```social media``` like ```Google``` or ```Facebook```
@@ -55,7 +56,7 @@ export class LoginComponent {
     response.subscribe({
       complete: () => this.onSubmit.emit(),
       next: () => this.onSubmit.emit(),
-      error: (e: RestError) => this.handleErrors(e)
+      error: (e: HttpErrorResponse) => this.handleErrors(e.error)
     });
   }
 
