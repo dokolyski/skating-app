@@ -84,7 +84,7 @@ export class UsersService {
 
     async edit(id: number, request: UserEditRequest) {
 
-        const user = await User.findByPk(id);
+        const user = await User.findByPk(AuthorizedUser.getId());
         notfound(user);
         AuthorizedUser.checkOwnership(user.id);
 

@@ -5,8 +5,8 @@
       "METHOD": "POST"
     },
     "GOOGLE": {
-      "URL": "api/verification/google/redirect",
-      "METHOD": "POST"
+      "URL": "api/verification/google",
+      "METHOD": "GET"
     },
     "LOGOUT": {
       "URL": "api/verification",

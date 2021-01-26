@@ -1,13 +1,13 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {RestService} from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
-import { RestError } from 'api/rest-error';
-import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
-import { PaymentTable } from 'api/rest-models/config-models';
-import { PaymentsPoints } from 'api/rest-models/payments-points';
+import {ErrorMessageService} from 'services/error-message-service/error.message.service';
+import {PaymentTable} from 'api/rest-models/config-models';
+import {PaymentsPoints} from 'api/rest-models/payments-points';
 import * as REST_CONFIG from 'assets/config/config.rest.json';
 import {ConfigResponse} from 'api/responses/config.dto';
-import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
+import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-points-shop',
@@ -33,7 +33,7 @@ export class PointsShopComponent implements OnInit {
           required_money: parseInt(value.key, 0),
           points: parseInt(value.value, 0)
         })),
-        error: (error: RestError) => this.handleErrors(error)
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
   }
 
@@ -43,16 +43,7 @@ export class PointsShopComponent implements OnInit {
     this.rest.do(REST_PATH.PAYMENTS.CREATE, {body})
       .subscribe({
         next: () => this.onSubmit.emit(),
-        error: (error: RestError) => this.handleErrors(error)
-      });
-  }
-
-  private handleErrors(errors: RestError) {
-    this.errorMessageService.getErrorsStrings(errors)
-      .subscribe((translation: TranslatedErrors) => {
-        if (translation.message) {
-          this.interceptor.error.emit(translation.message);
-        }
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
   }
 

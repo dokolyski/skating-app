@@ -1,6 +1,7 @@
 {
   "errors": {
     "unknownError": "An unknown error occured.",
+    "unknownError": "An unknown error occured.",
     "messages": {
       "UNAUTHORIZED": "Login required to execute operation.",
       "SERVER_ERROR": "Internal server error.",
@@ -292,6 +293,11 @@
     "footer": {
       "totalPrice": "Total cost:"
     },
+    "payment": {
+      "payment-method": "Payment method",
+      "cash": "Online transfer",
+      "points": "Pass points"
+    },
     "reserve": "Reserve"
   },
   "add-participant": {
@@ -309,7 +315,8 @@
     "go-back": "Go back",
     "create-session": "Create session",
     "edit-session": "Update session data",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "confirmAndPay": "Confirm and go to the payment"
   },
   "session-details": {
     "number-of-reserved-places": "Reserved places: {{reserved}} / {{max}}",

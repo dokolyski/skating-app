@@ -87,8 +87,8 @@ export class VerificationService {
         return {
             email: user.email,
             password: null,
-            firstname: user.firstName,
-            lastname: user.lastName,
+            firstname: user.firstname,
+            lastname: user.lastname,
             birth_date: null,
             phone_number: null,
             provider: "GOOGLE"

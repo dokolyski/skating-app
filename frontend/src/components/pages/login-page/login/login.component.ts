@@ -1,13 +1,16 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
-import { RestError } from 'api/rest-error';
-import { AuthService } from 'services/auth-service/auth.service';
-import { Observable } from 'rxjs';
-import { EmailComponent } from 'components/common/inputs/email/email.component';
-import { PasswordComponent } from 'components/common/inputs/password/password.component';
-import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {ErrorMessageService} from 'services/error-message-service/error.message.service';
+import {RestError} from 'api/rest-error';
+import {AuthService} from 'services/auth-service/auth.service';
+import {Observable, of} from 'rxjs';
+import {EmailComponent} from 'components/common/inputs/email/email.component';
+import {PasswordComponent} from 'components/common/inputs/password/password.component';
+import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {RestService} from 'services/rest-service/rest.service';
+import * as REST_PATH from 'api/rest-url.json';
+import {mergeMap} from 'rxjs/operators';
 
 /**
  * @description Allow user to sign in through ```email and password``` or ```social media``` like ```Google``` or ```Facebook```
@@ -34,7 +37,9 @@ export class LoginComponent {
     private fb: FormBuilder,
     private auth: AuthService,
     private interceptor: ErrorInterceptorService,
-    private errorMessageService: ErrorMessageService) {}
+    private errorMessageService: ErrorMessageService,
+    private rest: RestService) {
+  }
 
   loginViaEmail() {
     if (this.form.valid) {
@@ -45,26 +50,25 @@ export class LoginComponent {
   }
 
   loginViaGoogle() {
-    this.handleResponse(this.auth.loginViaGoogle());
+    window.open('http://localhost:8080/api/verification/google', '_self');
   }
 
   loginViaFacebook() {
-    this.handleResponse(this.auth.loginViaFacebook());
   }
 
   private handleResponse(response: Observable<void>) {
     response.subscribe({
       complete: () => this.onSubmit.emit(),
       next: () => this.onSubmit.emit(),
-      error: (e: HttpErrorResponse) => this.handleErrors(e.error)
+      error: (e: HttpErrorResponse) => this.handleErrors(e)
     });
   }
 
-  private handleErrors(errors: RestError) {
-    this.errorMessageService.getErrorsStrings(errors)
-      .subscribe((translation: TranslatedErrors) => {
+  private handleErrors(errors: HttpErrorResponse) {
+    this.errorMessageService.getErrorsStrings(errors.error).pipe()
+      .subscribe(translation => {
         if (translation.message) {
-          this.interceptor.error.emit(translation.message);
+          this.interceptor.error.emit({message: translation.message, status: errors.status});
         }
 
         if (translation.inputs) {

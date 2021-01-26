@@ -27,7 +27,7 @@ export class ProfileRequest {
     @IsNotEmpty({message: "REQUIRED"})
     @IsString({message: "MUST_BE_STRING"})
     @IsIn(['OWNER', 'PROFILE'])
-    type: string;
+    type: string = 'PROFILE';
 }
 
 export class ProfileEditRequest extends ProfileRequest {

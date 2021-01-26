@@ -292,6 +292,11 @@
     "footer": {
       "totalPrice": "Całkowity koszt:"
     },
+    "payment": {
+      "payment-method": "Metoda płatności",
+      "cash": "Przelew online",
+      "points": "Punkty karnetowe"
+    },
     "reserve": "Zarezerwuj"
   },
   "add-participant": {
@@ -309,7 +314,8 @@
     "go-back": "Powrót",
     "create-session": "Utwórz zajęcia",
     "edit-session": "Zmień dane zajęć",
-    "confirm": "Potwierdź"
+    "confirm": "Potwierdź",
+    "confirmAndPay": "Potwierdź i przejdź do płatności"
   },
   "session-details": {
     "number-of-reserved-places": "Zarezerwowane miejsca: {{reserved}} / {{max}}",

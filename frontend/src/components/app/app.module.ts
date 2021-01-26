@@ -36,12 +36,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {ErrorMessageService} from 'services/error-message-service/error.message.service';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
-import {
-  FacebookLoginProvider,
-  GoogleLoginProvider,
-  SocialAuthServiceConfig,
-  SocialLoginModule
-} from 'angularx-social-login';
+import {TokenReaderComponent} from './token-reader/token-reader.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -78,13 +73,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       },
       defaultLanguage: 'pl'
-    }),
-    SocialLoginModule
+    })
   ],
   declarations: [
     AppComponent,
     AdminConfigDialogEditComponent,
-    AdminUsersDialogEditComponent
+    AdminUsersDialogEditComponent,
+    TokenReaderComponent
   ],
   providers: [
     RestService,
@@ -101,25 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     /* INJECTED CONSTANTS */
     { provide: 'language', useValue: environment.language },
     { provide: 'path-languages', useValue: 'languages' },
-    { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } },
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '179845899788-igjq1nbfl4vi2hlb7m2i5pm93rbidv3l.apps.googleusercontent.com'
-            )
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('846511686203640')
-          }
-        ]
-      } as SocialAuthServiceConfig,
-    }
+    { provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true } }
   ],
   entryComponents: [
     AdminConfigDialogEditComponent,

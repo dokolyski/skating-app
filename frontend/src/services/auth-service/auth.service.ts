@@ -1,24 +1,24 @@
-import {map, mergeMap} from 'rxjs/operators';
-import {BehaviorSubject, from, Observable, of} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {RestService} from 'services/rest-service/rest.service';
-import {Token} from 'api/rest-models/token';
 import * as REST_PATH from 'api/rest-url.json';
 import {LoginRequest} from 'api/requests/login.dto';
-import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser} from 'angularx-social-login';
+import {LoginResponse} from 'api/responses/login.dto';
+import {ErrorMessageService} from 'services/error-message-service/error.message.service';
 
 /**
  * @description Authorisation purpose proxy to the ```REST``` server
  */
 @Injectable()
 export class AuthService {
-  private sessionInfo: Token = null;
-  private sessionInfoSubject: BehaviorSubject<Token> = new BehaviorSubject<Token>(null);
-  readonly sessionInfo$: Observable<Token> = this.sessionInfoSubject.asObservable();
+  private sessionInfo: LoginResponse = null;
+  private sessionInfoSubject: BehaviorSubject<LoginResponse> = new BehaviorSubject<LoginResponse>(null);
+  readonly sessionInfo$: Observable<LoginResponse> = this.sessionInfoSubject.asObservable();
 
   constructor(
     private rest: RestService,
-    private socialAuthService: SocialAuthService) {
+    private errorMessageService: ErrorMessageService) {
     this.restoreSessionInfo();
   }
 
@@ -30,30 +30,7 @@ export class AuthService {
     body.email = email;
     body.password = password;
     body.provider = 'EMAIL';
-    return this.login(this.rest.do<Token>(REST_PATH.VERIFICATION.LOGIN, {body}));
-  }
-
-  loginViaGoogle(): Observable<any> {
-    return this.loginViaSocialMedia(GoogleLoginProvider.PROVIDER_ID, REST_PATH.VERIFICATION.GOOGLE);
-    // TODO - unify google and fb
-  }
-
-  /**
-   * @returns ```Observable```, emits ```next``` on fullfillment
-   */
-  loginViaFacebook(): Observable<void> {
-    return this.loginViaSocialMedia(FacebookLoginProvider.PROVIDER_ID, REST_PATH.VERIFICATION.GOOGLE);
-    // TODO - unify google and fb or change to facebook
-  }
-
-  private loginViaSocialMedia(providerID: string, verificationPath: any): Observable<void> {
-    this.socialAuthService.signIn(providerID).then();
-    return this.login(this.socialAuthService.authState
-      .pipe(mergeMap((socialUser) => {
-        if (socialUser != null) {
-          return this.rest.do<Token>(verificationPath, {body: {user: socialUser}});
-        }
-      })));
+    return this.login(this.rest.do<LoginResponse>(REST_PATH.VERIFICATION.LOGIN, {body}));
   }
 
   /**
@@ -61,9 +38,8 @@ export class AuthService {
    * @returns ```Observable```, emits ```next``` on fullfillment
    */
   logout(): Observable<void> {
-    this.socialAuthService.signOut().then();
     return this.rest.do(REST_PATH.VERIFICATION.LOGOUT, {templateParamsValues: {token: this.sessionInfo.token}})
-      .pipe(
+      .pipe(catchError(error => of(this.errorMessageService.handleMessageError(error))),
         map(() => {
           this.sessionInfo = null;
           this.sessionInfoSubject.next(null);
@@ -77,7 +53,7 @@ export class AuthService {
    * then assign client session information received from server
    * @returns ```Observable```, emits ```next``` on fullfillment
    */
-  private login(req: Observable<Token>): Observable<void> {
+  login(req: Observable<LoginResponse>): Observable<void> {
     return req.pipe(
       map(session => {
         this.sessionInfo = session;

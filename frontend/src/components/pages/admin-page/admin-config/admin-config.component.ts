@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PaymentTable} from 'api/rest-models/config-models';
 import {RestService} from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
@@ -11,9 +11,8 @@ import {ModalDialog} from 'common/classes/modal-dialog';
 import {ConfigResponse} from 'api/responses/config.dto';
 import {TranslateService} from '@ngx-translate/core';
 import {Subscription, zip} from 'rxjs';
-import {RestError} from 'api/rest-error';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
-import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
+import {ErrorMessageService} from 'services/error-message-service/error.message.service';
 import {first} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 
@@ -30,7 +29,7 @@ type DialogDataType = {
   templateUrl: './admin-config.component.html',
   styleUrls: ['./admin-config.component.css']
 })
-export class AdminConfigComponent implements OnInit, OnDestroy {
+export class AdminConfigComponent implements OnInit {
   private s: Subscription;
   private dialog = new ModalDialog(AdminConfigDialogEditComponent, this.matDialog);
   private originalFbLink: string;
@@ -58,13 +57,13 @@ export class AdminConfigComponent implements OnInit, OnDestroy {
             points: parseInt(value.points, 0)
           })));
         },
-        error: (error: HttpErrorResponse) => this.handleErrors(error.error)
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
 
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.fb_link}})
       .subscribe({
         next: (data: ConfigResponse) => this.fbLink = this.originalFbLink = data.value,
-        error: (error: RestError) => this.handleErrors(error)
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
   }
 
@@ -104,7 +103,7 @@ export class AdminConfigComponent implements OnInit, OnDestroy {
     })
       .subscribe({
         next: () => this.originalData = this.rows.getDataCopy(),
-        error: (error: RestError) => this.handleErrors(error)
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
 
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.CREATE, {
@@ -112,7 +111,7 @@ export class AdminConfigComponent implements OnInit, OnDestroy {
     })
       .subscribe({
         next: () => this.originalFbLink = this.fbLink,
-        error: (error: RestError) => this.handleErrors(error)
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
   }
 
@@ -141,21 +140,5 @@ export class AdminConfigComponent implements OnInit, OnDestroy {
         }
       ];
     });
-  }
-
-  private handleErrors(error: RestError) {
-    this.errorMessageService.getErrorsStrings(error)
-      .subscribe((translation: TranslatedErrors) => {
-        if (translation.message) {
-          this.interceptor.error.emit(translation.message);
-        } else {
-          this.translate.get('errors.unknownError').subscribe(value => {
-            this.interceptor.error.emit(`${value}`);
-          });
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
   }
 }

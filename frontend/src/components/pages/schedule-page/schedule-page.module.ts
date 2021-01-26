@@ -9,6 +9,10 @@ import { CommonModule } from '@angular/common';
 import { FullSecondaryBackgroundModule } from 'components/common/full-secondary-background/full-secondary-background.module';
 import { TranslateModule } from '@ngx-translate/core';
 import {AccessControlModule} from 'directives/access-control/access-control.module';
+import { ReservationConfirmComponent } from './waiting-reservations/reservation-confirm/reservation-confirm.component';
+import {MatRadioModule} from '@angular/material/radio';
+import {FormsModule} from '@angular/forms';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -19,14 +23,18 @@ import {AccessControlModule} from 'directives/access-control/access-control.modu
     MatButtonModule,
     FullSecondaryBackgroundModule,
     TranslateModule,
-    AccessControlModule
+    AccessControlModule,
+    MatRadioModule,
+    FormsModule,
+    MatDialogModule
   ],
   exports: [
     SchedulePageComponent
   ],
   declarations: [
     SchedulePageComponent,
-    WaitingReservationsComponent
+    WaitingReservationsComponent,
+    ReservationConfirmComponent
   ],
   providers: []
 })

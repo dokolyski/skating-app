@@ -33,6 +33,11 @@ export class ReservationsService {
     }
   }
 
+  clearParticipants() {
+    window.localStorage.removeItem('sessionParticipants');
+    this.reservationsChange.emit([]);
+  }
+
   isAlreadyReserved(sessionParticipant: SessionParticipant): boolean {
     return this.data.some(value =>
       value.session.id === sessionParticipant.session.id && value.participant.id === sessionParticipant.participant.id)

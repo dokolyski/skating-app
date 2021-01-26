@@ -15,6 +15,7 @@ import {ProfileResponse} from 'api/responses/profile.dto';
 import {ConfigResponse} from 'api/responses/config.dto';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
 import {AuthService} from 'services/auth-service/auth.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * @description Show profiles account settings and allow to change them, , gather informations about
@@ -97,7 +98,7 @@ export class ProfileSettingsComponent implements OnInit {
           this.profiles = data;
           this.selectedProfile = data[0];
         },
-        error: (e: RestError) => this.handleErrors(e, false)
+        error: (e: HttpErrorResponse) => this.handleErrors(e, false)
       }
     );
   }
@@ -112,7 +113,7 @@ export class ProfileSettingsComponent implements OnInit {
       .subscribe({
         next: () => this.onSubmit.emit(),
         complete: () => this.onSubmit.emit(),
-        error: (e: RestError) => this.handleErrors(e, true)
+        error: (e: HttpErrorResponse) => this.handleErrors(e, true)
       });
   }
 
@@ -127,11 +128,11 @@ export class ProfileSettingsComponent implements OnInit {
     };
   }
 
-  private handleErrors(error: RestError, showServerErrors: boolean) {
-    this.errorMessageService.getErrorsStrings(error)
+  private handleErrors(error: HttpErrorResponse, showServerErrors: boolean) {
+    this.errorMessageService.getErrorsStrings(error.error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.interceptor.error.emit(translation.message);
+          this.interceptor.error.emit({message: translation.message, status: error.status});
         }
 
         if (showServerErrors && translation.inputs) {

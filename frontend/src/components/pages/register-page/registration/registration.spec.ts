@@ -108,11 +108,6 @@ describe('registration.component', () => {
     restMock.do.and.returnValue(new Observable<any>(s => s.error({ messageToken })));
     errorMessageServiceMock.getErrorsStrings.withArgs({ messageToken }).and.returnValue(of({ message }));
 
-    component.onError.subscribe(msg => {
-      expect(msg).toEqual(message);
-      done();
-    });
-
     component.ngOnInit();
   });
 
