@@ -42,6 +42,15 @@
       }
     }
   },
+  "success": {
+    "session-added": "Zajęcia zostały pomyślnie utworzone",
+    "session-edit": "Zajęcia zostały pomyślnie edytowane",
+    "user-settings-change": "Dane konta użytkownika zostały pomyślnie zmienione",
+    "profile-change": "Dane uczestnika zostały pomyślnie zmienione",
+    "profile-added": "Pomyślnie stworzono nowy profil uczestnika",
+    "reservation-canceled": "Rezerwacja sesji została pomyślnie odwołana",
+    "session-canceled": "Zajęcia zostały pomyślnie odwołane, zapisani użytkownicy otrzymają stosowne powiadomienia"
+  },
   "inputs": {
     "EMAIL": "Email",
     "PASSWORD": "Hasło",

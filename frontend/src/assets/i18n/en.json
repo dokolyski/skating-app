@@ -1,7 +1,6 @@
 {
   "errors": {
     "unknownError": "An unknown error occured.",
-    "unknownError": "An unknown error occured.",
     "messages": {
       "UNAUTHORIZED": "Login required to execute operation.",
       "SERVER_ERROR": "Internal server error.",
@@ -42,6 +41,15 @@
         "MUST_BE_NUMBER": "Input value must be number."
       }
     }
+  },
+  "success": {
+    "session-added": "Session has been successfully added",
+    "session-edit": "Session has been successfully edited",
+    "user-settings-change": "Account information have been successfully changed",
+    "profile-change": "Participant information has been successfully changed",
+    "profile-added": "Participant has been successfully added",
+    "reservation-canceled": "Reservation has been successfully canceled",
+    "session-canceled": "Session has been successfully canceled, enrolled users will receive an adequate notice"
   },
   "inputs": {
     "EMAIL": "Email",
