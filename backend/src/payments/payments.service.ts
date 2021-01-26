@@ -64,6 +64,7 @@ export class PaymentsService {
             await t.commit();
 
             const response = new PaymentResponse()
+            response.orderId = payment.order_id;
             response.paymentLink = payment.link;
             return response;
         } catch (err) {

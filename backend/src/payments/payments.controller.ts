@@ -1,8 +1,9 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Post, Res} from '@nestjs/common';
 import {PaymentsService} from "./payments.service";
 import {JoinRequest} from "../api/requests/session-participant.dto";
-import {PaymentResponse} from "../api/responses/payment.dto";
 import {PaymentVerifyRequest} from "../api/requests/payment.dto";
+import {Response} from 'express'
+import * as client_config from '../config/client.json'
 
 @Controller('payments')
 export class PaymentsController {
@@ -10,8 +11,15 @@ export class PaymentsController {
     }
 
     @Post()
-    async create(@Body() request: JoinRequest): Promise<PaymentResponse> {
-        return await this.paymentsService.create(request);
+    async create(@Body() request: JoinRequest, @Res({passthrough: true}) res: Response) {
+
+        try {
+            const response = await this.paymentsService.create(request);
+
+            res.redirect(client_config.domain + ":" + client_config.port + "/order_complete?order=" + response.orderId);
+        } catch (e) {
+            res.redirect(client_config.domain + ":" + client_config.port + "/error?error=payment");
+        }
     }
 
     @Post('/verify')
