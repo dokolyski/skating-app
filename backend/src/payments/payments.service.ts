@@ -73,6 +73,27 @@ export class PaymentsService {
         }
     }
 
+    async get(id: number): Promise<PaymentResponse> {
+
+        const payment: Payment = await this.paymentsRepository.findOne({
+            where: {
+                order_id: id
+            }
+        });
+
+        notfound(payment);
+
+        return {
+            paymentLink: payment.link,
+            session_id: payment.session_id,
+            currency: payment.currency,
+            sign: payment.sign,
+            orderId: payment.order_id,
+            amount: payment.amount,
+            status: payment.status
+        };
+    }
+
     async verify(request: PaymentVerifyRequest): Promise<void> {
 
         const payment: Payment = await this.paymentsRepository.findOne({
@@ -83,11 +104,12 @@ export class PaymentsService {
 
         notfound(payment);
 
-        payment.session_id = request.p24_session_id
-        payment.currency = request.p24_currency
-        payment.sign = request.p24_sign
-        payment.order_id = request.p24_order_id
-        payment.amount = request.p24_amount
+        payment.session_id = request.p24_session_id;
+        payment.currency = request.p24_currency;
+        payment.sign = request.p24_sign;
+        payment.order_id = request.p24_order_id;
+        payment.amount = request.p24_amount;
+        payment.status = "PAID";
     }
 
     protected async validatePositions(positions: JoinRequestPosition[]) {
@@ -135,7 +157,7 @@ export class PaymentsService {
 
     protected preparePaymentParams(user: User, payment: Payment): P24Payment {
         return new P24Payment({
-            p24_amount: payment.amount, // TODO * 100 (zł)
+            p24_amount: payment.amount,
             p24_country: Country.Poland,
             p24_currency: Currency.PLN,
             p24_description: server_config.payments.description, // set description
@@ -147,11 +169,11 @@ export class PaymentsService {
     }
 
     protected prepareReturnUrl(order: string): string {
-        return server_config.domain + "/payments/" + order;
+        return server_config.domain + ":" + server_config.port + "/payments/" + order;
     }
 
     protected prepareStatusUrl(): string {
-        return server_config.domain + "/api/payments/status";
+        return server_config.domain + ":" + server_config.port + "/api/payments/status";
     }
 
     protected async checkIfAlreadyJoined(sessionId: number, profileId: number): Promise<void> {

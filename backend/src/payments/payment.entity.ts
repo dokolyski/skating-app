@@ -73,6 +73,13 @@ export class Payment extends Model<Payment> {
     })
     public currency;
 
+    @Column({
+        type: DataType.STRING(10),
+        allowNull: true
+    })
+    @IsIn(["NOTPAID", "PAID"])
+    status: string = "NOTPAID";
+
     @Column
     @ForeignKey(() => SessionParticipant)
     public session_participant_id: number;
