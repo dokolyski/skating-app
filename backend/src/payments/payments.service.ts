@@ -36,7 +36,7 @@ export class PaymentsService {
 
     async create(request: JoinRequest): Promise<PaymentResponse> {
 
-        this.validatePositions(request.positions);
+        await this.validatePositions(request.positions);
 
         let t = await this.sequelize.transaction();
 

@@ -1,17 +1,22 @@
 import {Injectable, Inject} from '@nestjs/common';
 import {Session} from './session.entity';
-import {SESSION_REPOSITORY} from '../constants'
+import {SEQUELIZE, SESSION_REPOSITORY} from '../constants'
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user";
 import {SessionRequest, SessionStatusRequest} from "../api/requests/session.dto";
 import SessionResponse from "../api/responses/session.dto";
 import {Profile} from "../profiles/profile.entity";
 import {User} from "../users/user.entity";
-const { Op } = require("sequelize");
+import {NotificationsService} from "../notifications/notifications.service";
+import {Sequelize} from "sequelize-typescript";
+
+const {Op} = require("sequelize");
 
 @Injectable()
 export class SessionsService {
-    constructor(@Inject(SESSION_REPOSITORY) private sessionsRepository: typeof Session) {
+    constructor(private notificationService: NotificationsService,
+                @Inject(SESSION_REPOSITORY) private sessionsRepository: typeof Session,
+                @Inject(SEQUELIZE) private readonly sequelize: Sequelize) {
     }
 
     async index(): Promise<SessionResponse[]> {
@@ -61,7 +66,7 @@ export class SessionsService {
                     [Op.lte]: date_to
                 }
             }
-        } else if(date_to == null) {
+        } else if (date_to == null) {
             whereClause = {
                 start_date: {
                     [Op.gte]: date_from
@@ -134,7 +139,27 @@ export class SessionsService {
         notfound(session);
         AuthorizedUser.checkIsOrganizer();
 
+        const t = await this.sequelize.transaction()
+
         session.update(request);
+
+        try {
+            await this.notificationService.createNotificationForSession({
+                session_id: session.id,
+                title: "Zmieniono status sesji",
+                description: "Zmieniono status sesji",
+                owner_id: AuthorizedUser.getId(),
+                show_date: new Date(Date.now()),
+                expiration_date: new Date(Date.now() + 60 * 60 * 24 * 2),
+                status: "ENABLED"
+            }, t);
+
+            t.commit();
+        } catch (err) {
+            await t.rollback();
+            throw err;
+        }
+
         await session.save();
     }
 
