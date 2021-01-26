@@ -12,6 +12,7 @@ import {notfound, serverError} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user"
 import {Profile} from "../profiles/profile.entity";
 import {User} from "../users/user.entity";
+import {Transaction} from "sequelize";
 
 @Injectable()
 export class NotificationsService {
@@ -23,12 +24,16 @@ export class NotificationsService {
 
     async index(): Promise<NotificationResponse[]> {
         const notifications = await this.notificationsRepository.findAll({
+            include: [{
+                as: 'owner',
+                model: User,
+                include: [Profile]
+            }],
             where: {
                 user_id: AuthorizedUser.getId()
             }
         });
         notfound(notifications);
-
 
         return notifications.map(notification => {
                 const owner = notification.owner.profiles.find(profile => profile.is_owner);
@@ -36,7 +41,14 @@ export class NotificationsService {
                 serverError(owner);
 
                 return {
-                    ...notification,
+                    id: notification.id,
+                    user_id: notification.user_id,
+                    session_id: notification.session_id,
+                    show_date: notification.show_date,
+                    expiration_date: notification.expiration_date,
+                    status: notification.status,
+                    title: notification.title,
+                    description: notification.description,
                     owner: {
                         firstname: owner.firstname,
                         lastname: owner.lastname,
@@ -48,21 +60,11 @@ export class NotificationsService {
     };
 
     async create(request: NotificationRequest) {
-        const session = await this.sessionsRepository.findByPk(request.session_id, {
-            include: [{
-                model: Profile,
-                include: [User]
-            }]
-        });
-        notfound(session);
-        AuthorizedUser.checkOwnership(session.owner_id);
 
         const t = await this.sequelize.transaction();
 
         try {
-            for (let profile of session.profiles) {
-                await profile.user.$create('Notification', request, {transaction: t});
-            }
+            await this.createNotificationForSession(request, t);
 
             t.commit();
         } catch (err) {
@@ -88,5 +90,20 @@ export class NotificationsService {
         AuthorizedUser.checkOwnership(notification.session.owner_id);
 
         await notification.destroy();
+    }
+
+    async createNotificationForSession(request: NotificationRequest, t: Transaction) {
+        const session = await this.sessionsRepository.findByPk(request.session_id, {
+            include: [{
+                model: Profile,
+                include: [User]
+            }]
+        });
+        notfound(session);
+        AuthorizedUser.checkOwnership(session.owner_id);
+
+        for (let profile of session.profiles) {
+            await profile.user.$create('Notification', request, {transaction: t});
+        }
     }
 }
