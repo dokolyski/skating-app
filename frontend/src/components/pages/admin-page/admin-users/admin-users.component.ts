@@ -4,7 +4,7 @@ import {Col} from 'components/common/interactive-table/interactive-table.compone
 import {RestService} from 'services/rest-service/rest.service';
 import * as REST_PATH from 'api/rest-url.json';
 import {AuthService} from 'services/auth-service/auth.service';
-import {UserChmod} from 'api/rest-models/user-chmod';
+import {UserChmod} from 'api/requests/user-chmod';
 import {first, map, mergeMap, tap} from 'rxjs/operators';
 import {from, Subscription, zip} from 'rxjs';
 import {ArraySubject} from 'common/classes/array-subject';
@@ -12,9 +12,9 @@ import {AdminUsersDialogEditComponent} from './admin-users-dialog-edit/admin-use
 import {ModalDialog} from 'common/classes/modal-dialog';
 import {UserResponseWithName} from 'api/responses/user.dto';
 import {TranslateService} from '@ngx-translate/core';
-import {RestError} from 'api/rest-error';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
-import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
+import {ErrorMessageService} from 'services/error-message-service/error.message.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 type DataType = {
   id: string,
@@ -53,7 +53,8 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private interceptor: ErrorInterceptorService,
     private errorMessageService: ErrorMessageService,
-    private rest: RestService) { }
+    private rest: RestService) {
+  }
 
   ngOnInit() {
     this.rest.do<UserResponseWithName[]>(REST_PATH.USERS.ALL)
@@ -73,7 +74,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
           this.rows.setDataCopy(this.originalData);
           this.initCols();
         },
-        error: (error: RestError) => this.handleErrors(error)
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
   }
 
@@ -85,46 +86,46 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
     this.auth.sessionInfo$
       .pipe(
         first(),
-        map(({ isHAdmin: selfIsHAdmin }) => {
+        map(({isHAdmin: selfIsHAdmin}) => {
           const row = this.rows.getIndexCopy(rownum);
           const [isOrganizer, isAdmin, isHAdmin] = [
             this.castBoolean(row.isOrganizer),
             this.castBoolean(row.isAdmin),
             this.castBoolean(row.isHAdmin)
           ];
-          return selfIsHAdmin && !isHAdmin ? { isOrganizer, isAdmin } : { isOrganizer };
+          return selfIsHAdmin && !isHAdmin ? {isOrganizer, isAdmin} : {isOrganizer};
         }),
         mergeMap(data => this.dialog.open(data))
       ).subscribe(dialData => {
-        if (dialData) {
-          const changeRow = this.rows.getIndexCopy(rownum);
-          changeRow.isOrganizer = this.castString(dialData.isOrganizer);
-          if (dialData.isAdmin) {
-            changeRow.isAdmin = this.castString(dialData.isAdmin);
-          }
-          this.rows.setIndex(changeRow, rownum);
-          this.editedUserId.add(rownum);
+      if (dialData) {
+        const changeRow = this.rows.getIndexCopy(rownum);
+        changeRow.isOrganizer = this.castString(dialData.isOrganizer);
+        if (dialData.isAdmin) {
+          changeRow.isAdmin = this.castString(dialData.isAdmin);
         }
-      });
+        this.rows.setIndex(changeRow, rownum);
+        this.editedUserId.add(rownum);
+      }
+    });
   }
 
   onDelete(rownum: number) {
-    const { isAdmin: rA, isHAdmin: rHA } = this.rows.getIndexCopy(rownum);
+    const {isAdmin: rA, isHAdmin: rHA} = this.rows.getIndexCopy(rownum);
 
     if (rA === 'true') {
       this.auth.sessionInfo$
         .pipe(
           first()
-        ).subscribe(({ isHAdmin }) => {
-          if (isHAdmin && rHA === 'false') {
-            this.removeRow(rownum);
-          } else {
-            this.translate.get('errors.messages.ACCESS_FORBIDDEN')
+        ).subscribe(({isHAdmin}) => {
+        if (isHAdmin && rHA === 'false') {
+          this.removeRow(rownum);
+        } else {
+          this.translate.get('errors.messages.ACCESS_FORBIDDEN')
             .pipe(
               first()
             ).subscribe(e => this.interceptor.error.emit(e));
-          }
-        });
+        }
+      });
     } else {
       this.removeRow(rownum);
     }
@@ -137,24 +138,24 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
           const rowid = Number.parseInt(index, 10);
           if (this.deletedUserId.has(rowid)) {
 
-            return this.rest.do(REST_PATH.USERS.DELETE, { templateParamsValues: { id: oData.id } })
+            return this.rest.do(REST_PATH.USERS.DELETE, {templateParamsValues: {id: oData.id}})
               .pipe(
                 tap(() => this.deletedUserId.delete(rowid)),
               );
           } else if (this.editedUserId.has(rowid)) {
 
             const [admin, organizer] = [oData.isAdmin as any, oData.isOrganizer as any];
-            const body: UserChmod = { admin, organizer };
-            return this.rest.do(REST_PATH.USERS.CHMOD, { templateParamsValues: { id: oData.id }, body })
+            const body: UserChmod = {admin, organizer};
+            return this.rest.do(REST_PATH.USERS.CHMOD, {templateParamsValues: {id: oData.id}, body})
               .pipe(
                 tap(() => this.editedUserId.delete(rowid))
               );
           }
         })
       ).subscribe({
-        next: () => this.rows.setDataCopy(this.originalData),
-        error: (error: RestError) => this.handleErrors(error)
-      });
+      next: () => this.rows.setDataCopy(this.originalData),
+      error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
+    });
   }
 
   cancelData() {
@@ -213,14 +214,5 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
         },
       ];
     });
-  }
-
-  private handleErrors(error: RestError) {
-    this.errorMessageService.getErrorsStrings(error)
-      .subscribe((translation: TranslatedErrors) => {
-        if (translation.message) {
-          this.interceptor.error.emit(translation.message);
-        }
-      });
   }
 }

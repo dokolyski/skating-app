@@ -79,7 +79,7 @@ export class RegistrationComponent implements OnInit {
     this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
       .subscribe({
         next: (v: ConfigResponse[]) => this.skillLevelPossibleValues = [' ', ...v.map(value => value.value)],
-        error: (e: RestError) => this.handleErrors(e, false)
+        error: (e: HttpErrorResponse) => this.handleErrors(e, false)
       });
   }
 
@@ -112,11 +112,11 @@ export class RegistrationComponent implements OnInit {
     return payload;
   }
 
-  private handleErrors(error: RestError, showServerErrors: boolean) {
-    this.errorMessageService.getErrorsStrings(error)
+  private handleErrors(error: HttpErrorResponse, showServerErrors: boolean) {
+    this.errorMessageService.getErrorsStrings(error.error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.interceptor.error.emit(translation.message);
+          this.interceptor.error.emit({message: translation.message, status: error.status});
         }
 
         if (showServerErrors && translation.inputs) {

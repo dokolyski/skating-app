@@ -1,0 +1,16 @@
+<div style="text-align: center">
+  <h1 mat-dialog-title>
+    {{data.article.title}}
+  </h1>
+  <div mat-dialog-content>
+    <div class="text">
+      <p>
+        {{data.article.text}}
+      </p>
+    </div>
+    <img [src]="data.img_href">
+  </div>
+  <div mat-dialog-actions align="center">
+    <button mat-button [mat-dialog-close]="null">{{'dialog-outcomes.go-back' | translate }}</button>
+  </div>
+</div>

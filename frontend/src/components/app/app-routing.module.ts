@@ -8,9 +8,14 @@ import { OnlineGuard } from 'guards/online.guard';
 import { AdminGuard } from 'guards/admin.guard';
 import { AuthGuard } from 'guards/auth.guard';
 import { Pages } from 'components/pages/pages.module';
+import {TokenReaderComponent} from 'components/app/token-reader/token-reader.component';
 
 const routes: Routes = [
   /*EVERYONE*/
+  {
+    path: 'login_callback',
+    component: TokenReaderComponent
+  },
   {
     path: PATH.EVERYONE.MAIN,
     component: Pages.MainPageComponent

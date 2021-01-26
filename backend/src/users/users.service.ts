@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@nestjs/common';
+import {Inject, Injectable, UnauthorizedException} from '@nestjs/common';
 import {PROFILE_REPOSITORY, SEQUELIZE, USER_REPOSITORY} from "../constants";
 import {User} from "./user.entity";
 import {Sequelize} from "sequelize-typescript";
@@ -7,6 +7,7 @@ import {UserEditRequest, UserRequest} from "../api/requests/user.dto";
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user";
 import {UserResponse, UserResponseWithName} from "../api/responses/user.dto";
+import {UserChmod} from 'src/api/requests/user-chmod';
 
 @Injectable()
 export class UsersService {
@@ -83,7 +84,7 @@ export class UsersService {
 
     async edit(id: number, request: UserEditRequest) {
 
-        const user = await User.findByPk(id);
+        const user = await User.findByPk(AuthorizedUser.getId());
         notfound(user);
         AuthorizedUser.checkOwnership(user.id);
 
@@ -100,5 +101,13 @@ export class UsersService {
         await user.destroy();
     }
 
-
+    async changePermissions(id: number, request: UserChmod) {
+        AuthorizedUser.checkIsAdmin();
+        const user = await User.findByPk(id);
+        if (user.isHAdmin && request.admin != user.isAdmin) {
+            throw new UnauthorizedException("errors.messages.ACCESS_FORBIDDEN")
+        }
+        user.update({isAdmin: request.admin, isOrganizer: request.organizer});
+        await user.save();
+    }
 }

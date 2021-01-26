@@ -65,7 +65,7 @@ export class SessionParticipantService {
             resPosition.start_date = session.start_date;
             resPosition.end_date = session.end_date;
 
-            resPosition.amount = server_config.session.price;
+            resPosition.amount = session.price;
             response.amount += resPosition.amount;
 
             response.positions.push(resPosition);

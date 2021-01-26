@@ -42,6 +42,15 @@
       }
     }
   },
+  "success": {
+    "session-added": "Zajęcia zostały pomyślnie utworzone",
+    "session-edit": "Zajęcia zostały pomyślnie edytowane",
+    "user-settings-change": "Dane konta użytkownika zostały pomyślnie zmienione",
+    "profile-change": "Dane uczestnika zostały pomyślnie zmienione",
+    "profile-added": "Pomyślnie stworzono nowy profil uczestnika",
+    "reservation-canceled": "Rezerwacja sesji została pomyślnie odwołana",
+    "session-canceled": "Zajęcia zostały pomyślnie odwołane, zapisani użytkownicy otrzymają stosowne powiadomienia"
+  },
   "inputs": {
     "EMAIL": "Email",
     "PASSWORD": "Hasło",
@@ -75,9 +84,11 @@
     "login": {
       "form": {
         "buttons": {
-          "LOGIN_EMAIL": "Zaloguj"
+          "LOGIN_EMAIL": "Zaloguj się",
+          "REGISTER_EMAIL": "Zarejestruj się"
         },
-        "SIGN_IN_SOCIAL_MEDIA": "lub zaloguj się przy pomocy"
+        "SIGN_IN_SOCIAL_MEDIA": "lub zaloguj się przy pomocy",
+        "REGISTER_VIA_EMAIL": "lub zarejestruj się poprzez adres email"
       },
       "CARD_TITLE": "Logowanie"
     },
@@ -290,6 +301,11 @@
     "footer": {
       "totalPrice": "Całkowity koszt:"
     },
+    "payment": {
+      "payment-method": "Metoda płatności",
+      "cash": "Przelew online",
+      "points": "Punkty karnetowe"
+    },
     "reserve": "Zarezerwuj"
   },
   "add-participant": {
@@ -307,7 +323,8 @@
     "go-back": "Powrót",
     "create-session": "Utwórz zajęcia",
     "edit-session": "Zmień dane zajęć",
-    "confirm": "Potwierdź"
+    "confirm": "Potwierdź",
+    "confirmAndPay": "Potwierdź i przejdź do płatności"
   },
   "session-details": {
     "number-of-reserved-places": "Zarezerwowane miejsca: {{reserved}} / {{max}}",

@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { InputsModule } from 'components/common/inputs/inputs.module';
 import { AccessControlModule } from 'directives/access-control/access-control.module';
 import { TranslateModule } from '@ngx-translate/core';
+import {RouterModule} from '@angular/router';
 
 export const moduleInfo = {
   imports: [
@@ -28,7 +29,8 @@ export const moduleInfo = {
 @NgModule({
     imports: [
         moduleInfo.imports,
-        TranslateModule
+        TranslateModule,
+        RouterModule
     ],
   declarations: moduleInfo.declarations,
   exports: moduleInfo.exports

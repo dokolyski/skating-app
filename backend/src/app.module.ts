@@ -68,8 +68,10 @@ export class AppModule implements NestModule {
                 {path: 'api/verification', method: RequestMethod.POST},
                 {path: 'api/verification/google', method: RequestMethod.GET},
                 {path: 'api/verification/google/redirect', method: RequestMethod.GET},
-                {path: 'api/users', method: RequestMethod.POST
-            })
+                {path: 'api/users', method: RequestMethod.POST},
+                {path: 'api/sessions', method: RequestMethod.GET},
+                {path: 'api/config/:key', method: RequestMethod.GET}
+            )
             .forRoutes('*')
     }
 }

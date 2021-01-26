@@ -42,6 +42,15 @@
       }
     }
   },
+  "success": {
+    "session-added": "Session has been successfully added",
+    "session-edit": "Session has been successfully edited",
+    "user-settings-change": "Account information have been successfully changed",
+    "profile-change": "Participant information has been successfully changed",
+    "profile-added": "Participant has been successfully added",
+    "reservation-canceled": "Reservation has been successfully canceled",
+    "session-canceled": "Session has been successfully canceled, enrolled users will receive an adequate notice"
+  },
   "inputs": {
     "EMAIL": "Email",
     "PASSWORD": "Password",
@@ -75,9 +84,11 @@
     "login": {
       "form": {
         "buttons": {
-          "LOGIN_EMAIL": "Sign In"
+          "LOGIN_EMAIL": "Sign In",
+          "REGISTER_EMAIL": "Sign Up"
         },
-        "SIGN_IN_SOCIAL_MEDIA": "Or Sign In with"
+        "SIGN_IN_SOCIAL_MEDIA": "or sign in with",
+        "REGISTER_VIA_EMAIL": "or sign up with your email address"
       },
       "CARD_TITLE": "Sign In"
     },
@@ -290,6 +301,11 @@
     "footer": {
       "totalPrice": "Total cost:"
     },
+    "payment": {
+      "payment-method": "Payment method",
+      "cash": "Online transfer",
+      "points": "Pass points"
+    },
     "reserve": "Reserve"
   },
   "add-participant": {
@@ -307,7 +323,8 @@
     "go-back": "Go back",
     "create-session": "Create session",
     "edit-session": "Update session data",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "confirmAndPay": "Confirm and go to the payment"
   },
   "session-details": {
     "number-of-reserved-places": "Reserved places: {{reserved}} / {{max}}",

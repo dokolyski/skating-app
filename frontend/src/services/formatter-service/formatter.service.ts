@@ -26,7 +26,7 @@ export class FormatterService {
   }
 
   shortenName(name: string, size: number = 22) {
-    return name.length <= size ? name : name.substring(0, size - 2) + '...';
+    return name.length <= size ? name : name.substring(0, size - 3) + '...';
   }
 
   fullDateTimeString(date): string {

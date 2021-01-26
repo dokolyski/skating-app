@@ -109,7 +109,8 @@ export class PaymentsService {
         for (const position of positions) {
 
             await this.checkIfAlreadyJoined(position.session_id, position.profile_id);
-            amount += server_config.session.price;
+            const session = await this.sessionsRepository.findByPk(position.session_id)
+            amount += session.price;
         }
         return amount;
     }
@@ -133,7 +134,7 @@ export class PaymentsService {
 
     protected preparePaymentParams(user: User, payment: Payment): P24Payment {
         return new P24Payment({
-            p24_amount: payment.amount,
+            p24_amount: payment.amount, // TODO * 100 (zł)
             p24_country: Country.Poland,
             p24_currency: Currency.PLN,
             p24_description: server_config.payments.description, // set description

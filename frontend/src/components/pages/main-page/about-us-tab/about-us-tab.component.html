@@ -1,55 +1,13 @@
 <main id="about-us">
-  <section>
+  <section (click)="showFullArticle(article, 'assets/img/x' + i + '.webp')" *ngFor="let article of articles; index as i">
     <div class="feature-img">
-      <img src="assets/img/x0.webp" alt="Image 1">
-    </div>
-
-    <div class="text">
-      <h1>Lorem ipsum</h1>
-      <div class="half-hr"></div>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sodales laoreet purus eget hendrerit.
-        Ut tempor massa in nunc dignissim elementum. Proin et metus ac purus fringilla consequat.
-      </p>
-    </div>
-  </section>
-
-  <section>
-    <div class="feature-img">
-      <img src="assets/img/x1.webp" alt="Image 2">
-    </div>
-
-    <div class="text">
-      <h1>Lorem ipsum</h1>
-      <div class="half-hr"></div>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sodales laoreet purus eget hendrerit.
-        Ut tempor massa in nunc dignissim elementum. Proin et metus ac purus fringilla consequat.
-      </p>
-    </div>
-  </section>
-
-  <section>
-    <div class="feature-img">
-      <img src="assets/img/x2.webp" alt="Image 3">
+      <img [src]="'assets/img/x' + i + '.webp'" [alt]="'Image ' + i">
     </div>
     <div class="text">
-      <h1>Lorem ipsum</h1>
+      <h1>{{article.title}}</h1>
       <div class="half-hr"></div>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sodales laoreet purus eget hendrerit.
-        Ut tempor massa in nunc dignissim elementum. Proin et metus ac purus fringilla consequat.
-      </p>
-    </div>
-  </section>
-
-  <section>
-    <div class="feature-img">
-      <img src="assets/img/x3.webp" alt="Image 4">
-    </div>
-
-    <div class="text">
-      <h1>Lorem ipsum</h1>
-      <div class="half-hr"></div>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sodales laoreet purus eget hendrerit.
-        Ut tempor massa in nunc dignissim elementum. Proin et metus ac purus fringilla consequat.
+      <p>{{formatterService.shortenName(article.text, maxArticleLength)}}
+        <a style="font-weight: 500; color: var(--dark-blue)" *ngIf="article.text.length > maxArticleLength">Czytaj dalej</a>
       </p>
     </div>
   </section>

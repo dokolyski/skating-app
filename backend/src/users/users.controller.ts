@@ -1,7 +1,8 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Put} from '@nestjs/common';
 import {UsersService} from "./users.service";
 import {UserRequest, UserEditRequest} from "../api/requests/user.dto";
 import {UserResponse} from "../api/responses/user.dto";
+import {UserChmod} from 'src/api/requests/user-chmod';
 
 @Controller('users')
 export class UsersController {
@@ -27,6 +28,11 @@ export class UsersController {
     @Put(':id')
     async edit(@Param('id') id: number, @Body() userRequest: UserEditRequest) {
         await this.usersService.edit(id, userRequest);
+    }
+
+    @Patch(':id/chmod')
+    async changePermissions(@Param('id') id: number, @Body() request: UserChmod) {
+        await this.usersService.changePermissions(id, request);
     }
 
     @Delete(':id')

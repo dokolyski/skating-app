@@ -16,12 +16,10 @@ export class UserRequest {
 
     @IsNotEmpty({message: "REQUIRED"})
     @IsString({message: "MUST_BE_STRING"})
-    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i, {message:"INVALID"})
     firstname: string;
 
     @IsNotEmpty({message: "REQUIRED"})
     @IsString({message: "MUST_BE_STRING"})
-    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z\-]+)$/i,{message:"INVALID"})
     lastname: string;
 
     @IsNotEmpty({message: "REQUIRED"})
@@ -51,8 +49,14 @@ export class UserRequest {
     provider: string = "EMAIL";
 }
 
-export class UserEditRequest extends UserRequest {
+export class UserEditRequest {
     @IsNotEmpty({message: "REQUIRED"})
-    @IsNumber({}, {message:"MUST_BE_NUMBER"})
-    public id: number;
+    @IsString({message: "MUST_BE_STRING"})
+    @IsEmail({},{message:"INVALID"})
+    email: string;
+
+    @IsOptional()
+    @IsString({message: "MUST_BE_STRING"})
+    @IsPhoneNumber('PL')
+    phone_number: string|null;
 }

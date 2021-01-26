@@ -2,14 +2,16 @@
   <h2 mat-dialog-title>
     {{ 'pages.admin.users.dialog.TITLE' | translate }}
   </h2>
-  <form [formGroup]="form">
-    <mat-checkbox [formControl]="this.form.get('organizerSelected')">
-      {{ 'pages.admin.users.dialog.form.ORGANIZER' | translate }}
-    </mat-checkbox>
-    <mat-checkbox [formControl]="this.form.get('adminSelected')" *ngIf="data.isAdmin !== undefined">
-      {{ 'pages.admin.users.dialog.form.ADMIN' | translate }}
-    </mat-checkbox>
-  </form>
+  <div mat-dialog-content>
+    <form [formGroup]="form">
+      <mat-checkbox [formControl]="this.form.get('organizerSelected')">
+        {{ 'pages.admin.users.dialog.form.ORGANIZER' | translate }}
+      </mat-checkbox>
+      <mat-checkbox [formControl]="this.form.get('adminSelected')" *ngIf="data.isAdmin !== undefined">
+        {{ 'pages.admin.users.dialog.form.ADMIN' | translate }}
+      </mat-checkbox>
+    </form>
+  </div>
   <mat-dialog-actions>
     <button appAccessOnlineButton mat-button (click)="onSave()">
       {{ 'pages.admin.users.dialog.controls.SAVE' | translate }}

@@ -16,6 +16,7 @@ import {ConfigResponse} from 'api/responses/config.dto';
 import {Observable, of} from 'rxjs';
 import {AuthService} from 'services/auth-service/auth.service';
 import {mergeMap} from 'rxjs/operators';
+import {HttpErrorResponse} from '@angular/common/http';
 
 /**
  * @description Creates next user profile with limit per user, gather informations about
@@ -57,7 +58,7 @@ export class ProfileAddComponent implements OnInit {
     this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .subscribe({
         next: (v: ConfigResponse[]) => this.skillLevelPossibleValues = [' ', ...v.map(value =>  value.value)],
-        error: (e: RestError) => this.handleErrors(e, false)
+        error: (e: HttpErrorResponse) => this.handleErrors(e, false)
       });
   }
 
@@ -67,7 +68,7 @@ export class ProfileAddComponent implements OnInit {
         .subscribe({
           next: () => this.onSubmit.emit(),
           complete: () => this.onSubmit.emit(),
-          error: (e: RestError) => this.handleErrors(e, true)
+          error: (e: HttpErrorResponse) => this.handleErrors(e, true)
         });
     });
   }
@@ -84,11 +85,11 @@ export class ProfileAddComponent implements OnInit {
     })));
   }
 
-  private handleErrors(error: RestError, showServerErrors: boolean) {
-    this.errorMessageService.getErrorsStrings(error)
+  private handleErrors(error: HttpErrorResponse, showServerErrors: boolean) {
+    this.errorMessageService.getErrorsStrings(error.error)
       .subscribe((translation: TranslatedErrors) => {
         if (translation.message) {
-          this.interceptor.error.emit(translation.message);
+          this.interceptor.error.emit({message: translation.message, status: error.status});
         }
 
         if (showServerErrors && translation.inputs) {
