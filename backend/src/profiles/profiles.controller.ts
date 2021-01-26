@@ -29,8 +29,8 @@ export class ProfilesController {
         await this.profilesService.edit(id, request);
     }
 
-    @Delete(':id')
-    async delete(@Param('id') id: number) {
-        await this.profilesService.delete(id);
-    }
+    // @Delete(':id')
+    // async delete(@Param('id') id: number) {
+    //     await this.profilesService.delete(id);
+    // }
 }
