@@ -8,6 +8,8 @@ import { InputsModule } from 'components/common/inputs/inputs.module';
 import { MatButtonModule } from '@angular/material/button';
 import { AccessControlModule } from 'directives/access-control/access-control.module';
 import { TranslateModule } from '@ngx-translate/core';
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -18,7 +20,9 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     MatButtonModule,
     AccessControlModule,
-    TranslateModule
+    TranslateModule,
+    MatListModule,
+    MatIconModule
   ],
   declarations: [
     AdminConfigComponent

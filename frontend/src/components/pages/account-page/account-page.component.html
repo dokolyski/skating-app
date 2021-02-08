@@ -2,7 +2,7 @@
   <app-middle-column>
       <div>
         <app-tab-router-outlet>
-          <ng-template appTabSubpage [url]="PATH.LOGGED.NOTIFICATIONS"
+          <ng-template appTabSubpage [url]="PATH.LOGGED.NOTIFICATIONS" *appAccessCommonUser
                        [label]="'pages.account.menu.ACCOUNT_NOTIFICATIONS' | translate"></ng-template>
 
           <ng-template appTabSubpage [url]="PATH.LOGGED.RESERVATIONS" *appAccessCommonUser
@@ -11,7 +11,7 @@
           <ng-template appTabSubpage [url]="PATH.LOGGED.SETTINGS"
                        [label]="'pages.account.menu.ACCOUNT_SETTINGS' | translate"></ng-template>
 
-          <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_ADD"
+          <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_ADD" *appAccessCommonUser
                        [label]="'pages.account.menu.PROFILE_ADD' | translate"></ng-template>
 
           <ng-template appTabSubpage [url]="PATH.LOGGED.PROFILE_SETTINGS"

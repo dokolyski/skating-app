@@ -57,10 +57,7 @@ export class Profile extends Model<Profile> {
     public birth_date: Date;
 
     @Column({
-        type: DataType.STRING(45),
-        validate: {
-            isIn: [['LOW', 'MEDIUM', 'HIGH']]
-        }
+        type: DataType.STRING(45)
     })
     public skill_level: string;
 

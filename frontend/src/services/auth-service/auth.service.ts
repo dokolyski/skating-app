@@ -6,6 +6,8 @@ import * as REST_PATH from 'api/rest-url.json';
 import {LoginRequest} from 'api/requests/login.dto';
 import {LoginResponse} from 'api/responses/login.dto';
 import {ErrorMessageService} from 'services/error-message-service/error.message.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {TranslateService} from '@ngx-translate/core';
 
 /**
  * @description Authorisation purpose proxy to the ```REST``` server
@@ -18,7 +20,9 @@ export class AuthService {
 
   constructor(
     private rest: RestService,
-    private errorMessageService: ErrorMessageService) {
+    private errorMessageService: ErrorMessageService,
+    private snackBar: MatSnackBar,
+    private translateService: TranslateService) {
     this.restoreSessionInfo();
   }
 
@@ -44,6 +48,7 @@ export class AuthService {
           this.sessionInfo = null;
           this.sessionInfoSubject.next(null);
           localStorage.removeItem('sessionInfo');
+          this.translateService.get('success.logout').subscribe(message => this.snackBar.open(message));
         })
       );
   }
@@ -59,6 +64,7 @@ export class AuthService {
         this.sessionInfo = session;
         this.sessionInfoSubject.next(session);
         localStorage.setItem('sessionInfo', JSON.stringify(session));
+        this.translateService.get('success.login').subscribe(message => this.snackBar.open(message));
       })
     );
   }

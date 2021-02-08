@@ -1,10 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {AuthService} from 'services/auth-service/auth.service';
-import {SessionRequest} from 'api/requests/session.dto';
 import * as moment from 'moment';
 import SessionResponse from 'api/responses/session.dto';
 import * as cloneDeep from 'lodash.clonedeep';
+import {RestService} from 'services/rest-service/rest.service';
+import {ConfigResponse} from 'api/responses/config.dto';
+import * as REST_PATH from 'api/rest-url.json';
+import * as REST_CONFIG from 'assets/config/config.rest.json';
 
 @Component({
   selector: 'app-edit-session',
@@ -16,9 +19,11 @@ export class EditSessionComponent implements OnInit {
   uid: number;
   startTime: string;
   endTime: string;
+  groupOptions: string[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { session: SessionResponse, mode: 'edit' | 'create' },
-              private authService: AuthService) {
+              private authService: AuthService,
+              private rest: RestService) {
   }
 
   ngOnInit() {
@@ -28,6 +33,8 @@ export class EditSessionComponent implements OnInit {
     this.authService.sessionInfo$.subscribe(next => {
       this.uid = next.uid;
     });
+    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
+      .subscribe((data: ConfigResponse) => this.groupOptions = JSON.parse(data.value));
   }
 
   createSessionRequest() {

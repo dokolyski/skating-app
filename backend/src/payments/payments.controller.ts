@@ -4,7 +4,6 @@ import {JoinRequest} from "../api/requests/session-participant.dto";
 import {PaymentVerifyRequest} from "../api/requests/payment.dto";
 import {PaymentResponse} from "../api/responses/payment.dto";
 import {Response} from 'express'
-import * as client_config from '../config/client.json'
 
 @Controller('payments')
 export class PaymentsController {
@@ -18,14 +17,7 @@ export class PaymentsController {
 
     @Post()
     async create(@Body() request: JoinRequest, @Res({passthrough: true}) res: Response) {
-
-        try {
-            const response = await this.paymentsService.create(request);
-            
-            res.redirect(client_config.domain + ":" + client_config.port + "/order_complete?order=" + response.orderId);
-        } catch (e) {
-            res.redirect(client_config.domain + ":" + client_config.port + "/error?error=payment");
-        }
+        return await this.paymentsService.create(request);
     }
 
     @Post('/verify')

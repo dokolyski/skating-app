@@ -8,12 +8,10 @@ export class ProfileRequest {
 
     @IsNotEmpty({message: "REQUIRED"})
     @IsString({message: "MUST_BE_STRING"})
-    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z]+)$/i,{message:"INVALID"})
     firstname: string;
 
     @IsNotEmpty({message: "REQUIRED"})
     @IsString({message: "MUST_BE_STRING"})
-    @Matches(/^([\p{Lu}A-Z][\p{Ll}a-z\-]+)$/i, {message:"INVALID"})
     lastname: string;
 
     @IsNotEmpty({message: "REQUIRED"})

@@ -5,7 +5,7 @@
                 <mat-panel-title>
                     {{ s.notification_info.title }}
                 </mat-panel-title>
-                <mat-panel-description>
+                <mat-panel-description *ngIf="s.notification_info.session_id != null && s.session_info.name != null">
                     {{ s.session_info.name }}
                 </mat-panel-description>
             </mat-expansion-panel-header>

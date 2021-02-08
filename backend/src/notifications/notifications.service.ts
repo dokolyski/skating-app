@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@nestjs/common';
-import {NOTIFICATION_REPOSITORY, SEQUELIZE, SESSION_REPOSITORY} from "../constants";
+import {NOTIFICATION_REPOSITORY, SEQUELIZE, SESSION_REPOSITORY, USER_REPOSITORY} from "../constants";
 import {Notification} from "./notification.entity";
 import {Session} from "../sessions/session.entity";
 import {Sequelize} from "sequelize-typescript";
@@ -18,6 +18,7 @@ import {Transaction} from "sequelize";
 export class NotificationsService {
     constructor(@Inject(NOTIFICATION_REPOSITORY) private notificationsRepository: typeof Notification,
                 @Inject(SESSION_REPOSITORY) private sessionsRepository: typeof Session,
+                @Inject(USER_REPOSITORY) private usersRepository: typeof User,
                 @Inject(SEQUELIZE) private readonly sequelize: Sequelize
     ) {
     }
@@ -60,12 +61,15 @@ export class NotificationsService {
     };
 
     async create(request: NotificationRequest) {
-
+        AuthorizedUser.checkIsOrganizer();
         const t = await this.sequelize.transaction();
 
         try {
-            await this.createNotificationForSession(request, t);
-
+            if (request.session_id != null) {
+                await this.createNotificationForSession(request, t);
+            } else {
+                await this.createNotificationForAllUsers(request, t);
+            }
             t.commit();
         } catch (err) {
             await t.rollback();
@@ -100,10 +104,16 @@ export class NotificationsService {
             }]
         });
         notfound(session);
-        AuthorizedUser.checkOwnership(session.owner_id);
 
         for (let profile of session.profiles) {
             await profile.user.$create('Notification', request, {transaction: t});
+        }
+    }
+
+    async createNotificationForAllUsers(request: NotificationRequest, t: Transaction) {
+        const users = await this.usersRepository.findAll();
+        for (let user of users) {
+            await user.$create('Notification', request, {transaction: t});
         }
     }
 }

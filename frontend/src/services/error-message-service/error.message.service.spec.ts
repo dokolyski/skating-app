@@ -4,6 +4,7 @@ import { ErrorMessageService } from './error.message.service';
 import { filter } from 'rxjs/operators';
 import { translation } from 'assets/mocks/unit-tests/error-message-service/config.json';
 import { Observable, of } from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export class TranslateServiceStub {
   public get(key: any): Observable<any> {
@@ -29,11 +30,11 @@ describe('error.message.service', () => {
   it('returns translated rest errors: generalized + inputs', (done: DoneFn) => {
     const messageToken = 'unauthorized';
     const email = 'not exists';
-    
-    errorMessageService.getErrorsStrings({
+
+    errorMessageService.getErrorsStrings(new HttpErrorResponse({error: {
       messageToken,
       inputsTokens: { email }
-    }).pipe(
+    }})).pipe(
       filter(x => x != null)
     ).subscribe(translatedErrors => {
       expect(translatedErrors.message).toEqual(translation.errors.messages[messageToken]);

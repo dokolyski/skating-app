@@ -1,9 +1,9 @@
 import {IsNotEmpty, IsNumber, IsString, IsIn, ValidateIf, IsDateString} from 'class-validator';
 
 export class NotificationRequest {
-    @IsNotEmpty({message: "REQUIRED"})
+    @ValidateIf(o => o.session_id != null)
     @IsNumber({}, {message:"MUST_BE_NUMBER"})
-    session_id: number;
+    session_id: number | null;
 
     @IsNotEmpty({message: "REQUIRED"})
     @IsNumber({}, {message:"MUST_BE_NUMBER"})

@@ -53,7 +53,7 @@ export class ScheduleComponent implements OnInit {
     return moment(this.calendar.from).add(i, 'days').toDate();
   }
 
-  private updateSessions() {
+  updateSessions() {
     this.sessions = Array.from(Array(7), () => []);
     this.restService.do<SessionResponse[]>(REST_PATH.SESSIONS.GET_SESSIONS, {
       body: {

@@ -60,8 +60,8 @@ export class AccountNotificationsComponent implements OnInit {
 
   private sortByExpTimeDesc(data: Combined[]): Combined[] {
     return data.sort((a, b) => {
-      const bExpDate = b.notification_info.expiration_date.getTime();
-      const aExpDate = a.notification_info.expiration_date.getTime();
+      const bExpDate = new Date(b.notification_info.expiration_date).getTime();
+      const aExpDate = new Date(a.notification_info.expiration_date).getTime();
 
       return bExpDate - aExpDate;
     });

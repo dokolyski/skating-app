@@ -1,0 +1,16 @@
+<app-middle-column>
+  <div class="form">
+    <h2 style="text-align: center">{{'notification-sending.header' | translate}}</h2>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'notification-sending.title' | translate }}</mat-label>
+      <input [(ngModel)]="title" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'notification-sending.description' | translate }}</mat-label>
+      <textarea [(ngModel)]="description" matInput></textarea>
+    </mat-form-field>
+    <button (click)="sendNotification()" mat-raised-button
+            color="primary">{{'notification-sending.send' | translate }}</button>
+  </div>
+</app-middle-column>
+

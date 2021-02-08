@@ -22,6 +22,7 @@ import {Country, Currency, Payment as P24Payment, Przelewy24} from "@ingameltd/n
 import {Md5} from 'ts-md5/dist/md5';
 import {Transaction} from "sequelize";
 import {PaymentVerifyRequest} from "../api/requests/payment.dto";
+import * as client_config from '../config/client.json'
 
 @Injectable()
 export class PaymentsService {
@@ -169,7 +170,7 @@ export class PaymentsService {
     }
 
     protected prepareReturnUrl(order: string): string {
-        return server_config.domain + ":" + server_config.port + "/payments/" + order;
+        return client_config.domain + ":" + client_config.port + "/order_complete?order=" + order;
     }
 
     protected prepareStatusUrl(): string {

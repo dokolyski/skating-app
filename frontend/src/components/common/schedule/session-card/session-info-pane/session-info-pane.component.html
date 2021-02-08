@@ -7,8 +7,10 @@
 </div>
 
 <mat-dialog-content class="info-content">
-  <div class="content-header">{{data.session.difficulty}}</div>
-  <mat-divider></mat-divider>
+  <ng-container *ngIf="data.session.difficulty != null">
+    <div class="content-header">{{data.session.difficulty}}</div>
+    <mat-divider></mat-divider>
+  </ng-container>
   <div class="content-header">{{'session-details.number-of-reserved-places' | translate:{reserved: data.session.profiles.length, max: data.session.max_participants} }}</div>
   <mat-divider></mat-divider>
   <div class="content-header">{{'session-details.session-price' | translate:{value: data.session.price} }}</div>

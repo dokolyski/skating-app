@@ -49,7 +49,9 @@
     "profile-change": "Dane uczestnika zostały pomyślnie zmienione",
     "profile-added": "Pomyślnie stworzono nowy profil uczestnika",
     "reservation-canceled": "Rezerwacja sesji została pomyślnie odwołana",
-    "session-canceled": "Zajęcia zostały pomyślnie odwołane, zapisani użytkownicy otrzymają stosowne powiadomienia"
+    "session-canceled": "Zajęcia zostały pomyślnie odwołane, zapisani użytkownicy otrzymają stosowne powiadomienia",
+    "login": "Pomyślnie zalogowano - witaj!",
+    "logout": "Pomyślnie wylogowano - do zobaczenia!"
   },
   "inputs": {
     "EMAIL": "Email",
@@ -181,7 +183,8 @@
           "columns": {
             "POINTS": "Punkty",
             "REQ_MONEY": "Cena"
-          }
+          },
+          "DIFFICULTY_OPTIONS": "Rodzaje grup"
         },
         "controls": {
           "SAVE": "Zapisz",
@@ -270,7 +273,8 @@
       "ADMIN_DASHBOARD": "Panel administratora",
       "LOGOUT": "Wyloguj",
       "LANGUAGE": "Język",
-      "SESSION_LIST": "Zarządzaj zajęciami"
+      "SESSION_LIST": "Zarządzaj zajęciami",
+      "SEND_NOTIFICATION": "Wyślij powiadomienie"
     },
     "buttons": {
       "SIGN_IN": "Logowanie",
@@ -341,5 +345,11 @@
     "many-canceled": "{{canceledNumber}} oczekujących rezerwacji zostało usuniętych",
     "one-added": "Dodano nową rezerwację dla uczestnika {{participantName}}",
     "many-added": "Dodano nowe rezerwacje dla {{n}} uczestników"
+  },
+  "notification-sending": {
+    "header": "Chcesz o czymś powiadomić wszystkich użytkowników?",
+    "title": "Tytuł powiadomienia",
+    "description": "Treść",
+    "send": "Wyślij powiadomienie"
   }
 }

@@ -49,7 +49,9 @@
     "profile-change": "Participant information has been successfully changed",
     "profile-added": "Participant has been successfully added",
     "reservation-canceled": "Reservation has been successfully canceled",
-    "session-canceled": "Session has been successfully canceled, enrolled users will receive an adequate notice"
+    "session-canceled": "Session has been successfully canceled, enrolled users will receive an adequate notice",
+    "login": "Successfully logged in - hello!",
+    "logout": "Successfully logged out - see you!"
   },
   "inputs": {
     "EMAIL": "Email",
@@ -181,7 +183,8 @@
           "columns": {
             "POINTS": "Points",
             "REQ_MONEY": "Price"
-          }
+          },
+          "DIFFICULTY_OPTIONS": "Group options"
         },
         "controls": {
           "SAVE": "Save",
@@ -270,7 +273,8 @@
       "ADMIN_DASHBOARD": "Admin dashboard",
       "LOGOUT": "Logout",
       "LANGUAGE": "Language",
-      "SESSION_LIST": "Manage sessions"
+      "SESSION_LIST": "Manage sessions",
+      "SEND_NOTIFICATION": "Send notification"
     },
     "buttons": {
       "SIGN_IN": "Sign In",
@@ -341,5 +345,11 @@
     "many-canceled": "{{canceledNumber}} reservations have been canceled",
     "one-added": "Reservation for participant {{participantName}} was added",
     "many-added": "Reservations for {{n}} participants were added"
+  },
+  "notification-sending": {
+    "header": "Do you want to notify all users about something?",
+    "title": "Notification title",
+    "description": "Message",
+    "send": "Send notification"
   }
 }

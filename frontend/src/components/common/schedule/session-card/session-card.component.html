@@ -4,8 +4,10 @@
     {{startTime}} - {{endTime}}
   </div>
   <div class="cardTitle">{{sessionData.name}}</div>
-  <mat-divider></mat-divider>
-  <div class="groupLevel">{{sessionData.difficulty}}</div>
+  <ng-container *ngIf="sessionData.difficulty">
+    <mat-divider></mat-divider>
+    <div class="groupLevel">{{sessionData.difficulty}}</div>
+  </ng-container>
   <ng-container *appAccessCommonUser>
     <div (click)="addParticipantsButtonClicked($event)" class="addParticipantButton"
          aria-label="Add participant">

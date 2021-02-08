@@ -15,7 +15,7 @@
     </div>
     <div class="calendarContent">
       <app-weekday *ngFor="let i of weekdayNumbers" [sessions]="sessions[i]" [date]="getWeekdayDate(i)"
-                   [profiles]="profiles"></app-weekday>
+                   [profiles]="profiles" (newSessionCreated)="updateSessions()"></app-weekday>
     </div>
     <ng-container *appAccessCommonUser>
       <app-profiles-viewport [profiles]="profiles"></app-profiles-viewport>

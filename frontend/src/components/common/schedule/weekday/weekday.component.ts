@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import * as REST_PATH from 'api/rest-url.json';
 import {TranslateService} from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import {FormatterService} from 'services/formatter-service/formatter.service';
 import {RestService} from 'services/rest-service/rest.service';
 import {EditSessionComponent} from 'components/pages/edit-session/edit-session.component';
 import * as moment from 'moment';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-weekday',
@@ -18,18 +19,26 @@ export class WeekdayComponent {
   @Input() sessions: SessionResponse[];
   @Input() date: Date;
   @Input() profiles: ProfileResponse[];
+  @Output() newSessionCreated = new EventEmitter<void>();
 
   constructor(
     public dialog: MatDialog,
     public translateService: TranslateService,
     public formatterService: FormatterService,
-    private rest: RestService) { }
+    private rest: RestService,
+    private snackBar: MatSnackBar) {
+  }
 
   openNewSessionForm() {
-    this.dialog.open(EditSessionComponent, { data: {session: {start_date: this.date}, mode: 'create' } })
-    .afterClosed().subscribe(next => {
+    this.dialog.open(EditSessionComponent, {data: {session: {start_date: this.date}, mode: 'create'}})
+      .afterClosed().subscribe(next => {
       if (next != null) {
-        this.rest.do(REST_PATH.SESSIONS.CREATE, {body: next}).subscribe(next => {});
+        this.rest.do(REST_PATH.SESSIONS.CREATE, {body: next}).subscribe(() => {
+          this.newSessionCreated.emit();
+          this.translateService.get('success.session-added').subscribe(message => {
+            this.snackBar.open(message, 'OK', {duration: 2000});
+          });
+        });
       }
     });
   }

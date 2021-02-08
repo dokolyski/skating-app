@@ -39,6 +39,9 @@ export class AdminConfigComponent implements OnInit {
   cols: Col[];
   rows = new ArraySubject<any>();
 
+  groupList: string[] = [];
+  newGroup = '';
+
   constructor(
     private translate: TranslateService,
     private matDialog: MatDialog,
@@ -57,6 +60,12 @@ export class AdminConfigComponent implements OnInit {
             points: parseInt(value.points, 0)
           })));
         },
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
+      });
+
+    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
+      .subscribe({
+        next: (data: ConfigResponse) => this.groupList = JSON.parse(data.value),
         error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
 
@@ -106,6 +115,18 @@ export class AdminConfigComponent implements OnInit {
         error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
 
+    this.groupList.push(this.newGroup);
+    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.CREATE, {
+      body: {key: REST_CONFIG.skills, value: JSON.stringify(this.groupList.filter(value => value.trim().length > 0))}
+    })
+      .subscribe({
+        next: () => {
+          this.groupList = this.groupList.filter(value => value.trim().length > 0);
+          this.newGroup = '';
+        },
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
+      });
+
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.CREATE, {
       body: {key: REST_CONFIG.fb_link, value: this.fbLink}
     })
@@ -118,6 +139,11 @@ export class AdminConfigComponent implements OnInit {
   cancelData() {
     this.fbLink = this.originalFbLink;
     this.rows.setDataCopy(this.originalData);
+    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
+      .subscribe({
+        next: (data: ConfigResponse) => this.groupList = JSON.parse(data.value),
+        error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
+      });
   }
 
   private checkDuplicates(data): boolean {
@@ -140,5 +166,9 @@ export class AdminConfigComponent implements OnInit {
         }
       ];
     });
+  }
+
+  numbers(): any[] {
+    return Array(this.groupList.length).fill(0);
   }
 }

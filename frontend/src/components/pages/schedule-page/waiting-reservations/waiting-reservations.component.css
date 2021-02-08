@@ -19,3 +19,21 @@ td, th {
   margin-top: 10px;
   font-size: x-large;
 }
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 15px 0;
+  text-align: end;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.payment-card {
+  padding: 10px;
+  background-color: white;
+  text-align: center;
+}

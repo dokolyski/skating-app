@@ -25,9 +25,9 @@ mat-toolbar {
   width: 100%;
   display: grid;
   grid-template-columns: auto auto;
-  column-gap: 10%;
+  column-gap: 5%;
   align-items: center;
-} 
+}
 
 .buttons-flex {
   width: 100%;

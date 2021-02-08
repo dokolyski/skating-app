@@ -19,6 +19,7 @@ import { RestError } from 'api/rest-error';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslateServiceMock } from 'assets/mocks/unit-tests/translation-mocks/translate-service-mock';
 import { TranslatePipeMock } from 'assets/mocks/unit-tests/translation-mocks/translate-pipe-mock';
+import {HttpErrorResponse} from '@angular/common/http';
 
 describe('login.component', () => {
   let authMock: jasmine.SpyObj<AuthService>;
@@ -96,26 +97,6 @@ describe('login.component', () => {
     await buttons.loginViaEmail.click();
   });
 
-  it('login via google', async (done: DoneFn) => {
-    authMock.loginViaGoogle.withArgs().and.returnValue(of());
-    component.onSubmit.subscribe(() => {
-      expect().nothing();
-      done();
-    });
-
-    await buttons.loginViaGoogle.click();
-  });
-
-  it('login via facebook', async (done: DoneFn) => {
-    authMock.loginViaFacebook.withArgs().and.returnValue(of());
-    component.onSubmit.subscribe(() => {
-      expect().nothing();
-      done();
-    });
-
-    await buttons.loginViaFacebook.click();
-  });
-
   it('shows client-side errors on invalid inputs values', async (done: DoneFn) => {
     await buttons.loginViaEmail.click();
 
@@ -135,9 +116,10 @@ describe('login.component', () => {
     const translatedErr: TranslatedErrors = {
       inputs: { [errKey]: errTrans }
     };
+    const httpError = new HttpErrorResponse({error});
     authMock.loginViaEmail
       .withArgs(user.email, user.password).and.returnValue(new Observable<void>(s => s.error(error)));
-    lngErrorMock.getErrorsStrings.withArgs(error).and.returnValue(of(translatedErr));
+    lngErrorMock.getErrorsStrings.withArgs(httpError).and.returnValue(of(translatedErr));
 
     await buttons.emailInput.setValue(user.email);
     await buttons.passwordInput.setValue(user.password);

@@ -8,6 +8,11 @@
   <mat-icon>today</mat-icon>
 </app-route-button>
 
+<app-route-button *appAccessOrganizer appIcon [routerLink]="path.ORGANIZER.SEND_NOTIFICATION"
+                  [tooltip]="'navbar.tooltips.SEND_NOTIFICATION' | translate" ariaLabel="Send notification">
+  <mat-icon>mail</mat-icon>
+</app-route-button>
+
 <ng-container *appAccessCommonUser>
   <app-route-button *appAccessOnline appIcon [routerLink]="path.LOGGED.SHOP"
     [tooltip]="'navbar.tooltips.SHOP' | translate" ariaLabel="Shop">

@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>
   {{(data.mode === 'create' ? 'pages.create-session.header' : 'pages.edit-session.header') | translate}}
 </h2>
-<div>
+<div mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>{{'pages.create-session.session-name' | translate}}</mat-label>
     <input [(ngModel)]="session.name" matInput>
@@ -15,7 +15,7 @@
   </mat-form-field>
   <br>
   <mat-form-field class="example-full-width">
-    <mat-label> {{'create-session.start-time' | translate}}</mat-label>
+    <mat-label> {{'pages.create-session.start-time' | translate}}</mat-label>
     <input [(ngModel)]="startTime" matInput type="time">
   </mat-form-field>
   <br>
@@ -27,9 +27,7 @@
   <mat-form-field appearance="fill">
     <mat-label>{{'pages.create-session.group' | translate}}</mat-label>
     <mat-select [(value)]="session.difficulty">
-      <!--      TODO - load difficulty options from config-->
-      <mat-option value="Brązowa+">Brązowa+</mat-option>
-      <mat-option value="Srebrna">Srebrna</mat-option>
+      <mat-option *ngFor="let group of groupOptions" [value]="group">{{group}}</mat-option>
     </mat-select>
   </mat-form-field>
   <br>

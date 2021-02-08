@@ -33,24 +33,32 @@ import {ParticipantListModule} from 'components/pages/participant-list/participa
 import {SessionListComponent} from 'components/pages/session-list/session-list.component';
 import {ReservationListComponent} from 'components/pages/reservation-list/reservation-list.component';
 import {ReservationListModule} from 'components/pages/reservation-list/reservation-list.module';
+import {NotificationSendingComponent} from './notification-sending/notification-sending.component';
+import {PaymentConfirmedPageComponent} from './payment-confirmed-page/payment-confirmed-page.component';
+import {PaymentConfirmedPageModule} from 'components/pages/payment-confirmed-page/payment-confirmed-page.module';
+import {ErrorPageComponent} from 'components/pages/error-page/error-page.component';
+import {ErrorPageModule} from 'components/pages/error-page/error-page.module';
 
 export const Pages = {
-    AccountPageComponent,
-    SchedulePageComponent,
-    MainPageComponent,
-    RegisterPageComponent,
-    LoginPageComponent,
-    ShopPageComponent,
-    AdminPageComponent,
-    AccountNotificationsComponent,
-    AccountSettingsComponent,
-    ProfileAddComponent,
-    ProfileSettingsComponent,
-    AdminConfigComponent,
-    AdminUsersComponent,
-    ManageSchedulePageComponent,
-    SessionListComponent,
-    ReservationListComponent
+  AccountPageComponent,
+  SchedulePageComponent,
+  MainPageComponent,
+  RegisterPageComponent,
+  LoginPageComponent,
+  ShopPageComponent,
+  AdminPageComponent,
+  AccountNotificationsComponent,
+  AccountSettingsComponent,
+  ProfileAddComponent,
+  ProfileSettingsComponent,
+  AdminConfigComponent,
+  AdminUsersComponent,
+  ManageSchedulePageComponent,
+  SessionListComponent,
+  ReservationListComponent,
+  NotificationSendingComponent,
+  PaymentConfirmedPageComponent,
+  ErrorPageComponent
 };
 
 @NgModule({
@@ -71,8 +79,11 @@ export const Pages = {
     ManageSchedulePageModule,
     SessionListModule,
     ParticipantListModule,
-    ReservationListModule
+    ReservationListModule,
+    PaymentConfirmedPageModule,
+    ErrorPageModule
   ],
-    declarations: []
+  declarations: []
 })
-export class PagesModule { }
+export class PagesModule {
+}

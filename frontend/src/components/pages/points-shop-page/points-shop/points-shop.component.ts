@@ -27,12 +27,9 @@ export class PointsShopComponent implements OnInit {
     private errorMessageService: ErrorMessageService) { }
 
   ngOnInit() {
-    this.rest.do<ConfigResponse[]>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.price_table}})
+    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.price_table}})
       .subscribe({
-        next: (data: ConfigResponse[]) => this.table = data.map(value => ({
-          required_money: parseInt(value.key, 0),
-          points: parseInt(value.value, 0)
-        })),
+        next: (data: ConfigResponse) => this.table = JSON.parse(data.value),
         error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
   }
