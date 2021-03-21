@@ -36,4 +36,22 @@ export class FormatterService {
   shortenDateTimeString(date): string {
     return moment(date).format('llll');
   }
+
+  timeRange(date_from, date_to): string {
+    return `${moment(date_from).format('LT')} - ${moment(date_to).format('LT')}`;
+  }
+
+
+  getDifficultyParsed(difficulty: string) {
+    return JSON.parse(difficulty);
+  }
+
+  groupFontColor(bgColor: string): string {
+    const r = parseInt(bgColor.substr(1, 2), 16);
+    const g = parseInt(bgColor.substr(3, 2), 16);
+    const b = parseInt(bgColor.substr(5, 2), 16);
+
+    const lum = (.2126 * r + .7152 * g + .0722 * b) / 255;
+    return lum > 0.5 ? '#000000' : '#ffffff';
+  }
 }

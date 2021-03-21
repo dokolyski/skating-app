@@ -15,7 +15,7 @@ export class ErrorInterceptorService {
         localStorage.removeItem('sessionInfo');
         this.translateService.get('success.logout').subscribe(message => snackBar.open(message));
       } else {
-        snackBar.open(e.message, 'OK');
+        snackBar.open(e.message, 'OK', {duration: 2000});
       }
     });
   }

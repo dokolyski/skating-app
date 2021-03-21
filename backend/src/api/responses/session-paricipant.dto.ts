@@ -17,8 +17,9 @@ export class JoinResponse {
 
     firstname: string;
     lastname: string;
-    email: string
+    email: string;
 
     amount: number;
-    positions: OrderPosition[]
+    positions: OrderPosition[];
+    type: string;
 }

@@ -28,6 +28,7 @@ import {MatInputModule} from '@angular/material/input';
 import {TranslateModule} from '@ngx-translate/core';
 import {FormsModule} from '@angular/forms';
 import {AccessControlModule} from 'directives/access-control/access-control.module';
+import {MiddleColumnModule} from 'components/common/middle-column/middle-column.module';
 
 @NgModule({
     imports: [
@@ -52,7 +53,8 @@ import {AccessControlModule} from 'directives/access-control/access-control.modu
         MatInputModule,
         TranslateModule,
         FormsModule,
-        AccessControlModule
+        AccessControlModule,
+        MiddleColumnModule
     ],
   exports: [
     ScheduleComponent

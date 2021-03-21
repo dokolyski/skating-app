@@ -3,12 +3,14 @@
     {{data.article.title}}
   </h1>
   <div mat-dialog-content>
-    <div class="text">
-      <p>
-        {{data.article.text}}
-      </p>
-    </div>
-    <img [src]="data.img_href">
+    <app-middle-column [withBackground]="false" [withPadding]="false">
+      <div class="text">
+        <p>
+          {{data.article.text}}
+        </p>
+      </div>
+      <img [src]="data.img_href" style="margin-bottom: 10px">
+    </app-middle-column>
   </div>
   <div mat-dialog-actions align="center">
     <button mat-button [mat-dialog-close]="null">{{'dialog-outcomes.go-back' | translate }}</button>

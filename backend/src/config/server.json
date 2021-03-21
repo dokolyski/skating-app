@@ -15,14 +15,18 @@
     "price": 1000
   },
   "payments": {
-    "description": "Płatność za sesje na lodowisku.",
+    "description": "Darowizna na rzecz Stowarzyszenia Figurowy Mińsk Mazowiecki.",
     "client": {
       "merchantId": 129869,
       "posId": 129869,
-      "salt": "ca685ba4e5175f0c",
-      "testMode": true,
+      "apiKey": "72371e0d042a0733a3f6fbd291e35189",
+      "crcKey": "ca685ba4e5175f0c",
+      "mode":   {
+        "sandbox": true
+      },
       "sessionId": "72371e0d042a0733a3f6fbd291e35189"
-    }
+    },
+    "timeLimit": 15
   },
   "providers": {
     "google": {

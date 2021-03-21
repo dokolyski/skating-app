@@ -14,7 +14,7 @@
       <mat-expansion-panel *ngFor="let session of sessions">
         <mat-expansion-panel-header [collapsedHeight]="'80px'" [expandedHeight]="'80px'">
           <mat-panel-title>
-            {{formatterService.shortenName(session.name, 20)}} ({{session.difficulty}})
+            {{formatterService.shortenName(session.name, 20)}} ({{formatterService.getDifficultyParsed(session.difficulty).name}})
           </mat-panel-title>
           <mat-panel-description>
             <span style="margin-right: 5px">{{session.profiles.length}}/{{session.max_participants}}</span>

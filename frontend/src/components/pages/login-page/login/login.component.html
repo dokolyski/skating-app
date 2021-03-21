@@ -1,56 +1,58 @@
-<div>
-  <form [formGroup]="form">
-    <mat-grid-list cols="1" rowHeight="8rem">
-      <mat-grid-tile>
-        <app-email [control]="form.get('email')" [serverError]="serverInputsErrors?.email">
-        </app-email>
-      </mat-grid-tile>
+<div style="padding: 2% 0">
+  <div>
+    <form [formGroup]="form">
+      <mat-grid-list cols="1" rowHeight="8rem">
+        <mat-grid-tile>
+          <app-email [control]="form.get('email')" [serverError]="serverInputsErrors?.email">
+          </app-email>
+        </mat-grid-tile>
 
-      <mat-grid-tile>
-        <app-password [control]="form.get('password')" [serverError]="serverInputsErrors?.password"></app-password>
-      </mat-grid-tile>
+        <mat-grid-tile>
+          <app-password [control]="form.get('password')" [serverError]="serverInputsErrors?.password"></app-password>
+        </mat-grid-tile>
 
-      <mat-grid-tile style="margin-top: -2rem">
-        <button appAccessOnlineButton mat-raised-button type="submit" color="primary" (click)="loginViaEmail()"
-                id="loginEmail" class="loginButton" aria-label="Login via email">
-          {{ 'pages.login.form.buttons.LOGIN_EMAIL' | translate }}
-        </button>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </form>
+        <mat-grid-tile style="margin-top: -2rem">
+          <button appAccessOnlineButton mat-raised-button type="submit" color="primary" (click)="loginViaEmail()"
+                  id="loginEmail" class="loginButton" aria-label="Login via email">
+            {{ 'pages.login.form.buttons.LOGIN_EMAIL' | translate }}
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </form>
+  </div>
+
+  <div class="divText"  style="margin-top: -2rem">{{ 'pages.login.form.SIGN_IN_SOCIAL_MEDIA' | translate }}</div>
+
+  <mat-grid-list style="margin-top: 2rem; margin-bottom: 2rem" cols="1" rowHeight="3rem">
+    <mat-grid-tile>
+      <button appAccessOnlineButton mat-raised-button (click)="loginViaGoogle()" id="loginGoogle" class="loginButton"
+              aria-label="Login via Google">
+        <div class="social-button">
+          <mat-icon svgIcon="google"></mat-icon>
+        </div>
+        <span>Google</span>
+      </button>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <button appAccessOnlineButton mat-raised-button (click)="loginViaFacebook()" id="loginFacebook" class="loginButton"
+              aria-label="Login via Facebook">
+        <div class="social-button">
+          <mat-icon svgIcon="facebook"></mat-icon>
+        </div>
+        <span>Facebook</span>
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <div class="divText">{{ 'pages.login.form.REGISTER_VIA_EMAIL' | translate }}</div>
+
+  <mat-grid-list style="margin-top: 2rem; margin-bottom: 2rem" cols="1" rowHeight="3rem">
+    <mat-grid-tile>
+      <button appAccessOnlineButton mat-raised-button type="submit" color="primary" routerLink="/register" class="loginButton"
+              aria-label="Login via email">
+        {{ 'pages.login.form.buttons.REGISTER_EMAIL' | translate }}
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
-
-<div class="divText"  style="margin-top: -2rem">{{ 'pages.login.form.SIGN_IN_SOCIAL_MEDIA' | translate }}</div>
-
-<mat-grid-list style="margin-top: 2rem; margin-bottom: 2rem" cols="1" rowHeight="3rem">
-  <mat-grid-tile>
-    <button appAccessOnlineButton mat-raised-button (click)="loginViaGoogle()" id="loginGoogle" class="loginButton"
-            aria-label="Login via Google">
-      <div class="social-button">
-        <mat-icon svgIcon="google"></mat-icon>
-      </div>
-      <span>Google</span>
-    </button>
-  </mat-grid-tile>
-
-  <mat-grid-tile>
-    <button appAccessOnlineButton mat-raised-button (click)="loginViaFacebook()" id="loginFacebook" class="loginButton"
-            aria-label="Login via Facebook">
-      <div class="social-button">
-        <mat-icon svgIcon="facebook"></mat-icon>
-      </div>
-      <span>Facebook</span>
-    </button>
-  </mat-grid-tile>
-</mat-grid-list>
-
-<div class="divText">{{ 'pages.login.form.REGISTER_VIA_EMAIL' | translate }}</div>
-
-<mat-grid-list style="margin-top: 2rem; margin-bottom: 2rem" cols="1" rowHeight="3rem">
-  <mat-grid-tile>
-    <button appAccessOnlineButton mat-raised-button type="submit" color="primary" routerLink="/register" class="loginButton"
-            aria-label="Login via email">
-      {{ 'pages.login.form.buttons.REGISTER_EMAIL' | translate }}
-    </button>
-  </mat-grid-tile>
-</mat-grid-list>

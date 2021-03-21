@@ -4,6 +4,7 @@ import { ShopPageComponent } from './shop-page.component';
 import { PointsShopModule } from './points-shop/points-shop.module';
 import { MiddleColumnModule } from 'components/common/middle-column/middle-column.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { PointsAmountComponent } from './points-amount/points-amount.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MiddleColumnModule,
     TranslateModule
   ],
-  declarations: [ShopPageComponent],
+  declarations: [ShopPageComponent, PointsAmountComponent],
   exports: [ShopPageComponent]
 })
 export class ShopPageModule { }

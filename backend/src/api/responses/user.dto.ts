@@ -10,6 +10,7 @@ export class UserResponse {
     public token: string;
     public password_reset_token: string;
     public password_reset_token_expiration_date: Date;
+    public pointsAmount: number;
     public readonly createdAt: Date;
     public readonly updatedAt: Date;
 }

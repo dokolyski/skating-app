@@ -13,7 +13,7 @@
     <mat-expansion-panel *ngFor="let session of sessions">
       <mat-expansion-panel-header [collapsedHeight]="'80px'" [expandedHeight]="'80px'">
         <mat-panel-title [style]="{fontWeight: session.profiles.length > 0 ? 600 : undefined}">
-          {{formatterService.shortenName(session.name, 20)}} ({{session.difficulty}})
+          {{formatterService.shortenName(session.name, 20)}} ({{formatterService.getDifficultyParsed(session.difficulty).name}})
         </mat-panel-title>
         <mat-panel-description>
           <div

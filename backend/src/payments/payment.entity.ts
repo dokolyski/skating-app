@@ -1,9 +1,4 @@
-import {
-    Table,
-    Column,
-    Model,
-    DataType, ForeignKey, BelongsTo, HasMany, CreatedAt, UpdatedAt,
-} from 'sequelize-typescript';
+import {Column, CreatedAt, DataType, ForeignKey, HasMany, Model, Table, UpdatedAt,} from 'sequelize-typescript';
 import {IsIn} from "class-validator";
 import {SessionParticipant} from "../session_participants/session-participant.entity";
 
@@ -40,7 +35,7 @@ export class Payment extends Model<Payment> {
         type: DataType.STRING(45),
         allowNull: false
     })
-    @IsIn(['CAST', 'POINTS'])
+    @IsIn(['CASH', 'POINTS'])
     public type: string;
 
     @Column({
@@ -77,15 +72,17 @@ export class Payment extends Model<Payment> {
         type: DataType.STRING(10),
         allowNull: true
     })
-    @IsIn(["NOTPAID", "PAID"])
-    status: string = "NOTPAID";
-
-    @Column
-    @ForeignKey(() => SessionParticipant)
-    public session_participant_id: number;
+    @IsIn(["WAITING", "CONFIRMED", "REFUNDED"])
+    status: string = "WAITING";
 
     @HasMany(() => SessionParticipant)
     participant: SessionParticipant[];
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: true
+    })
+    receivedPoints: number;
 
     @Column
     @CreatedAt

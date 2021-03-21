@@ -14,7 +14,7 @@
 }
 
 #form>*:last-child {
-    margin-bottom: 0%;
+    margin-bottom: 0;
 }
 
 .mat-form-field {
@@ -34,4 +34,10 @@ app-interactive-table, :host::ng-deep table {
         padding-left: 10%;
         padding-right: 10%;
     }
+}
+
+.groupConfigs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
 }

@@ -40,3 +40,7 @@ mat-toolbar {
   width: fit-content !important;
   margin: 1vw !important;
 }
+
+#navbar {
+  height: 64px;
+}

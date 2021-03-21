@@ -16,9 +16,9 @@ import {ErrorMessageService} from 'services/error-message-service/error.message.
 import {first} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
 
-type DialogDataType = {
-  required_money: number,
-  points: number
+type GroupConfig = {
+  name: string,
+  color: string
 };
 
 /***
@@ -39,8 +39,11 @@ export class AdminConfigComponent implements OnInit {
   cols: Col[];
   rows = new ArraySubject<any>();
 
-  groupList: string[] = [];
-  newGroup = '';
+  groupList: GroupConfig[] = [];
+  newGroup = {
+    name: '',
+    color: '#ffffff'
+  };
 
   constructor(
     private translate: TranslateService,
@@ -117,12 +120,15 @@ export class AdminConfigComponent implements OnInit {
 
     this.groupList.push(this.newGroup);
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.CREATE, {
-      body: {key: REST_CONFIG.skills, value: JSON.stringify(this.groupList.filter(value => value.trim().length > 0))}
+      body: {key: REST_CONFIG.skills, value: JSON.stringify(this.groupList.filter(value => value.name.trim().length > 0))}
     })
       .subscribe({
         next: () => {
-          this.groupList = this.groupList.filter(value => value.trim().length > 0);
-          this.newGroup = '';
+          this.groupList = this.groupList.filter(value => value.name.trim().length > 0);
+          this.newGroup = {
+            name: '',
+            color: '#ffffff'
+          };
         },
         error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });

@@ -22,7 +22,8 @@ import {SessionParticipant} from "./session-participant.entity";
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user"
 import {JoinResponse, OrderPosition} from "../api/responses/session-paricipant.dto";
-import * as server_config from "../config/server.json"
+import assert from 'assert';
+import {HttpException} from '@nestjs/common/exceptions/http.exception';
 
 @Injectable()
 export class SessionParticipantService {
@@ -60,7 +61,7 @@ export class SessionParticipantService {
             resPosition.profile_id = profile.id;
 
             resPosition.firstname = profile.firstname;
-            resPosition.lastname = profile.firstname;
+            resPosition.lastname = profile.lastname;
 
             resPosition.start_date = session.start_date;
             resPosition.end_date = session.end_date;
@@ -70,48 +71,16 @@ export class SessionParticipantService {
 
             response.positions.push(resPosition);
         }
+        if (request.type === 'POINTS' && response.amount > AuthorizedUser.getPointsAmount()) {
+            throw new HttpException('Not enough points in the account', 400)
+        }
 
         return response;
     }
 
-    // async join(request: JoinRequest): Promise<JoinResponse> {
-    //     const session = await this.getSession(request.session_id);
-    //     const profiles = await this.getProfiles(request.profiles_ids, AuthorizedUser.getId());
-    //
-    //     notfound(session);
-    //
-    //     const t = await this.sequelize.transaction();
-    //
-    //     try {
-    //         for (const profile of profiles) {
-    //
-    //             const sp = await this.sessionParticipantsRepository.findAndCountAll({
-    //                 where: {
-    //                     profile_id: profile.id,
-    //                     session_id: session.id
-    //                 }
-    //             });
-    //             if (sp.count > 0) {
-    //                 throw new UnprocessableEntityException("Already joined");
-    //             }
-    //
-    //             await this.sessionParticipantsRepository.create({
-    //                 session_id: session.id,
-    //                 profile_id: profile.id
-    //             }, {transaction: t})
-    //         }
-    //
-    //         await t.commit()
-    //     } catch (err) {
-    //         await t.rollback();
-    //         throw err;
-    //     }
-    // }
-
     public async disjoin(request: DisjoinRequest) {
-
         const sp = await this.sessionsRepository.findByPk(request.session_id);
-        notfound(sp)
+        notfound(sp);
 
         const t = await this.sequelize.transaction();
 
@@ -129,6 +98,8 @@ export class SessionParticipantService {
             for (let participant of participants) {
                 AuthorizedUser.checkOwnership(participant.profile.user_id);
                 await participant.destroy({transaction: t});
+                assert(participant.payment.status === 'CONFIRMED', '')
+
                 //TODO zwrot punktów na konto
             }
 

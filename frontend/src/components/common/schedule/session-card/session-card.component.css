@@ -15,11 +15,16 @@
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.7);
 }
 
+.sessionCard>*:last-child {
+  margin: 0 -4px -2px -4px;
+  padding: 4px;
+  border-radius: 0 0 5px 5px;
+}
+
 .addParticipantButton {
   background-color: var(--very-dark-blue);
   margin: 4px -4px -2px -4px;
   padding: 6px 4px 6px 4px;
-  border-radius: 0 0 5px 5px;
   color: white;
   transition: 0.2s;
   cursor: pointer;
@@ -30,17 +35,23 @@
 }
 
 .cardTitle {
+  padding: 2px;
   font-size: larger;
 }
 
 .groupLevel {
-  margin: 2px;
+  padding: 4px;
+  margin: 0 -4px -2px -4px;
 }
 
 .time-header {
   margin: -2px -4px 0 -4px;
   border-radius: 5px 5px 0 0;
   background-color: var(--malibu);
+}
+
+.canceled .time-header {
+  background-color: #5f8ca5;
 }
 
 .profile-placeholder {

@@ -1,14 +1,13 @@
 import {
-    IsNotEmpty,
-    IsNumber,
-    IsString,
-    Matches,
+    IsDateString,
     IsEmail,
-    Length,
-    IsDate,
-    IsPhoneNumber,
+    IsIn,
+    IsInt,
+    IsNotEmpty,
     IsOptional,
-    IsDateString, IsIn
+    IsPhoneNumber,
+    IsString,
+    Length
 } from 'class-validator';
 import {PasswordPassEntrophyTest, PasswordPassRegexes} from '../rest-validators';
 
@@ -24,7 +23,7 @@ export class UserRequest {
 
     @IsNotEmpty({message: "REQUIRED"})
     @IsString({message: "MUST_BE_STRING"})
-    @IsEmail({},{message:"INVALID"})
+    @IsEmail({}, {message: "INVALID"})
     email: string;
 
     @IsNotEmpty({message: "REQUIRED"})
@@ -35,13 +34,13 @@ export class UserRequest {
     password: string;
 
     @IsNotEmpty({message: "REQUIRED"})
-    @IsDateString({message:"MUST_BE_DATE_STRING"})
-    birth_date: Date|null;
+    @IsDateString({message: "MUST_BE_DATE_STRING"})
+    birth_date: Date | null;
 
     @IsOptional()
     @IsString({message: "MUST_BE_STRING"})
     @IsPhoneNumber('PL')
-    phone_number: string|null;
+    phone_number: string | null;
 
     @IsNotEmpty({message: "REQUIRED"})
     @IsString({message: "MUST_BE_STRING"})
@@ -52,11 +51,22 @@ export class UserRequest {
 export class UserEditRequest {
     @IsNotEmpty({message: "REQUIRED"})
     @IsString({message: "MUST_BE_STRING"})
-    @IsEmail({},{message:"INVALID"})
+    @IsEmail({}, {message: "INVALID"})
     email: string;
 
     @IsOptional()
     @IsString({message: "MUST_BE_STRING"})
     @IsPhoneNumber('PL')
-    phone_number: string|null;
+    phone_number: string | null;
 }
+
+export class UserAddPointsRequest {
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsInt()
+    pointsAmount: number;
+
+    @IsNotEmpty({message: "REQUIRED"})
+    @IsInt()
+    price: number;
+}
+

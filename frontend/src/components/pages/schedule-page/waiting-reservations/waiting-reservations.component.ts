@@ -13,6 +13,7 @@ import {JoinResponse} from 'api/responses/session-paricipant.dto';
 import {MatDialog} from '@angular/material/dialog';
 import {ReservationConfirmComponent} from 'components/pages/schedule-page/waiting-reservations/reservation-confirm/reservation-confirm.component';
 import {ReservationTableFormatterService} from 'services/reservation-table-formatter-service/reservation-table-formatter.service';
+import {FormatterService} from 'services/formatter-service/formatter.service';
 
 @Component({
   selector: 'app-waiting-reservations',
@@ -27,7 +28,8 @@ export class WaitingReservationsComponent implements OnInit, OnDestroy {
     private breakPointObserver: BreakpointObserver,
     private restService: RestService,
     public dialog: MatDialog,
-    public tableFormatter: ReservationTableFormatterService) {
+    public tableFormatter: ReservationTableFormatterService,
+    public formatterService: FormatterService) {
   }
 
   dataSource: MatTableDataSource<SessionParticipant>;

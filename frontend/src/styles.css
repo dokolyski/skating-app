@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 :root {
-  --background: white;
+  --background: #ffffff;
   --secondary-background: linear-gradient(to bottom, #91eae482, #86a8e785, #7f7fd585);
   --very-dark-blue: #25257f;
   --dark-blue: #3f51b5;
@@ -15,12 +15,6 @@
   --bluish-white: #e8eaf6;
 
   --green-light: #a2fc9c;
-}
-
-html, body {
-  --full: 100%;
-  width: var(--full);
-  height: var(--full);
 }
 
 body {

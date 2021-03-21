@@ -1,7 +1,7 @@
-<div class="grid">
-  <div class="background"></div>
-  <div class="center">
+<div [class]="withBackground ? 'grid with-full-height' : 'grid'">
+  <div [class]="withBackground ? 'background' : ''"></div>
+  <div [class]="(withBackground ? 'with-box-shadow with-extend' : '') + ' ' + (withPadding ? 'content-with-padding' : '')">
     <ng-content></ng-content>
   </div>
-  <div class="background"></div>
+  <div [class]="withBackground ? 'background' : ''"></div>
 </div>

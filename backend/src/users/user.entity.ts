@@ -122,6 +122,12 @@ export class User extends Model<User> {
     })
     public password_reset_token_expiration_date: Date;
 
+    @Column({
+        type: DataType.INTEGER,
+        defaultValue: 0
+    })
+    public pointsAmount: number;
+
     @HasMany(() => Profile)
     profiles: Profile[];
 

@@ -12,7 +12,6 @@ import {LoginRequest} from "./requests/login.dto";
 import {DisjoinRequest, JoinRequest} from "./requests/session-participant.dto";
 import SessionResponse from "./responses/session.dto";
 import {PaymentResponse} from "./responses/payment.dto";
-import {PaymentVerifyRequest} from "./requests/payment.dto";
 import {UserResponse, UserResponseWithName} from './responses/user.dto';
 
 
@@ -167,7 +166,7 @@ export namespace PAYMENTS {
     }
 
     export namespace VERYFI {
-        export type REQUEST = PaymentVerifyRequest;
+        export type REQUEST = any;
         export type RESPONSE = void;
     }
 }

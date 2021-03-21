@@ -67,6 +67,16 @@
     "POINTS": "Punkty"
   },
   "pages": {
+    "confirm-reservation": {
+      "title": "Czy na pewno chcesz dokonać tej rezerwacji?",
+      "method": {
+        "title": "Metoda płatności",
+        "types": {
+          "cash": "przelew online",
+          "points": "punkty karnetowe"
+        }
+      }
+    },
     "registration": {
       "form": {
         "controls": {
@@ -95,6 +105,7 @@
       "CARD_TITLE": "Logowanie"
     },
     "shop": {
+      "currentPointsAmount": "Aktualna ilość punktów:",
       "table": {
         "columns": {
           "POINTS": "Punkty",

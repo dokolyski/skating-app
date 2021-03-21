@@ -37,6 +37,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {ErrorMessageService} from 'services/error-message-service/error.message.service';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
 import {TokenReaderComponent} from './token-reader/token-reader.component';
+import {LoadingSpinnerModule} from 'components/common/loading-spinner/loading-spinner.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -44,37 +45,38 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    BrowserAnimationsModule,
-    PagesModule,
-    MatCardModule,
-    MatButtonModule,
-    SchedulePageModule,
-    HttpClientModule,
-    MatIconModule,
-    FlexLayoutModule,
-    RouterModule,
-    MatDatepickerModule,
-    NavbarModule,
-    MatBadgeModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    InputsModule,
-    MatCheckboxModule,
-    FormsModule,
-    AccessControlModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      },
-      defaultLanguage: 'pl'
-    })
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
+        BrowserAnimationsModule,
+        PagesModule,
+        MatCardModule,
+        MatButtonModule,
+        SchedulePageModule,
+        HttpClientModule,
+        MatIconModule,
+        FlexLayoutModule,
+        RouterModule,
+        MatDatepickerModule,
+        NavbarModule,
+        MatBadgeModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        InputsModule,
+        MatCheckboxModule,
+        FormsModule,
+        AccessControlModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            },
+            defaultLanguage: 'pl'
+        }),
+        LoadingSpinnerModule
+    ],
   declarations: [
     AppComponent,
     AdminConfigDialogEditComponent,

@@ -1,25 +1,32 @@
-<div class="info-header">
-  <div class="header-name">{{data.session.name}}</div>
-  <div class="header-date">
-    <mat-icon aria-hidden="false" aria-label="Example home icon">today</mat-icon>
-    {{formatterService.dateWithTimeRange(data.session.start_date, data.session.end_date)}}
+<div class="container">
+  <app-middle-column [withBackground]="false" [withPadding]="false" style="background-color: transparent!important; margin-bottom: 10px">
+  <div class="info-header">
+    <div class="header-name">{{data.session.name}}</div>
+    <div class="header-date">
+      <mat-icon aria-hidden="false" aria-label="Example home icon">today</mat-icon>
+      {{formatterService.dateWithTimeRange(data.session.start_date, data.session.end_date)}}
+    </div>
   </div>
-</div>
+  </app-middle-column>
 
-<mat-dialog-content class="info-content">
-  <ng-container *ngIf="data.session.difficulty != null">
-    <div class="content-header">{{data.session.difficulty}}</div>
-    <mat-divider></mat-divider>
-  </ng-container>
-  <div class="content-header">{{'session-details.number-of-reserved-places' | translate:{reserved: data.session.profiles.length, max: data.session.max_participants} }}</div>
-  <mat-divider></mat-divider>
-  <div class="content-header">{{'session-details.session-price' | translate:{value: data.session.price} }}</div>
-  <mat-divider></mat-divider>
-  <div class="content-header">{{'session-details.description' | translate }}</div>
-  <div class="content-description">{{data.session.description}}</div>
-  <img class="session-img" src="assets/img/x0.jpg" alt="">
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>{{'dialog-outcomes.go-back' | translate}}</button>
-  <button *appAccessCommonUser mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'dialog-outcomes.add-participants' | translate}}</button>
-</mat-dialog-actions>
+  <mat-dialog-content class="info-content">
+    <app-middle-column [withBackground]="false" [withPadding]="false">
+      <ng-container *ngIf="data.session.difficulty != null">
+        <div *ngFor="let difficulty of [formatterService.getDifficultyParsed(data.session.difficulty)]"
+             [style]="{backgroundColor: difficulty.color, color: formatterService.groupFontColor(difficulty.color), borderRadius: '5px'}"
+             class="content-header">{{difficulty.name}}</div>
+      </ng-container>
+      <div class="content-header">{{'session-details.number-of-reserved-places' | translate:{reserved: data.session.profiles.length, max: data.session.max_participants} }}</div>
+      <mat-divider></mat-divider>
+      <div class="content-header">{{'session-details.session-price' | translate:{value: data.session.price} }}</div>
+      <mat-divider></mat-divider>
+      <div class="content-header">{{'session-details.description' | translate }}</div>
+      <div class="content-description">{{data.session.description}}</div>
+      <img class="session-img" src="assets/img/session-img.webp" alt="">
+    </app-middle-column>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>{{'dialog-outcomes.go-back' | translate}}</button>
+    <button *appAccessCommonUser mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'dialog-outcomes.add-participants' | translate}}</button>
+  </mat-dialog-actions>
+</div>

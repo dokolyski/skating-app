@@ -32,7 +32,7 @@ export class AccountNotificationsComponent implements OnInit {
 
   ngOnInit() {
     const body: SessionIndexRequest = {
-      date_from: new Date(),
+      date_from: new Date(Date.now()),
       date_to: null
     };
 
@@ -53,7 +53,7 @@ export class AccountNotificationsComponent implements OnInit {
 
   private combine(s: SessionResponse[], n: NotificationResponse[]): Combined[] {
     return n.map(v => {
-      const session_info = s.filter(({id: session_id}) => session_id === v.session_id)[0];
+      const session_info = s.find((sr) => sr.id === v.session_id);
       return { session_info, notification_info: v };
     });
   }

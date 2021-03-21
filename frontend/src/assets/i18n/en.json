@@ -67,6 +67,16 @@
     "POINTS": "Points"
   },
   "pages": {
+    "confirm-reservation": {
+      "title": "Are you sure you want to make these bookings?",
+      "method": {
+        "title": "Payment method",
+        "types": {
+          "cash": "online transfer",
+          "points": "pass points"
+        }
+      }
+    },
     "registration": {
       "form": {
         "controls": {
@@ -95,6 +105,7 @@
       "CARD_TITLE": "Sign In"
     },
     "shop": {
+      "currentPointsAmount": "Current points amount:",
       "table": {
         "columns": {
           "POINTS": "Points",

@@ -9,6 +9,7 @@ import {ReservationsService} from 'services/reservations-service/reservations.se
 import SessionResponse from 'api/responses/session.dto';
 import {ProfileResponse} from 'api/responses/profile.dto';
 import {Subscription} from 'rxjs';
+import {FormatterService} from 'services/formatter-service/formatter.service';
 
 @Component({
   selector: 'app-session-card',
@@ -20,15 +21,13 @@ export class SessionCardComponent implements OnInit, OnDestroy {
 
   @Input() sessionData: SessionResponse;
   @Input() profiles: ProfileResponse[];
-
-  startTime: string;
-  endTime: string;
   participants: ProfileResponse[];
   blockIfAlreadyReserved;
 
   constructor(
     public dialog: MatDialog,
-    private reservationsService: ReservationsService) { }
+    private reservationsService: ReservationsService,
+    public formatterService: FormatterService) { }
 
   openInfoPane() {
     this.dialog.open(SessionInfoPaneComponent, {
@@ -45,9 +44,6 @@ export class SessionCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.startTime = moment(this.sessionData.start_date).format('LT');
-    this.endTime = moment(this.sessionData.end_date).format('LT');
-
     this.participants = this.reservationsService.getReservationsForSession(this.sessionData.id);
 
     this.s = this.reservationsService.reservationsChange

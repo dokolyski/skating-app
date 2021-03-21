@@ -90,7 +90,7 @@ export class ProfileSettingsComponent implements OnInit {
     this.editMode = false;
 
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}}).subscribe(next => {
-      this.skillLevelPossibleValues = [' ', ...JSON.parse(next.value)];
+      this.skillLevelPossibleValues = [' ', ...JSON.parse(next.value).map(value => value.name)];
     });
 
     return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.INDEX).subscribe({

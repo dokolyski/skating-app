@@ -1,23 +1,30 @@
 .grid {
-    height: calc(100% - 64px);
-    display: grid;
-    grid-template-columns: 10% 80% 10%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
 }
 
-.center {
-    padding-top: 5%;
-    padding-left: 5%;
-    padding-right: 5%;
-    box-shadow: 0 0 10px;
-    background: var(--background);
+.with-full-height {
+  position: absolute;
+  top: 64px;
+  height: calc(100vh - 64px);
+}
+
+.with-box-shadow {
+  box-shadow: 0 0 10px;
+  background: var(--background);
 }
 
 .background {
-    background: var(--secondary-background);
+  background: var(--secondary-background);
+}
+
+.content-with-padding {
+  padding: 5% 5%;
 }
 
 @media (max-width: 768px) {
   .grid {
-    grid-template-columns: 0 100% 0!important;
+    grid-template-columns: 0 100% 0 !important;
   }
 }

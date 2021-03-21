@@ -1,18 +1,27 @@
 import {Inject, Injectable, UnauthorizedException} from '@nestjs/common';
-import {PROFILE_REPOSITORY, SEQUELIZE, USER_REPOSITORY} from "../constants";
+import {CONFIG_REPOSITORY, PAYMENTS_REPOSITORY, PROFILE_REPOSITORY, SEQUELIZE, USER_REPOSITORY} from "../constants";
 import {User} from "./user.entity";
 import {Sequelize} from "sequelize-typescript";
 import {Profile} from "../profiles/profile.entity";
-import {UserEditRequest, UserRequest} from "../api/requests/user.dto";
+import {UserAddPointsRequest, UserEditRequest, UserRequest} from "../api/requests/user.dto";
 import {notfound} from "../helpers/helpers";
 import AuthorizedUser from "../helpers/authorized-user";
 import {UserResponse, UserResponseWithName} from "../api/responses/user.dto";
 import {UserChmod} from 'src/api/requests/user-chmod';
+import {Payment} from 'src/payments/payment.entity';
+import {Md5} from 'ts-md5';
+import {PaymentResponse} from 'src/api/responses/payment.dto';
+import {Config} from 'src/config/config.entity';
+import assert from 'assert';
+import {PaymentsService} from 'src/payments/payments.service';
 
 @Injectable()
 export class UsersService {
     constructor(@Inject(USER_REPOSITORY) private usersRepository: typeof User,
                 @Inject(PROFILE_REPOSITORY) private profilesRepository: typeof Profile,
+                @Inject(PAYMENTS_REPOSITORY) private paymentsRepository: typeof Payment,
+                @Inject(CONFIG_REPOSITORY) private configRepository: typeof Config,
+                private paymentsService: PaymentsService,
                 @Inject(SEQUELIZE) private readonly sequelize: Sequelize
     ) {
     }
@@ -42,7 +51,8 @@ export class UsersService {
                 createdAt: value.createdAt,
                 updatedAt: value.updatedAt,
                 firstname: mainProfile.firstname,
-                lastname: mainProfile.lastname
+                lastname: mainProfile.lastname,
+                pointsAmount: value.pointsAmount
             }
         }));
     }
@@ -69,8 +79,7 @@ export class UsersService {
                 firstname: userRequest.firstname,
                 lastname: userRequest.lastname,
                 birth_date: new Date(userRequest.birth_date),
-                is_owner: true,
-                skill_level: "LOW",
+                is_owner: true
             }, {transaction: t});
 
             // const href = `http://${server_config.ip}:${server_config.port}/user/register/verify?email=${user.email}&id=${user.id}`;
@@ -109,5 +118,29 @@ export class UsersService {
         }
         user.update({isAdmin: request.admin, isOrganizer: request.organizer});
         await user.save();
+    }
+
+    async paymentForPoints(id: number, request: UserAddPointsRequest) {
+        AuthorizedUser.checkOwnership(id);
+        const pointsTableConfig: Config = await this.configRepository.findByPk('price_table')
+        const pointsTable = JSON.parse(pointsTableConfig.value);
+
+        const chosenPointsOption = (pointsTable as {required_money: number,
+            points: number}[]).find(value => value.points === request.pointsAmount && value.required_money === request.price)
+
+        assert(chosenPointsOption != null, 'Points_option_not_found')
+
+        let t = await this.sequelize.transaction();
+
+        try {
+            const payment = await this.paymentsService.registerPayment('CASH', chosenPointsOption.required_money, t);
+            const response = new PaymentResponse()
+            response.orderId = payment.order_id;
+            response.paymentLink = payment.link;
+            return response;
+        } catch (err) {
+            t.rollback();
+            throw err;
+        }
     }
 }

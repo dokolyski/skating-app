@@ -57,7 +57,7 @@ export class ProfileAddComponent implements OnInit {
 
     this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
       .subscribe({
-        next: (v: ConfigResponse) => this.skillLevelPossibleValues = JSON.parse(v.value),
+        next: (v: ConfigResponse) => this.skillLevelPossibleValues = JSON.parse(v.value).map(value => value.name),
         error: (e: HttpErrorResponse) => this.handleErrors(e, false)
       });
   }

@@ -52,6 +52,10 @@ class AuthorizedUser {
     public getEmail(): string {
         return this.user.email;
     }
+
+    public getPointsAmount(): number {
+        return this.user.pointsAmount;
+    }
 }
 
 export default new AuthorizedUser();

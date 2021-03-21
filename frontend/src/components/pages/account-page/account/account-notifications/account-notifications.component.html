@@ -1,19 +1,23 @@
 <div>
-    <mat-accordion multi>
-        <mat-expansion-panel *ngFor="let s of sessions">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    {{ s.notification_info.title }}
-                </mat-panel-title>
-                <mat-panel-description *ngIf="s.notification_info.session_id != null && s.session_info.name != null">
-                    {{ s.session_info.name }}
-                </mat-panel-description>
-            </mat-expansion-panel-header>
-            <ng-template matExpansionPanelContent>
-                <p>
-                    {{ s.notification_info.description }}
-                </p>
-            </ng-template>
-        </mat-expansion-panel>
-    </mat-accordion>
+  <mat-accordion multi>
+    <mat-expansion-panel *ngFor="let s of sessions">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ s.notification_info.title }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ s.session_info.name }}
+        </mat-panel-description>
+
+        <mat-panel-description *ngIf="s.session_info != null && s.session_info.name != null">
+          {{ s.session_info.name }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <p>
+          {{ s.notification_info.description }}
+        </p>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>

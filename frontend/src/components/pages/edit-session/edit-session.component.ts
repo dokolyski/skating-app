@@ -19,7 +19,7 @@ export class EditSessionComponent implements OnInit {
   uid: number;
   startTime: string;
   endTime: string;
-  groupOptions: string[] = [];
+  groupOptions: any[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { session: SessionResponse, mode: 'edit' | 'create' },
               private authService: AuthService,
@@ -57,5 +57,9 @@ export class EditSessionComponent implements OnInit {
       status: 'OPEN',
       owner_id: this.uid
     };
+  }
+
+  stringifyGroup(group: any) {
+    return JSON.stringify(group);
   }
 }

@@ -18,14 +18,24 @@ import {Session} from "../sessions/session.entity";
 import {SessionParticipant} from "../session_participants/session-participant.entity";
 import {Profile} from "../profiles/profile.entity";
 import {Sequelize} from "sequelize-typescript";
-import {Country, Currency, Payment as P24Payment, Przelewy24} from "@ingameltd/node-przelewy24";
+import {
+    P24,
+    Order,
+    Currency,
+    Country,
+    Language,
+    NotificationRequest,
+    Verification, Encoding
+} from "@ingameltd/node-przelewy24";
 import {Md5} from 'ts-md5/dist/md5';
 import {Transaction} from "sequelize";
-import {PaymentVerifyRequest} from "../api/requests/payment.dto";
 import * as client_config from '../config/client.json'
+import assert from 'assert';
 
 @Injectable()
 export class PaymentsService {
+    private p24: P24;
+
     constructor(@Inject(USER_REPOSITORY) private usersRepository: typeof User,
                 @Inject(SESSION_REPOSITORY) private sessionsRepository: typeof Session,
                 @Inject(SESSION_PARTICIPANTS_REPOSITORY) private participantRepository: typeof SessionParticipant,
@@ -33,6 +43,7 @@ export class PaymentsService {
                 @Inject(PAYMENTS_REPOSITORY) private paymentsRepository: typeof Payment,
                 @Inject(SEQUELIZE) private readonly sequelize: Sequelize
     ) {
+        this.p24 = this.preparePaymentClient();
     }
 
     async create(request: JoinRequest): Promise<PaymentResponse> {
@@ -41,25 +52,10 @@ export class PaymentsService {
 
         let t = await this.sequelize.transaction();
 
-        const user = AuthorizedUser.getUser();
-
-        const client = this.preparePaymentClient();
-        await client.testConnection();
+        await this.p24.testAccess();
 
         try {
-            let payment: Payment = await this.paymentsRepository.create({
-                email: AuthorizedUser.getEmail(),
-                type: request.type,
-                amount: await this.calculateAmount(request.positions),
-            }, {transaction: t});
-
-            // payment.firstname = AuthorizedUser.getFirstname();
-            // payment.lastname = AuthorizedUser.getLastname();
-
-            payment.hash = Md5.hashStr(payment.id.toString()).toString();
-            payment.link = await client.getPaymentLink(this.preparePaymentParams(user, payment));
-
-            await payment.save({transaction: t});
+            const payment = await this.registerPayment(request.type, await this.calculateAmount(request.positions), t);
 
             await this.createParticipants(payment, request.positions, t);
             await t.commit();
@@ -95,22 +91,39 @@ export class PaymentsService {
         };
     }
 
-    async verify(request: PaymentVerifyRequest): Promise<void> {
+    async verify(request: any): Promise<void> {
+        await this.p24.testAccess();
 
-        const payment: Payment = await this.paymentsRepository.findOne({
-            where: {
-                hash: request.p24_order_id
-            }
-        });
+        const verify: NotificationRequest = request.body
+        assert(this.p24.verifyNotification(verify), 'Wrong p24 notification received')
 
-        notfound(payment);
+        const verifyRequest: Verification = {
+            amount: verify.amount,
+            currency: Currency.PLN,
+            orderId: verify.orderId,
+            sessionId: verify.sessionId
+        }
 
-        payment.session_id = request.p24_session_id;
-        payment.currency = request.p24_currency;
-        payment.sign = request.p24_sign;
-        payment.order_id = request.p24_order_id;
-        payment.amount = request.p24_amount;
-        payment.status = "PAID";
+        const res = await this.p24.verifyTransaction(verifyRequest)
+        if (res === true) {
+            const payment: Payment = await this.paymentsRepository.findOne({
+                where: {
+                    hash: request.p24_order_id
+                }
+            });
+
+            notfound(payment);
+
+            payment.session_id = request.p24_session_id;
+            payment.currency = request.p24_currency;
+            payment.sign = request.p24_sign;
+            payment.order_id = request.p24_order_id;
+            payment.amount = request.p24_amount;
+            payment.status = "PAID";
+        }
+
+
+
     }
 
     protected async validatePositions(positions: JoinRequestPosition[]) {
@@ -134,7 +147,7 @@ export class PaymentsService {
 
             await this.checkIfAlreadyJoined(position.session_id, position.profile_id);
             const session = await this.sessionsRepository.findByPk(position.session_id)
-            amount += session.price;
+            amount += session.price * 100;
         }
         return amount;
     }
@@ -151,22 +164,25 @@ export class PaymentsService {
         }
     }
 
-    protected preparePaymentClient(): Przelewy24 {
+    protected preparePaymentClient(): P24 {
         const c = server_config.payments.client;
-        return new Przelewy24(c.merchantId, c.posId, c.salt, c.testMode);
+        return new P24(c.merchantId, c.posId, c.apiKey, c.crcKey, c.mode);
     }
 
-    protected preparePaymentParams(user: User, payment: Payment): P24Payment {
-        return new P24Payment({
-            p24_amount: payment.amount,
-            p24_country: Country.Poland,
-            p24_currency: Currency.PLN,
-            p24_description: server_config.payments.description, // set description
-            p24_email: user.email,
-            p24_session_id: Md5.hashStr((new Date().toTimeString())).toString(),
-            p24_url_return: this.prepareReturnUrl(payment.hash),
-            p24_url_status: this.prepareStatusUrl()
-        })
+    protected preparePaymentParams(user: User, payment: Payment): Order {
+        return {
+            timeLimit: server_config.payments.timeLimit,
+            amount: payment.amount,
+            country: Country.Poland,
+            currency: Currency.PLN,
+            language: Language.PL,
+            description: server_config.payments.description, // set description
+            email: user.email,
+            sessionId: Md5.hashStr((new Date().toTimeString())).toString(),
+            urlReturn: this.prepareReturnUrl(payment.hash),
+            urlStatus: this.prepareStatusUrl(),
+            encoding: Encoding.UTF8
+        }
     }
 
     protected prepareReturnUrl(order: string): string {
@@ -174,7 +190,7 @@ export class PaymentsService {
     }
 
     protected prepareStatusUrl(): string {
-        return server_config.domain + ":" + server_config.port + "/api/payments/status";
+        return server_config.domain + ":" + server_config.port + "/api/payments/verify";
     }
 
     protected async checkIfAlreadyJoined(sessionId: number, profileId: number): Promise<void> {
@@ -187,5 +203,21 @@ export class PaymentsService {
         if (sp.count > 0) {
             throw new UnprocessableEntityException("Already joined");
         }
+    }
+
+    public async registerPayment(paymentMethod: string, amount: number, t: Transaction): Promise<Payment> {
+        const user = AuthorizedUser.getUser();
+
+        let payment: Payment = await this.paymentsRepository.create({
+            email: AuthorizedUser.getEmail(),
+            type: paymentMethod,
+            amount,
+        }, {transaction: t});
+
+        payment.hash = Md5.hashStr(payment.id.toString()).toString();
+        payment.link = (await this.p24.createTransaction(this.preparePaymentParams(user, payment))).link;
+
+        await payment.save({transaction: t});
+        return payment
     }
 }

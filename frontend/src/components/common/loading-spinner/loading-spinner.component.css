@@ -1,0 +1,38 @@
+:root {
+  --transition-time: 1s;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.overlay {
+  height:100vh;
+  width:100%;
+  transition: var(--transition-time);
+  top:        0;
+  left:       0;
+  position:   fixed;
+}
+
+.visible {
+  transition: var(--transition-time);
+  z-index:    100;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.hidden {
+  transition: var(--transition-time);
+  z-index: -100;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+:host::ng-deep .hidden .mat-spinner circle { stroke: transparent; }
+
+:host::ng-deep .visible .mat-spinner circle { stroke: var(--azure-blue) }
+
