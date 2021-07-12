@@ -9,7 +9,7 @@ import {PasswordComponent} from 'components/common/inputs/password/password.comp
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {RestService} from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {mergeMap} from 'rxjs/operators';
 
 /**

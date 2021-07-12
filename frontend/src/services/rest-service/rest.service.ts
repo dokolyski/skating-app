@@ -18,7 +18,7 @@ export class RestService {
 
   /**
    * @description Parse data and send request to the REST server
-   * @param restPath informations loaded from end node from `rest-url.json`
+   * @param restPath informations loaded from end node from `rest-urls`
    * @param options ```body``` or ```HTTP Query Params```, template URL path with values
    */
   do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {

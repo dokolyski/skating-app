@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {Col} from 'components/common/interactive-table/interactive-table.component';
 import {RestService} from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {AuthService} from 'services/auth-service/auth.service';
 import {UserChmod} from 'api/requests/user-chmod';
 import {first, map, mergeMap, tap} from 'rxjs/operators';
@@ -57,7 +57,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.rest.do<UserResponseWithName[]>(REST_PATH.USERS.ALL)
+    this.rest.do<UserResponseWithName[]>(restUrls.USERS.ALL)
       .subscribe({
         next: data => {
           this.originalData = data.map(
@@ -138,7 +138,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
           const rowid = Number.parseInt(index, 10);
           if (this.deletedUserId.has(rowid)) {
 
-            return this.rest.do(REST_PATH.USERS.DELETE, {templateParamsValues: {id: oData.id}})
+            return this.rest.do(restUrls.USERS.DELETE, {templateParamsValues: {id: oData.id}})
               .pipe(
                 tap(() => this.deletedUserId.delete(rowid)),
               );
@@ -146,7 +146,7 @@ export class AdminUsersComponent implements OnInit, OnDestroy {
 
             const [admin, organizer] = [oData.isAdmin as any, oData.isOrganizer as any];
             const body: UserChmod = {admin, organizer};
-            return this.rest.do(REST_PATH.USERS.CHMOD, {templateParamsValues: {id: oData.id}, body})
+            return this.rest.do(restUrls.USERS.CHMOD, {templateParamsValues: {id: oData.id}, body})
               .pipe(
                 tap(() => this.editedUserId.delete(rowid))
               );

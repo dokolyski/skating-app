@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RestService} from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {NotificationRequest} from 'api/requests/notification.dto';
 import {AuthService} from 'services/auth-service/auth.service';
 import {takeUntil} from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class NotificationSendingComponent implements OnInit, OnDestroy {
 
   sendNotification() {
     this.authService.sessionInfo$.pipe(takeUntil(this.destroySubject)).subscribe(sessionInfo => {
-      this.rest.do(REST_PATH.NOTIFICATIONS.CREATE, {
+      this.rest.do(restUrls.NOTIFICATIONS.CREATE, {
         body: {
           title: this.title,
           description: this.description,

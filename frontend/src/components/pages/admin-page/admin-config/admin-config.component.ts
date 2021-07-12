@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PaymentTable} from 'api/rest-models/config-models';
 import {RestService} from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
-import * as REST_CONFIG from 'assets/config/config.rest.json';
+import {restUrls} from 'api/rest-urls';
+import {restConfig} from 'assets/config/rest-config';
 import {Col} from 'components/common/interactive-table/interactive-table.component';
 import {MatDialog} from '@angular/material/dialog';
 import {AdminConfigDialogEditComponent} from './admin-config-dialog-edit/admin-config-dialog-edit.component';
@@ -55,7 +55,7 @@ export class AdminConfigComponent implements OnInit {
 
   ngOnInit() {
     this.initCols();
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.price_table}})
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.GET, {templateParamsValues: {key: restConfig.price_table}})
       .subscribe({
         next: (data: ConfigResponse) => {
           this.rows.setDataCopy(this.originalData = JSON.parse(data.value).map(value => ({
@@ -66,13 +66,13 @@ export class AdminConfigComponent implements OnInit {
         error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
 
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.GET, {templateParamsValues: {key: restConfig.skills}})
       .subscribe({
         next: (data: ConfigResponse) => this.groupList = JSON.parse(data.value),
         error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
 
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.fb_link}})
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.GET, {templateParamsValues: {key: restConfig.fb_link}})
       .subscribe({
         next: (data: ConfigResponse) => this.fbLink = this.originalFbLink = data.value,
         error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
@@ -110,8 +110,8 @@ export class AdminConfigComponent implements OnInit {
   }
 
   saveData() {
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.CREATE, {
-      body: {key: REST_CONFIG.price_table, value: JSON.stringify(this.rows.getDataCopy())}
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.CREATE, {
+      body: {key: restConfig.price_table, value: JSON.stringify(this.rows.getDataCopy())}
     })
       .subscribe({
         next: () => this.originalData = this.rows.getDataCopy(),
@@ -119,8 +119,8 @@ export class AdminConfigComponent implements OnInit {
       });
 
     this.groupList.push(this.newGroup);
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.CREATE, {
-      body: {key: REST_CONFIG.skills, value: JSON.stringify(this.groupList.filter(value => value.name.trim().length > 0))}
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.CREATE, {
+      body: {key: restConfig.skills, value: JSON.stringify(this.groupList.filter(value => value.name.trim().length > 0))}
     })
       .subscribe({
         next: () => {
@@ -133,8 +133,8 @@ export class AdminConfigComponent implements OnInit {
         error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)
       });
 
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.CREATE, {
-      body: {key: REST_CONFIG.fb_link, value: this.fbLink}
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.CREATE, {
+      body: {key: restConfig.fb_link, value: this.fbLink}
     })
       .subscribe({
         next: () => this.originalFbLink = this.fbLink,
@@ -145,7 +145,7 @@ export class AdminConfigComponent implements OnInit {
   cancelData() {
     this.fbLink = this.originalFbLink;
     this.rows.setDataCopy(this.originalData);
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.GET, {templateParamsValues: {key: restConfig.skills}})
       .subscribe({
         next: (data: ConfigResponse) => this.groupList = JSON.parse(data.value),
         error: (error: HttpErrorResponse) => this.errorMessageService.handleMessageError(error)

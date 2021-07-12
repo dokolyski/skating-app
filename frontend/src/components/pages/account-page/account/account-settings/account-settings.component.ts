@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 import {FormBuilder} from '@angular/forms';
 import {mergeMap, takeUntil} from 'rxjs/operators';
 import {RestService} from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {AuthService} from 'services/auth-service/auth.service';
 import {EmailComponent} from 'components/common/inputs/email/email.component';
 import {TelephoneComponent} from 'components/common/inputs/telephone/telephone.component';
@@ -79,7 +79,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     this.auth.sessionInfo$.pipe(takeUntil(this.destroy),
         mergeMap(({uid}) => {
           this.uid = uid;
-          return this.rest.do<UserResponse>(REST_PATH.USERS.GET, { templateParamsValues: { id: uid.toString() } });
+          return this.rest.do<UserResponse>(restUrls.USERS.GET, { templateParamsValues: { id: uid.toString() } });
         })).subscribe({
         next: user => {
           this.userInfo = user;
@@ -95,7 +95,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
   edit() {
     const userInfoBody = this.prepareUserInfoPayload();
 
-    this.rest.do(REST_PATH.USERS.EDIT, { templateParamsValues: {id: this.uid.toString()}, body: userInfoBody }).subscribe({
+    this.rest.do(restUrls.USERS.EDIT, { templateParamsValues: {id: this.uid.toString()}, body: userInfoBody }).subscribe({
         next: () => {
           this.onSubmit.emit();
         },

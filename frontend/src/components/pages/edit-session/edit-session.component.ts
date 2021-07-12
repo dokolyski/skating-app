@@ -6,8 +6,8 @@ import SessionResponse from 'api/responses/session.dto';
 import * as cloneDeep from 'lodash.clonedeep';
 import {RestService} from 'services/rest-service/rest.service';
 import {ConfigResponse} from 'api/responses/config.dto';
-import * as REST_PATH from 'api/rest-url.json';
-import * as REST_CONFIG from 'assets/config/config.rest.json';
+import {restUrls} from 'api/rest-urls';
+import {restConfig} from 'assets/config/rest-config';
 
 @Component({
   selector: 'app-edit-session',
@@ -33,7 +33,7 @@ export class EditSessionComponent implements OnInit {
     this.authService.sessionInfo$.subscribe(next => {
       this.uid = next.uid;
     });
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.GET, {templateParamsValues: {key: restConfig.skills}})
       .subscribe((data: ConfigResponse) => this.groupOptions = JSON.parse(data.value));
   }
 

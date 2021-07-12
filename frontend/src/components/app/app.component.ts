@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DateAdapter } from '@angular/material/core';
 import { mergeMap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { pubKey } from 'assets/config/vapid.pub.json';
+import { vapidPubKey } from 'assets/config/vapid-pub-key';
 import * as moment from 'moment';
 
 @Component({
@@ -73,7 +73,7 @@ export class AppComponent implements OnDestroy {
         }
       });
 
-      this.swPush.requestSubscription({serverPublicKey: pubKey});
+      this.swPush.requestSubscription({serverPublicKey: vapidPubKey});
     }
   }
 }

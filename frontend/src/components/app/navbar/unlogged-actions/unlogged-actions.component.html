@@ -1,10 +1,10 @@
 <ng-container *appAccessOnline>
-    <app-route-button appIcon [routerLink]="path.EVERYONE.SCHEDULE"
+    <app-route-button appIcon [routerLink]="urls.EVERYONE.SCHEDULE"
                       [tooltip]="'navbar.tooltips.SCHEDULE' | translate" ariaLabel="Schedule">
       <mat-icon>today</mat-icon>
     </app-route-button>
 
-    <app-route-button [routerLink]="path.EVERYONE.LOGIN" ariaLabel="Sign in">
+    <app-route-button [routerLink]="urls.EVERYONE.LOGIN" ariaLabel="Sign in">
         {{ 'navbar.buttons.SIGN_IN' | translate }}
     </app-route-button>
 </ng-container>

@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import * as PATH from 'assets/config/url.json';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {urls} from 'assets/config/urls';
 
-import { NotLoggedGuard } from 'guards/notLogged.guard';
-import { OrganizerGuard } from 'guards/organizer.guard';
-import { OnlineGuard } from 'guards/online.guard';
-import { AdminGuard } from 'guards/admin.guard';
-import { AuthGuard } from 'guards/auth.guard';
-import { Pages } from 'components/pages/pages.module';
+import {NotLoggedGuard} from 'guards/notLogged.guard';
+import {OrganizerGuard} from 'guards/organizer.guard';
+import {OnlineGuard} from 'guards/online.guard';
+import {AdminGuard} from 'guards/admin.guard';
+import {AuthGuard} from 'guards/auth.guard';
+import {Pages} from 'components/pages/pages.module';
 import {TokenReaderComponent} from 'components/app/token-reader/token-reader.component';
 import {ErrorPageComponent} from 'components/pages/error-page/error-page.component';
 import {PaymentConfirmedPageComponent} from 'components/pages/payment-confirmed-page/payment-confirmed-page.component';
@@ -27,26 +27,26 @@ const routes: Routes = [
     component: ErrorPageComponent
   },
   {
-    path: PATH.EVERYONE.MAIN,
+    path: urls.EVERYONE.MAIN,
     component: Pages.MainPageComponent
   },
   {
-    path: PATH.EVERYONE.REGISTER,
+    path: urls.EVERYONE.REGISTER,
     component: Pages.RegisterPageComponent,
     canActivate: [OnlineGuard, NotLoggedGuard]
   },
   {
-    path: PATH.EVERYONE.LOGIN,
+    path: urls.EVERYONE.LOGIN,
     component: Pages.LoginPageComponent,
     canActivate: [OnlineGuard, NotLoggedGuard]
   },
   {
-    path: PATH.EVERYONE.SCHEDULE,
+    path: urls.EVERYONE.SCHEDULE,
     component: Pages.SchedulePageComponent
   },
   /*LOGGED*/
   {
-    path: PATH.LOGGED.ACCOUNT,
+    path: urls.LOGGED.ACCOUNT,
     component: Pages.AccountPageComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
@@ -74,29 +74,29 @@ const routes: Routes = [
     ]
   },
   {
-    path: PATH.LOGGED.SHOP,
+    path: urls.LOGGED.SHOP,
     component: Pages.ShopPageComponent,
     canActivate: [OnlineGuard, AuthGuard]
   },
   /*ORGANIZER*/
   {
-    path: PATH.ORGANIZER.SESSIONS,
+    path: urls.ORGANIZER.SESSIONS,
     component: Pages.SessionListComponent,
     canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
   {
-    path: PATH.ORGANIZER.MANAGE_SCHEDULE,
+    path: urls.ORGANIZER.MANAGE_SCHEDULE,
     component: Pages.ManageSchedulePageComponent,
     canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
   {
-    path: PATH.ORGANIZER.SEND_NOTIFICATION,
+    path: urls.ORGANIZER.SEND_NOTIFICATION,
     component: Pages.NotificationSendingComponent,
     canActivate: [OnlineGuard, AuthGuard, OrganizerGuard]
   },
   /*ADMIN*/
   {
-    path: PATH.ADMIN.DASHBOARD,
+    path: urls.ADMIN.DASHBOARD,
     component: Pages.AdminPageComponent,
     canActivate: [AuthGuard, AdminGuard],
     canActivateChild: [AuthGuard, AdminGuard],
@@ -114,7 +114,7 @@ const routes: Routes = [
   /*NOT FOUND*/
   {
     path: '**',
-    redirectTo: PATH.EVERYONE.MAIN
+    redirectTo: urls.EVERYONE.MAIN
   }
 ];
 
@@ -122,4 +122,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

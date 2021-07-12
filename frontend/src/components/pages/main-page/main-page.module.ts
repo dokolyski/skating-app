@@ -18,9 +18,9 @@ import { TabRouterOutletModule } from 'components/common/tab-router-outlet/tab-r
         TranslateModule,
         TabRouterOutletModule
     ],
-  declarations: [
-    MainPageComponent
-  ],
+    declarations: [
+        MainPageComponent,
+    ],
   exports: [MainPageComponent]
 })
 export class MainPageModule { }

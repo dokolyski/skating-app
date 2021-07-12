@@ -1,10 +1,10 @@
 import { Observable, of } from 'rxjs';
 import { RestOptions, RestPath } from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import { restUrls } from '../../../api/rest-urls';
 import { Injectable } from '@angular/core';
 import { ProfileResponse } from 'api/responses/profile.dto';
 import { UserResponse } from 'api/responses/user.dto';
-import * as CONFIG from 'assets/config/config.rest.json';
+import {restConfig} from 'assets/config/rest-config';
 import SessionResponse from 'api/responses/session.dto';
 import { NotificationResponse } from 'api/responses/notification.dto';
 
@@ -200,39 +200,39 @@ export class RestServiceMock {
     }
   ];
 
-  do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {
-    switch (restPath) {
-      case REST_PATH.CONFIG.GET:
-        return this.handleConfig(options);
-      case REST_PATH.VERIFICATION.REGISTER:
-        return of(null);
-      case REST_PATH.VERIFICATION.LOGIN:
-        return of({ token: 'token', uid: 1, isOrganizer: false, isAdmin: false, isHAdmin: false } as any);
-      case REST_PATH.VERIFICATION.LOGOUT:
-        return of(null);
-      case REST_PATH.PROFILES.EDIT:
-        return of(null);
-      case REST_PATH.PROFILES.GET:
-        return of(RestServiceMock.profiles as any);
-      case REST_PATH.SESSIONS.GET_SESSIONS:
-        return of(RestServiceMock.sessions as any);
-      case REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS:
-        return of(RestServiceMock.notifications as any);
-      case REST_PATH.USERS.GET:
-        return of(RestServiceMock.userInfo as any);
-      case REST_PATH.USERS.ALL:
-        return of(RestServiceMock.allUsers as any);
+  private static handleConfig(options) {
+    switch (options.templateParamsValues.key) {
+      case restConfig.fb_link:
+        return of('http://www.facebook.pl');
+      case restConfig.price_table:
+        return of(RestServiceMock.priceTable);
+      case restConfig.skills:
+        return of(RestServiceMock.skills as any);
     }
   }
 
-  private handleConfig(options) {
-    switch (options.templateParamsValues.key) {
-      case CONFIG.fb_link:
-        return of('http://www.facebook.pl');
-      case CONFIG.price_table:
-        return of(RestServiceMock.priceTable);
-      case CONFIG.skills:
-        return of(RestServiceMock.skills as any);
+  do<ReturnType = void>(restPath: RestPath, options: RestOptions = {}): Observable<ReturnType> {
+    switch (restPath) {
+      case restUrls.CONFIG.GET:
+        return RestServiceMock.handleConfig(options);
+      case restUrls.VERIFICATION.REGISTER:
+        return of(null);
+      case restUrls.VERIFICATION.LOGIN:
+        return of({ token: 'token', uid: 1, isOrganizer: false, isAdmin: false, isHAdmin: false } as any);
+      case restUrls.VERIFICATION.LOGOUT:
+        return of(null);
+      case restUrls.PROFILES.EDIT:
+        return of(null);
+      case restUrls.PROFILES.GET:
+        return of(RestServiceMock.profiles as any);
+      case restUrls.SESSIONS.GET_SESSIONS:
+        return of(RestServiceMock.sessions as any);
+      case restUrls.NOTIFICATIONS.GET_NOTIFICATIONS:
+        return of(RestServiceMock.notifications as any);
+      case restUrls.USERS.GET:
+        return of(RestServiceMock.userInfo as any);
+      case restUrls.USERS.ALL:
+        return of(RestServiceMock.allUsers as any);
     }
   }
 }

@@ -4,7 +4,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'services/auth-service/auth.service';
 import { first } from 'rxjs/operators';
-import * as PATH from 'assets/config/url.json';
+import {urls} from 'assets/config/urls';
 import * as moment from 'moment';
 
 @Component({
@@ -15,7 +15,7 @@ import * as moment from 'moment';
 export class NavbarComponent implements OnInit {
   private bodyElement: HTMLBodyElement = document.querySelector('body');
   notLogged: boolean;
-  path = PATH['default'];
+ urls =urls;
 
   constructor(
     private sanitizer: DomSanitizer,

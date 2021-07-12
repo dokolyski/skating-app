@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RestService} from 'services/rest-service/rest.service';
 import {UserResponse} from 'api/responses/user.dto';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {AuthService} from 'services/auth-service/auth.service';
 import {first} from 'rxjs/operators';
 
@@ -22,7 +22,7 @@ export class PointsAmountComponent implements OnInit {
       .pipe(
         first()
       ).subscribe(token => {
-      this.restService.do<UserResponse>(REST_PATH.USERS.GET, {templateParamsValues: {id: token.uid.toString()}}).subscribe(value => {
+      this.restService.do<UserResponse>(restUrls.USERS.GET, {templateParamsValues: {id: token.uid.toString()}}).subscribe(value => {
         this.amount = value.pointsAmount;
       });
     });

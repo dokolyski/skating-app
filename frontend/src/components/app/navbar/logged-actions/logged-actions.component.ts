@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from 'services/auth-service/auth.service';
 import { redirectToMain } from 'common/functions/page-redirect';
 import { Subscription } from 'rxjs';
-import * as PATH from 'assets/config/url.json';
+import {urls} from 'assets/config/urls';
 
 @Component({
   selector: 'app-logged-actions',
@@ -10,7 +10,7 @@ import * as PATH from 'assets/config/url.json';
 })
 export class LoggedActionsComponent implements OnDestroy {
   s: Subscription;
-  path = PATH['default'];
+ urls =urls;
 
   constructor(
     public auth: AuthService) {}

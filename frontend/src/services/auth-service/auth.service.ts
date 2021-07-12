@@ -2,7 +2,7 @@ import {catchError, map} from 'rxjs/operators';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {RestService} from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {LoginRequest} from 'api/requests/login.dto';
 import {LoginResponse} from 'api/responses/login.dto';
 import {ErrorMessageService} from 'services/error-message-service/error.message.service';
@@ -34,7 +34,7 @@ export class AuthService {
     body.email = email;
     body.password = password;
     body.provider = 'EMAIL';
-    return this.login(this.rest.do<LoginResponse>(REST_PATH.VERIFICATION.LOGIN, {body}));
+    return this.login(this.rest.do<LoginResponse>(restUrls.VERIFICATION.LOGIN, {body}));
   }
 
   /**
@@ -42,7 +42,7 @@ export class AuthService {
    * @returns ```Observable```, emits ```next``` on fullfillment
    */
   logout(): Observable<void> {
-    return this.rest.do(REST_PATH.VERIFICATION.LOGOUT, {templateParamsValues: {token: this.sessionInfo.token}})
+    return this.rest.do(restUrls.VERIFICATION.LOGOUT, {templateParamsValues: {token: this.sessionInfo.token}})
       .pipe(catchError(error => of(this.errorMessageService.handleMessageError(error))),
         map(() => {
           this.sessionInfo = null;

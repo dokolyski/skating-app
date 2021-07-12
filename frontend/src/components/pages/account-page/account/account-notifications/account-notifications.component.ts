@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RestService} from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {map, mergeMap} from 'rxjs/operators';
 import {ErrorMessageService} from 'services/error-message-service/error.message.service';
 import SessionResponse from 'api/responses/session.dto';
@@ -36,10 +36,10 @@ export class AccountNotificationsComponent implements OnInit {
       date_to: null
     };
 
-    this.rest.do<SessionResponse[]>(REST_PATH.SESSIONS.GET_SESSIONS, {body})
+    this.rest.do<SessionResponse[]>(restUrls.SESSIONS.GET_SESSIONS, {body})
       .pipe(
         mergeMap(s =>
-          this.rest.do<NotificationResponse[]>(REST_PATH.NOTIFICATIONS.GET_NOTIFICATIONS)
+          this.rest.do<NotificationResponse[]>(restUrls.NOTIFICATIONS.GET_NOTIFICATIONS)
             .pipe(
               map(n => this.combine(s, n))
             )

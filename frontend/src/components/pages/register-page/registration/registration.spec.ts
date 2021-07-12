@@ -12,7 +12,7 @@ import {MatInputHarness} from '@angular/material/input/testing';
 import {MatButtonHarness} from '@angular/material/button/testing';
 import {MatDatepickerInputHarness} from '@angular/material/datepicker/testing';
 
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {RestError} from 'api/rest-error';
 import {moduleInfo} from './registration.module';
 
@@ -91,7 +91,7 @@ describe('registration.component', () => {
   }, 100);
 
   it('fetch possible skills values', async (done: DoneFn) => {
-    const restPath = REST_PATH.CONFIG.GET;
+    const restPath = restUrls.CONFIG.GET;
     const options = {templateParamsValues: {key: 'skillLevelPossibleValues'}};
 
     restMock.do.withArgs(restPath, options).and.returnValue(new Observable<any>(s => {
@@ -126,9 +126,9 @@ describe('registration.component', () => {
     const templateParamsValues = {key: 'skillLevelPossibleValues'};
     const regBodyInput = {...registerBody, birth_date: new Date(registerBody.birth_date)};
 
-    restMock.do.withArgs(REST_PATH.CONFIG.GET, {templateParamsValues}).and.returnValue(of([profileBody.skill_level]));
-    restMock.do.withArgs(REST_PATH.VERIFICATION.REGISTER, {body: regBodyInput}).and.returnValue(of());
-    restMock.do.withArgs(REST_PATH.PROFILES.EDIT, {body: profileBody}).and.returnValue(of());
+    restMock.do.withArgs(restUrls.CONFIG.GET, {templateParamsValues}).and.returnValue(of([profileBody.skill_level]));
+    restMock.do.withArgs(restUrls.VERIFICATION.REGISTER, {body: regBodyInput}).and.returnValue(of());
+    restMock.do.withArgs(restUrls.PROFILES.EDIT, {body: profileBody}).and.returnValue(of());
 
     component.onSubmit.subscribe(() => {
       const errorInfos = fixture.debugElement.queryAll(By.css('mat-error'));
@@ -182,7 +182,7 @@ describe('registration.component', () => {
     const body: any = registerBody;
     body.birth_date = new Date(body.birth_date);
 
-    restMock.do.withArgs(REST_PATH.CONFIG.GET, options).and.returnValue(of(skills));
+    restMock.do.withArgs(restUrls.CONFIG.GET, options).and.returnValue(of(skills));
     restMock.do.and.returnValue(new Observable(s => s.error(error)));
     errorMessageServiceMock.getErrorsStrings.and.returnValue(of(translatedErr));
 

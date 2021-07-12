@@ -2,14 +2,14 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {RestError} from 'api/rest-error';
 import {RestService} from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {NameComponent} from 'components/common/inputs/name/name.component';
 import {LastnameComponent} from 'components/common/inputs/lastname/lastname.component';
 import {DateBirthComponent} from 'components/common/inputs/date-birth/date-birth.component';
 import {SkillLevelComponent} from 'components/common/inputs/skill-level/skill-level.component';
 import {mergeMap} from 'rxjs/operators';
 import {Skills} from 'api/rest-models/config-models';
-import * as REST_CONFIG from 'assets/config/config.rest.json';
+import {restConfig} from 'assets/config/rest-config';
 import {ErrorMessageService, TranslatedErrors} from 'services/error-message-service/error.message.service';
 import {ProfileResponse} from 'api/responses/profile.dto';
 import {ConfigResponse} from 'api/responses/config.dto';
@@ -89,11 +89,11 @@ export class ProfileSettingsComponent implements OnInit {
   ngOnInit() {
     this.editMode = false;
 
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}}).subscribe(next => {
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.GET, {templateParamsValues: {key: restConfig.skills}}).subscribe(next => {
       this.skillLevelPossibleValues = [' ', ...JSON.parse(next.value).map(value => value.name)];
     });
 
-    return this.rest.do<ProfileResponse[]>(REST_PATH.PROFILES.INDEX).subscribe({
+    return this.rest.do<ProfileResponse[]>(restUrls.PROFILES.INDEX).subscribe({
         next: data => {
           this.profiles = data;
           this.selectedProfile = data[0];
@@ -106,7 +106,7 @@ export class ProfileSettingsComponent implements OnInit {
   edit() {
     const editBody = this.prepareProfilePayload();
 
-    this.rest.do(REST_PATH.PROFILES.EDIT, {
+    this.rest.do(restUrls.PROFILES.EDIT, {
       templateParamsValues: {id: this.selectedProfile.id.toString()},
       body: editBody
     })

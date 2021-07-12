@@ -3,7 +3,7 @@ import { isMobile } from 'common/functions/mobile-check';
 import { delay, tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { of, Subscription } from 'rxjs';
-import * as PATH from 'assets/config/url.json';
+import {urls} from 'assets/config/urls';
 
 @Component({
   selector: 'app-account-page',
@@ -11,7 +11,7 @@ import * as PATH from 'assets/config/url.json';
   styleUrls: ['./account-page.component.css']
 })
 export class AccountPageComponent implements OnInit, OnDestroy {
-  PATH = PATH['default'];
+ urls =urls;
   render = false;
   s: Subscription;
 

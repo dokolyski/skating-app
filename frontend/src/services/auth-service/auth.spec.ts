@@ -1,6 +1,6 @@
 import {RestService} from 'services/rest-service/rest.service';
 import {AuthService} from './auth.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {of} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 import {LoginRequest} from 'api/requests/login.dto';
@@ -38,7 +38,7 @@ describe('auth.service', () => {
         body.email = email;
         body.password = password;
 
-        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGIN, { body }).and.returnValue(of(info));
+        restMock.do.withArgs(restUrls.VERIFICATION.LOGIN, { body }).and.returnValue(of(info));
 
         service.loginViaEmail(email, password)
         .pipe(
@@ -56,7 +56,7 @@ describe('auth.service', () => {
         service['sessionInfo'] = {token, uid, isAdmin: false, isHAdmin: false, isOrganizer: false};
         service['sessionInfoSubject'].next(service['sessionInfo']);
 
-        restMock.do.withArgs(REST_PATH.VERIFICATION.LOGOUT, {templateParamsValues: { token }}).and.returnValue(of(undefined));
+        restMock.do.withArgs(restUrls.VERIFICATION.LOGOUT, {templateParamsValues: { token }}).and.returnValue(of(undefined));
 
         service.logout()
         .pipe(

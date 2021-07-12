@@ -1,0 +1,1 @@
+export const vapidPubKey = 'BGQLgBtsGk9bUjKPsoACyUffc1dmhnlJxRAkjXDs1u9bRgHRdZIaK3JoKP7VmJUx4ZpKgSXAFT2rJ1jqSSgsnww';

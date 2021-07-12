@@ -2,14 +2,14 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RestError } from 'api/rest-error';
 import { RestService } from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import { NameComponent } from 'components/common/inputs/name/name.component';
 import { LastnameComponent } from 'components/common/inputs/lastname/lastname.component';
 import { DateBirthComponent } from 'components/common/inputs/date-birth/date-birth.component';
 import { SkillLevelComponent } from 'components/common/inputs/skill-level/skill-level.component';
 import { Skills } from 'api/rest-models/config-models';
 import {ProfileRequest} from 'api/requests/profile.dto';
-import * as REST_CONFIG from 'assets/config/config.rest.json';
+import {restConfig} from 'assets/config/rest-config';
 import { ErrorInterceptorService } from 'services/error-interceptor-service/error-interceptor.service';
 import { ErrorMessageService, TranslatedErrors } from 'services/error-message-service/error.message.service';
 import {ConfigResponse} from 'api/responses/config.dto';
@@ -55,7 +55,7 @@ export class ProfileAddComponent implements OnInit {
 
   ngOnInit() {
 
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, { templateParamsValues: { key: REST_CONFIG.skills } })
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.GET, { templateParamsValues: { key: restConfig.skills } })
       .subscribe({
         next: (v: ConfigResponse) => this.skillLevelPossibleValues = JSON.parse(v.value).map(value => value.name),
         error: (e: HttpErrorResponse) => this.handleErrors(e, false)
@@ -64,7 +64,7 @@ export class ProfileAddComponent implements OnInit {
 
   createProfile() {
     this.prepareProfilePayload().subscribe(body => {
-      this.rest.do(REST_PATH.PROFILES.CREATE, { body })
+      this.rest.do(restUrls.PROFILES.CREATE, { body })
         .subscribe({
           next: () => this.onSubmit.emit(),
           complete: () => this.onSubmit.emit(),

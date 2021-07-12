@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import * as PATH from 'assets/config/url.json';
+import {urls} from 'assets/config/urls';
 
 @Component({
   selector: 'app-main-page',
@@ -8,7 +8,7 @@ import * as PATH from 'assets/config/url.json';
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent {
-  PATH = PATH['default'];
+  urls = urls;
   tabIndex = 0;
 
   changeTab(event: MatTabChangeEvent) {

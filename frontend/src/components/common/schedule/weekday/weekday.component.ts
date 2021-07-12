@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {TranslateService} from '@ngx-translate/core';
 import {ProfileResponse} from 'api/responses/profile.dto';
 import SessionResponse from 'api/responses/session.dto';
@@ -33,7 +33,7 @@ export class WeekdayComponent {
     this.dialog.open(EditSessionComponent, {data: {session: {start_date: this.date}, mode: 'create'}})
       .afterClosed().subscribe(next => {
       if (next != null) {
-        this.rest.do(REST_PATH.SESSIONS.CREATE, {body: next}).subscribe(() => {
+        this.rest.do(restUrls.SESSIONS.CREATE, {body: next}).subscribe(() => {
           this.newSessionCreated.emit();
           this.translateService.get('success.session-added').subscribe(message => {
             this.snackBar.open(message, 'OK', {duration: 2000});

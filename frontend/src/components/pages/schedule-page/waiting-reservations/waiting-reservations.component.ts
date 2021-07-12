@@ -6,7 +6,7 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {RestService} from 'services/rest-service/rest.service';
 import {JoinRequest, JoinRequestPosition} from 'api/requests/session-participant.dto';
 import {PaymentResponse} from 'api/responses/payment.dto';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {JoinResponse} from 'api/responses/session-paricipant.dto';
@@ -67,7 +67,7 @@ export class WaitingReservationsComponent implements OnInit, OnDestroy {
   }
 
   doReservation() {
-    this.restService.do<JoinResponse>(REST_PATH.SESSION_PARTICIPANTS.JOIN, {
+    this.restService.do<JoinResponse>(restUrls.SESSION_PARTICIPANTS.JOIN, {
       body: {
         positions: this.dataSource.data.map(value => ({
           session_id: value.session.id,
@@ -82,7 +82,7 @@ export class WaitingReservationsComponent implements OnInit, OnDestroy {
         }
       }).afterClosed().subscribe(confirmed => {
         if (confirmed) {
-          this.restService.do<PaymentResponse>(REST_PATH.PAYMENTS.CREATE, {
+          this.restService.do<PaymentResponse>(restUrls.PAYMENTS.CREATE, {
             body: {
               positions: next.positions.map(value => ({
                 session_id: value.session_id,

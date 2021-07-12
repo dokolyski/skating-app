@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {RestService} from 'services/rest-service/rest.service';
 
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {RestError} from 'api/rest-error';
 
 import {mergeMap} from 'rxjs/operators';
@@ -20,7 +20,7 @@ import {of} from 'rxjs';
 import {Skills} from 'api/rest-models/config-models';
 import {UserRequest} from 'api/requests/user.dto';
 import {ProfileRequest} from 'api/requests/profile.dto';
-import * as REST_CONFIG from 'assets/config/config.rest.json';
+import {restConfig} from 'assets/config/rest-config';
 import {ConfigResponse} from 'api/responses/config.dto';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
 import {MatVerticalStepper} from '@angular/material/stepper';
@@ -76,7 +76,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.rest.do<ConfigResponse>(REST_PATH.CONFIG.GET, {templateParamsValues: {key: REST_CONFIG.skills}})
+    this.rest.do<ConfigResponse>(restUrls.CONFIG.GET, {templateParamsValues: {key: restConfig.skills}})
       .subscribe({
         next: (v: ConfigResponse) => this.skillLevelPossibleValues = [' ', ...JSON.parse(v.value).map(value => value.name)],
         error: (e: HttpErrorResponse) => this.handleErrors(e, false)
@@ -87,7 +87,7 @@ export class RegistrationComponent implements OnInit {
     const registerBody = this.prepareRegisterPayload();
 
     // create account
-    this.rest.do(REST_PATH.VERIFICATION.REGISTER, {body: registerBody}).subscribe({
+    this.rest.do(restUrls.VERIFICATION.REGISTER, {body: registerBody}).subscribe({
       next: () => this.onSubmit.emit(),
       complete: () => this.onSubmit.emit(),
       error: (e: HttpErrorResponse) => {

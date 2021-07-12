@@ -5,7 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {FormatterService} from 'services/formatter-service/formatter.service';
 import {ErrorInterceptorService} from 'services/error-interceptor-service/error-interceptor.service';
 import {isMobile} from 'common/functions/mobile-check';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {SessionIndexRequest} from 'api/requests/session.dto';
 import * as moment from 'moment';
 import {CancelReservationDialogComponent} from 'components/pages/reservation-list/cancel-reservation-dialog/cancel-reservation-dialog.component';
@@ -35,7 +35,7 @@ export class ReservationListComponent implements OnInit {
     this.date_from = moment(weekContainsDate).subtract(weekContainsDate.getDay() - 1, 'days').toDate();
     this.date_to = moment(this.date_from).add(6, 'days').toDate();
 
-    this.rest.do<SessionResponse[]>(REST_PATH.SESSIONS.GET_SESSIONS, {
+    this.rest.do<SessionResponse[]>(restUrls.SESSIONS.GET_SESSIONS, {
       body: {
         date_from: this.date_from,
         date_to: this.date_to
@@ -48,7 +48,7 @@ export class ReservationListComponent implements OnInit {
   cancelReservations(session: SessionResponse, selected: MatListOption[]) {
     this.dialog.open(CancelReservationDialogComponent, {data: {session}}).afterClosed().subscribe(next => {
       if (next) {
-        this.rest.do(REST_PATH.SESSION_PARTICIPANTS.LEAVE, {
+        this.rest.do(restUrls.SESSION_PARTICIPANTS.LEAVE, {
           templateParamsValues: {id: session.id.toString()},
           body: {session_id: session.id, profiles_ids: selected.map(value => value.value)} as DisjoinRequest
         }).subscribe({

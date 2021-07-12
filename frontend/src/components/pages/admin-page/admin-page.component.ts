@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { isMobile } from 'common/functions/mobile-check';
-import * as PATH from 'assets/config/url.json';
+import {urls} from 'assets/config/urls';
 import { TranslateService } from '@ngx-translate/core';
 import { tap, delay } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
@@ -11,7 +11,7 @@ import { of, Subscription } from 'rxjs';
   styleUrls: ['./admin-page.component.css']
 })
 export class AdminPageComponent implements OnDestroy {
-  PATH = PATH['default'];
+ urls =urls;
   isMobile = isMobile();
   render: boolean = false;
   s: Subscription;

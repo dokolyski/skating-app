@@ -1,9 +1,9 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import * as moment from 'moment';
 import {ProfileSimplifiedResponse} from 'api/responses/profile.dto';
 import {RestService} from 'services/rest-service/rest.service';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {FormatterService} from 'services/formatter-service/formatter.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class ParticipantListComponent implements OnInit {
   }
 
   participantPresenceChange(participant: ProfileSimplifiedResponse) {
-    this.rest.do<boolean>(REST_PATH.SESSION_PARTICIPANTS.EDIT_PRESENCE, {
+    this.rest.do<boolean>(restUrls.SESSION_PARTICIPANTS.EDIT_PRESENCE, {
       templateParamsValues: {id: participant.id.toString()},
       body: {present: !participant.present}
     }).subscribe(next => {

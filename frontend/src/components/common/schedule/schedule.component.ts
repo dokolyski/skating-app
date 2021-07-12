@@ -3,7 +3,7 @@ import {SessionIndexRequest} from 'api/requests/session.dto';
 import {RestService} from 'services/rest-service/rest.service';
 import {ProfileResponse} from 'api/responses/profile.dto';
 import * as moment from 'moment';
-import * as REST_PATH from 'api/rest-url.json';
+import {restUrls} from 'api/rest-urls';
 import {AuthService} from 'services/auth-service/auth.service';
 import SessionResponse from 'api/responses/session.dto';
 import {FormatterService} from 'services/formatter-service/formatter.service';
@@ -29,7 +29,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.restService.do<ProfileResponse[]>(REST_PATH.PROFILES.INDEX)
+    this.restService.do<ProfileResponse[]>(restUrls.PROFILES.INDEX)
       .subscribe(next => this.profiles = next);
     this.initializeCalendarSettings();
   }
@@ -55,7 +55,7 @@ export class ScheduleComponent implements OnInit {
 
   updateSessions() {
     this.sessions = Array.from(Array(7), () => []);
-    this.restService.do<SessionResponse[]>(REST_PATH.SESSIONS.GET_SESSIONS, {
+    this.restService.do<SessionResponse[]>(restUrls.SESSIONS.GET_SESSIONS, {
       body: {
         date_from: this.calendar.from,
         date_to: this.calendar.to

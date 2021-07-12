@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import * as ABOUT_US from 'assets/content/about-us.json';
+import {aboutUs} from 'assets/content/about-us';
 import {FormatterService} from 'services/formatter-service/formatter.service';
 import {MatDialog} from '@angular/material/dialog';
 import {FullArticleComponent} from 'components/pages/main-page/about-us-tab/full-article/full-article.component';
@@ -10,7 +10,7 @@ import {FullArticleComponent} from 'components/pages/main-page/about-us-tab/full
   styleUrls: ['./about-us-tab.component.css']
 })
 export class AboutUsTabComponent {
-  articles = ABOUT_US['default'];
+  articles = aboutUs;
   maxArticleLength = 250;
 
   constructor(public formatterService: FormatterService,
